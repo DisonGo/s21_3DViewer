@@ -11,3 +11,4 @@ build:
 
 clean:
 	rm -rf *.out
+	rm -rf $(PROJECT_NAME)
