@@ -31,7 +31,7 @@ Implementation of our own version of the 3D Viewer.
    ```
 *  Unistall Project
    ```
-   make unistall
+   make uninstall
    ```
 *  Open HTML file
    ```
