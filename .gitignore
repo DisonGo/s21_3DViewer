@@ -1,0 +1,5 @@
+.DS_Store
+
+# Executable
+*.out
+3D_Viewer
