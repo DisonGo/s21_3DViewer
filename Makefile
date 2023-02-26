@@ -7,7 +7,7 @@ all: clean build
 
 
 build:
-	$(cc) *.c -o $(PROJECT_NAME)
+	$(cc) sources/parser/sources/*.c -o $(PROJECT_NAME)
 
 clean:
 	rm -rf *.out

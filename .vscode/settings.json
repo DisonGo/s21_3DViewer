@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "parser_types.h": "c",
+        "obj_parser.h": "c",
+        "points_parser.h": "c",
+        "vertex_parser.h": "c"
+    }
+}
