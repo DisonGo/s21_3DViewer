@@ -57,7 +57,7 @@ int filling_vertex_array(int row, const char* str, Vertex* vertex) {
   str_length = strlen(str);
   for (size_t i = 0; i < str_length && !end_line_flag; i++) {
     bool is_digit = isdigit(str[i]);
-    bool is_no_digits_in_buffer = (str[0] == '\0');
+    bool is_no_digits_in_buffer = (digits[0] == '\0');
     if (is_digit) strncat(digits, &str[i], 1);
     if (!is_no_digits_in_buffer) {
       end_line_flag = move_ptr_to_next_value(str, &i, str_length);
