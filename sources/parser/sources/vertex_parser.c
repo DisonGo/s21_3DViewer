@@ -23,7 +23,7 @@ int obj_processing_by_vertex(Vertex* vertex, FILE* fptr) {
   int row_it = 0;
   char str_buff[256] = {0};
   while (fgets(str_buff, 256, fptr) && row_it < vertex->vertex_count) {
-    if (str_buff[0] == VERTEX_NAME)
+    if (str_buff[0] == VERTEX_NAME && str_buff[1] == ' ')
       err_code = filling_vertex_array(row_it++, str_buff, vertex);
   }
   return err_code;
@@ -54,17 +54,21 @@ int filling_vertex_array(int row, const char* str, Vertex* vertex) {
   char digits[32] = {0};
   size_t str_length = 0;
   vertex->vertex[row] = (int*)calloc(row_capacity, sizeof(int));
-  str_length = strlen(str);
-  for (size_t i = 0; i < str_length && !end_line_flag; i++) {
-    bool is_digit = isdigit(str[i]);
-    bool is_no_digits_in_buffer = (digits[0] == '\0');
-    if (is_digit) strncat(digits, &str[i], 1);
-    if (!is_no_digits_in_buffer) {
-      end_line_flag = move_ptr_to_next_value(str, &i, str_length);
-      push_digits(vertex, row, &column_iterator, &row_capacity, digits);
+  if (vertex->vertex[row] == NULL) {
+    err_code = MEMORY_ALLOCATING_ERROR;
+  } else {
+    str_length = strlen(str);
+    for (size_t i = 0; i < str_length && !end_line_flag; i++) {
+      bool is_digit = isdigit(str[i]);
+      bool is_no_digits_in_buffer = (digits[0] == '\0');
+      if (is_digit) strncat(digits, &str[i], 1);
+      if (!is_no_digits_in_buffer) {
+        end_line_flag = move_ptr_to_next_value(str, &i, str_length);
+        push_digits(vertex, row, &column_iterator, &row_capacity, digits);
+      }
     }
+    if (column_iterator < 3) err_code = OBJ_FILE_ERROR;
   }
-  if (column_iterator < 3) err_code = 0;
   return err_code;
 }
 

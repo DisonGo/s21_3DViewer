@@ -63,55 +63,38 @@ void free_structs(Point* points, Vertex* vertex) {
   }
 }
 
-int main(void) {
-  double time_spent = 0.0;
-  clock_t begin = clock();
-  FILE* fptr = fopen("1.obj", "r");
-  Point p;
-  Vertex v;
-  int result = parse_obj_file(&p, &v, fptr);
-  printf("%i\n", result);
-  if (!result) {
-    for (int i = 0; i < p.point_count; i++) {
-      printf("%d.\t\t", i);
-      for (int j = 0; j < 3; j++) {
-        printf("%f ", p.poses[i][j]);
-      }
-      printf("\n");
-    }
-    printf("\n\n");
-    for (int i = 0; i < v.vertex_count; i++) {
-      printf("%d.\t\t", i);
-      if (v.each_row_vertexes != NULL) {
-        for (int j = 0; j < v.each_row_vertexes[i]; j++) {
-          printf("%d ", v.vertex[i][j]);
-        }
-      }
-      printf("\n");
-    }
-  }
-  switch (result) {
-    case 0:
-      printf("SUCCESS\n");
-      break;
-    case 1:
-      printf("OBJ FILE ERROR\n");
-      break;
-    case 2:
-      printf("POINTER ERROR\n");
-      break;
-    case 3:
-      printf("MEMORY ALLOCATING ERROR\n");
-      break;
-    case 4:
-      printf("NO FILE\n");
-      break;
-  }
-  free_structs(&p, &v);
-  if (fptr) fclose(fptr);
-  clock_t end = clock();
-  time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-  printf("The elapsed time is %f seconds", time_spent);
+// int main(void) {
+//   double time_spent = 0.0;
+//   clock_t begin = clock();
+//   FILE* fptr = fopen("castle.obj", "r");
+//   Point p;
+//   Vertex v;
+//   int result = parse_obj_file(&p, &v, fptr);
+//   printf("RESULT OF PARSE = %d\n", result);
+//   printf("POINTS = %d\n", p.point_count);
+//   printf("VERTEX = %d\n", v.vertex_count);
+//   switch (result) {
+//     case 0:
+//       printf("SUCCESS\n");
+//       break;
+//     case 1:
+//       printf("OBJ FILE ERROR\n");
+//       break;
+//     case 2:
+//       printf("POINTER ERROR\n");
+//       break;
+//     case 3:
+//       printf("MEMORY ALLOCATING ERROR\n");
+//       break;
+//     case 4:
+//       printf("NO FILE\n");
+//       break;
+//   }
+//   free_structs(&p, &v);
+//   if (fptr) fclose(fptr);
+//   clock_t end = clock();
+//   time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
+//   printf("The elapsed time is %f seconds", time_spent);
 
-  return 0;
-}
+//   return 0;
+// }

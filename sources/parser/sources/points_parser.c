@@ -24,8 +24,8 @@ int obj_proccesing_by_point(Point* points, FILE* fptr) {
   if (!points || !fptr) return INPUT_POINTER_ERROR;
   int row = 0;
   char str_buffer[256] = {0};
-  while (!err_code && fgets(str_buffer, 256, fptr) && *str_buffer != 'f') {
-    if (str_buffer[0] == POINT_NAME)
+  while (!err_code && fgets(str_buffer, 256, fptr)) {
+    if (str_buffer[0] == POINT_NAME && str_buffer[1] == ' ')
       err_code = filling_point_array(row++, str_buffer, points);
   }
   if (err_code) printf("Yes");
