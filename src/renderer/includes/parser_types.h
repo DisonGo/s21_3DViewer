@@ -5,9 +5,9 @@
 #define VERTEX_NAME 'f'
 
 typedef enum {
-    false = 0,
-    true = 1
-} bool;
+    _false = 0,
+    _true = 1
+} _bool;
 
 typedef enum errors {
   OK = 0,
