@@ -6,8 +6,8 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
+//#include <glm/glm.hpp>
+//#include <glm/ext.hpp>
 #include <QTimer>
 #include <QMatrix4x4>
 #include <QSurfaceFormat>
@@ -50,7 +50,7 @@ private:
     QMatrix4x4 projectionMatrix; // Store the projection matrix
 //    glm::mat4 viewMatrix; // Store the view matrix
 //    glm::mat4 modelMatrix; // Store the model matrix
-    Shader program;
+    Shader* program = nullptr;
     GeometryEngine *geometries = nullptr;
     void initShaders();
 };

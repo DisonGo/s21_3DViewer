@@ -1,6 +1,6 @@
 #include "shader.h"
 #include "QDebug"
-
+#include <QFile>
 QString Shader::getFileContent(const char* fileName) {
     QFile shader_file(fileName);
     if(!shader_file.open(QIODevice::ReadOnly))
@@ -12,40 +12,17 @@ QString Shader::getFileContent(const char* fileName) {
     return shader_content;
 }
 
-Shader::Shader()
+Shader::Shader(QObject* parent): QObject(parent)
 {
+    initializeOpenGLFunctions();
     ID = -1;
 }
 
-Shader::Shader(const char* vertexFile, const char* fragmentFile) {
-    vertexFileName = vertexFile;
-    fragmentFileName = fragmentFile;
-    std::string vertexCode = getFileContent(vertexFile).toStdString();
-    std::string fragmentCode = getFileContent(fragmentFile).toStdString();
-
-	const char* vertexSource = vertexCode.c_str();
-	const char* fragmentSource = fragmentCode.c_str();
-
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexSource, NULL);
-	glCompileShader(vertexShader);
-    Check_compilation(vertexShader, Vertex);
-
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
-	glCompileShader(fragmentShader);
-    Check_compilation(fragmentShader, Fragment);
-
-	ID = glCreateProgram();
-	glAttachShader(ID, vertexShader);
-	glAttachShader(ID, fragmentShader);
-	glLinkProgram(ID);
-    if (!LinkSuccessful(ID)) {
-        qDebug() << "Shader linking failed";
-        PrintProgramError(ID);
-    }
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
+Shader::Shader(const char* vertexFile, const char* fragmentFile, QObject* parent) : QObject(parent)  {
+    initializeOpenGLFunctions();
+    SetVertexShader(vertexFile);
+    SetFragmentShader(fragmentFile);
+    setProgram();
 }
 bool Shader::LinkSuccessful(int obj) {
   int status;
@@ -83,5 +60,49 @@ void Shader::Activate() {
 	glUseProgram(ID);
 }
 void Shader::Delete() {
-	glDeleteProgram(ID);
+    glDeleteProgram(ID);
+}
+
+Shader &Shader::operator=(Shader &&obj)
+{
+    this->ID = obj.ID;
+    return *this;
+}
+
+void Shader::SetVertexShader(const char *vertexFile)
+{
+    vertexFileName = vertexFile;
+    std::string vertexCode = getFileContent(vertexFile).toStdString();
+    const char* vertexSource = vertexCode.c_str();
+    vertexId = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertexId, 1, &vertexSource, NULL);
+    glCompileShader(vertexId);
+    Check_compilation(vertexId, Vertex);
+}
+
+void Shader::SetFragmentShader(const char *fragmentFile)
+{
+    fragmentFileName = fragmentFile;
+    std::string fragmentCode = getFileContent(fragmentFile).toStdString();
+    const char* fragmentSource = fragmentCode.c_str();
+    fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragmentId, 1, &fragmentSource, NULL);
+    glCompileShader(fragmentId);
+    Check_compilation(fragmentId, Fragment);
+}
+
+void Shader::setProgram()
+{
+    if (vertexId == -1 || fragmentId == -1)
+        return;
+    ID = glCreateProgram();
+    glAttachShader(ID, vertexId);
+    glAttachShader(ID, fragmentId);
+    glLinkProgram(ID);
+    if (!LinkSuccessful(ID)) {
+        qDebug() << "Shader linking failed";
+        PrintProgramError(ID);
+    }
+    glDeleteShader(vertexId);
+    glDeleteShader(fragmentId);
 }
