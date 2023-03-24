@@ -1,6 +1,9 @@
 AUX_SOURCE_DIRECTORY(./src VIEWER_SRCS)
 set(VIEWER_HEADERS
+    includes/openglcontroller.h
+    includes/geometryengine.h
     includes/mainwindow.h
+    includes/shader.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui
@@ -11,6 +14,12 @@ set(PROJECT_SOURCES
     ${VIEWER_HEADERS}
     ${VIEWER_UIS}
 )
+
+set(shaders_resource_files
+    "vshader.glsl"
+    "fshader.glsl"
+)
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(3D_Viewer
@@ -29,10 +38,18 @@ else()
         )
     endif() 
 endif()
-
+qt6_add_resources(3D_Viewer "shaders"
+    PREFIX
+        "/"
+    FILES
+        ${shaders_resource_files}
+)
 target_link_libraries(3D_Viewer PUBLIC
     renderer
+    glm
     Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::OpenGL
+    Qt${QT_VERSION_MAJOR}::OpenGLWidgets
 )
 
 target_include_directories(3D_Viewer PUBLIC 
