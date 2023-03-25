@@ -12,14 +12,13 @@ uniform float scale;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 proj;
-
+vec4 mvp_vec;
 //vec4 mvp_vec;
 void main()
 {
     // Calculate vertex position in screen space
-//    mvp_vec = model * view * proj * vec4(aPos, 1) * scale;
-    vec3 translated_pos = aPos + translateVec;
-    gl_Position = vec4(translated_pos, scale);
+    mvp_vec = proj * view * model * vec4(aPos, 0.5);
+    gl_Position = mvp_vec;
     gl_PointSize = 10.0;
     f_color = vec4(color, 1.0);
 }

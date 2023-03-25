@@ -41,7 +41,7 @@ private:
   float scale = 0.1;
 
   QVector3D rotationVec = QVector3D(0,1,0);
-  QVector3D translationVec = QVector3D(0,0,0);
+  QVector3D translationVec = QVector3D(0,-1,-20);
 
   qreal zNear = 0.1f, zFar = 100.0f, FOV = 45.0f;
 

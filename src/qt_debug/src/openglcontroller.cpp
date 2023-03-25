@@ -20,7 +20,7 @@ void OpenGLController::mouseReleaseEvent(QMouseEvent *e)
   }
 }
 void OpenGLController::wheelEvent(QWheelEvent *e) {
-  float increment = e->angleDelta().ry()/15.0f/8.0f/10;
+  float increment = e->angleDelta().ry()/15.0f;
   scale += increment;
   rotation_angle += increment;
 //  translationVec += QVector3D(0, 0, increment);
@@ -66,9 +66,10 @@ void OpenGLController::initializeGL()
 
   // Matrices initialization
 
-  modelMatrix.fill(1.0f);
-  viewMatrix.fill(1.0f);
-  projectionMatrix.fill(1.0f);
+//  modelMatrix.fill(1.0f);
+  modelMatrix.setToIdentity();
+  viewMatrix.setToIdentity();
+  projectionMatrix.setToIdentity();
 
   // Calculate base values of matrices
 //  modelMatrix.rotate(rotation_angle, rotationVec);
@@ -123,7 +124,7 @@ void OpenGLController::paintGL()
   qDebug() << "Proj" << projection;
   qDebug() << "View" << view;
   qDebug() << "Model" << model;
-  qDebug() << QVector4D(-0.5f, 0.0f,  0.5f + scale, 1);
+//  qDebug() << QVector4D(-0.5f, 0.0f,  0.5f + scale, 1);
   geometries->drawCubeGeometry();
   glDrawElements(GL_LINES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
   glDrawElements(GL_POINTS, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
