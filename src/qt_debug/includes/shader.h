@@ -5,9 +5,6 @@
 #include <QOpenGLFunctions>
 #include <QObject>
 #include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
 class Shader : public QObject, protected QOpenGLFunctions
 {
   Q_OBJECT

@@ -8,20 +8,23 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include "shader.h"
+#include "Buffers.h"
 
 class GeometryEngine : protected QOpenGLFunctions
 {
 public:
-  GeometryEngine();
+  GeometryEngine(Shader *program);
   virtual ~GeometryEngine();
 
-  void drawCubeGeometry(Shader *program);
+  void drawCubeGeometry();
+  int indiciesN = 0;
 
 private:
+  Shader* program = nullptr;
   void initCubeGeometry();
-
-  QOpenGLBuffer arrayBuf;
-  QOpenGLBuffer indexBuf;
+  VAO vertexBuf;
+  VBO arrayBuf;
+  EBO indexBuf;
 };
 
 #endif // GEOMETRYENGINE_H

@@ -1,4 +1,4 @@
-#version 400 core
+#version 330 core
 in vec4 f_color;
 //vec3 color = vec3(1.0, 0.0, 0.0);
 out vec4 FragColor;

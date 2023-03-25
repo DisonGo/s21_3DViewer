@@ -6,8 +6,6 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
-//#include <glm/glm.hpp>
-//#include <glm/ext.hpp>
 #include <QTimer>
 #include <QMatrix4x4>
 #include <QSurfaceFormat>
@@ -21,6 +19,8 @@ public:
 protected:
   void mousePressEvent(QMouseEvent *e) override;
   void mouseReleaseEvent(QMouseEvent *e) override;
+  void wheelEvent(QWheelEvent *e) override;
+  void keyPressEvent(QKeyEvent *e) override;
 //    void timerEvent(QTimerEvent *e) override;
 
   void initializeGL() override;
@@ -37,17 +37,22 @@ private:
 
   QString filename;
 
-  float xRot = 0, yRot = 0, zRot = 0;
-  float xShift = 0, yShift = 0, zShift = 0;
+  float rotation_angle = 0.2;
+  float scale = 0.1;
 
-  qreal zNear = 3.0, zFar = 7.0, FOV = 45.0f;
+  QVector3D rotationVec = QVector3D(0,1,0);
+  QVector3D translationVec = QVector3D(0,0,0);
+
+  qreal zNear = 0.1f, zFar = 100.0f, FOV = 45.0f;
 
   float color_back_r = 255, color_back_g = 0, color_back_b = 0;
   float color_facet_r = 0, color_facet_g = 0, color_facet_b = 0;
   int width_line = 1;
-  QMatrix4x4 projectionMatrix; // Store the projection matrix
-//    glm::mat4 viewMatrix; // Store the view matrix
-//    glm::mat4 modelMatrix; // Store the model matrix
+
+  QMatrix4x4 projectionMatrix;
+  QMatrix4x4 modelMatrix;
+  QMatrix4x4 viewMatrix;
+
   Shader* program = nullptr;
   GeometryEngine *geometries = nullptr;
   void initShaders();

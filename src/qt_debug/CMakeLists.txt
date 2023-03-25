@@ -46,6 +46,7 @@ qt6_add_resources(3D_Viewer "shaders"
 )
 target_link_libraries(3D_Viewer PUBLIC
     renderer
+    opengl_helper
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::OpenGL
     Qt${QT_VERSION_MAJOR}::OpenGLWidgets
