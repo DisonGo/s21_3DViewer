@@ -16,4 +16,5 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidg
 
 add_subdirectory(qt_debug)
 add_subdirectory(renderer)
+add_subdirectory(opengl_helper)
 #add_subdirectory(glm)
