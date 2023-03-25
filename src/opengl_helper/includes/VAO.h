@@ -1,8 +1,7 @@
 #ifndef VAO_H_
 #define VAO_H_
-#include "opengl_helper.h"
 #include "VBO.h"
-class VAO {
+class VAO : protected QOpenGLExtraFunctions{
 public:
   GLuint ID = -1;
   VAO();

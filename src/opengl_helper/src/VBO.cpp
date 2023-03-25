@@ -1,11 +1,13 @@
 #include "VBO.h"
 VBO::VBO()
 {
+  initializeOpenGLFunctions();
   glGenBuffers(1, &ID);
 }
 
 VBO::VBO(GLfloat* vertices, GLsizeiptr size)
 {
+  initializeOpenGLFunctions();
 	glGenBuffers(1, &ID);
   BindVertices(vertices, size);
 }

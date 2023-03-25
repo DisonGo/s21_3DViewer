@@ -57,7 +57,6 @@ void OpenGLController::initializeGL()
   float height = window_size.height();
   float aspectRatio = width / height;
 
-
   glClearColor(0,0,0,1);
   initShaders();
 //  glEnable(GL_DEPTH_TEST);

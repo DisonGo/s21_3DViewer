@@ -1,7 +1,7 @@
 #ifndef EBO_H_
 #define EBO_H_
 #include "opengl_helper.h"
-class EBO {
+class EBO : protected QOpenGLExtraFunctions {
 	public:
     GLuint ID = -1;
     EBO();

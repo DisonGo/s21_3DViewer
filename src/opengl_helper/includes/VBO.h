@@ -1,7 +1,7 @@
 #ifndef VBO_H_
 #define VBO_H_
 #include "opengl_helper.h"
-class VBO {
+class VBO : protected QOpenGLExtraFunctions {
 	public:
     GLuint ID = -1;
     VBO();

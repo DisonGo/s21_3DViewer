@@ -2,6 +2,7 @@
 
 EBO::EBO()
 {
+  initializeOpenGLFunctions();
   glGenBuffers(1, &ID);
 }
 
