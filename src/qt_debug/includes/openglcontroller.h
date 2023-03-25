@@ -18,17 +18,14 @@ public:
   using QOpenGLWidget::QOpenGLWidget;
 protected:
   void mousePressEvent(QMouseEvent *e) override;
+  void mouseMoveEvent(QMouseEvent *e) override;
   void mouseReleaseEvent(QMouseEvent *e) override;
   void wheelEvent(QWheelEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
-//    void timerEvent(QTimerEvent *e) override;
 
   void initializeGL() override;
   void resizeGL(int w, int h) override;
   void paintGL() override;
-
-//    void initShaders();
-//    void initTextures();
 private:
   QPoint mPos = QPoint(0,0);
 
@@ -43,7 +40,7 @@ private:
   QVector3D rotationVec = QVector3D(0,1,0);
   QVector3D translationVec = QVector3D(0,-1,-20);
 
-  qreal zNear = 0.1f, zFar = 100.0f, FOV = 45.0f;
+  qreal zNear = 0.1f, zFar = 100.0f, FOV = 60.0f;
 
   float color_back_r = 255, color_back_g = 0, color_back_b = 0;
   float color_facet_r = 0, color_facet_g = 0, color_facet_b = 0;
