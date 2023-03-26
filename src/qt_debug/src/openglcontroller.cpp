@@ -87,9 +87,12 @@ void OpenGLController::paintGL()
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT |  GL_DEPTH_BUFFER_BIT);
   program->Activate();
-
+  QMatrix4x4 model;
+  model.setToIdentity();
   camera->Matrix(FOV, zNear, zFar, *program, "camMatrix");
-  qDebug() << FOV << zNear << zFar;
+  int modelLoc = glGetUniformLocation(program->ID, "model");
+  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.constData());
+//  qDebug() << FOV << zNear << zFar;
   geometries->drawCubeGeometry();
   glDrawElements(GL_LINES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
   glDrawElements(GL_POINTS, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);

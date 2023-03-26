@@ -14,7 +14,8 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #1c1c1c;</string>
+   <string notr="true">background-color: #1c1c1c;
+color:white;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="OpenGLController" name="openGLWidget">
@@ -30,13 +31,13 @@
      <enum>Qt::StrongFocus</enum>
     </property>
     <property name="FOV" stdset="0">
-     <double>30.000000000000000</double>
+     <double>120.000000000000000</double>
     </property>
     <property name="zNear" stdset="0">
-     <double>0.000000000000000</double>
+     <double>1.000000000000000</double>
     </property>
     <property name="zFar" stdset="0">
-     <double>200.000000000000000</double>
+     <double>1000.000000000000000</double>
     </property>
    </widget>
    <widget class="QWidget" name="verticalLayoutWidget">

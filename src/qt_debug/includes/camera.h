@@ -1,6 +1,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
-
+#include <QOpenGLFunctions>
 #include <QObject>
 #include <QVector>
 #include "shader.h"
@@ -15,7 +15,7 @@ struct CameraData {
   QVector3D position;
 };
 
-class Camera : public QObject
+class Camera : public QObject , protected QOpenGLFunctions
 {
   Q_OBJECT
 public:
@@ -58,7 +58,7 @@ private: // vars
   float baseSpeed = 0;
   float multiSpeed = 20;
   float speed = 0.1f;
-  float sensitivity = .1f;
+  float sensitivity = .3f;
 signals:
   void dataUpdated(CameraData data);
 };

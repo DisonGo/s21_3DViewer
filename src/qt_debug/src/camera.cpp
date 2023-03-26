@@ -5,11 +5,13 @@ Camera::Camera(QObject *parent) : QObject(parent)
   setVh(0);
   setVw(0);
   setPosition(QVector3D(0,0,0));
+  initializeOpenGLFunctions();
 }
 Camera::Camera(int width, int height, QVector3D position, QObject *parent) : QObject(parent) {
   setVw(width);
   setVh(height);
   setPosition(position);
+  initializeOpenGLFunctions();
 }
 
 void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader &shader, const char *uniform)
@@ -111,9 +113,9 @@ void Camera::mouseMoveSlot(QMouseEvent *e)
 
   float dotProd = QVector3D::dotProduct(newOrientation, Up);
   float angle = qAcos(dotProd / (newOrientation.length() * Up.length())) * 180 / M_PI;
-  if (abs(angle - qDegreesToRadians(90.0f)) <= qDegreesToRadians(85.0f))
+  if (abs(angle - 90.0f) <= 85.0f)
   {
-    qDebug() << true;
+//    qDebug() << true;
     Orientation = newOrientation;
   }
   rotationMatrix.setToIdentity();
