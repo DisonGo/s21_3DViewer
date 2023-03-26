@@ -31,51 +31,31 @@ GeometryEngine::~GeometryEngine()
 
 void GeometryEngine::initCubeGeometry()
 {
-    GLfloat vertices[] = {
-    // Vertex data for face 0
-    -1.0f, -1.0f,  1.0f,  // v0
-     1.0f, -1.0f,  1.0f, // v1
-    -1.0f,  1.0f,  1.0f,  // v2
-     1.0f,  1.0f,  1.0f, // v3
+  GLfloat vertices[] = {
+    -1.0f, -1.0f, -1.0f,
+    -1.0f, -1.0f,  1.0f,
+    -1.0f,  1.0f, -1.0f,
+    -1.0f,  1.0f,  1.0f,
+     1.0f, -1.0f, -1.0f,
+     1.0f, -1.0f,  1.0f,
+     1.0f,  1.0f, -1.0f,
+     1.0f,  1.0f,  1.0f
+  }; // size: 8 * 3 = 24
 
-    // Vertex data for face 1
-     1.0f, -1.0f,  1.0f, // v4
-     1.0f, -1.0f, -1.0f, // v5
-     1.0f,  1.0f,  1.0f,  // v6
-     1.0f,  1.0f, -1.0f, // v7
+//  // Scale the vertices to have sides of length 2
+//  for (int i = 0; i < 24; i++) {
+//      vertices[i] *= 2.0f;
+//  }
 
-    // Vertex data for face 2
-     1.0f, -1.0f, -1.0f, // v8
-    -1.0f, -1.0f, -1.0f,  // v9
-     1.0f,  1.0f, -1.0f, // v10
-    -1.0f,  1.0f, -1.0f,  // v11
-
-    // Vertex data for face 3
-    -1.0f, -1.0f, -1.0f, // v12
-    -1.0f, -1.0f,  1.0f,  // v13
-    -1.0f,  1.0f, -1.0f, // v14
-    -1.0f,  1.0f,  1.0f,  // v15
-
-    // Vertex data for face 4
-    -1.0f, -1.0f, -1.0f, // v16
-     1.0f, -1.0f, -1.0f, // v17
-    -1.0f, -1.0f,  1.0f, // v18
-     1.0f, -1.0f,  1.0f, // v19
-
-    // Vertex data for face 5
-    -1.0f,  1.0f,  1.0f, // v20
-     1.0f,  1.0f,  1.0f, // v21
-    -1.0f,  1.0f, -1.0f, // v22
-     1.0f,  1.0f, -1.0f  // v23
-  };
+  // Define the indices of the vertices that make up each face of the cube
   GLuint indices[] = {
-     0,  1,  2,  3,  3,     // Face 0 - triangle strip ( v0,  v1,  v2,  v3)
-     4,  4,  5,  6,  7,  7, // Face 1 - triangle strip ( v4,  v5,  v6,  v7)
-     8,  8,  9, 10, 11, 11, // Face 2 - triangle strip ( v8,  v9, v10, v11)
-    12, 12, 13, 14, 15, 15, // Face 3 - triangle strip (v12, v13, v14, v15)
-    16, 16, 17, 18, 19, 19, // Face 4 - triangle strip (v16, v17, v18, v19)
-    20, 20, 21, 22, 23      // Face 5 - triangle strip (v20, v21, v22, v23)
-  };
+      0, 1, 3, 2, // left
+      4, 5, 7, 6, // right
+      0, 1, 5, 4, // back
+      2, 3, 7, 6, // front
+      0, 2, 6, 4, // bottom
+      1, 3, 7, 5  // top
+  }; // size: 6 * 4 = 24
 //  GLfloat vertices[] =
 //  { //     COORDINATES
 //    -0.5f, 0.0f,  0.5f,
@@ -112,5 +92,16 @@ void GeometryEngine::initCubeGeometry()
 
 void GeometryEngine::drawCubeGeometry()
 {
+  GLuint indices[] = {
+      0, 1, 3, 2, // left
+      4, 5, 7, 6, // right
+      0, 1, 5, 4, // back
+      2, 3, 7, 6, // front
+      0, 2, 6, 4, // bottom
+      1, 3, 7, 5  // top
+  };
   vertexBuf.Bind();
+  for (int i = 0; i < 6; i++) {
+    glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, indices + i * 4);
+  }
 }

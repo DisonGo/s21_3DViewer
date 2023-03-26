@@ -27,7 +27,10 @@ protected:
   void resizeGL(int w, int h) override;
   void paintGL() override;
 private:
+  void calcSizes(int w, int h);
   QPoint mPos = QPoint(0,0);
+
+  int vw = 0, vh = 0, ratio = 0;
 
   bool LMB_pressed = false;
   bool RMB_pressed = false;

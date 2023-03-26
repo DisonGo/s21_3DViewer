@@ -15,7 +15,8 @@ void OpenGLController::mouseMoveEvent(QMouseEvent *e)
 {
   if (!LMB_pressed) return;
   QPoint ePos = e->pos();
-  QVector2D mouseDif(ePos.x() - mPos.x(), ePos.y() - mPos.x());
+  QLine mouseLine(mPos, ePos);
+  QVector2D mouseDif(-mouseLine.dx(), mouseLine.dy());
   rotationVec = QVector3D(mouseDif, 0);
   update();
 }
@@ -57,11 +58,8 @@ void OpenGLController::initShaders()
 void OpenGLController::initializeGL()
 {
   initializeOpenGLFunctions();
-  QSize window_size = this->size();
-  float width = window_size.width();
-  float height = window_size.height();
-  float aspectRatio = width / height;
-
+  QSize winSize = this->size();
+  calcSizes(winSize.width(), winSize.height());
   glClearColor(0,0,0,1);
   initShaders();
   //  glEnable(GL_DEPTH_TEST);
@@ -77,7 +75,8 @@ void OpenGLController::initializeGL()
 
 void OpenGLController::resizeGL(int w, int h)
 {
-  glViewport(0,0,w,h);
+  glViewport(0, 0, w, h);
+  calcSizes(w, h);
   update();
 }
 
@@ -89,14 +88,10 @@ void OpenGLController::paintGL()
   QMatrix4x4 model = modelMatrix;
   QMatrix4x4 view = viewMatrix;
   QMatrix4x4 projection = projectionMatrix;
-  QSize window_size = this->size();
-  float width = window_size.width();
-  float height = window_size.height();
-  float aspectRatio = width / height;
 
   model.rotate(rotation_angle, rotationVec);
   view.translate(translationVec);
-  projection.perspective(FOV, aspectRatio, zNear, zFar);
+  projection.perspective(FOV, ratio, zNear, zFar);
   // Outputs the matrices into the Vertex Shader
 
   int modelLoc = glGetUniformLocation(program->ID, "model");
@@ -116,5 +111,11 @@ void OpenGLController::paintGL()
   geometries->drawCubeGeometry();
   glDrawElements(GL_LINES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
   glDrawElements(GL_POINTS, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
-  glDrawElements(GL_TRIANGLE_STRIP, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
+}
+
+void OpenGLController::calcSizes(int w, int h)
+{
+  vw = w;
+  vh = h;
+  ratio = vw / vh;
 }
