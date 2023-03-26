@@ -8,6 +8,7 @@ void OpenGLController::mousePressEvent(QMouseEvent *e)
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
     mPos = e->pos();
+    camera->mousePressSlot(e);
   }
 }
 
@@ -18,6 +19,7 @@ void OpenGLController::mouseMoveEvent(QMouseEvent *e)
   QLine mouseLine(mPos, ePos);
   QVector2D mouseDif(-mouseLine.dx(), mouseLine.dy());
   rotationVec = QVector3D(mouseDif, 0);
+  camera->mouseMoveSlot(e);
   update();
 }
 
@@ -26,6 +28,7 @@ void OpenGLController::mouseReleaseEvent(QMouseEvent *e)
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = false;
     mPos = e->pos();
+    camera->mouseReleaseSlot(e);
   }
 }
 void OpenGLController::wheelEvent(QWheelEvent *e) {
@@ -36,19 +39,12 @@ void OpenGLController::wheelEvent(QWheelEvent *e) {
 
 void OpenGLController::keyPressEvent(QKeyEvent *e)
 {
-  float inc = 0.1;
-  if (e->key() == Qt::Key_Up) {
-    translationVec += QVector3D(0,inc,0);
-  }
-  if (e->key() == Qt::Key_Down) {
-    translationVec += QVector3D(0,-inc,0);
-  }
-  if (e->key() == Qt::Key_Right) {
-    translationVec += QVector3D(inc,0,0);
-  }
-  if (e->key() == Qt::Key_Left) {
-    translationVec += QVector3D(-inc,0,0);
-  }
+  camera->keyPressSlot(e);
+  update();
+}
+void OpenGLController::keyReleaseEvent(QKeyEvent *e)
+{
+  camera->keyReleaseSlot(e);
   update();
 }
 void OpenGLController::initShaders()
@@ -62,12 +58,18 @@ void OpenGLController::initializeGL()
   calcSizes(winSize.width(), winSize.height());
   glClearColor(0,0,0,1);
   initShaders();
-  //  glEnable(GL_DEPTH_TEST);
-  //  glEnable(GL_CULL_FACE);
   glEnable(GL_PROGRAM_POINT_SIZE);
+  // Enables the Depth Buffer
+//  glEnable(GL_DEPTH_TEST);
+//  // Enables Cull Facing
+//  glEnable(GL_CULL_FACE);
+//  // Keeps front faces
+//  glCullFace(GL_FRONT);
+//  glFrontFace(GL_CCW);
   geometries = new GeometryEngine(program);
-
-  // Matrices initialization
+  QVector3D cameraInitPos(0, 0, 2);
+  camera = new Camera(vw, vh, cameraInitPos);
+  connect(camera, SIGNAL(dataUpdated(CameraData)), parent()->parent(), SLOT(updateLabels(CameraData)));
   modelMatrix.setToIdentity();
   viewMatrix.setToIdentity();
   projectionMatrix.setToIdentity();
@@ -83,34 +85,15 @@ void OpenGLController::resizeGL(int w, int h)
 void OpenGLController::paintGL()
 {
   glClearColor(0, 0, 0, 1);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT |  GL_DEPTH_BUFFER_BIT);
   program->Activate();
-  QMatrix4x4 model = modelMatrix;
-  QMatrix4x4 view = viewMatrix;
-  QMatrix4x4 projection = projectionMatrix;
 
-  model.rotate(rotation_angle, rotationVec);
-  view.translate(translationVec);
-  projection.perspective(FOV, ratio, zNear, zFar);
-  // Outputs the matrices into the Vertex Shader
-
-  int modelLoc = glGetUniformLocation(program->ID, "model");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.data());
-
-  int viewLoc = glGetUniformLocation(program->ID, "view");
-  glUniformMatrix4fv(viewLoc, 1, GL_FALSE, view.data());
-
-  int projLoc = glGetUniformLocation(program->ID, "proj");
-  glUniformMatrix4fv(projLoc, 1, GL_FALSE, projection.data());
-
-  GLuint uniID = glGetUniformLocation(program->ID, "scale");
-  glUniform1f(uniID, scale);
-  qDebug() << "Proj" << projection;
-  qDebug() << "View" << view;
-  qDebug() << "Model" << model;
+  camera->Matrix(FOV, zNear, zFar, *program, "camMatrix");
+  qDebug() << FOV << zNear << zFar;
   geometries->drawCubeGeometry();
   glDrawElements(GL_LINES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
   glDrawElements(GL_POINTS, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
+//  glDrawElements(GL_TRIANGLES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
 }
 
 void OpenGLController::calcSizes(int w, int h)
@@ -118,4 +101,58 @@ void OpenGLController::calcSizes(int w, int h)
   vw = w;
   vh = h;
   ratio = vw / vh;
+}
+
+qreal OpenGLController::getZFar() const
+{
+  return zFar;
+}
+
+void OpenGLController::setZFar(qreal newZFar)
+{
+  if (qFuzzyCompare(zFar, newZFar))
+    return;
+  zFar = newZFar;
+  emit zFarChanged();
+}
+
+void OpenGLController::resetZFar()
+{
+  setZFar(100); // TODO: Adapt to use your actual default value
+}
+
+qreal OpenGLController::getZNear() const
+{
+  return zNear;
+}
+
+void OpenGLController::setZNear(qreal newZNear)
+{
+  if (qFuzzyCompare(zNear, newZNear))
+    return;
+  zNear = newZNear;
+  emit zNearChanged();
+}
+
+void OpenGLController::resetZNear()
+{
+  setZNear(0.1); // TODO: Adapt to use your actual default value
+}
+
+qreal OpenGLController::getFOV() const
+{
+  return FOV;
+}
+
+void OpenGLController::setFOV(qreal newFOV)
+{
+  if (qFuzzyCompare(FOV, newFOV))
+    return;
+  FOV = newFOV;
+  emit FOVChanged();
+}
+
+void OpenGLController::resetFOV()
+{
+  setFOV(45); // TODO: Adapt to use your actual default value
 }

@@ -32,29 +32,36 @@ GeometryEngine::~GeometryEngine()
 void GeometryEngine::initCubeGeometry()
 {
   GLfloat vertices[] = {
-    -1.0f, -1.0f, -1.0f,
-    -1.0f, -1.0f,  1.0f,
-    -1.0f,  1.0f, -1.0f,
-    -1.0f,  1.0f,  1.0f,
-     1.0f, -1.0f, -1.0f,
-     1.0f, -1.0f,  1.0f,
-     1.0f,  1.0f, -1.0f,
-     1.0f,  1.0f,  1.0f
+    -1.0f, -1.0f,  1.0f,//        7--------6
+	   1.0f, -1.0f,  1.0f,//       /|       /|
+	   1.0f, -1.0f, -1.0f,//      4--------5 |
+	  -1.0f, -1.0f, -1.0f,//      | |      | |
+	  -1.0f,  1.0f,  1.0f,//      | 3------|-2
+	   1.0f,  1.0f,  1.0f,//      |/       |/
+	   1.0f,  1.0f, -1.0f,//      0--------1
+	  -1.0f,  1.0f, -1.0f
   }; // size: 8 * 3 = 24
-
-//  // Scale the vertices to have sides of length 2
-//  for (int i = 0; i < 24; i++) {
-//      vertices[i] *= 2.0f;
-//  }
 
   // Define the indices of the vertices that make up each face of the cube
   GLuint indices[] = {
-      0, 1, 3, 2, // left
-      4, 5, 7, 6, // right
-      0, 1, 5, 4, // back
-      2, 3, 7, 6, // front
-      0, 2, 6, 4, // bottom
-      1, 3, 7, 5  // top
+    // Right
+	  1, 2, 6,
+	  6, 5, 1,
+	  // Left
+	  0, 4, 7,
+	  7, 3, 0,
+	  // Top
+	  4, 5, 6,
+	  6, 7, 4,
+	  // Bottom
+	  0, 3, 2,
+	  2, 1, 0,
+	  // Back
+	  0, 1, 5,
+	  5, 4, 0,
+	  // Front
+	  3, 7, 6,
+	  6, 2, 3
   }; // size: 6 * 4 = 24
 //  GLfloat vertices[] =
 //  { //     COORDINATES
@@ -92,16 +99,5 @@ void GeometryEngine::initCubeGeometry()
 
 void GeometryEngine::drawCubeGeometry()
 {
-  GLuint indices[] = {
-      0, 1, 3, 2, // left
-      4, 5, 7, 6, // right
-      0, 1, 5, 4, // back
-      2, 3, 7, 6, // front
-      0, 2, 6, 4, // bottom
-      1, 3, 7, 5  // top
-  };
   vertexBuf.Bind();
-  for (int i = 0; i < 6; i++) {
-    glDrawElements(GL_QUADS, 4, GL_UNSIGNED_INT, indices + i * 4);
-  }
 }

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "camera.h"
 extern "C" {
 #include "obj_parser.h"
 }
@@ -19,5 +20,7 @@ public:
 
 private:
   Ui::MainWindow *ui;
+private slots:
+   void updateLabels(CameraData data);
 };
 #endif // MAINWINDOW_H

@@ -3,7 +3,9 @@ set(VIEWER_HEADERS
     includes/openglcontroller.h
     includes/geometryengine.h
     includes/mainwindow.h
+    includes/vobject.h
     includes/shader.h
+    includes/camera.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui
