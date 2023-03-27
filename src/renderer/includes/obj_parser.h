@@ -6,14 +6,14 @@
 #include <string.h>
 #include <time.h>
 
-#include "points_parser.h"
+#include "index_parser.h"
 #include "vertex_parser.h"
 #include "parser_types.h"
 
-int parse_obj_file(Point* points, Vertex* vertex, FILE* fptr);
-void init_structs(Point* points, Vertex* vertex);
-int count_number_of_vertex_points(Point* points, Vertex* vertex, FILE* fptr);
-int allocate_structs_memory(Point* points, Vertex* vertex, FILE* fptr);
-void free_structs(Point* points, Vertex* vertex);
+int parse_obj_file(Vertexes* vertexes, Indexes* indexes, FILE* fptr);
+void init_structs(Vertexes* vertexes, Indexes* indexes);
+int count_number_of_vertex_points(Vertexes* vertexes, Indexes* indexes, FILE* fptr);
+int allocate_structs_memory(Vertexes* vertexes, Indexes* indexes, FILE* fptr);
+void free_structs(Vertexes* vertexes, Indexes* indexes);
 
 #endif  //  OBJ_PARSER_H
