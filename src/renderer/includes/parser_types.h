@@ -16,7 +16,6 @@ typedef enum errors {
   MEMORY_ALLOCATING_ERROR = 3,
   NO_FILE = 4
 } errors;
-
 typedef struct Vertex {
   int vertex_count;
   int* each_row_vertexes;

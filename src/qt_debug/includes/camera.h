@@ -21,7 +21,10 @@ class Camera : public QObject , protected QOpenGLFunctions
 public:
   explicit Camera(QObject *parent = nullptr);
   // Stores the main vectors of the camera
-
+  enum CameraMode {
+    Free = 0,
+    Focus = 1
+  };
   // Camera constructor to set up initial values
   Camera(int width, int height, QVector3D position, QObject *parent = nullptr);
   // Updates and exports the camera matrix to the Vertex Shader
@@ -34,6 +37,7 @@ public slots:
   void mousePressSlot(QMouseEvent *e);
   void mouseReleaseSlot(QMouseEvent *e);
   void mouseMoveSlot(QMouseEvent *e);
+  void wheelSlot(QWheelEvent *e);
 public: // Setters / Getters
   const QVector3D &getPosition() const;
   void setPosition(const QVector3D &newPosition);
@@ -43,9 +47,22 @@ public: // Setters / Getters
   void setVh(int newVh);
   void setSpeed(float newSpeed);
   void setSensitivity(float newSensitivity);
+  CameraMode getMode() const;
+  void setMode(CameraMode newMode);
 
+  const QVector3D &getFocusPoint() const;
+
+  void setFocusPoint(const QVector3D &newFocusPoint);
+
+private: // Methods
+  void processFreeMode(QPoint ePos);
+  void processFocusMode(QPoint focusPoint);
 private: // vars
-  QVector3D Position;
+
+  CameraMode mode = Free;
+
+  QVector3D FocusPoint = QVector3D(0.0f, 0.0f, 0.0f);
+  QVector3D Position = QVector3D(0,0,-100);
   QVector3D Orientation = QVector3D(0.0f, 0.0f, -1.0f);
   QVector3D Up = QVector3D(0.0f, 1.0f, 0.0f);
 

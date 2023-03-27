@@ -28,23 +28,22 @@ void OpenGLController::mouseReleaseEvent(QMouseEvent *e)
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = false;
     mPos = e->pos();
-    camera->mouseReleaseSlot(e);
+    if (camera) camera->mouseReleaseSlot(e);
   }
 }
 void OpenGLController::wheelEvent(QWheelEvent *e) {
-  float increment = e->angleDelta().ry()/15.0f;
-  rotation_angle += increment;
+  if (camera) camera->wheelSlot(e);
   update();
 }
 
 void OpenGLController::keyPressEvent(QKeyEvent *e)
 {
-  camera->keyPressSlot(e);
+  if (camera) camera->keyPressSlot(e);
   update();
 }
 void OpenGLController::keyReleaseEvent(QKeyEvent *e)
 {
-  camera->keyReleaseSlot(e);
+  if (camera) camera->keyReleaseSlot(e);
   update();
 }
 void OpenGLController::initShaders()
@@ -89,13 +88,17 @@ void OpenGLController::paintGL()
   program->Activate();
   QMatrix4x4 model;
   model.setToIdentity();
+  model.rotate(30, QVector3D(1,0,0));
+  camera->setMode(Camera::Focus);
+  camera->setFocusPoint(QVector3D(0.894,0,0.447));
   camera->Matrix(FOV, zNear, zFar, *program, "camMatrix");
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.constData());
 //  qDebug() << FOV << zNear << zFar;
   geometries->drawCubeGeometry();
-  glDrawElements(GL_LINES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
   glDrawElements(GL_POINTS, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
+  glDrawElements(GL_LINES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
+//  glDrawElements(GL_TRIANGLES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
 //  glDrawElements(GL_TRIANGLES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
 }
 

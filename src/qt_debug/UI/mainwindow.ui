@@ -31,10 +31,10 @@ color:white;</string>
      <enum>Qt::StrongFocus</enum>
     </property>
     <property name="FOV" stdset="0">
-     <double>120.000000000000000</double>
+     <double>100.000000000000000</double>
     </property>
     <property name="zNear" stdset="0">
-     <double>1.000000000000000</double>
+     <double>0.100000000000000</double>
     </property>
     <property name="zFar" stdset="0">
      <double>1000.000000000000000</double>
