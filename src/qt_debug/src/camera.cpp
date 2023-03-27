@@ -73,16 +73,16 @@ void Camera::keyPressSlot(QKeyEvent *e)
     }
     float angle = speed;
     if (key == Qt::Key_W) {
-      RotateMat.rotate(angle, AxisX);
-    }
-    if (key == Qt::Key_S) {
       RotateMat.rotate(-angle, AxisX);
     }
+    if (key == Qt::Key_S) {
+      RotateMat.rotate(angle, AxisX);
+    }
     if (key == Qt::Key_A) {
-      RotateMat.rotate(angle, AxisY);
+      RotateMat.rotate(-angle, AxisY);
     }
     if (key == Qt::Key_D) {
-      RotateMat.rotate(-angle, AxisY);
+      RotateMat.rotate(angle, AxisY);
     }
     Position = RotateMat.map(Position);
   }

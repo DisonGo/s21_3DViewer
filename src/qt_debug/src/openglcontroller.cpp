@@ -90,7 +90,7 @@ void OpenGLController::paintGL()
   model.setToIdentity();
   model.rotate(30, QVector3D(1,0,0));
   camera->setMode(Camera::Focus);
-  camera->setFocusPoint(QVector3D(0.894,0,0.447));
+  camera->setFocusPoint(QVector3D(0,0,0));
   camera->Matrix(FOV, zNear, zFar, *program, "camMatrix");
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.constData());
