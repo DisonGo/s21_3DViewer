@@ -8,58 +8,52 @@
 
 #include "../includes/obj_parser.h"
 
-int parse_obj_file(Point* points, Vertex* vertex, FILE* fptr) {
+int parse_obj_file(Vertexes* vertexes, Indexes* indexes, FILE* fptr) {
   if (!fptr) return NO_FILE;
   int err_code = OK;
-  init_structs(points, vertex);
-  err_code = count_number_of_vertex_points(points, vertex, fptr);
-  if (!err_code) err_code = allocate_structs_memory(points, vertex, fptr);
+  init_structs(vertexes, indexes);
+  err_code = count_number_of_vertex_points(vertexes, indexes, fptr);
+  if (!err_code) err_code = allocate_structs_memory(vertexes, indexes, fptr);
   return err_code;
 }
 
-void init_structs(Point* points, Vertex* vertex) {
-  points->point_count = 0;
-  points->poses = NULL;
-  vertex->each_row_vertexes = NULL;
-  vertex->vertex = NULL;
-  vertex->vertex_count = 0;
+void init_structs(Vertexes* vertexes, Indexes* indexes) {
+  vertexes->point_count = 0;
+  vertexes->vertex = NULL;
+  indexes->indexes = NULL;
+  indexes->index_count = 0;
 }
 
-int count_number_of_vertex_points(Point* points, Vertex* vertex, FILE* fptr) {
-  if (!points || !vertex || !fptr) return INPUT_POINTER_ERROR;
+int count_number_of_vertex_points(Vertexes* vertexes, Indexes* indexes,
+                                  FILE* fptr) {
+  if (!vertexes || !indexes || !fptr) return INPUT_POINTER_ERROR;
   char buff[8] = {0};
   while (fgets(buff, 8, fptr)) {
-    if (!strncmp(buff, "v ", 2)) points->point_count++;
-    if (!strncmp(buff, "f ", 2)) vertex->vertex_count++;
+    if (!strncmp(buff, "v ", 2)) vertexes->point_count++;
+    if (!strncmp(buff, "f ", 2)) indexes->index_count++;
   }
   rewind(fptr);
   return OK;
 }
 
-int allocate_structs_memory(Point* points, Vertex* vertex, FILE* fptr) {
+int allocate_structs_memory(Vertexes* vertexes, Indexes* indexes, FILE* fptr) {
   int err_code = OK;
-  if (!points || !vertex || !fptr) return INPUT_POINTER_ERROR;
-  err_code = allocate_point_memory(points);
-  if (!err_code) err_code = obj_proccesing_by_point(points, fptr);
-  if (!err_code) err_code = allocate_vertex_memory(vertex);
-  if (!err_code) err_code = obj_processing_by_vertex(vertex, fptr);
+  if (!vertexes || !indexes || !fptr) return INPUT_POINTER_ERROR;
+  err_code = allocate_vertex_memory(vertexes);
+  if (!err_code) err_code = obj_proccesing_by_vertex(vertexes, fptr);
+  if (!err_code) err_code = allocate_indexes_memory(indexes);
+  if (!err_code) err_code = obj_processing_by_indexes(indexes, fptr);
   return err_code;
 }
 
-void free_structs(Point* points, Vertex* vertex) {
-  if (points) {
-    for (int i = 0; i < points->point_count; i++) {
-      if (points->poses[i]) free(points->poses[i]);
-    }
-    if (points->poses) free(points->poses);
+void free_structs(Vertexes* vertexes, Indexes* indexes) {
+  if (vertexes) {
+    free(vertexes->vertex);
+    vertexes->point_count = 0;
   }
-  if (vertex) {
-    for (int i = 0; i < vertex->vertex_count; i++) {
-      if (vertex->vertex)
-        if (vertex->vertex[i]) free(vertex->vertex[i]);
-    }
-    if (vertex->each_row_vertexes) free(vertex->each_row_vertexes);
-    if (vertex->vertex) free(vertex->vertex);
+  if (indexes) {
+    free(vertexes->vertex);
+    indexes->index_count = 0;
   }
 }
 
@@ -68,11 +62,11 @@ void free_structs(Point* points, Vertex* vertex) {
 //   clock_t begin = clock();
 //   FILE* fptr = fopen("castle.obj", "r");
 //   Point p;
-//   Vertex v;
+//   indexes v;
 //   int result = parse_obj_file(&p, &v, fptr);
 //   printf("RESULT OF PARSE = %d\n", result);
-//   printf("POINTS = %d\n", p.point_count);
-//   printf("VERTEX = %d\n", v.vertex_count);
+//   printf("vertexes = %d\n", p.point_count);
+//   printf("indexes = %d\n", v.index_count);
 //   switch (result) {
 //     case 0:
 //       printf("SUCCESS\n");

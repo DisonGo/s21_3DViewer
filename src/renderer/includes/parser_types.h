@@ -1,8 +1,8 @@
 #ifndef PARSER_TYPES_H
 #define PARSER_TYPES_H
 
-#define POINT_NAME 'v'
-#define VERTEX_NAME 'f'
+#define VERTEX_NAME 'v'
+#define INDEX_NAME 'f'
 
 typedef enum {
     _false = 0,
@@ -16,15 +16,15 @@ typedef enum errors {
   MEMORY_ALLOCATING_ERROR = 3,
   NO_FILE = 4
 } errors;
-typedef struct Vertex {
-  int vertex_count;
-  int* each_row_vertexes;
-  int** vertex;
-} Vertex;
 
-typedef struct Point {
+typedef struct Indexes {
+  int index_count;
+  int* indexes;
+} Indexes;
+
+typedef struct Vertexes {
   int point_count;
-  float** poses;
-} Point;
+  float* vertex;
+} Vertexes;
 
 #endif  //  PARSER_TYPES_H
