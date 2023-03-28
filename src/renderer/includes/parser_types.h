@@ -19,7 +19,7 @@ typedef enum errors {
 
 typedef struct Indexes {
   int index_count;
-  int* indexes;
+  unsigned int* indexes;
 } Indexes;
 
 typedef struct Vertexes {

@@ -56,39 +56,3 @@ void free_structs(Vertexes* vertexes, Indexes* indexes) {
     indexes->index_count = 0;
   }
 }
-
-// int main(void) {
-//   double time_spent = 0.0;
-//   clock_t begin = clock();
-//   FILE* fptr = fopen("castle.obj", "r");
-//   Point p;
-//   indexes v;
-//   int result = parse_obj_file(&p, &v, fptr);
-//   printf("RESULT OF PARSE = %d\n", result);
-//   printf("vertexes = %d\n", p.point_count);
-//   printf("indexes = %d\n", v.index_count);
-//   switch (result) {
-//     case 0:
-//       printf("SUCCESS\n");
-//       break;
-//     case 1:
-//       printf("OBJ FILE ERROR\n");
-//       break;
-//     case 2:
-//       printf("POINTER ERROR\n");
-//       break;
-//     case 3:
-//       printf("MEMORY ALLOCATING ERROR\n");
-//       break;
-//     case 4:
-//       printf("NO FILE\n");
-//       break;
-//   }
-//   free_structs(&p, &v);
-//   if (fptr) fclose(fptr);
-//   clock_t end = clock();
-//   time_spent += (double)(end - begin) / CLOCKS_PER_SEC;
-//   printf("The elapsed time is %f seconds", time_spent);
-
-//   return 0;
-// }
