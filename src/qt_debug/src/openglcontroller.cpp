@@ -65,13 +65,17 @@ void OpenGLController::initializeGL()
 //  // Keeps front faces
 //  glCullFace(GL_FRONT);
 //  glFrontFace(GL_CCW);
+  glDisable(GL_CULL_FACE);
+
   geometries = new GeometryEngine(program);
-  QVector3D cameraInitPos(0, 0, 2);
-  camera = new Camera(vw, vh, cameraInitPos);
-  connect(camera, SIGNAL(dataUpdated(CameraData)), parent()->parent(), SLOT(updateLabels(CameraData)));
-  modelMatrix.setToIdentity();
-  viewMatrix.setToIdentity();
-  projectionMatrix.setToIdentity();
+  qDebug() << geometries->verticesN;
+  qDebug() << geometries->indicesN;
+
+  camera = new Camera(vw, vh, cameraConf.Position);
+  camera->setMode(cameraConf.Mode);
+  camera->setFocusPoint(cameraConf.FocusPoint);
+
+  connect(camera, SIGNAL(dataUpdated(CameraData)), window(), SLOT(updateLabels(CameraData)));
 }
 
 void OpenGLController::resizeGL(int w, int h)
@@ -88,18 +92,35 @@ void OpenGLController::paintGL()
   program->Activate();
   QMatrix4x4 model;
   model.setToIdentity();
-  model.rotate(30, QVector3D(1,0,0));
-  camera->setMode(Camera::Focus);
-  camera->setFocusPoint(QVector3D(0,0,0));
-  camera->Matrix(FOV, zNear, zFar, *program, "camMatrix");
+  camera->Matrix(cameraConf.FOV,
+                 cameraConf.zRange.x(),
+                 cameraConf.zRange.y(),
+                 *program,
+                 "camMatrix");
+
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.constData());
-//  qDebug() << FOV << zNear << zFar;
+
   geometries->drawCubeGeometry();
-  glDrawElements(GL_POINTS, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
-  glDrawElements(GL_LINES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
-//  glDrawElements(GL_TRIANGLES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
-//  glDrawElements(GL_TRIANGLES, geometries->indiciesN, GL_UNSIGNED_SHORT, nullptr);
+  if (drawElemConf.Points)
+    glDrawElements(GL_POINTS, geometries->indicesN, GL_UNSIGNED_INT, 0);
+  if (drawElemConf.Lines)
+    glDrawElements(GL_LINES, geometries->indicesN, GL_UNSIGNED_INT, 0);
+  if (drawElemConf.Triangles)
+    glDrawElements(GL_TRIANGLES, geometries->indicesN, GL_UNSIGNED_INT, 0);
+  if (drawElemConf.Triangles_strip)
+    glDrawElements(GL_TRIANGLE_STRIP, geometries->indicesN, GL_UNSIGNED_INT, 0);
+
+  // Draw arrays
+  if (drawArrConf.Points)
+    glDrawArrays(GL_POINTS, 0, geometries->indicesN);
+  if (drawArrConf.Lines)
+    glDrawArrays(GL_LINES, 0, geometries->indicesN);
+  if (drawArrConf.Triangles)
+    glDrawArrays(GL_TRIANGLES, 0, geometries->indicesN);
+  if (drawArrConf.Triangles_strip)
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, geometries->indicesN);
+
 }
 
 void OpenGLController::calcSizes(int w, int h)
@@ -109,56 +130,25 @@ void OpenGLController::calcSizes(int w, int h)
   ratio = vw / vh;
 }
 
-qreal OpenGLController::getZFar() const
+void OpenGLController::setDrawElemConfig(glDrawElementsConfig config)
 {
-  return zFar;
+  drawElemConf = config;
+  update();
 }
 
-void OpenGLController::setZFar(qreal newZFar)
+void OpenGLController::setDrawArrConfig(glDrawArraysConfig config)
 {
-  if (qFuzzyCompare(zFar, newZFar))
-    return;
-  zFar = newZFar;
-  emit zFarChanged();
+  drawArrConf = config;
+  update();
 }
 
-void OpenGLController::resetZFar()
+void OpenGLController::setCameraConfig(cameraConfig config)
 {
-  setZFar(100); // TODO: Adapt to use your actual default value
-}
-
-qreal OpenGLController::getZNear() const
-{
-  return zNear;
-}
-
-void OpenGLController::setZNear(qreal newZNear)
-{
-  if (qFuzzyCompare(zNear, newZNear))
-    return;
-  zNear = newZNear;
-  emit zNearChanged();
-}
-
-void OpenGLController::resetZNear()
-{
-  setZNear(0.1); // TODO: Adapt to use your actual default value
-}
-
-qreal OpenGLController::getFOV() const
-{
-  return FOV;
-}
-
-void OpenGLController::setFOV(qreal newFOV)
-{
-  if (qFuzzyCompare(FOV, newFOV))
-    return;
-  FOV = newFOV;
-  emit FOVChanged();
-}
-
-void OpenGLController::resetFOV()
-{
-  setFOV(45); // TODO: Adapt to use your actual default value
+  cameraConf = config;
+  if (camera) {
+    camera->setMode(cameraConf.Mode);
+    camera->setFocusPoint(cameraConf.FocusPoint);
+    camera->setPosition(cameraConf.Position);
+    update();
+  }
 }

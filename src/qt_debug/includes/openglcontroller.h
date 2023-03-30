@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QOpenGLWidget>
-#include <QOpenGLFunctions>
+#include <QOpenGLExtraFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QTimer>
@@ -12,23 +12,40 @@
 #include "geometryengine.h"
 #include "shader.h"
 #include "camera.h"
-class OpenGLController : public QOpenGLWidget, protected QOpenGLFunctions
+
+class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions
 {
   Q_OBJECT
 public:
   using QOpenGLWidget::QOpenGLWidget;
+
+  struct glDrawElementsConfig {
+    bool Points = false;
+    bool Lines = false;
+    bool Triangles = false;
+    bool Triangles_strip = false;
+  };
+  struct glDrawArraysConfig {
+    bool Points = false;
+    bool Lines = false;
+    bool Triangles = false;
+    bool Triangles_strip = false;
+  };
+  struct cameraConfig {
+    Camera::CameraMode Mode = Camera::Free;
+    QVector3D FocusPoint = QVector3D(0,0,0);
+    QVector3D Position = QVector3D(0,0,0);
+    QVector2D zRange = QVector2D(0.1, 1000);
+    float FOV = 45;
+  };
   Camera * camera = nullptr;
-  qreal getFOV() const;
-  void setFOV(qreal newFOV);
-  void resetFOV();
-
-  qreal getZNear() const;
-  void setZNear(qreal newZNear);
-  void resetZNear();
-
-  qreal getZFar() const;
-  void setZFar(qreal newZFar);
-  void resetZFar();
+  glDrawElementsConfig drawElemConf;
+  glDrawArraysConfig drawArrConf;
+  cameraConfig cameraConf;
+public:
+  void setDrawElemConfig(glDrawElementsConfig config);
+  void setDrawArrConfig(glDrawArraysConfig config);
+  void setCameraConfig(cameraConfig config);
 
 signals:
   void FOVChanged();
@@ -66,23 +83,12 @@ private:
   QVector3D rotationVec = QVector3D(0,1,0);
   QVector3D translationVec = QVector3D(0,-1,-20);
 
-  qreal zNear = 10, zFar = 100.0f, FOV = 120.0f;
-
-  float color_back_r = 255, color_back_g = 0, color_back_b = 0;
-  float color_facet_r = 0, color_facet_g = 0, color_facet_b = 0;
   int width_line = 1;
-
-  QMatrix4x4 projectionMatrix;
-  QMatrix4x4 modelMatrix;
-  QMatrix4x4 viewMatrix;
-
 
   Shader* program = nullptr;
   GeometryEngine *geometries = nullptr;
   void initShaders();
-  Q_PROPERTY(qreal FOV READ getFOV WRITE setFOV RESET resetFOV NOTIFY FOVChanged)
-  Q_PROPERTY(qreal zNear READ getZNear WRITE setZNear RESET resetZNear NOTIFY zNearChanged)
-  Q_PROPERTY(qreal zFar READ getZFar WRITE setZFar RESET resetZFar NOTIFY zFarChanged)
+
 };
 
 #endif // OPENGLCONTROLLER_H
