@@ -46,7 +46,6 @@ public: // Setters / Getters
   int getVh() const;
   void setVh(int newVh);
   void setSpeed(float newSpeed);
-  void setSensitivity(float newSensitivity);
   CameraMode getMode() const;
   void setMode(CameraMode newMode);
 
@@ -71,11 +70,12 @@ private: // vars
   int vw = 1;
   int vh = 1;
   QPoint mCenterPos = QPoint(0,0);
-  // Adjust the speed of the camera and it's sensitivity when looking around
+  // Define the step sizes for movement and rotation
+  float moveSpeed = 0.1f;
+  float rotationSpeed = 0.1f;
+
   float baseSpeed = 0;
   float multiSpeed = 20;
-  float speed = 0.1f;
-  float sensitivity = .3f;
 signals:
   void dataUpdated(CameraData data);
 };

@@ -19,7 +19,8 @@ void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader &shade
   // Initializes matrices since otherwise they will be the null matrix
     QMatrix4x4 view, projection;
     baseSpeed = abs(farPlane - nearPlane) / 1000;
-    speed = baseSpeed;
+    moveSpeed = baseSpeed;
+    rotationSpeed = 20;
     view.setToIdentity();
     projection.setToIdentity();
     // Makes camera look in the right direction from the right position
@@ -45,46 +46,57 @@ void Camera::keyPressSlot(QKeyEvent *e)
 
   if (mode == Free) {
     if (key == Qt::Key_W)
-      Position += speed * Orientation;
+      Position += moveSpeed * Orientation;
     if (key == Qt::Key_A)
-      Position += speed * -QVector3D::normal(Orientation, Up) * 0.1;
+      Position += rotationSpeed * -QVector3D::normal(Orientation, Up) * 0.1;
     if (key == Qt::Key_S)
-      Position += speed * -Orientation;
+      Position += moveSpeed * -Orientation;
     if (key == Qt::Key_D)
-      Position += speed * QVector3D::normal(Orientation, Up) * 0.1;
+      Position += rotationSpeed * QVector3D::normal(Orientation, Up) * 0.1;
     if (key == Qt::Key_Space)
-      Position += speed * Up;
+      Position += moveSpeed * Up;
     if (key == Qt::Key_Control)
-      Position += speed * -Up;
+      Position += moveSpeed * -Up;
   }
 
   if (mode == Focus) {
     if (!( key == Qt::Key_W
         || key == Qt::Key_A
         || key == Qt::Key_S
-        || key == Qt::Key_D)) return;
+        || key == Qt::Key_D)) return;        // Rotate left around the center of rotation
     QMatrix4x4 RotateMat;
     RotateMat.setToIdentity();
-    QVector3D AxisX(1,0,0);
-    QVector3D AxisY(0,1,0);
-    if (FocusPoint != QVector3D(0,0,0)) {
-      AxisY = QVector3D::crossProduct(Position, FocusPoint);
-      AxisX = QVector3D::crossProduct(Position, AxisX);
-    }
-    float angle = speed;
+    QVector3D C = QVector3D::crossProduct(FocusPoint, Position);
+
+    // Calculate the vector representing the x-axis of the plane
+    QVector3D AxisX = QVector3D::crossProduct(Position, C).normalized();
+
+    // Calculate the vector representing the y-axis of the plane
+    QVector3D AxisY = QVector3D::crossProduct(C, AxisX);
+//    AxisX.normalize();
+//    AxisY.normalize();
+//    if (FocusPoint != QVector3D(0,0,0)) {
+////      AxisY = QVector3D::normal(Position, FocusPoint);
+////      AxisX =
+      qDebug() << AxisX;
+      qDebug() << AxisY;
+//    }
+//    RotateMat.translate(Position);
+//    RotateMat.translate(FocusPoint);
     if (key == Qt::Key_W) {
-      RotateMat.rotate(-angle, AxisX);
+      RotateMat.rotate(rotationSpeed, AxisX);
     }
     if (key == Qt::Key_S) {
-      RotateMat.rotate(angle, AxisX);
+      RotateMat.rotate(-rotationSpeed, AxisX);
     }
     if (key == Qt::Key_A) {
-      RotateMat.rotate(-angle, AxisY);
+      RotateMat.rotate(rotationSpeed, AxisY);
     }
     if (key == Qt::Key_D) {
-      RotateMat.rotate(angle, AxisY);
+      RotateMat.rotate(-rotationSpeed, AxisY);
     }
     Position = RotateMat.map(Position);
+
   }
   CameraData new_data = {
     mCenterPos,
@@ -92,7 +104,7 @@ void Camera::keyPressSlot(QKeyEvent *e)
     0,
     0,
     0,
-    speed,
+    moveSpeed,
     Orientation,
     Position
   };
@@ -108,7 +120,7 @@ void Camera::keyReleaseSlot(QKeyEvent *e) {
     0,
     0,
     0,
-    speed,
+    moveSpeed,
     Orientation,
     Position
   };
@@ -127,24 +139,25 @@ void Camera::mouseReleaseSlot(QMouseEvent *e)
 
 void Camera::mouseMoveSlot(QMouseEvent *e)
 {
-
+  processFreeMode(e->pos());
 }
 
 void Camera::wheelSlot(QWheelEvent *e)
 {
-  float increment = -e->angleDelta().ry()/15.0f/8/10;
-  float distance = FocusPoint.distanceToPoint(Position) + increment;
+  float increment_sign = e->angleDelta().ry() > 0 ? 1 : -1;
+  float distance = FocusPoint.distanceToPoint(Position) + moveSpeed * -increment_sign;
   QVector3D norm_displacement = (Position - FocusPoint).normalized();
   QVector3D new_Position = FocusPoint + norm_displacement * distance;
   if (new_Position == QVector3D(0,0,0)) return;
   Position = new_Position;
+//  Position += increment_sign * moveSpeed * QVector3D(qSin(horizontalAngle), 0.0f, -qCos(horizontalAngle));
   CameraData new_data = {
     QPoint(0,0),
     QPoint(0,0),
     0,
     0,
     0,
-    speed,
+    moveSpeed,
     FocusPoint,
     Position
   };
@@ -183,13 +196,9 @@ void Camera::setVh(int newVh)
 
 void Camera::setSpeed(float newSpeed)
 {
-  speed = newSpeed;
+  moveSpeed = newSpeed;
 }
 
-void Camera::setSensitivity(float newSensitivity)
-{
-  sensitivity = newSensitivity;
-}
 
 void Camera::processFreeMode(QPoint ePos)
 {
@@ -202,8 +211,8 @@ void Camera::processFreeMode(QPoint ePos)
     // Normalizes and shifts the coordinates of the cursor such that they begin in the middle of the screen
     // and then "transforms" them into degrees
 
-    float rotX = sensitivity * (float)(mouseY - (vh / 2)) / vh;
-    float rotY = sensitivity * (float)(mouseX - (vw / 2)) / vw;
+    float rotX = rotationSpeed * (float)(mouseY - (vh / 2)) / vh;
+    float rotY = rotationSpeed * (float)(mouseX - (vw / 2)) / vw;
 
     // Calculates upcoming vertical change in the Orientation
 
@@ -230,7 +239,7 @@ void Camera::processFreeMode(QPoint ePos)
       rotX,
       rotY,
       angle,
-      speed,
+      moveSpeed,
       Orientation,
       Position
     };
