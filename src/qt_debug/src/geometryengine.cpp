@@ -31,52 +31,93 @@ GeometryEngine::~GeometryEngine()
 
 void GeometryEngine::initCubeGeometry()
 {
-  GLfloat vertices[] = {
-    0,0,1,
-    0.894,0,0.447,
-    0.276,0.851,0.447,
-    -0.724,0.526,0.447,
-    -0.724,-0.526,0.447,
-    0.276,-0.851,0.447,
-    0.724,0.526,-0.447,
-    -0.276,0.851,-0.447,
-    -0.894,0,-0.447,
-    -0.276,-0.851,-0.447,
-    0.724,-0.526,-0.447,
-    0,0,-1
+  importObj("C:/gits/3D_Viewer/objects/castle_blender.obj");
+//  GLfloat vertices[] = {
+//    0, 0, 0,
+//    2, 0, 0,
+//    1, 2, 0,
+//    3, 2, 0
+//  };
+//  GLuint indices[] = {
+//    0, 1, 2,
+//    2, 1, 3
+//  };
+//  GLfloat vertices[] = {
+//      -1.0f, -1.0f, -1.0f, // 0
+//      -1.0f, -1.0f,  1.0f, // 1
+//      -1.0f,  1.0f, -1.0f, // 2
+//    -1.0f,  1.0f,  1.0f, // 3
+//     1.0f, -1.0f, -1.0f, // 4
+//     1.0f, -1.0f,  1.0f, // 5
+//     1.0f,  1.0f, -1.0f, // 6
+//     1.0f,  1.0f,  1.0f  // 7
+//    };
+//  GLuint indices[] =
+//  {
+//    // right
+//    0,1,3,
+//    3,0,2,
+
+//    // left
+//    4,5,6,
+//    6,7,4
+
+//    //top
+//    8,9,10,
+//    10,11,8,
+
+//    //bottom
+//    12,13,14,
+//    14,15,12,
+
+//    //right
+//    16,17,18,
+//    18,19,16,
+
+//    //left
+//    20,21,22,
+//    22,23,20
+//  };
+//  loadData(vertices, sizeof(vertices) / sizeof(GLfloat), indices, sizeof(indices) / sizeof(GLuint));
+}
+
+void GeometryEngine::importObj(QString fileName)
+{
+  Vertexes verts;
+  Indexes inds;
+  FILE* obj = NULL;
+  obj = fopen(fileName.toStdString().c_str(), "r");
+  if (!obj) {
+    qDebug() << "file dont open";
+    return;
+  }
+  int result = parse_obj_file(&verts, &inds, obj);
+  if (result) {
+    qDebug() << "Parser error:" << result;
+    return;
   };
-  GLuint indices[] = {
-    1,2,0,
-    2,3,0,
-    3,4,0,
-    4,5,0,
-    5,1,0,
-    7,6,11,
-    8,7,11,
-    9,8,11,
-    10,9,11,
-    6,10,11,
-    1,6,2,
-    2,7,3,
-    3,8,4,
-    4,9,5,
-    5,10,1,
-    7,2,6,
-    8,3,7,
-    9,4,8,
-    10,5,9,
-    6,1,10
-  };
-  indiciesN = sizeof(indices) / sizeof(GLuint);
+  loadData(verts.vertex, verts.point_count, inds.indexes, inds.index_count);
+}
+
+void GeometryEngine::loadData(GLfloat *vertices, int vertCount, GLuint* indices, int indCount)
+{
+  indicesN = indCount;
+  verticesN = vertCount;
+//  qDebug() << "Vertices";
+//  for (int i = 0; i < vertCount; i++)
+//    qDebug() << vertices[i];
+//  qDebug() << "Indices";
+//  for (int i = 0; i < indCount; i++)
+//    qDebug() << indices[i];
   vertexBuf.Bind();
   // Transfer vertex data to VBO
-  arrayBuf.BindVertices(vertices, sizeof(vertices));
+  arrayBuf.BindVertices(vertices, sizeof(GLfloat) * vertCount);
   // Transfer index data to EBO
-  indexBuf.BindIndices(indices, sizeof(indices));
+  indexBuf.BindIndices(indices, sizeof(GLuint) * indCount);
 
   program->Activate();
   int vertexLocation = glGetAttribLocation(program->ID, "aPos");
-  vertexBuf.LinkAttrib(arrayBuf, vertexLocation, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
+  vertexBuf.LinkAttrib(arrayBuf, vertexLocation, 3, GL_FLOAT, 0, (void*)0);
   vertexBuf.Unbind();
   arrayBuf.Unbind();
   indexBuf.Unbind();

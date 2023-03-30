@@ -8,7 +8,9 @@
 #include <QOpenGLShaderProgram>
 #include "shader.h"
 #include "Buffers.h"
-
+extern "C" {
+#include "obj_parser.h"
+}
 class GeometryEngine : protected QOpenGLFunctions
 {
 public:
@@ -16,11 +18,13 @@ public:
   virtual ~GeometryEngine();
 
   void drawCubeGeometry();
-  int indiciesN = 0;
-
+  int indicesN = 0;
+  int verticesN = 0;
 private:
   Shader* program = nullptr;
   void initCubeGeometry();
+  void importObj(QString fileName);
+  void loadData(GLfloat *vertices, int vertCount, GLuint* indices, int indCount);
   VAO vertexBuf;
   VBO arrayBuf;
   EBO indexBuf;
