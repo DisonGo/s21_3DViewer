@@ -90,20 +90,20 @@ void OpenGLController::paintGL()
   glClearColor(0, 0, 0, 1);
   glClear(GL_COLOR_BUFFER_BIT |  GL_DEPTH_BUFFER_BIT);
   program->Activate();
-  QMatrix4x4 model;
-  model.setToIdentity();
   camera->Matrix(cameraConf.FOV,
                  cameraConf.zRange.x(),
                  cameraConf.zRange.y(),
                  *program,
                  "camMatrix");
 
-  int modelLoc = glGetUniformLocation(program->ID, "model");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.constData());
+//  QMatrix4x4 model;
+//  model.setToIdentity();
+//  int modelLoc = glGetUniformLocation(program->ID, "model");
+//  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.constData());
 
   geometries->drawCubeGeometry();
   if (drawElemConf.Points)
-    glDrawElements(GL_POINTS, geometries->indicesN, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_POINTS, geometries->verticesN, GL_UNSIGNED_INT, 0);
   if (drawElemConf.Lines)
     glDrawElements(GL_LINES, geometries->indicesN, GL_UNSIGNED_INT, 0);
   if (drawElemConf.Triangles)
@@ -113,7 +113,7 @@ void OpenGLController::paintGL()
 
   // Draw arrays
   if (drawArrConf.Points)
-    glDrawArrays(GL_POINTS, 0, geometries->indicesN);
+    glDrawArrays(GL_POINTS, 0, geometries->verticesN);
   if (drawArrConf.Lines)
     glDrawArrays(GL_LINES, 0, geometries->indicesN);
   if (drawArrConf.Triangles)

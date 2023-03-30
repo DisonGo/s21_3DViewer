@@ -6,6 +6,7 @@ set(OPENGL_HELPER_HEADER
     includes/EBO.h
     includes/VAO.h
     includes/VBO.h
+    includes/shader.h
 )
 add_library(${LIB_NAME} STATIC
     ${OPENGL_HELPER_SRCS}

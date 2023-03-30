@@ -36,7 +36,7 @@ public:
     QVector3D FocusPoint = QVector3D(0,0,0);
     QVector3D Position = QVector3D(0,0,0);
     QVector2D zRange = QVector2D(0.1, 1000);
-    float FOV = 45;
+    float FOV = 60;
   };
   Camera * camera = nullptr;
   glDrawElementsConfig drawElemConf;

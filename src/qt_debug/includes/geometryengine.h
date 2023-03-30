@@ -26,8 +26,6 @@ private:
   void importObj(QString fileName);
   void loadData(GLfloat *vertices, int vertCount, GLuint* indices, int indCount);
   VAO vertexBuf;
-  VBO arrayBuf;
-  EBO indexBuf;
 };
 
 #endif // GEOMETRYENGINE_H

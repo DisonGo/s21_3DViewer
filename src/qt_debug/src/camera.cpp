@@ -20,7 +20,7 @@ void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader &shade
     QMatrix4x4 view, projection;
     baseSpeed = abs(farPlane - nearPlane) / 1000;
     moveSpeed = baseSpeed;
-    rotationSpeed = 20;
+    rotationSpeed = 10;
     view.setToIdentity();
     projection.setToIdentity();
     // Makes camera look in the right direction from the right position
@@ -48,11 +48,11 @@ void Camera::keyPressSlot(QKeyEvent *e)
     if (key == Qt::Key_W)
       Position += moveSpeed * Orientation;
     if (key == Qt::Key_A)
-      Position += rotationSpeed * -QVector3D::normal(Orientation, Up) * 0.1;
+      Position += moveSpeed * -QVector3D::normal(Orientation, Up) * 0.1;
     if (key == Qt::Key_S)
       Position += moveSpeed * -Orientation;
     if (key == Qt::Key_D)
-      Position += rotationSpeed * QVector3D::normal(Orientation, Up) * 0.1;
+      Position += moveSpeed * QVector3D::normal(Orientation, Up) * 0.1;
     if (key == Qt::Key_Space)
       Position += moveSpeed * Up;
     if (key == Qt::Key_Control)

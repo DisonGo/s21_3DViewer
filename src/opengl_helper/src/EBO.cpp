@@ -8,6 +8,7 @@ EBO::EBO()
 
 EBO::EBO(GLuint* indices, GLsizeiptr size)
 {
+  initializeOpenGLFunctions();
   glGenBuffers(1, &ID);
   BindIndices(indices, size);
 }

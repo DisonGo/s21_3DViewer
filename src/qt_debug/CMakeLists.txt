@@ -4,7 +4,6 @@ set(VIEWER_HEADERS
     includes/geometryengine.h
     includes/mainwindow.h
     includes/vobject.h
-    includes/shader.h
     includes/camera.h
 )
 set(VIEWER_UIS

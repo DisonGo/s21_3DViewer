@@ -10,7 +10,7 @@ _bool move_ptr_to_next_value(const char* str, size_t* i, size_t strlen);
 int allocate_indexes_memory(Indexes* indexes) {
   int err_code = OK;
   if (!indexes) return INPUT_POINTER_ERROR;
-  indexes->indexes = (int*)calloc(START_ARRAY_SIZE, sizeof(int));
+  indexes->indexes = (unsigned*)calloc(START_ARRAY_SIZE, sizeof(unsigned));
   if (indexes->indexes == NULL) err_code = MEMORY_ALLOCATING_ERROR;
   return err_code;
 }
@@ -29,7 +29,7 @@ int obj_processing_by_indexes(Indexes* indexes, FILE* fptr) {
 }
 
 _bool increase_index_arr_size(Indexes* indexes, int new_size) {
-  indexes->indexes = (int*)realloc(indexes->indexes, sizeof(int) * new_size);
+  indexes->indexes = (unsigned*)realloc(indexes->indexes, sizeof(unsigned) * new_size);
   return _true;
 }
 
