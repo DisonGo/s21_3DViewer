@@ -17,14 +17,17 @@ public:
   GeometryEngine(Shader *program);
   virtual ~GeometryEngine();
 
-  void drawCubeGeometry();
+  void drawGeometry(GLenum type);
   int indicesN = 0;
   int verticesN = 0;
+  Scene scene = {0};
 private:
   Shader* program = nullptr;
+  std::vector<EBO> EBOS;
   void initCubeGeometry();
   void importObj(QString fileName);
   void loadData(GLfloat *vertices, int vertCount, GLuint* indices, int indCount);
+  void loadScene(Scene* new_scene);
   VAO vertexBuf;
 };
 

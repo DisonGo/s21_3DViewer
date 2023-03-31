@@ -88,7 +88,7 @@ void OpenGLController::resizeGL(int w, int h)
 void OpenGLController::paintGL()
 {
   glClearColor(0, 0, 0, 1);
-  glClear(GL_COLOR_BUFFER_BIT |  GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
   program->Activate();
   camera->Matrix(cameraConf.FOV,
                  cameraConf.zRange.x(),
@@ -101,25 +101,25 @@ void OpenGLController::paintGL()
 //  int modelLoc = glGetUniformLocation(program->ID, "model");
 //  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, model.constData());
 
-  geometries->drawCubeGeometry();
+
   if (drawElemConf.Points)
-    glDrawElements(GL_POINTS, geometries->verticesN, GL_UNSIGNED_INT, 0);
+    geometries->drawGeometry(GL_POINTS);
   if (drawElemConf.Lines)
-    glDrawElements(GL_LINES, geometries->indicesN, GL_UNSIGNED_INT, 0);
+    geometries->drawGeometry(GL_LINES);
   if (drawElemConf.Triangles)
-    glDrawElements(GL_TRIANGLES, geometries->indicesN, GL_UNSIGNED_INT, 0);
+    geometries->drawGeometry(GL_TRIANGLES);
   if (drawElemConf.Triangles_strip)
-    glDrawElements(GL_TRIANGLE_STRIP, geometries->indicesN, GL_UNSIGNED_INT, 0);
+    geometries->drawGeometry(GL_TRIANGLE_STRIP);
 
   // Draw arrays
-  if (drawArrConf.Points)
-    glDrawArrays(GL_POINTS, 0, geometries->verticesN);
-  if (drawArrConf.Lines)
-    glDrawArrays(GL_LINES, 0, geometries->indicesN);
-  if (drawArrConf.Triangles)
-    glDrawArrays(GL_TRIANGLES, 0, geometries->indicesN);
-  if (drawArrConf.Triangles_strip)
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, geometries->indicesN);
+//  if (drawArrConf.Points)
+//    glDrawArrays(GL_POINTS, 0, geometries->verticesN);
+//  if (drawArrConf.Lines)
+//    glDrawArrays(GL_LINES, 0, geometries->indicesN);
+//  if (drawArrConf.Triangles)
+//    glDrawArrays(GL_TRIANGLES, 0, geometries->indicesN);
+//  if (drawArrConf.Triangles_strip)
+//    glDrawArrays(GL_TRIANGLE_STRIP, 0, geometries->indicesN);
 
 }
 
