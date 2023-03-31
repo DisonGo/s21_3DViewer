@@ -5,18 +5,18 @@ VBO::VBO()
   glGenBuffers(1, &ID);
 }
 
-VBO::VBO(GLfloat* vertices, GLsizeiptr size)
+VBO::VBO(std::vector<Vertex> vertices)
 {
   initializeOpenGLFunctions();
 	glGenBuffers(1, &ID);
-  BindVertices(vertices, size);
+  BindVertices(vertices);
 }
 
-void VBO::BindVertices(GLfloat *vertices, GLsizeiptr size)
+void VBO::BindVertices(std::vector<Vertex> vertices)
 {
   if (ID == -1) return;
   Bind();
-  glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
 }
 
 void VBO::Bind()

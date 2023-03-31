@@ -2,15 +2,19 @@
 #define EBO_H_
 #include "opengl_helper.h"
 class EBO : protected QOpenGLExtraFunctions {
-	public:
-    GLuint ID = -1;
-    EBO();
-    EBO(GLuint* indices, GLsizeiptr size);
-    void BindIndices(GLuint* indices, GLsizeiptr size);
-		void Bind();
-		void Unbind();
-		void Delete();
-    ~EBO();
+public:
+  GLuint ID = -1;
+  EBO();
+  EBO(std::vector<Face> indices);
+  GLsizei Size();
+  void BindIndices(std::vector<Face> indices);
+  void Bind();
+  void Unbind();
+  void Delete();
+  ~EBO();
+private:
+  GLsizei allocated = 0;
+  GLuint size = 0;
 };
 
 #endif // !EBO_H_

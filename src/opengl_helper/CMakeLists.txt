@@ -13,6 +13,7 @@ add_library(${LIB_NAME} STATIC
     ${OPENGL_HELPER_HEADER}
 )
 target_link_libraries(${LIB_NAME} PRIVATE
+    renderer
     Qt${QT_VERSION_MAJOR}::OpenGL
 )
 target_include_directories(${LIB_NAME} PUBLIC includes)

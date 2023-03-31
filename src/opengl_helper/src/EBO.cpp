@@ -6,18 +6,25 @@ EBO::EBO()
   glGenBuffers(1, &ID);
 }
 
-EBO::EBO(GLuint* indices, GLsizeiptr size)
+EBO::EBO(std::vector<Face> indices)
 {
   initializeOpenGLFunctions();
   glGenBuffers(1, &ID);
-  BindIndices(indices, size);
+  BindIndices(indices);
 }
 
-void EBO::BindIndices(GLuint *indices, GLsizeiptr size)
+GLsizei EBO::Size()
+{
+  return size;
+}
+
+void EBO::BindIndices(std::vector<Face> indices)
 {
   if (ID == -1) return;
+  size = indices.size();
+  allocated = size * sizeof(Face);
   Bind();
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, allocated, indices.data(), GL_STATIC_DRAW);
 }
 
 void EBO::Bind()
