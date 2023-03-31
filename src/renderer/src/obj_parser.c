@@ -6,7 +6,7 @@
  *                           *
  *****************************/
 
-#include "../includes/obj_parser.h"
+#include "obj_parser.h"
 
 int parse_obj_file(Scene* scene, FILE* fptr) {
   if (!scene) return INPUT_POINTER_ERROR;
@@ -59,7 +59,7 @@ int fill_array(Scene* scene, FILE* fptr) {
       retval = push_vertices(current_str, scene, &vertices_capacity);
     else if (current_str[0] == INDEX_NAME && is_space)
       retval = push_faces(current_str, scene, group, &faces_capacity);
-    else if (current_str[0] == GROUP_NAME && is_space) {
+    else if (current_str[0] == GROUP_NAME_ && is_space) {
         printf("num_faces = %d\n", scene->objects[group].num_faces);
         if (scene->objects[scene->objects_count].num_faces > 0) {
           group++;

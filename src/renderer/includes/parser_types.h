@@ -3,11 +3,11 @@
 
 #define VERTEX_NAME 'v'
 #define INDEX_NAME 'f'
-#define GROUP_NAME 'g'
+#define GROUP_NAME_ 'g'
 
 typedef enum {
-    _false = 0,
-    _true = 1
+  _false = 0,
+  _true = 1
 } _bool;
 
 typedef enum errors {
@@ -24,12 +24,11 @@ typedef struct {
 
 typedef struct {
   unsigned int index[3];
-  int arr_size;
 } Face;
 
 typedef struct {
-    int num_faces;
-    Face* faces;
+  int num_faces;
+  Face* faces;
 } Object;
 
 typedef struct {
