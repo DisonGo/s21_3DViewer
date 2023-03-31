@@ -3,6 +3,7 @@
 
 #define VERTEX_NAME 'v'
 #define INDEX_NAME 'f'
+#define GROUP_NAME 'g'
 
 typedef enum {
     _false = 0,
@@ -17,14 +18,26 @@ typedef enum errors {
   NO_FILE = 4
 } errors;
 
-typedef struct Indexes {
-  int index_count;
-  unsigned int* indexes;
-} Indexes;
+typedef struct {
+  float x, y, z;
+} Vertex;
 
-typedef struct Vertexes {
-  int point_count;
-  float* vertex;
-} Vertexes;
+typedef struct {
+  unsigned int index[3];
+  int arr_size;
+} Face;
+
+typedef struct {
+    int num_faces;
+    Face* faces;
+} Object;
+
+typedef struct {
+  Vertex* vertices;
+  int vertices_count;
+  Object* objects;
+  int objects_count;
+} Scene;
+
 
 #endif  //  PARSER_TYPES_H
