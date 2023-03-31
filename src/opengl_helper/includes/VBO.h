@@ -6,8 +6,8 @@ class VBO : protected QOpenGLExtraFunctions {
 public:
   GLuint ID = -1;
   VBO();
-  VBO(std::vector<Vertex> vertices);
-  void BindVertices(std::vector<Vertex> vertices);
+  VBO(std::vector<VertexData> vertices);
+  void BindVertices(std::vector<VertexData> vertices);
   void Bind();
   void Unbind();
   void Delete();

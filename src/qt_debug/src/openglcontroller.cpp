@@ -60,12 +60,13 @@ void OpenGLController::initializeGL()
   glEnable(GL_PROGRAM_POINT_SIZE);
   // Enables the Depth Buffer
 //  glEnable(GL_DEPTH_TEST);
-//  // Enables Cull Facing
-//  glEnable(GL_CULL_FACE);
+  // Enables Cull Facing
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_DEPTH_TEST);
 //  // Keeps front faces
 //  glCullFace(GL_FRONT);
 //  glFrontFace(GL_CCW);
-  glDisable(GL_CULL_FACE);
+//  glDisable(GL_CULL_FACE);
 
   geometries = new GeometryEngine(program);
   qDebug() << geometries->verticesN;
@@ -88,7 +89,7 @@ void OpenGLController::resizeGL(int w, int h)
 void OpenGLController::paintGL()
 {
   glClearColor(0, 0, 0, 1);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   program->Activate();
   camera->Matrix(cameraConf.FOV,
                  cameraConf.zRange.x(),
