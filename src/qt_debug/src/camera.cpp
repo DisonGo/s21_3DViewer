@@ -16,25 +16,23 @@ Camera::Camera(int width, int height, QVector3D position, QObject *parent) : QOb
 
 void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader &shader, const char *uniform)
 {
-  // Initializes matrices since otherwise they will be the null matrix
-    QMatrix4x4 view, projection;
-    baseSpeed = abs(farPlane - nearPlane) / 1000;
-    moveSpeed = baseSpeed;
-    rotationSpeed = 10;
-    view.setToIdentity();
-    projection.setToIdentity();
-    // Makes camera look in the right direction from the right position
-    QVector3D lookAtVec(0,0,0);
-    if (mode == Free)
-      lookAtVec = Orientation + Position;
-    if (mode == Focus)
-      lookAtVec = FocusPoint;
-    view.lookAt(Position, lookAtVec, Up);
-    // Adds perspective to the scene
-    projection.perspective(FOVdeg, (float)vw / vh, nearPlane, farPlane);
-//    qDebug() << "View mat:\n" << view << "Projection mat:\n" << projection;
-    // Exports the camera matrix to the Vertex Shader
-    glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, (projection * view).constData());
+
+  QMatrix4x4 view, projection;
+  baseSpeed = abs(farPlane - nearPlane) / 1000;
+  moveSpeed = baseSpeed;
+  rotationSpeed = 10;
+  view.setToIdentity();
+  projection.setToIdentity();
+  QVector3D lookAtVec(0,0,0);
+  if (mode == Free)
+    lookAtVec = Orientation + Position;
+  if (mode == Focus)
+    lookAtVec = FocusPoint;
+  view.lookAt(Position, lookAtVec, Up);
+
+  projection.perspective(FOVdeg, (float)vw / vh, nearPlane, farPlane);
+
+  glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, (projection * view).constData());
 }
 
 void Camera::keyPressSlot(QKeyEvent *e)
@@ -150,7 +148,6 @@ void Camera::wheelSlot(QWheelEvent *e)
   QVector3D new_Position = FocusPoint + norm_displacement * distance;
   if (new_Position == QVector3D(0,0,0)) return;
   Position = new_Position;
-//  Position += increment_sign * moveSpeed * QVector3D(qSin(horizontalAngle), 0.0f, -qCos(horizontalAngle));
   CameraData new_data = {
     QPoint(0,0),
     QPoint(0,0),

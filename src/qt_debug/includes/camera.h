@@ -20,17 +20,15 @@ class Camera : public QObject , protected QOpenGLFunctions
   Q_OBJECT
 public:
   explicit Camera(QObject *parent = nullptr);
-  // Stores the main vectors of the camera
+
   enum CameraMode {
     Free = 0,
     Focus = 1
   };
-  // Camera constructor to set up initial values
+
   Camera(int width, int height, QVector3D position, QObject *parent = nullptr);
-  // Updates and exports the camera matrix to the Vertex Shader
   void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
-  // Handles camera inputs
-  //    void Inputs(GLFWwindow* window);
+
 public slots:
   void keyPressSlot(QKeyEvent *e);
   void keyReleaseSlot(QKeyEvent *e);
@@ -66,11 +64,10 @@ private: // vars
   QVector3D Up = QVector3D(0.0f, 1.0f, 0.0f);
 
   bool LMBPressed = false;
-  // Stores the width and height of the window
+
   int vw = 1;
   int vh = 1;
   QPoint mCenterPos = QPoint(0,0);
-  // Define the step sizes for movement and rotation
   float moveSpeed = 0.1f;
   float rotationSpeed = 0.1f;
 
