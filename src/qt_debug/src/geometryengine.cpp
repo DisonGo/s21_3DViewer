@@ -26,7 +26,7 @@ std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::
   for (auto face : faces)
     for (auto i : face.index)
       if (i < size)
-        new_arr.push_back({old_arr.at(i), getRandRGB()});
+        new_arr.push_back({old_arr.at(i - 1), getRandRGB()});
       else
         qDebug() << "Out of range:" << i;
   return new_arr;
@@ -49,7 +49,8 @@ GeometryEngine::~GeometryEngine()
 void GeometryEngine::initCubeGeometry()
 {
 //  importObj("C:/Users/Dison/Downloads/DNA_Infinity.obj");
-  importObj("C:/gits/3D_Viewer/objects/castle_blender.obj");
+    importObj("C:/gits/3D_Viewer/objects/IronMan.obj");
+//  importObj("C:/gits/3D_Viewer/objects/castle_blender.obj");
 //  std::vector<GLfloat> vertices;
 //  std::vector<GLuint> indices;
 //  float z = 0;
@@ -71,14 +72,7 @@ void GeometryEngine::initCubeGeometry()
 
 void GeometryEngine::importObj(QString fileName)
 {
-
-  FILE* obj = NULL;
-  obj = fopen(fileName.toStdString().c_str(), "r");
-  if (!obj) {
-    qDebug() << "file dont open";
-    return;
-  }
-  int result = parse_obj_file(&scene, obj);
+  int result = parse_obj_file(&scene, fileName.toStdString().c_str());
   if (result) {
     qDebug() << "Parser error:" << result;
     return;
