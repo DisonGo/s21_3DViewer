@@ -1,0 +1,39 @@
+QMainWindow {
+    background-color:  #3F3931;
+}
+QTabBar::tab{
+    height: 30px;
+    width: 40px;
+}
+QTabWidget{
+    border: none;
+    background-color: #111617;
+}
+QPushButton{
+    /* background-color: #d3d3d3; */
+}
+
+
+
+
+
+
+
+/*@font-face {
+    font-family: 'Nunito';
+    src: url(/src/qt_app/style/Nunito/static/Nunito-Regular.ttf);
+}
+
+QMainWindow{
+    background-color: #3F3931;
+    font-family: 'Nunito';
+}
+
+QTabWidget{
+    background-color: #6b5E4f;
+}
+
+QWidget::tab_1{
+    background: url(/src/qt_app/style/icons/note.svg);
+}
+*/

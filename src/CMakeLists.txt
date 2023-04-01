@@ -14,7 +14,6 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
 
 
-add_subdirectory(qt_debug)
-add_subdirectory(renderer)
-add_subdirectory(opengl_helper)
-#add_subdirectory(glm)
+add_subdirectory(qt_app)
+add_subdirectory(obj_parser)
+add_subdirectory(engine)
