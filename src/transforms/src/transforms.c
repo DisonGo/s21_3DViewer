@@ -8,7 +8,8 @@ void translate_matrix(float* matrix, float x, float y, float z) {
 }
 
 void rotate_matrix(float* matrix, float angle, float x, float y, float z) {
-    if (!matrix) return;
+   if (!matrix) return;
+   angle *= M_PI/180;
    float c = cos(angle);
    float s = sin(angle);
    float len = sqrt(x * x + y * y + z * z);
@@ -40,7 +41,12 @@ void rotate_matrix(float* matrix, float angle, float x, float y, float z) {
        rotation_matrix[i] = rmat[i];
    }
 
-   mul_matrix(matrix, matrix, rotation_matrix);
+   float result[16] = { 0 };
+
+   mul_matrix(result, matrix, rotation_matrix);
+   for (int i = 0; i < 16; i++) {
+     matrix[i] = result[i];
+   }
 }
 
 void scale_matrix(float* matrix, float scale) {
@@ -49,7 +55,7 @@ void scale_matrix(float* matrix, float scale) {
         matrix[i] *= scale;
 }
 
-void mul_matrix(float* result, const float a[16], const float b[16]) {
+void mul_matrix(float* result, float a[16], float b[16]) {
     if (!result) return;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
