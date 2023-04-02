@@ -76,14 +76,27 @@ void OpenGLController::resizeGL(int w, int h)
   update();
 }
 void OpenGLController::setColorUniform(int id, QColor in) {
+  makeCurrent();
   glUniform3f(id, in.redF(),in.greenF(),in.blueF());
 }
 void OpenGLController::setPointUniform(bool circle, float size) {
+  makeCurrent();
   int pointSizeLoc = glGetUniformLocation(program->ID, "aPointSize");
   glUniform1f(pointSizeLoc, size);
   int pointCircleLoc = glGetUniformLocation(program->ID, "roundCircle");
   glUniform1i(pointCircleLoc, circle);
 
+}
+void OpenGLController::setLineDash(bool on) {
+  makeCurrent();
+  int dashedLoc = glGetUniformLocation(program->ID, "dashed");
+  glUniform1i(dashedLoc, on);
+  if (on) {
+    int patternLoc = glGetUniformLocation(program->ID, "dash_pattern");
+    glUniform2f(patternLoc, 0.1, 0.1);
+    int lineWidthLoc = glGetUniformLocation(program->ID, "line_width");
+    glUniform1f(patternLoc, drawArrConf.Line_width);
+  }
 }
 void OpenGLController::paintGL()
 {
@@ -122,13 +135,18 @@ void OpenGLController::paintGL()
     geometries->drawGeometry(GL_TRIANGLES);
   }
   if (drawArrConf.Lines) {
+    if (drawArrConf.dashedLines)
+      setLineDash(drawArrConf.dashedLines);
     setColorUniform(ColorLoc, LineColor);
     geometries->drawGeometry(GL_LINES);
+    if (drawArrConf.dashedLines)
+      setLineDash(false);
   }
 }
 void OpenGLController::setLineWidth(float width)
 {
   makeCurrent();
+  drawArrConf.Line_width = width;
   glLineWidth(width);
   update();
 }

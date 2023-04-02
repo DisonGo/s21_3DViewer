@@ -24,7 +24,9 @@ public:
     bool Triangles = false;
     bool Triangles_strip = false;
     float Point_size = 1;
+    float Line_width = 1;
     bool roundCircle = false;
+    bool dashedLines = false;
 
   };
   struct cameraConfig {
@@ -92,6 +94,7 @@ private:
 
   void setColorUniform(int id, QColor in);
   void setPointUniform(bool circle, float size);
+  void setLineDash(bool on);
 };
 
 #endif // OPENGLCONTROLLER_H

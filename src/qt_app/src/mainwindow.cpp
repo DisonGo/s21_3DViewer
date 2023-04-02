@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pushButton_backgroungColor, SIGNAL(clicked()), this, SLOT(choose_color()));
     connect(ui->PointType, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(updateCircleType(QAbstractButton*)));
     connect(ui->CameraMode, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(setCameraMode(QAbstractButton*)));
+    connect(ui->LinePattern, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(setLinePattern(QAbstractButton*)));
     connect(ui->zNear_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
     connect(ui->zFar_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
 }
@@ -58,8 +59,13 @@ void MainWindow::choose_color(){
   if (caller == ui->pushButton_backgroungColor)
     ui->openGLWidget->BackColor = color;
   ui->openGLWidget->update();
-//  if (caller == ui->pushButton_colorLine)
-//    ui->openGLWidget->LineColor = color;
+}
+void MainWindow::setLinePattern(QAbstractButton* but) {
+  if (but == ui->radioButton_lineDashed)
+    ui->openGLWidget->drawArrConf.dashedLines = true;
+  else if (but == ui->radioButton_lineSolid)
+    ui->openGLWidget->drawArrConf.dashedLines = false;
+  ui->openGLWidget->update();
 }
 void MainWindow::setCameraMode(QAbstractButton* but) {
   if (but == ui->radioButton_typeParallel)
