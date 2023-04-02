@@ -1,12 +1,14 @@
 #include "transforms.h"
 
 void translate_matrix(float* matrix, float x, float y, float z) {
+    if (!matrix) return;
     matrix[12] += x;
     matrix[13] += y;
     matrix[14] += z;
 }
 
 void rotate_matrix(float* matrix, float angle, float x, float y, float z) {
+    if (!matrix) return;
    float c = cos(angle);
    float s = sin(angle);
    float len = sqrt(x * x + y * y + z * z);
@@ -42,11 +44,13 @@ void rotate_matrix(float* matrix, float angle, float x, float y, float z) {
 }
 
 void scale_matrix(float* matrix, float scale) {
+    if (!matrix) return;
     for (int i = 0; i < 12; i++)
         matrix[i] *= scale;
 }
 
 void mul_matrix(float* result, const float a[16], const float b[16]) {
+    if (!result) return;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             float sum = 0.0f;
