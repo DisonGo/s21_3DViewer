@@ -11,6 +11,5 @@ struct VertexColor {
 };
 struct VertexData {
   Vertex vertex;
-  VertexColor color;
 };
 #endif // !OPENGL_HELPER_H_
