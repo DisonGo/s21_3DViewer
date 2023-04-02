@@ -54,7 +54,6 @@ void Engine::loadScene(Scene *new_scene)
 {
   if (!new_scene) return;
   scene = *new_scene;
-  verticesN = scene.vertices_count;
 
   std::vector<Face> faces;
   for (size_t i = 0; i < scene.objects_count; i++) {

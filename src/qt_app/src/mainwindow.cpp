@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->LinePattern, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(setLinePattern(QAbstractButton*)));
     connect(ui->zNear_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
     connect(ui->zFar_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
+    connect(ui->openGLWidget, SIGNAL(importComleted(long,long,QString)), this, SLOT(updateInfoLabels(long,long,QString)));
 }
 
 MainWindow::~MainWindow()
@@ -110,7 +111,11 @@ void MainWindow::updateCircleType(QAbstractButton* but) {
   }
   ui->openGLWidget->update();
 }
-
+void MainWindow::updateInfoLabels(long int vertN, long int edgesN, QString filename) {
+  ui->vetices_l->setText(QString("Total vertices:%1").arg(vertN));
+  ui->edges_l->setText(QString("Total edges:%1").arg(edgesN));
+  ui->filename_l->setText("File name:" + filename);
+}
 void MainWindow::on_doubleSpinBox_scale_valueChanged(double arg1)
 {
   ui->openGLWidget->setScale(arg1);

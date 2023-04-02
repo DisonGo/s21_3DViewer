@@ -1,35 +1,82 @@
-QMainWindow {
-    background-color:  #3F3931;
-}
-QTabWidget{
-    border: none;
-    background-color: #111617;
-}
-QPushButton{
-    /* background-color: #d3d3d3; */
-}
-
-
-
-
-
-
-
-/*@font-face {
-    font-family: 'Nunito';
-    src: url(/src/qt_app/style/Nunito/static/Nunito-Regular.ttf);
-}
-
 QMainWindow{
-    background-color: #3F3931;
-    font-family: 'Nunito';
+	background-color:  #736454;
+}
+/* КНОПКИ */
+QPushButton {
+	background-color: #997f62;
+	font: normal 16pt "Nunito";
+	border-radius: 10px;
+}
+QPushButton:hover {
+	background-color: #634320;
+	font-size: 18pt;
+}
+QPushButton:pressed {
+	/*background-color: #4a3825;*/
+	background-color: #997f62;
+}
+/*background-color: #6B5E4F;*/
+
+/* QTABWIDGET */
+#tabWidget {
+	background-color: #d9d9d9   ;
+}
+QTabBar::tab:selected {
+	background-color: #736454;
+}
+QTabBar::tab{
+	width: 84;
+	background-color: #997f62;
+	border: 1px solid #736454;
 }
 
-QTabWidget{
-    background-color: #6b5E4f;
+#tab_1 {
+	/* background-image: url(":style/icons/note.svg"); */
+    background-color: #d9d9d9;
+}
+#tab_2 {
+	/* background-image: url(":style/icons/tuner.svg"); */
+    background-color: #d9d9d9;
+}
+#tab_3 {
+	/* background-image: url(":style/icons/settings.svg"); */
+    background-color: #d9d9d9;
+}
+/* _QTABWIDGET */
+
+/* ЦВЕТ ФОНА ТЕКСТА */
+/* #frame_move, #frame_rotate, #label_scale, #horizontalSlider_scale, Line, #frame_4, #label_widthTop, #labelwidthLine, #label_versh, #frame, #label_line, #label_type, #label_widthLine, #radioButton_typeParallel, #radioButton_typeCentr   {
+	background-color: #997f62;
+} */
+
+/* ГРАНИЦЫ */
+#frame_rotate, #label_scale, #frame_move, #horizontalSlider_scale, QPushButton {
+	border: 1px solid  #736454;
 }
 
-QWidget::tab_1{
-    background: url(/src/qt_app/style/icons/note.svg);
+/* ШРИФТ */
+#label_rotate, #label_move, #label_scale, #label_moveX, #label_moveY, #label_moveZ, #label_rotateX, #label_rotateY, #label_rotateZ {	
+	font : normal 14pt "Nunito";
 }
-*/
+#label_widthLine, #label_typeLine, #label_widthTop, #label_top {	
+	font : normal 12pt "Nunito";
+	padding-left: 20vw;
+}
+#radioButton_typeCentr, #radioButton_typeParallel, #radioButton_lineSolid, #radioButton_lineDashed, #radioButton_topCircle, #radioButton_topSquear, #radioButton_topNone{
+	font: normal 10pt "Nunito";
+}
+#label_line,#label_type,#label_versh  {
+	font :bold 12pt "Nunito";
+}
+Line {
+	line-height: 6pt;
+}
+#radioButton_typeCentr{
+	padding-left: 15px;
+}
+#pushButton_backgroungColor {
+	margin-top: 5px;
+}
+#label_countTop, #label_countReber, #label_fileName{
+	font: bold 10pt "Nunito";
+}
