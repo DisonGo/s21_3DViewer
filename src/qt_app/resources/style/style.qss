@@ -19,7 +19,7 @@ QPushButton:pressed {
 
 /* QTABWIDGET */
 #tabWidget {
-	background-color: #d9d9d9   ;
+	background-color: #565454   ;
 }
 QTabBar::tab:selected {
 	background-color: #736454;
@@ -32,15 +32,15 @@ QTabBar::tab{
 
 #tab_1 {
 	/* background-image: url(":style/icons/note.svg"); */
-    background-color: #d9d9d9;
+    background-color: #565454;
 }
 #tab_2 {
 	/* background-image: url(":style/icons/tuner.svg"); */
-    background-color: #d9d9d9;
+    background-color: #565454;
 }
 #tab_3 {
 	/* background-image: url(":style/icons/settings.svg"); */
-    background-color: #d9d9d9;
+    background-color: #565454;
 }
 /* _QTABWIDGET */
 

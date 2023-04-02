@@ -85,5 +85,6 @@ gcov_report: clean set_report_gcc test
 	@gcov *.c ${LIB_SRC_DIR}/*.c -o $(ODIR)/${LIB_SRC_DIR}
 	@make move_gc_files
 	@lcov -t ./gcov -o report.info -c -q -d ./gcov
+
 $(PROJECT_NAME): $(PROJECT_NAME).a $(TEST_NAME).a
 	@$(gcc) $(DEBUG_SOURCE) -I${LIB_INC_DIR} -I${TEST_INC_DIR} -o $@ ${TEST_CHECK_F} $(PROJECT_NAME).a $(TEST_NAME).a
