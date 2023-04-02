@@ -20,11 +20,10 @@ std::vector<T> parseToStdVector(T* arr_x, size_t size) {
 std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::vector<Face> faces) {
   std::vector<VertexData> new_arr;
   size_t size = old_arr.size();
-  qDebug() <<QString("Old_arr size:%1").arg(size);
   for (auto face : faces)
     for (auto i : face.index)
       if ((i - 1) < size)
-        new_arr.push_back({old_arr.at(i - 1), getRandRGB()});
+        new_arr.push_back({old_arr.at(i - 1)});
       else
         qDebug() << "Out of range:" << i;
   return new_arr;
@@ -71,7 +70,7 @@ void Engine::loadScene(Scene *new_scene)
   verticesN = vData.size();
   VBO VBO1(vData);
   vertexBuf.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
-  vertexBuf.LinkAttrib(VBO1, 1, 3, GL_FLOAT, sizeof(VertexData), (void*)sizeof(Vertex));
+//  vertexBuf.LinkAttrib(VBO1, 1, 3, GL_FLOAT, sizeof(VertexData), (void*)sizeof(Vertex));
   vertexBuf.Unbind();
   VBO1.Unbind();
 }
