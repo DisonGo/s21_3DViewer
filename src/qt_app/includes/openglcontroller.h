@@ -12,7 +12,9 @@
 #include "engine.h"
 #include "shader.h"
 #include "camera.h"
-
+extern "C" {
+#include "transforms.h"
+}
 class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions
 {
   Q_OBJECT
