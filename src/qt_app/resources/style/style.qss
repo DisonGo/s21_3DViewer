@@ -1,10 +1,6 @@
 QMainWindow {
     background-color:  #3F3931;
 }
-QTabBar::tab{
-    height: 30px;
-    width: 40px;
-}
 QTabWidget{
     border: none;
     background-color: #111617;
