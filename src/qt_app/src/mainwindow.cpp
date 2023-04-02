@@ -8,57 +8,160 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
-    setUnifiedTitleAndToolBarOnMac(true);
-    connect(ui->toolButton_tab1, SIGNAL(clicked()), this, SLOT(choose_file()));
-    connect(ui->pushButton_colorLine, SIGNAL(clicked()), this, SLOT(choose_color()));
-    connect(ui->pushButton_colorVersh, SIGNAL(clicked()), this, SLOT(choose_color()));
-    connect(ui->pushButton_backgroungColor, SIGNAL(clicked()), this, SLOT(choose_color()));
-    connect(ui->PointType, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(updateCircleType(QAbstractButton*)));
-    connect(ui->CameraMode, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(setCameraMode(QAbstractButton*)));
-    connect(ui->LinePattern, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(setLinePattern(QAbstractButton*)));
-    connect(ui->zNear_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
-    connect(ui->zFar_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
-    connect(ui->openGLWidget, SIGNAL(importComleted(long,long,QString)), this, SLOT(updateInfoLabels(long,long,QString)));
+  ui->setupUi(this);
+  setUnifiedTitleAndToolBarOnMac(true);
+  loadSettings();
+  applySettings();
+  connect(ui->toolButton_tab1, SIGNAL(clicked()), this, SLOT(choose_file()));
+  connect(ui->pushButton_colorLine, SIGNAL(clicked()), this, SLOT(choose_color()));
+  connect(ui->pushButton_colorVersh, SIGNAL(clicked()), this, SLOT(choose_color()));
+  connect(ui->pushButton_backgroungColor, SIGNAL(clicked()), this, SLOT(choose_color()));
+  connect(ui->PointType, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(updateCircleType(QAbstractButton*)));
+  connect(ui->CameraMode, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(setCameraMode(QAbstractButton*)));
+  connect(ui->LinePattern, SIGNAL(buttonClicked(QAbstractButton*)), this, SLOT(setLinePattern(QAbstractButton*)));
+  connect(ui->zNear_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
+  connect(ui->zFar_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
+  connect(ui->openGLWidget, SIGNAL(importComleted(long,long,QString)), this, SLOT(updateInfoLabels(long,long,QString)));
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+  saveSettings();
+  delete ui;
+}
+void MainWindow::saveSettings() {
+  QSettings settings("settings.ini",QSettings::IniFormat);
+  settings.beginGroup("Settings");
+  settings.setValue("translation", translation);
+  settings.setValue("rotation", rotation);
+  settings.setValue("lineColor", lineColor);
+  settings.setValue("pointColor", pointColor);
+  settings.setValue("backColor", backColor);
+  settings.setValue("zRange", zRange);
+  settings.setValue("lineWidth", lineWidth);
+  settings.setValue("pointWidth", pointWidth);
+  settings.setValue("pointTypeIndex", pointTypeIndex);
+  settings.setValue("viewTypeIndex", viewTypeIndex);
+  settings.setValue("fileFieldIndex", fileFieldIndex);
+  settings.setValue("scale", scale);
+  settings.beginWriteArray("filePaths");
+  for (auto &filePath : filePaths) {
+    settings.setArrayIndex(filePath.indexOf(filePath));
+    settings.setValue("path", filePath);
+  }
+  settings.endArray();
+  settings.endGroup();
 }
 
+
+void MainWindow::loadSettings() {
+  if (QFile::exists("settings.ini")) {
+      QSettings settings("settings.ini",QSettings::IniFormat);
+      settings.beginGroup("Settings");
+      translation = settings.value("translation").value<QVector3D>();
+      rotation = settings.value("rotation").value<QVector3D>();
+      lineColor = settings.value("lineColor").value<QColor>();
+      pointColor = settings.value("pointColor").value<QColor>();
+      backColor = settings.value("backColor").value<QColor>();
+      zRange = settings.value("zRange").value<QVector2D>();
+      lineWidth = settings.value("lineWidth").value<float>();
+      pointWidth = settings.value("pointWidth").value<float>();
+      pointTypeIndex = settings.value("pointTypeIndex").value<int>();
+      viewTypeIndex = settings.value("viewTypeIndex").value<int>();
+      fileFieldIndex = settings.value("fileFieldIndex").value<int>();
+      scale = settings.value("scale").value<float>();
+      int size = settings.beginReadArray("filePaths");
+      for (int i = 0; i < size; i++) {
+        settings.setArrayIndex(i);
+        filePaths.push_back(settings.value("path").value<QString>());
+      }
+      settings.endArray();
+      settings.endGroup();
+  }
+}
+void MainWindow::applySettings() {
+  ui->doubleSpinBox_moveX->setValue(translation.x());
+  ui->doubleSpinBox_moveY->setValue(translation.y());
+  ui->doubleSpinBox_moveZ->setValue(translation.z());
+
+  ui->doubleSpinBox_rotateX->setValue(rotation.x());
+  ui->doubleSpinBox_rotateY->setValue(rotation.y());
+  ui->doubleSpinBox_rotateZ->setValue(rotation.z());
+
+  ui->zNear_i->setValue(zRange.x());
+  ui->zFar_i->setValue(zRange.y());
+
+  ui->doubleSpinBox_scale->setValue(scale);
+
+  ui->doubleSpinBox_widthLine->setValue(lineWidth);
+  ui->doubleSpinBox_widthTop->setValue(pointWidth);
+
+  if (pointTypeIndex != -1) {
+    QPushButton * but = (QPushButton*)ui->PointType->button(pointTypeIndex);
+    but->setChecked(true);
+    updateCircleType(but);
+  }
+  if (viewTypeIndex != -1) {
+    QPushButton * but = (QPushButton*)ui->CameraMode->button(viewTypeIndex);
+    but->setChecked(true);
+    setCameraMode(but);
+  }
+  for (auto filePath : filePaths)
+    ui->comboBox_tab1->addItem(filePath);
+  if (fileFieldIndex != -1) ui->comboBox_tab1->setCurrentIndex(fileFieldIndex);
+
+  OpenGLController* gl = ui->openGLWidget;
+  gl->LineColor = lineColor;
+  gl->DotColor = pointColor;
+  gl->BackColor = backColor;
+
+  gl->cameraConf.zRange = zRange;
+  gl->drawArrConf.Line_width = lineWidth;
+  if (!lineWidth) gl->drawArrConf.Lines = false;
+  gl->drawArrConf.Point_size = pointWidth;
+  gl->setScale(scale);
+}
 void MainWindow::choose_file(){
-    QString name = qgetenv("USER");
-    if (name.isEmpty())
-          name = qgetenv("USERNAME");
-    QString filename = QFileDialog::getOpenFileName(
-                this,
-                tr("Open File"),
-                "/Users/" + name,
-                "Objects (*.obj)"
-                );
-    ui->comboBox_tab1->addItem(filename);
-    ui->comboBox_tab1->setCurrentIndex(ui->comboBox_tab1->findText(filename));
+  QString name = qgetenv("USER");
+  if (name.isEmpty())
+        name = qgetenv("USERNAME");
+  QString filename = QFileDialog::getOpenFileName(
+              this,
+              tr("Open File"),
+              "/Users/" + name,
+              "Objects (*.obj)"
+              );
+  filePaths.push_back(filename);
+  ui->comboBox_tab1->addItem(filename);
+  ui->comboBox_tab1->setCurrentIndex(ui->comboBox_tab1->findText(filename));
+  fileFieldIndex = ui->comboBox_tab1->currentIndex();
 
 }
 void MainWindow::updateZPlane(double value) {
   QDoubleSpinBox* caller = (QDoubleSpinBox*) sender();
   if (caller == ui->zNear_i)
-    ui->openGLWidget->cameraConf.zRange.setX(value);
+    zRange.setX(value);
   else if (caller == ui->zFar_i)
-    ui->openGLWidget->cameraConf.zRange.setY(value);
+    zRange.setY(value);
   else return;
+  ui->openGLWidget->cameraConf.zRange = zRange;
   ui->openGLWidget->update();
 }
 void MainWindow::choose_color(){
   QPushButton* caller = (QPushButton*) sender();
-  QColor color = QColorDialog::getColor(Qt::red, this);
-  if (caller == ui->pushButton_colorLine)
-    ui->openGLWidget->LineColor = color;
-  if (caller == ui->pushButton_colorVersh)
-    ui->openGLWidget->DotColor = color;
-  if (caller == ui->pushButton_backgroungColor)
-    ui->openGLWidget->BackColor = color;
+  if (caller == ui->pushButton_colorLine) {
+    lineColor = QColorDialog::getColor(lineColor, this);
+  }
+  else if (caller == ui->pushButton_colorVersh) {
+    pointColor = QColorDialog::getColor(pointColor, this);
+  }
+  else if (caller == ui->pushButton_backgroungColor) {
+    backColor = QColorDialog::getColor(backColor, this);
+  }
+  else return;
+  ui->openGLWidget->BackColor = backColor;
+  ui->openGLWidget->DotColor = pointColor;
+  ui->openGLWidget->LineColor = lineColor;
   ui->openGLWidget->update();
 }
 void MainWindow::setLinePattern(QAbstractButton* but) {
@@ -70,17 +173,19 @@ void MainWindow::setLinePattern(QAbstractButton* but) {
 }
 void MainWindow::setCameraMode(QAbstractButton* but) {
   if (but == ui->radioButton_typeParallel)
-    ui->openGLWidget->camera->setViewMode(Camera::Orthographic);
+    ui->openGLWidget->cameraConf.viewMode = Camera::Orthographic;
   else if (but == ui->radioButton_typeCentr)
-    ui->openGLWidget->camera->setViewMode(Camera::Perspective);
+    ui->openGLWidget->cameraConf.viewMode = Camera::Perspective;
+  else return;
+  viewTypeIndex = ui->CameraMode->checkedId();
   ui->openGLWidget->update();
 }
 
 void MainWindow::on_pushButton_loadFile_clicked()
 {
-    QString filePath = ui->comboBox_tab1->currentText();
-    if (filePath == "") return;
-    ui->openGLWidget->importObjFile(filePath);
+  QString filePath = ui->comboBox_tab1->currentText();
+  if (filePath == "") return;
+  ui->openGLWidget->importObjFile(filePath);
 }
 
 
@@ -90,13 +195,16 @@ void MainWindow::on_doubleSpinBox_widthLine_valueChanged(double arg1)
     ui->openGLWidget->drawArrConf.Lines = true;
   else
     ui->openGLWidget->drawArrConf.Lines = false;
-  ui->openGLWidget->setLineWidth(arg1);
+  lineWidth = arg1;
+  ui->openGLWidget->drawArrConf.Line_width = lineWidth;
+  ui->openGLWidget->update();
 }
 
 
 void MainWindow::on_doubleSpinBox_widthTop_valueChanged(double arg1)
 {
-  ui->openGLWidget->drawArrConf.Point_size = arg1;
+  pointWidth = arg1;
+  ui->openGLWidget->drawArrConf.Point_size = pointWidth;
   ui->openGLWidget->update();
 }
 void MainWindow::updateCircleType(QAbstractButton* but) {
@@ -105,10 +213,11 @@ void MainWindow::updateCircleType(QAbstractButton* but) {
     ui->openGLWidget->drawArrConf.roundCircle = true;
   else if (but == ui->radioButton_topSquear)
     ui->openGLWidget->drawArrConf.roundCircle = false;
-  else {
+  else if (but == ui->radioButton_topNone){
     ui->openGLWidget->drawArrConf.roundCircle = false;
     ui->openGLWidget->drawArrConf.Points = false;
-  }
+  } else return;
+  pointTypeIndex = ui->PointType->checkedId();
   ui->openGLWidget->update();
 }
 void MainWindow::updateInfoLabels(long int vertN, long int edgesN, QString filename) {
@@ -118,7 +227,8 @@ void MainWindow::updateInfoLabels(long int vertN, long int edgesN, QString filen
 }
 void MainWindow::on_doubleSpinBox_scale_valueChanged(double arg1)
 {
-  ui->openGLWidget->setScale(arg1);
+  scale = arg1;
+  ui->openGLWidget->setScale(scale);
 }
 
 

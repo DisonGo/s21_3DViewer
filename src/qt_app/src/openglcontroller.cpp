@@ -104,6 +104,7 @@ void OpenGLController::paintGL()
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   program->Activate();
+  camera->setViewMode(cameraConf.viewMode);
   camera->Matrix(cameraConf.FOV,
                  cameraConf.zRange.x(),
                  cameraConf.zRange.y(),

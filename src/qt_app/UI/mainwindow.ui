@@ -33,7 +33,7 @@
        <enum>QTabWidget::Rounded</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -216,7 +216,7 @@
             <item row="1" column="0">
              <widget class="QPushButton" name="pushButton_screencast">
               <property name="enabled">
-               <bool>false</bool>
+               <bool>true</bool>
               </property>
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -1170,13 +1170,6 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3">
-     <layout class="QGridLayout" name="gridLayout_main" columnstretch="7">
-      <item row="0" column="0">
-       <layout class="QGridLayout" name="gridLayout"/>
-      </item>
-     </layout>
-    </item>
    </layout>
   </widget>
  </widget>
@@ -1192,8 +1185,8 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="CameraMode"/>
   <buttongroup name="PointType"/>
+  <buttongroup name="CameraMode"/>
   <buttongroup name="LinePattern"/>
  </buttongroups>
 </ui>

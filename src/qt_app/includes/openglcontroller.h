@@ -33,6 +33,7 @@ public:
 
   };
   struct cameraConfig {
+    Camera::ViewMode viewMode = Camera::Perspective;
     Camera::CameraMode Mode = Camera::Free;
     QVector3D FocusPoint = QVector3D(0,0,0);
     QVector3D Position = QVector3D(0,0,0);

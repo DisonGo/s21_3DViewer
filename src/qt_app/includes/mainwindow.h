@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QAbstractButton>
 #include <QVector3D>
+#include <QSettings>
+#include "camera.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -19,7 +21,19 @@ public:
 private:
     QVector3D translation = QVector3D(0,0,0);
     QVector3D rotation = QVector3D(0,0,0);
+    QColor lineColor = QColor(255,255,255);
+    QColor pointColor = QColor(255,0,0);
+    QColor backColor = QColor(0,0,0);
+    QVector2D zRange = QVector2D(0.1, 100);
+    float lineWidth = 1;
+    float pointWidth = 1;
+    int pointTypeIndex = -1;
+    int viewTypeIndex = -1;
+    int fileFieldIndex = -1;
+    std::vector<QString> filePaths;
+    float scale = 1;
     Ui::MainWindow *ui;
+    void saveSettings();
 private slots:
     void choose_file();
     void choose_color();
@@ -38,5 +52,7 @@ private slots:
     void setCameraMode(QAbstractButton *but);
     void setLinePattern(QAbstractButton *but);
     void updateInfoLabels(long vertN, long edgesN, QString filename);
+    void loadSettings();
+    void applySettings();
 };
 #endif // MAINWINDOW_H
