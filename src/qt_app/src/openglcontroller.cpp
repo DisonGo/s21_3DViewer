@@ -202,3 +202,8 @@ void OpenGLController::importObjFile(QString filename)
   update();
   emit importComleted(geometries->verticesN, geometries->verticesN/3 * 2, fileInfo.fileName());
 }
+OpenGLController::~OpenGLController() {
+  delete geometries;
+  delete program;
+  delete camera;
+}

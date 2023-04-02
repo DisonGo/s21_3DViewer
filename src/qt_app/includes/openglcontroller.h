@@ -20,6 +20,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions
   Q_OBJECT
 public:
   using QOpenGLWidget::QOpenGLWidget;
+  ~OpenGLController();
   struct glDrawArraysConfig {
     bool Points = false;
     bool Lines = true;
