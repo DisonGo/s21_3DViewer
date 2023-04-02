@@ -17,7 +17,6 @@ public:
   void drawGeometry(GLenum type);
   int indicesN = 0;
   int verticesN = 0;
-  Scene scene = {0};
   void importObj(QString fileName);
 private:
   Shader* program = nullptr;

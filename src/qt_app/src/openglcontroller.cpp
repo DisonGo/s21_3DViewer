@@ -137,7 +137,7 @@ void OpenGLController::paintGL()
   }
   if (drawArrConf.Lines) {
     if (drawArrConf.dashedLines)
-      setLineDash(drawArrConf.dashedLines);
+      setLineDash(true);
     setColorUniform(ColorLoc, LineColor);
     geometries->drawGeometry(GL_LINES);
     if (drawArrConf.dashedLines)
