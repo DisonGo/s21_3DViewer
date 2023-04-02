@@ -17,3 +17,4 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidg
 add_subdirectory(qt_app)
 add_subdirectory(obj_parser)
 add_subdirectory(engine)
+add_subdirectory(transforms)

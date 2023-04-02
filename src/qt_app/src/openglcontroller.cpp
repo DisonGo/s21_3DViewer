@@ -3,6 +3,7 @@
 //#include <glm/gtc/matrix_transform.hpp>
 #include <QMouseEvent>
 #include <QFileInfo>
+
 void OpenGLController::mousePressEvent(QMouseEvent *e)
 {
   if (e->button() == Qt::LeftButton) {
@@ -60,8 +61,6 @@ void OpenGLController::initializeGL()
   glEnable(GL_MULTISAMPLE);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
   geometries = new Engine(program);
-//  cameraConf.Position.setY(40);
-//  cameraConf.Position.setZ(40);
   camera = new Camera(vw, vh, cameraConf.Position);
   camera->setMode(cameraConf.Mode);
   camera->setFocusPoint(cameraConf.FocusPoint);
@@ -95,7 +94,7 @@ void OpenGLController::setLineDash(bool on) {
     int patternLoc = glGetUniformLocation(program->ID, "dash_pattern");
     glUniform2f(patternLoc, 0.1, 0.1);
     int lineWidthLoc = glGetUniformLocation(program->ID, "line_width");
-    glUniform1f(patternLoc, drawArrConf.Line_width);
+    glUniform1f(lineWidthLoc, drawArrConf.Line_width);
   }
 }
 void OpenGLController::paintGL()
@@ -116,11 +115,13 @@ void OpenGLController::paintGL()
   modelRot.setToIdentity();
   modelTranslate.setToIdentity();
   modelScale.setToIdentity();
+  
+  translate_matrix(modelTranslate.data(), translationVec.x(), translationVec.y(), translationVec.z());
+  scale_matrix(modelScale.data(), scale);
+
   modelRot.rotate(rotationVec.x(), QVector3D(1,0,0));
   modelRot.rotate(rotationVec.y(), QVector3D(0,1,0));
   modelRot.rotate(rotationVec.z(), QVector3D(0,0,1));
-  modelTranslate.translate(translationVec);
-  modelScale.scale(scale);
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (modelTranslate * modelRot * modelScale).data());
   int ColorLoc = glGetUniformLocation(program->ID, "aColor");
