@@ -1,7 +1,8 @@
 glm
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
-
+obj_parser
+transforms
 *~
 *.autosave
 *.a
