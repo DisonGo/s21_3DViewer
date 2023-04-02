@@ -17,22 +17,29 @@ Camera::Camera(int width, int height, QVector3D position, QObject *parent) : QOb
 void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader &shader, const char *uniform)
 {
 
-  QMatrix4x4 view, projection;
+  QMatrix4x4 view, projection, model;
   baseSpeed = abs(farPlane - nearPlane) / 1000;
   moveSpeed = baseSpeed;
   rotationSpeed = 10;
+  model.setToIdentity();
   view.setToIdentity();
   projection.setToIdentity();
+  model.translate(Position);
   QVector3D lookAtVec(0,0,0);
   if (mode == Free)
     lookAtVec = Orientation + Position;
   if (mode == Focus)
     lookAtVec = FocusPoint;
   view.lookAt(Position, lookAtVec, Up);
-
-  projection.perspective(FOVdeg, (float)vw / vh, nearPlane, farPlane);
-
+  if (viewMode == Orthographic)
+    projection.ortho(-100, 100, -100, 100, nearPlane, farPlane) ;
+  if (viewMode == Perspective)
+    projection.perspective(FOVdeg, (float)vw / vh, nearPlane, farPlane);
   glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, (projection * view).constData());
+//  glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camModel"), 1, GL_FALSE, model.constData());
+//  glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camView"), 1, GL_FALSE, view.constData());
+//  glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camProjection"), 1, GL_FALSE, projection.constData());
+
 }
 
 void Camera::keyPressSlot(QKeyEvent *e)
@@ -41,7 +48,6 @@ void Camera::keyPressSlot(QKeyEvent *e)
 
   if (key == Qt::Key_Shift)
     setSpeed(baseSpeed * multiSpeed);
-
   if (mode == Free) {
     if (key == Qt::Key_W)
       Position += moveSpeed * Orientation;
@@ -96,33 +102,11 @@ void Camera::keyPressSlot(QKeyEvent *e)
     Position = RotateMat.map(Position);
 
   }
-  CameraData new_data = {
-    mCenterPos,
-    QPoint(0,0),
-    0,
-    0,
-    0,
-    moveSpeed,
-    Orientation,
-    Position
-  };
-  emit dataUpdated(new_data);
 }
 void Camera::keyReleaseSlot(QKeyEvent *e) {
   int key = e->key();
   if (key == Qt::Key_Shift)
     setSpeed(baseSpeed);
-  CameraData new_data = {
-    mCenterPos,
-    QPoint(0,0),
-    0,
-    0,
-    0,
-    moveSpeed,
-    Orientation,
-    Position
-  };
-  emit dataUpdated(new_data);
 }
 void Camera::mousePressSlot(QMouseEvent *e)
 {
@@ -142,23 +126,23 @@ void Camera::mouseMoveSlot(QMouseEvent *e)
 
 void Camera::wheelSlot(QWheelEvent *e)
 {
-  float increment_sign = e->angleDelta().ry() > 0 ? 1 : -1;
-  float distance = FocusPoint.distanceToPoint(Position) + moveSpeed * -increment_sign;
-  QVector3D norm_displacement = (Position - FocusPoint).normalized();
-  QVector3D new_Position = FocusPoint + norm_displacement * distance;
-  if (new_Position == QVector3D(0,0,0)) return;
-  Position = new_Position;
-  CameraData new_data = {
-    QPoint(0,0),
-    QPoint(0,0),
-    0,
-    0,
-    0,
-    moveSpeed,
-    FocusPoint,
-    Position
-  };
-  emit dataUpdated(new_data);
+//  float increment_sign = e->angleDelta().ry() > 0 ? 1 : -1;
+//  float distance = FocusPoint.distanceToPoint(Position) + moveSpeed * -increment_sign;
+//  QVector3D norm_displacement = (Position - FocusPoint).normalized();
+//  QVector3D new_Position = FocusPoint + norm_displacement * distance;
+//  if (new_Position == QVector3D(0,0,0)) return;
+//  Position = new_Position;
+//  CameraData new_data = {
+//    QPoint(0,0),
+//    QPoint(0,0),
+//    0,
+//    0,
+//    0,
+//    moveSpeed,
+//    FocusPoint,
+//    Position
+//  };
+//  emit dataUpdated(new_data);
 }
 
 const QVector3D &Camera::getPosition() const
@@ -230,17 +214,16 @@ void Camera::processFreeMode(QPoint ePos)
     // Rotates the Orientation left and right
 
     Orientation = rotationMatrix.map(Orientation);
-    CameraData new_data = {
-      mCenterPos,
-      ePos,
-      rotX,
-      rotY,
-      angle,
-      moveSpeed,
-      Orientation,
-      Position
-    };
-    emit dataUpdated(new_data);
+}
+
+Camera::ViewMode Camera::getViewMode() const
+{
+  return viewMode;
+}
+
+void Camera::setViewMode(ViewMode newViewMode)
+{
+  viewMode = newViewMode;
 }
 
 void Camera::setFocusPoint(const QVector3D &newFocusPoint)

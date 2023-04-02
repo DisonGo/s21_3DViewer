@@ -25,6 +25,10 @@ public:
     Free = 0,
     Focus = 1
   };
+  enum ViewMode {
+    Perspective = 0,
+    Orthographic = 1
+  };
 
   Camera(int width, int height, QVector3D position, QObject *parent = nullptr);
   void Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform);
@@ -51,13 +55,16 @@ public: // Setters / Getters
 
   void setFocusPoint(const QVector3D &newFocusPoint);
 
+  ViewMode getViewMode() const;
+  void setViewMode(ViewMode newViewMode);
+
 private: // Methods
   void processFreeMode(QPoint ePos);
   void processFocusMode(QPoint focusPoint);
 private: // vars
 
   CameraMode mode = Free;
-
+  ViewMode viewMode = Perspective;
   QVector3D FocusPoint = QVector3D(0.0f, 0.0f, 0.0f);
   QVector3D Position = QVector3D(0,0,-100);
   QVector3D Orientation = QVector3D(0.0f, 0.0f, -1.0f);
