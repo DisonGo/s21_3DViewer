@@ -1,18 +1,17 @@
 #version 330 core
-// Positions/Coordinates
 layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor;
 
-//vec3 color = vec3(1,1,1);
 out vec4 f_color;
-//uniform mat4 model;
+uniform vec3 aColor;
+uniform float aPointSize;
 uniform mat4 camMatrix;
+uniform mat4 model;
 vec4 mvp_vec;
 
 void main()
 {
-    mvp_vec = camMatrix * vec4(aPos, 1);
+    mvp_vec = camMatrix * model * vec4(aPos, 1);
     gl_Position = mvp_vec;
-    gl_PointSize = 2.0;
+    gl_PointSize = aPointSize;
     f_color = vec4(aColor, 1.0);
 }
