@@ -2,7 +2,7 @@
 //#include "glm/glm.hpp"
 //#include <glm/gtc/matrix_transform.hpp>
 #include <QMouseEvent>
-
+#include <QFileInfo>
 void OpenGLController::mousePressEvent(QMouseEvent *e)
 {
   if (e->button() == Qt::LeftButton) {
@@ -197,5 +197,7 @@ void OpenGLController::importObjFile(QString filename)
   if (!geometries) return;
   makeCurrent();
   geometries->importObj(filename);
+  QFileInfo fileInfo(filename);
   update();
+  emit importComleted(geometries->verticesN, geometries->verticesN/3 * 2, fileInfo.fileName());
 }

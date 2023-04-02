@@ -52,10 +52,10 @@ public slots:
   void setTranslation(QVector3D translation);
   void setRotation(QVector3D rotation);
 signals:
+
+  void importComleted(long int vertN, long int edgesN, QString filename);
   void FOVChanged();
-
   void zNearChanged();
-
   void zFarChanged();
 
 protected:
@@ -95,6 +95,7 @@ private:
   void setColorUniform(int id, QColor in);
   void setPointUniform(bool circle, float size);
   void setLineDash(bool on);
+
 };
 
 #endif // OPENGLCONTROLLER_H

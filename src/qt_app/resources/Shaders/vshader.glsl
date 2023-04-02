@@ -24,7 +24,7 @@ void main()
     f_color = vec4(aColor, 1.0);
 
     if (dashed) {
-        float length = length(vec2(fwidth(gl_Position.xy)));
-        pattern_value = mod(length, dash_pattern.x + dash_pattern.y);
+//        float length = length(vec2(fwidth(gl_Position.xy)));
+//        pattern_value = mod(length, dash_pattern.x + dash_pattern.y);
     }
 }

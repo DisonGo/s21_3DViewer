@@ -37,5 +37,6 @@ private slots:
     void on_doubleSpinBox_rotateZ_valueChanged(double arg1);
     void setCameraMode(QAbstractButton *but);
     void setLinePattern(QAbstractButton *but);
+    void updateInfoLabels(long vertN, long edgesN, QString filename);
 };
 #endif // MAINWINDOW_H
