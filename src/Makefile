@@ -1,4 +1,4 @@
-PROJECT_NAME 		= Viewer_3D
+PROJECT_NAME 		= 3D_Viewer
 BUILD_PATH 			= ./build
 EXE_DIR 			= /exe
 PROJECT_EXE_PATH 	= ${PROJECT_NAME}.app/Contents/MacOS
@@ -45,11 +45,11 @@ test:
 gcov_report:
 	@cd transforms; make $@
 	@cd obj_parser; make $@
-	@genhtml -q --dark-mode -o report transforms/report.info obj_parser/report.info c_stack/src/report.info
+	@genhtml -q --dark-mode -o report transforms/report.info obj_parser/report.info
 
 	@$(OPEN_CMD) report/index.html
 clang:
-	clang-format --style=Google -n $(shell find ./transforms ./obj_parser ./c_stack -name '*.c') $(shell find ./transforms ./obj_parser ./c_stack -name '*.h')
+	clang-format --style=Google -n $(shell find ./transforms ./obj_parser -name '*.c') $(shell find ./transforms ./obj_parser -name '*.h')
 clang-replace:
-	clang-format --style=Google -i $(shell find ./transforms ./obj_parser ./c_stack -name '*.c') $(shell find ./transforms ./obj_parser ./c_stack -name '*.h')
+	clang-format --style=Google -i $(shell find ./transforms ./obj_parser -name '*.c') $(shell find ./transforms ./obj_parser -name '*.h')
 .PHONY: all build run install uninstall open dist dvi clean clang clang-replace gcov_report

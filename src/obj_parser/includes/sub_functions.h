@@ -17,5 +17,4 @@ int is_digit(const char symb);
 int reallocate_faces(Scene* scene, int group, int* capacity);
 int move_to_next_value(const char* str, size_t i);
 
-
 #endif  // SUB_FUNCTIONS_H

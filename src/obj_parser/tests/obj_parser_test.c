@@ -1,51 +1,49 @@
+#include "obj_parser.h"
+
 #include <stdlib.h>
 
-#include "obj_parser.h"
-#include "parser_types.h"
 #include "check.h"
+#include "parser_types.h"
 
-START_TEST(vertex_test)
-{
-    Scene scene;
-    parse_obj_file(&scene, "./tests/tests_files/vertex_test.txt");
-    ck_assert_int_eq(scene.vertices_count, 1000000);
-    free_structs(&scene);
+START_TEST(vertex_test) {
+  Scene scene;
+  parse_obj_file(&scene, "./tests/tests_files/vertex_test.txt");
+  ck_assert_int_eq(scene.vertices_count, 1000000);
+  free_structs(&scene);
 }
 END_TEST
 
-START_TEST(group_test)
-{
-    Scene scene;
-    parse_obj_file(&scene, "./tests/tests_files/group_test.txt");
-    ck_assert_int_eq(scene.objects_count, 4);
-    free_structs(&scene);
+START_TEST(group_test) {
+  Scene scene;
+  parse_obj_file(&scene, "./tests/tests_files/group_test.txt");
+  ck_assert_int_eq(scene.objects_count, 4);
+  free_structs(&scene);
 }
 END_TEST
 
-START_TEST(long_index_test)
-{
-    Scene scene;
-    parse_obj_file(&scene, "./tests/tests_files/long_index_test.txt");
-    ck_assert_int_eq(scene.objects[0].num_faces, 7);
-    ck_assert_int_eq(scene.objects[1].num_faces, 7);
+START_TEST(long_index_test) {
+  Scene scene;
+  parse_obj_file(&scene, "./tests/tests_files/long_index_test.txt");
+  ck_assert_int_eq(scene.objects[0].num_faces, 7);
+  ck_assert_int_eq(scene.objects[1].num_faces, 7);
 
-    int tmp_value = 2;
+  int tmp_value = 2;
 
-    for (int i = 0; i < 7; i++) {
-        ck_assert_int_eq(scene.objects[0].faces[i].index[0], 1);
-        ck_assert_int_eq(scene.objects[0].faces[i].index[1], tmp_value);
-        ck_assert_int_eq(scene.objects[0].faces[i].index[2], ++tmp_value);
-    }
+  for (int i = 0; i < 7; i++) {
+    ck_assert_int_eq(scene.objects[0].faces[i].index[0], 1);
+    ck_assert_int_eq(scene.objects[0].faces[i].index[1], tmp_value);
+    ck_assert_int_eq(scene.objects[0].faces[i].index[2], ++tmp_value);
+  }
 
-    tmp_value = 20;
+  tmp_value = 20;
 
-    for (int i = 0; i < 7; i++) {
-        ck_assert_int_eq(scene.objects[1].faces[i].index[0], 10);
-        ck_assert_int_eq(scene.objects[1].faces[i].index[1], tmp_value);
-        ck_assert_int_eq(scene.objects[1].faces[i].index[2], (tmp_value += 10));
-    }
+  for (int i = 0; i < 7; i++) {
+    ck_assert_int_eq(scene.objects[1].faces[i].index[0], 10);
+    ck_assert_int_eq(scene.objects[1].faces[i].index[1], tmp_value);
+    ck_assert_int_eq(scene.objects[1].faces[i].index[2], (tmp_value += 10));
+  }
 
-    free_structs(&scene);
+  free_structs(&scene);
 }
 END_TEST
 

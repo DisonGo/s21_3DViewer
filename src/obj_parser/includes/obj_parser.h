@@ -1,11 +1,11 @@
 #ifndef OBJ_PARSER_H
 #define OBJ_PARSER_H
 
-#include "parser_types.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "parser_types.h"
 
 #define START_SIZE 5
 #define MULTIPLY_FACTOR 2
