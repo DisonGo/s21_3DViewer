@@ -27,7 +27,7 @@ You can also work with the object through the corresponding settings, setting th
 
 # Makefile
 
-- `Install`: Compiles and installs the application
-- `Run`: Runs the application
-- `Uninstall`: Deletes the application
-- `Test`: Runs tests
+- `install`: Compiles and installs the application
+- `open`: Runs the application
+- `uninstall`: Deletes the application
+- `test`: Runs tests

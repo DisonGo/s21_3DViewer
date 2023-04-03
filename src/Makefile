@@ -29,7 +29,7 @@ dist: install
 	@tar cvzf ${PROJECT_NAME}.tgz build
 
 dvi:
-	@$(OPEN_CMD) dvi/index.html
+	@$(OPEN_CMD) dvi/index.md
 
 clean:
 	@cd transforms; make $@
