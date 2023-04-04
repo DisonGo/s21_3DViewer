@@ -2,8 +2,9 @@
 #define CAMERA_H
 #include <QOpenGLFunctions>
 #include <QObject>
-#include <QVector>
 #include "shader.h"
+#include <QVector3D>
+#include <QKeyEvent>
 struct CameraData {
   QPoint centerPoint;
   QPoint relevantPoint;
@@ -57,6 +58,9 @@ public: // Setters / Getters
 
   ViewMode getViewMode() const;
   void setViewMode(ViewMode newViewMode);
+
+  const QVector3D &getOrientation() const;
+  void setOrientation(const QVector3D &newOrientation);
 
 private: // Methods
   void processFreeMode(QPoint ePos);

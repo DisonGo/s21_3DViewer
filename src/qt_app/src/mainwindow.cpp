@@ -26,8 +26,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-  saveSettings();
   delete ui;
+}
+void MainWindow::closeEvent(QCloseEvent *event) {
+  saveSettings();
 }
 void MainWindow::saveSettings() {
   QSettings settings("settings.ini",QSettings::IniFormat);
@@ -44,9 +46,14 @@ void MainWindow::saveSettings() {
   settings.setValue("viewTypeIndex", viewTypeIndex);
   settings.setValue("fileFieldIndex", fileFieldIndex);
   settings.setValue("scale", scale);
+
+  settings.setValue("cameraPos", ui->openGLWidget->camera->getPosition());
+  settings.setValue("cameraOrient", ui->openGLWidget->camera->getOrientation());
+
   settings.beginWriteArray("filePaths");
+  int i = 0;
   for (auto &filePath : filePaths) {
-    settings.setArrayIndex(filePath.indexOf(filePath));
+    settings.setArrayIndex(i++);
     settings.setValue("path", filePath);
   }
   settings.endArray();
@@ -70,6 +77,10 @@ void MainWindow::loadSettings() {
       viewTypeIndex = settings.value("viewTypeIndex").value<int>();
       fileFieldIndex = settings.value("fileFieldIndex").value<int>();
       scale = settings.value("scale").value<float>();
+
+      cameraPos = settings.value("cameraPos").value<QVector3D>();
+      cameraOrient = settings.value("cameraOrient").value<QVector3D>();
+
       int size = settings.beginReadArray("filePaths");
       for (int i = 0; i < size; i++) {
         settings.setArrayIndex(i);
@@ -106,7 +117,7 @@ void MainWindow::applySettings() {
     but->setChecked(true);
     setCameraMode(but);
   }
-  for (auto filePath : filePaths)
+  for (auto &filePath : filePaths)
     ui->comboBox_tab1->addItem(filePath);
   if (fileFieldIndex != -1) ui->comboBox_tab1->setCurrentIndex(fileFieldIndex);
 
@@ -120,6 +131,11 @@ void MainWindow::applySettings() {
   if (!lineWidth) gl->drawArrConf.Lines = false;
   gl->drawArrConf.Point_size = pointWidth;
   gl->setScale(scale);
+  qDebug() << "Setting: " << cameraPos << cameraOrient;
+  gl->cameraConf.Position = cameraPos;
+  gl->cameraConf.Orientation = cameraOrient;
+
+  loading_setting_done = true;
 }
 void MainWindow::choose_file(){
   QString name = qgetenv("USER");
@@ -134,8 +150,6 @@ void MainWindow::choose_file(){
   filePaths.push_back(filename);
   ui->comboBox_tab1->addItem(filename);
   ui->comboBox_tab1->setCurrentIndex(ui->comboBox_tab1->findText(filename));
-  fileFieldIndex = ui->comboBox_tab1->currentIndex();
-
 }
 void MainWindow::updateZPlane(double value) {
   QDoubleSpinBox* caller = (QDoubleSpinBox*) sender();
@@ -267,5 +281,18 @@ void MainWindow::on_doubleSpinBox_rotateZ_valueChanged(double arg1)
 {
   rotation.setZ(arg1);
   ui->openGLWidget->setRotation(rotation);
+}
+
+
+void MainWindow::on_comboBox_tab1_currentIndexChanged(int index)
+{
+  if (!loading_setting_done) return;
+  fileFieldIndex = index;
+}
+
+
+void MainWindow::on_pushButton_saveFile_clicked()
+{
+    ui->openGLWidget->grabFramebuffer().save("buffer.png", "PNG");
 }
 

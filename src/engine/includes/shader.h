@@ -1,7 +1,7 @@
 #ifndef SHADER_CLASS_H_
 #define SHADER_CLASS_H_
 #define GL_SILENCE_DEPRECATION
-#include <QtOpenGL>
+
 #include <QOpenGLFunctions>
 #include <QObject>
 #include <string>

@@ -30,9 +30,14 @@ private:
     int pointTypeIndex = -1;
     int viewTypeIndex = -1;
     int fileFieldIndex = -1;
+    bool loading_setting_done = false;
     std::vector<QString> filePaths;
     float scale = 1;
     Ui::MainWindow *ui;
+
+    QVector3D cameraPos = QVector3D(0,0,0);
+    QVector3D cameraOrient = QVector3D(0,0,1);
+
     void saveSettings();
 private slots:
     void choose_file();
@@ -54,5 +59,8 @@ private slots:
     void updateInfoLabels(long vertN, long edgesN, QString filename);
     void loadSettings();
     void applySettings();
+    void closeEvent(QCloseEvent *event) override;
+    void on_comboBox_tab1_currentIndexChanged(int index);
+    void on_pushButton_saveFile_clicked();
 };
 #endif // MAINWINDOW_H

@@ -1,3 +1,4 @@
+*.ini
 build*
 /src/renderer/main
 *.gc*

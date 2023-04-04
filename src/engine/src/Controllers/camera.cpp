@@ -1,5 +1,6 @@
 #include "camera.h"
 #include "QtMath"
+#include <QMatrix4x4>
 Camera::Camera(QObject *parent) : QObject(parent)
 {
   setVh(0);
@@ -214,6 +215,16 @@ void Camera::processFreeMode(QPoint ePos)
     // Rotates the Orientation left and right
 
     Orientation = rotationMatrix.map(Orientation);
+}
+
+const QVector3D &Camera::getOrientation() const
+{
+  return Orientation;
+}
+
+void Camera::setOrientation(const QVector3D &newOrientation)
+{
+  Orientation = newOrientation;
 }
 
 Camera::ViewMode Camera::getViewMode() const

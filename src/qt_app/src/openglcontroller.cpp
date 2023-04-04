@@ -64,6 +64,7 @@ void OpenGLController::initializeGL()
   camera = new Camera(vw, vh, cameraConf.Position);
   camera->setMode(cameraConf.Mode);
   camera->setFocusPoint(cameraConf.FocusPoint);
+  camera->setOrientation(cameraConf.Orientation);
 }
 
 void OpenGLController::resizeGL(int w, int h)

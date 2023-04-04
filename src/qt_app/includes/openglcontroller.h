@@ -37,6 +37,7 @@ public:
     Camera::CameraMode Mode = Camera::Free;
     QVector3D FocusPoint = QVector3D(0,0,0);
     QVector3D Position = QVector3D(0,0,0);
+    QVector3D Orientation = QVector3D(0,0,1);
     QVector2D zRange = QVector2D(0.1, 10);
     float FOV = 60;
   };
