@@ -120,10 +120,11 @@ void OpenGLController::paintGL()
   
   translate_matrix(modelTranslate.data(), translationVec.x(), translationVec.y(), translationVec.z());
   scale_matrix(modelScale.data(), scale);
-
+  // Для афинки матрицы ротации коментишь 3 строки ниже и отправляешь в свою функцию результат метода `modelRot.data();` + данные по осям
   modelRot.rotate(rotationVec.x(), QVector3D(1,0,0));
   modelRot.rotate(rotationVec.y(), QVector3D(0,1,0));
   modelRot.rotate(rotationVec.z(), QVector3D(0,0,1));
+
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (modelTranslate * modelRot * modelScale).data());
   int ColorLoc = glGetUniformLocation(program->ID, "aColor");
