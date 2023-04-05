@@ -3,7 +3,9 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QColorDialog>
-
+#include <QImageWriter>
+#include <QVariantAnimation>
+#include <qgifimage.h>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -63,31 +65,31 @@ void MainWindow::saveSettings() {
 
 void MainWindow::loadSettings() {
   if (QFile::exists("settings.ini")) {
-      QSettings settings("settings.ini",QSettings::IniFormat);
-      settings.beginGroup("Settings");
-      translation = settings.value("translation").value<QVector3D>();
-      rotation = settings.value("rotation").value<QVector3D>();
-      lineColor = settings.value("lineColor").value<QColor>();
-      pointColor = settings.value("pointColor").value<QColor>();
-      backColor = settings.value("backColor").value<QColor>();
-      zRange = settings.value("zRange").value<QVector2D>();
-      lineWidth = settings.value("lineWidth").value<float>();
-      pointWidth = settings.value("pointWidth").value<float>();
-      pointTypeIndex = settings.value("pointTypeIndex").value<int>();
-      viewTypeIndex = settings.value("viewTypeIndex").value<int>();
-      fileFieldIndex = settings.value("fileFieldIndex").value<int>();
-      scale = settings.value("scale").value<float>();
+    QSettings settings("settings.ini",QSettings::IniFormat);
+    settings.beginGroup("Settings");
+    translation = settings.value("translation").value<QVector3D>();
+    rotation = settings.value("rotation").value<QVector3D>();
+    lineColor = settings.value("lineColor").value<QColor>();
+    pointColor = settings.value("pointColor").value<QColor>();
+    backColor = settings.value("backColor").value<QColor>();
+    zRange = settings.value("zRange").value<QVector2D>();
+    lineWidth = settings.value("lineWidth").value<float>();
+    pointWidth = settings.value("pointWidth").value<float>();
+    pointTypeIndex = settings.value("pointTypeIndex").value<int>();
+    viewTypeIndex = settings.value("viewTypeIndex").value<int>();
+    fileFieldIndex = settings.value("fileFieldIndex").value<int>();
+    scale = settings.value("scale").value<float>();
 
-      cameraPos = settings.value("cameraPos").value<QVector3D>();
-      cameraOrient = settings.value("cameraOrient").value<QVector3D>();
+    cameraPos = settings.value("cameraPos").value<QVector3D>();
+    cameraOrient = settings.value("cameraOrient").value<QVector3D>();
 
-      int size = settings.beginReadArray("filePaths");
-      for (int i = 0; i < size; i++) {
-        settings.setArrayIndex(i);
-        filePaths.push_back(settings.value("path").value<QString>());
-      }
-      settings.endArray();
-      settings.endGroup();
+    int size = settings.beginReadArray("filePaths");
+    for (int i = 0; i < size; i++) {
+      settings.setArrayIndex(i);
+      filePaths.push_back(settings.value("path").value<QString>());
+    }
+    settings.endArray();
+    settings.endGroup();
   }
 }
 void MainWindow::applySettings() {
@@ -131,7 +133,6 @@ void MainWindow::applySettings() {
   if (!lineWidth) gl->drawArrConf.Lines = false;
   gl->drawArrConf.Point_size = pointWidth;
   gl->setScale(scale);
-  qDebug() << "Setting: " << cameraPos << cameraOrient;
   gl->cameraConf.Position = cameraPos;
   gl->cameraConf.Orientation = cameraOrient;
 
@@ -140,7 +141,7 @@ void MainWindow::applySettings() {
 void MainWindow::choose_file(){
   QString name = qgetenv("USER");
   if (name.isEmpty())
-        name = qgetenv("USERNAME");
+    name = qgetenv("USERNAME");
   QString filename = QFileDialog::getOpenFileName(
               this,
               tr("Open File"),
@@ -293,6 +294,18 @@ void MainWindow::on_comboBox_tab1_currentIndexChanged(int index)
 
 void MainWindow::on_pushButton_saveFile_clicked()
 {
-    ui->openGLWidget->grabFramebuffer().save("buffer.png", "PNG");
+  ui->openGLWidget->grabFramebuffer().save("buffer.png", "PNG");
+}
+
+
+void MainWindow::on_pushButton_screencast_clicked()
+{
+  QGifImage gif(QSize(640, 480));
+  gif.setDefaultDelay(1000/10);
+  std::vector<QImage> gifData = ui->openGLWidget->getScreencast();
+  for (auto &frame : gifData) {
+    gif.addFrame(frame);
+  }
+  gif.save("output.gif");
 }
 

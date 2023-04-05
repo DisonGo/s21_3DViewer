@@ -194,7 +194,25 @@ void OpenGLController::setCameraConfig(struct cameraConfig config)
     update();
   }
 }
+std::vector<QImage> OpenGLController::getScreencast() {
+  resizeGL(gifResolution.x(), gifResolution.y());
 
+  std::vector<QImage> gifFrames;
+  int totalFrames = gifFps * gifLength;
+
+  float animationAnglePerSecond = 360 / totalFrames;
+  float animationCurentAngle = rotationVec.y();
+  float rememberAngle = animationCurentAngle;
+  for (int currentFrame = 0; currentFrame < totalFrames; currentFrame++) {
+    gifFrames.push_back(grabFramebuffer());
+    animationCurentAngle += animationAnglePerSecond;
+    rotationVec.setY(animationCurentAngle);
+    update();
+  }
+  rotationVec.setY(rememberAngle);
+  update();
+  return gifFrames;
+}
 void OpenGLController::importObjFile(QString filename)
 {
   if (!geometries) return;

@@ -12,6 +12,7 @@
 #include "engine.h"
 #include "shader.h"
 #include "camera.h"
+
 extern "C" {
 #include "transforms.h"
 }
@@ -56,6 +57,7 @@ public slots:
   void setScale(float scale);
   void setTranslation(QVector3D translation);
   void setRotation(QVector3D rotation);
+  std::vector<QImage> getScreencast();
 signals:
 
   void importComleted(long int vertN, long int edgesN, QString filename);
@@ -79,19 +81,21 @@ private:
   void calcSizes(int w, int h);
   QPoint mPos = QPoint(0,0);
 
-  int vw = 0, vh = 0, ratio = 0;
 
   bool LMB_pressed = false;
   bool RMB_pressed = false;
 
   QString filename;
-  float scale = 1;
   QVector3D rotationVec = QVector3D(0,0,0);
   QVector3D translationVec = QVector3D(0,0,0);
 
-
-
+  int vw = 0, vh = 0, ratio = 0;
+  float scale = 1;
   int width_line = 1;
+
+  QVector2D gifResolution = QVector2D(640, 480);
+  int gifFps = 10;
+  int gifLength = 5;
 
   Shader* program = nullptr;
   Engine *geometries = nullptr;
@@ -100,7 +104,6 @@ private:
   void setColorUniform(int id, QColor in);
   void setPointUniform(bool circle, float size);
   void setLineDash(bool on);
-
 };
 
 #endif // OPENGLCONTROLLER_H

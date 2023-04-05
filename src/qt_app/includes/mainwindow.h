@@ -62,5 +62,6 @@ private slots:
     void closeEvent(QCloseEvent *event) override;
     void on_comboBox_tab1_currentIndexChanged(int index);
     void on_pushButton_saveFile_clicked();
+    void on_pushButton_screencast_clicked();
 };
 #endif // MAINWINDOW_H
