@@ -111,20 +111,20 @@ void OpenGLController::paintGL()
                  cameraConf.zRange.y(),
                  *program,
                  "camMatrix");
-  QMatrix4x4 modelRot;
+  QMatrix4x4 modelRotX;
+  QMatrix4x4 modelRotY;
+  QMatrix4x4 modelRotZ;
   QMatrix4x4 modelTranslate;
   QMatrix4x4 modelScale;
-  modelRot.setToIdentity();
   modelTranslate.setToIdentity();
   modelScale.setToIdentity();
   
   translate_matrix(modelTranslate.data(), translationVec.x(), translationVec.y(), translationVec.z());
   scale_matrix(modelScale.data(), scale);
-  // Для афинки матрицы ротации коментишь 3 строки ниже и отправляешь в свою функцию результат метода `modelRot.data();` + данные по осям
-  modelRot.rotate(rotationVec.x(), QVector3D(1,0,0));
-  modelRot.rotate(rotationVec.y(), QVector3D(0,1,0));
-  modelRot.rotate(rotationVec.z(), QVector3D(0,0,1));
-
+  rotate_matrix(modelRotX.data(), rotationVec.x(), 1, 0, 0);
+  rotate_matrix(modelRotY.data(), rotationVec.y(), 0, 1, 0);
+  rotate_matrix(modelRotZ.data(), rotationVec.z(), 0, 0, 1);
+  QMatrix4x4 modelRot(modelRotX * modelRotY * modelRotZ);
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (modelTranslate * modelRot * modelScale).data());
   int ColorLoc = glGetUniformLocation(program->ID, "aColor");
