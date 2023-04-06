@@ -93,7 +93,7 @@ private:
   float scale = 1;
   int width_line = 1;
 
-  QVector2D gifResolution = QVector2D(640, 480);
+  QSize gifResolution = QSize(640, 480);
   int gifFps = 10;
   int gifLength = 5;
 

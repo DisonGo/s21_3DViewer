@@ -294,7 +294,12 @@ void MainWindow::on_comboBox_tab1_currentIndexChanged(int index)
 
 void MainWindow::on_pushButton_saveFile_clicked()
 {
-  ui->openGLWidget->grabFramebuffer().save("buffer.png", "PNG");
+  QImage screenshot = ui->openGLWidget->grabFramebuffer();
+  QString name = qgetenv("USER");
+  if (name.isEmpty())
+    name = qgetenv("USERNAME");
+  QString savePath = QFileDialog::getSaveFileName(this, tr("Save screenshot"),"/Users/" + name,"Image (*.png)");
+  screenshot.save(savePath, "PNG");
 }
 
 
@@ -306,6 +311,10 @@ void MainWindow::on_pushButton_screencast_clicked()
   for (auto &frame : gifData) {
     gif.addFrame(frame);
   }
-  gif.save("output.gif");
+  QString name = qgetenv("USER");
+  if (name.isEmpty())
+    name = qgetenv("USERNAME");
+  QString savePath = QFileDialog::getSaveFileName(this, tr("Save gif"),"/Users/" + name,"Image (*.png)");
+  gif.save(savePath);
 }
 

@@ -196,8 +196,6 @@ void OpenGLController::setCameraConfig(struct cameraConfig config)
   }
 }
 std::vector<QImage> OpenGLController::getScreencast() {
-  resizeGL(gifResolution.x(), gifResolution.y());
-
   std::vector<QImage> gifFrames;
   int totalFrames = gifFps * gifLength;
 
@@ -205,7 +203,9 @@ std::vector<QImage> OpenGLController::getScreencast() {
   float animationCurentAngle = rotationVec.y();
   float rememberAngle = animationCurentAngle;
   for (int currentFrame = 0; currentFrame < totalFrames; currentFrame++) {
-    gifFrames.push_back(grabFramebuffer());
+    QImage frame = grabFramebuffer();
+    frame = frame.scaled(gifResolution);
+    gifFrames.push_back(frame);
     animationCurentAngle += animationAnglePerSecond;
     rotationVec.setY(animationCurentAngle);
     update();
