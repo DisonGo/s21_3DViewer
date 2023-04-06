@@ -148,6 +148,7 @@ void MainWindow::choose_file(){
               "/Users/" + name,
               "Objects (*.obj)"
               );
+  if (filename.isEmpty()) return;
   filePaths.push_back(filename);
   ui->comboBox_tab1->addItem(filename);
   ui->comboBox_tab1->setCurrentIndex(ui->comboBox_tab1->findText(filename));
@@ -199,7 +200,7 @@ void MainWindow::setCameraMode(QAbstractButton* but) {
 void MainWindow::on_pushButton_loadFile_clicked()
 {
   QString filePath = ui->comboBox_tab1->currentText();
-  if (filePath == "") return;
+  if (filePath.isEmpty()) return;
   ui->openGLWidget->importObjFile(filePath);
 }
 
