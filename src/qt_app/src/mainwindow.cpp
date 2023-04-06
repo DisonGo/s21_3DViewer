@@ -302,12 +302,9 @@ void MainWindow::on_pushButton_saveFile_clicked()
   screenshot.save(savePath, "PNG");
 }
 
-
-void MainWindow::on_pushButton_screencast_clicked()
-{
+void MainWindow::saveGif(std::vector<QImage> gifData) {
   QGifImage gif(QSize(640, 480));
   gif.setDefaultDelay(1000/10);
-  std::vector<QImage> gifData = ui->openGLWidget->getScreencast();
   for (auto &frame : gifData) {
     gif.addFrame(frame);
   }
@@ -316,5 +313,22 @@ void MainWindow::on_pushButton_screencast_clicked()
     name = qgetenv("USERNAME");
   QString savePath = QFileDialog::getSaveFileName(this, tr("Save gif"),"/Users/" + name,"Image (*.gif)");
   gif.save(savePath);
+}
+void MainWindow::endCapture() {
+  gifBuffer = ui->openGLWidget->stopScreenCapture();
+  timerStarted = false;
+  saveGif(gifBuffer);
+}
+void MainWindow::on_pushButton_screencast_clicked()
+{
+  if (timerStarted) return;
+  ui->openGLWidget->startScreenCapture(10);
+  QTimer::singleShot(5000, this, &MainWindow::endCapture);
+  timerStarted = true;
+}
+void MainWindow::on_pushButton_screencast_auto_clicked()
+{
+  std::vector<QImage> gifData = ui->openGLWidget->getScreencast();
+  saveGif(gifData);
 }
 

@@ -181,13 +181,40 @@
            </widget>
           </item>
           <item row="2" column="0">
-           <layout class="QGridLayout" name="gridLayout_4" rowstretch="7,7" columnstretch="5" rowminimumheight="5,15" columnminimumwidth="20">
+           <layout class="QGridLayout" name="gridLayout_4" rowstretch="7,7,7" columnstretch="5" rowminimumheight="5,5,5" columnminimumwidth="20">
             <property name="horizontalSpacing">
              <number>10</number>
             </property>
             <property name="verticalSpacing">
              <number>15</number>
             </property>
+            <item row="1" column="0">
+             <widget class="QPushButton" name="pushButton_screencast">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>350</width>
+                <height>105</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>14</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Захватить экран в течении 5 секунд</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QPushButton" name="pushButton_saveFile">
               <property name="sizePolicy">
@@ -213,30 +240,16 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QPushButton" name="pushButton_screencast">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
+            <item row="2" column="0">
+             <widget class="QPushButton" name="pushButton_screencast_auto">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
-              <property name="maximumSize">
-               <size>
-                <width>350</width>
-                <height>105</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>14</pointsize>
-               </font>
-              </property>
               <property name="text">
-               <string>Screencast</string>
+               <string>Захват экрана с автоматической анимацией</string>
               </property>
              </widget>
             </item>
@@ -1185,8 +1198,8 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="LinePattern"/>
-  <buttongroup name="CameraMode"/>
   <buttongroup name="PointType"/>
+  <buttongroup name="CameraMode"/>
+  <buttongroup name="LinePattern"/>
  </buttongroups>
 </ui>

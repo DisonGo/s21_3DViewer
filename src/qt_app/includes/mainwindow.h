@@ -34,11 +34,14 @@ private:
     std::vector<QString> filePaths;
     float scale = 1;
     Ui::MainWindow *ui;
+    std::vector<QImage> gifBuffer;
+    bool timerStarted = false;
 
     QVector3D cameraPos = QVector3D(0,0,0);
     QVector3D cameraOrient = QVector3D(0,0,1);
 
     void saveSettings();
+    void saveGif(std::vector<QImage> gifData);
 private slots:
     void choose_file();
     void choose_color();
@@ -63,5 +66,7 @@ private slots:
     void on_comboBox_tab1_currentIndexChanged(int index);
     void on_pushButton_saveFile_clicked();
     void on_pushButton_screencast_clicked();
+    void on_pushButton_screencast_auto_clicked();
+    void endCapture();
 };
 #endif // MAINWINDOW_H

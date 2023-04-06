@@ -214,6 +214,19 @@ std::vector<QImage> OpenGLController::getScreencast() {
   update();
   return gifFrames;
 }
+void OpenGLController::capture() {
+  QImage frame = grabFramebuffer();
+  frame = frame.scaled(gifResolution);
+  captureBuffer.push_back(frame);
+}
+void OpenGLController::startScreenCapture(int FPS) {
+  connect(&captureTimer, SIGNAL(timeout()), this, SLOT(capture()));
+  captureTimer.start(1000 / FPS);
+}
+std::vector<QImage> OpenGLController::stopScreenCapture() {
+  captureTimer.stop();
+  return captureBuffer;
+}
 void OpenGLController::importObjFile(QString filename)
 {
   if (!geometries) return;

@@ -49,6 +49,8 @@ public:
   QColor BackColor = QColor(0,0,0);
   glDrawArraysConfig drawArrConf;
   cameraConfig cameraConf;
+  void startScreenCapture(int FPS);
+  std::vector<QImage> stopScreenCapture();
 public slots:
   void setDrawArrConfig(struct glDrawArraysConfig config);
   void setCameraConfig(struct cameraConfig config);
@@ -76,12 +78,14 @@ protected:
   void initializeGL() override;
   void resizeGL(int w, int h) override;
   void paintGL() override;
+private slots:
+  void capture();
 private:
 
   void calcSizes(int w, int h);
   QPoint mPos = QPoint(0,0);
 
-
+  QTimer captureTimer;
   bool LMB_pressed = false;
   bool RMB_pressed = false;
 
@@ -93,6 +97,7 @@ private:
   float scale = 1;
   int width_line = 1;
 
+  std::vector<QImage> captureBuffer;
   QSize gifResolution = QSize(640, 480);
   int gifFps = 10;
   int gifLength = 5;
