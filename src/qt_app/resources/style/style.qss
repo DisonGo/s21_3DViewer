@@ -2,6 +2,9 @@ QMainWindow{
 	background-color:  #736454;
 }
 /* КНОПКИ */
+#pushButton_screencast_auto {
+    font: normal 13pt "Nunito";
+}
 QPushButton {
 	background-color: #997f62;
 	font: normal 16pt "Nunito";
