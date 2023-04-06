@@ -1,5 +1,6 @@
 #include "transforms.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -33,11 +34,66 @@ START_TEST(test_transform_matrix) {
 }
 END_TEST
 
+START_TEST(test_rotate_matrix) {
+  float matrix[16] = {0};
+  float angel = 90;
+  float translated_angel = angel * M_PI / 180;
+  float expected_matrix_x[16] = {1,
+                                 0,
+                                 0,
+                                 0,
+                                 0,
+                                 cos(translated_angel),
+                                 sin(translated_angel),
+                                 0,
+                                 0,
+                                 -sin(translated_angel),
+                                 cos(translated_angel),
+                                 0,
+                                 0,
+                                 0,
+                                 0,
+                                 0};
+  float expected_matrix_y[16] = {
+      cos(translated_angel), 0, -sin(translated_angel), 0, 0, 1, 0, 0,
+      sin(translated_angel), 0, cos(translated_angel),  0, 0, 0, 0, 0};
+  float expected_matrix_z[16] = {cos(translated_angel),
+                                 sin(translated_angel),
+                                 0,
+                                 0,
+                                 -sin(translated_angel),
+                                 cos(translated_angel),
+                                 0,
+                                 0,
+                                 0,
+                                 0,
+                                 1,
+                                 0,
+                                 0,
+                                 0,
+                                 0,
+                                 0};
+
+  rotate_matrix(matrix, angel, 1, 0, 0);
+  for (int i = 0; i < 16; i++)
+    ck_assert_float_eq(matrix[i], expected_matrix_x[i]);
+
+  rotate_matrix(matrix, angel, 0, 1, 0);
+  for (int i = 0; i < 16; i++)
+    ck_assert_float_eq(matrix[i], expected_matrix_y[i]);
+
+  rotate_matrix(matrix, angel, 0, 0, 1);
+  for (int i = 0; i < 16; i++)
+    ck_assert_float_eq(matrix[i], expected_matrix_z[i]);
+}
+END_TEST
+
 Suite* Create_suite() {
   Suite* suite = suite_create("Transforms test");
   TCase* tcase_core = tcase_create("Core");
   tcase_add_test(tcase_core, test_translate_matrix);
   tcase_add_test(tcase_core, test_transform_matrix);
+  tcase_add_test(tcase_core, test_rotate_matrix);
 
   suite_add_tcase(suite, tcase_core);
 
