@@ -204,7 +204,6 @@ void MainWindow::on_pushButton_loadFile_clicked()
   ui->openGLWidget->importObjFile(filePath);
 }
 
-
 void MainWindow::on_doubleSpinBox_widthLine_valueChanged(double arg1)
 {
   if (arg1 > 0)
@@ -315,7 +314,7 @@ void MainWindow::on_pushButton_screencast_clicked()
   QString name = qgetenv("USER");
   if (name.isEmpty())
     name = qgetenv("USERNAME");
-  QString savePath = QFileDialog::getSaveFileName(this, tr("Save gif"),"/Users/" + name,"Image (*.png)");
+  QString savePath = QFileDialog::getSaveFileName(this, tr("Save gif"),"/Users/" + name,"Image (*.gif)");
   gif.save(savePath);
 }
 
