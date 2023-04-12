@@ -37,8 +37,6 @@ else()
 endif()
 
 target_link_libraries(3D_Viewer PRIVATE
-    transforms
-    obj_parser
     engine
     QtGifImage_
     Qt${QT_VERSION_MAJOR}::Widgets

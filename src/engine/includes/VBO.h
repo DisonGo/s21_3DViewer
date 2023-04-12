@@ -1,6 +1,7 @@
 #ifndef VBO_H_
 #define VBO_H_
 #include "opengl_helper.h"
+#include "Types/VertexData.h"
 
 class VBO : protected QOpenGLExtraFunctions {
 public:

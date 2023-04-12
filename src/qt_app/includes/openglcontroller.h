@@ -12,10 +12,6 @@
 #include "engine.h"
 #include "shader.h"
 #include "camera.h"
-
-extern "C" {
-#include "transforms.h"
-}
 class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions
 {
   Q_OBJECT
@@ -25,7 +21,7 @@ public:
   struct glDrawArraysConfig {
     bool Points = false;
     bool Lines = true;
-    bool Triangles = false;
+    bool Triangles = true;
     bool Triangles_strip = false;
     float Point_size = 1;
     float Line_width = 1;

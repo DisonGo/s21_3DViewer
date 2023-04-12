@@ -1,0 +1,35 @@
+// Base version
+
+Parsed 2306634 "Vertices" in 18.321 ms
+Parsed 4487604 "Faces" in 15.198 ms
+Total lines count: 6794238
+Total parsing time: 33.519
+
+// Precounting tags for vector allocation
+
+Parsed 2306634 "Vertices" in 18.389 ms
+Parsed 4487604 "Faces" in 14.834 ms
+Total lines count: 6794238
+Total parsing time: 33.223
+
+// Fixed files closing leak
+
+Parsed 2306634 "Vertices" in 18.198 ms
+Parsed 4487604 "Faces" in 14.427 ms
+Total lines count: 6794238  
+Total parsing time: 32.625
+
+// Removing stringstream use
+// Refactored v vt vn parse funcs to use c_str
+
+Parsed 2306634 "Vertices" in 2.404 ms
+Parsed 4487604 "Faces" in 7.297 ms
+Total lines count: 6794238
+Total parsing time: 9.701
+
+// Fixed bug with vertex and normals parsing
+
+Parsed 2306634 "Vertices" in 2.459 ms
+Parsed 4487604 "Faces" in 7.312 ms
+Total lines count: 6794238
+Total parsing time: 9.771

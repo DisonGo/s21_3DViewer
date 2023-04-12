@@ -6,6 +6,7 @@
 #include <QImageWriter>
 #include <QVariantAnimation>
 #include <qgifimage.h>
+#include <ObjParser.h>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)

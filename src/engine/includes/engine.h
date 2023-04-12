@@ -4,10 +4,8 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include "shader.h"
-#include "buffers.h"
-extern "C" {
-#include "obj_parser.h"
-}
+#include "ObjParser.h"
+#include "Mesh.h"
 class Engine : protected QOpenGLFunctions
 {
 public:
@@ -19,10 +17,8 @@ public:
   int verticesN = 0;
   void importObj(QString fileName);
 private:
+  std::vector<Mesh*> meshes;
   Shader* program = nullptr;
-  void loadData(GLfloat *vertices, int vertCount, GLuint* indices, int indCount);
-  void loadScene(Scene* new_scene);
-  VAO vertexBuf;
 };
 
 #endif // ENGINE_H

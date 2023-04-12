@@ -3,13 +3,4 @@
 #define GL_SILENCE_DEPRECATION
 #include <QOpenGLFunctions>
 #include <QOpenGLExtraFunctions>
-#include "parser_types.h"
-struct VertexColor {
-  GLfloat r;
-  GLfloat g;
-  GLfloat b;
-};
-struct VertexData {
-  Vertex vertex;
-};
 #endif // !OPENGL_HELPER_H_

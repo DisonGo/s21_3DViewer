@@ -1,6 +1,4 @@
 #include "openglcontroller.h"
-//#include "glm/glm.hpp"
-//#include <glm/gtc/matrix_transform.hpp>
 #include <QMouseEvent>
 #include <QFileInfo>
 
@@ -111,22 +109,22 @@ void OpenGLController::paintGL()
                  cameraConf.zRange.y(),
                  *program,
                  "camMatrix");
-  QMatrix4x4 modelRotX;
-  QMatrix4x4 modelRotY;
-  QMatrix4x4 modelRotZ;
+  QMatrix4x4 modelRot;
   QMatrix4x4 modelTranslate;
   QMatrix4x4 modelScale;
   modelTranslate.setToIdentity();
   modelScale.setToIdentity();
-  
-  translate_matrix(modelTranslate.data(), translationVec.x(), translationVec.y(), translationVec.z());
-  scale_matrix(modelScale.data(), scale);
-  rotate_matrix(modelRotX.data(), rotationVec.x(), 1, 0, 0);
-  rotate_matrix(modelRotY.data(), rotationVec.y(), 0, 1, 0);
-  rotate_matrix(modelRotZ.data(), rotationVec.z(), 0, 0, 1);
-  QMatrix4x4 modelRot(modelRotX * modelRotY * modelRotZ);
+
+//  modelTranslate.translate(translationVec);
+//  modelScale.scale(scale);
+
+//  modelRot.rotate(rotationVec.x(), 1, 0, 0);
+//  modelRot.rotate(rotationVec.y(), 0, 1, 0);
+//  modelRot.rotate(rotationVec.z(), 0, 0, 1);
+
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (modelTranslate * modelRot * modelScale).data());
+
   int ColorLoc = glGetUniformLocation(program->ID, "aColor");
   if (drawArrConf.Points) {
     setPointUniform(drawArrConf.roundCircle, drawArrConf.Point_size);
