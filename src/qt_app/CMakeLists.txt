@@ -3,9 +3,13 @@ set(VIEWER_HEADERS
     includes/mainwindow.h
     includes/openglcontroller.h
     includes/styleloader.h
+    includes/transformwidget.h
+    includes/tripletcontroller.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui
+    UI/transformwidget.ui
+    UI/tripletcontroller.ui
 )
 set(VIEWER_RES
     resources/res.qrc

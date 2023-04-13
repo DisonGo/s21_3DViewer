@@ -46,7 +46,19 @@ QTabBar::tab{
     background-color: #565454;
 }
 /* _QTABWIDGET */
-
+.transform_wid {
+	height: 901px;
+	
+}
+#widget {
+	height: 901px;
+}
+.minimize_but{
+	border: none;
+	padding: 3px;
+	border-radius: 0;
+	background-color: #565454;
+}
 /* ЦВЕТ ФОНА ТЕКСТА */
 /* #frame_move, #frame_rotate, #label_scale, #horizontalSlider_scale, Line, #frame_4, #label_widthTop, #labelwidthLine, #label_versh, #frame, #label_line, #label_type, #label_widthLine, #radioButton_typeParallel, #radioButton_typeCentr   {
 	background-color: #997f62;

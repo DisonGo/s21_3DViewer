@@ -204,7 +204,10 @@
       1681302896900,
       1681302658110,
       1681303103864,
-      1681303220509
+      1681303220509,
+      1681302585820,
+      1681302651442,
+      1681302460149
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -215,6 +218,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1681303249662"
+    "version": "1681394373138"
   }
 }

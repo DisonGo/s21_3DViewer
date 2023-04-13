@@ -30,7 +30,6 @@ add_library(${LIB_NAME} STATIC
     ${ENGINE_HEADER}
 )
 target_link_libraries(${LIB_NAME} PRIVATE
-    obj_parser
     Qt${QT_VERSION_MAJOR}::OpenGL
     Qt${QT_VERSION_MAJOR}::OpenGLWidgets
 )

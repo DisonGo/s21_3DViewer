@@ -43,6 +43,7 @@ private:
     void saveSettings();
     void saveGif(std::vector<QImage> gifData);
 private slots:
+    void TranslationTest(QVector3D values);
     void choose_file();
     void choose_color();
     void on_pushButton_loadFile_clicked();

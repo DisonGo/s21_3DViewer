@@ -25,8 +25,11 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->zNear_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
   connect(ui->zFar_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
   connect(ui->openGLWidget, SIGNAL(importComleted(long,long,QString)), this, SLOT(updateInfoLabels(long,long,QString)));
+  connect(ui->widget, SIGNAL(TranslationChanged(QVector3D)), this, SLOT(TranslationTest(QVector3D)));
 }
-
+void MainWindow::TranslationTest(QVector3D values) {
+    qDebug() << values;
+}
 MainWindow::~MainWindow()
 {
   delete ui;

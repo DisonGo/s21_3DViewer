@@ -115,12 +115,12 @@ void OpenGLController::paintGL()
   modelTranslate.setToIdentity();
   modelScale.setToIdentity();
 
-//  modelTranslate.translate(translationVec);
-//  modelScale.scale(scale);
+  modelTranslate.translate(translationVec);
+  modelScale.scale(scale);
 
-//  modelRot.rotate(rotationVec.x(), 1, 0, 0);
-//  modelRot.rotate(rotationVec.y(), 0, 1, 0);
-//  modelRot.rotate(rotationVec.z(), 0, 0, 1);
+  modelRot.rotate(rotationVec.x(), 1, 0, 0);
+  modelRot.rotate(rotationVec.y(), 0, 1, 0);
+  modelRot.rotate(rotationVec.z(), 0, 0, 1);
 
   int modelLoc = glGetUniformLocation(program->ID, "model");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (modelTranslate * modelRot * modelScale).data());
