@@ -134,13 +134,11 @@ void OutputTime(clock_t *s, clock_t *f, TagCounters &counter) {
 }
 OBJ ObjParser::Parse(string filePath)
 {
-  totalElementsCount = 0;
-  totalTime = 0;
+
   std::ifstream obj_file;
   obj_file.open(filePath, std::ios_base::in);
   if (!obj_file.is_open())
     throw std::invalid_argument("Can't open file");
-
   OBJ obj;
   TagCounters counter = CountTags(filePath);
   obj.vertices.reserve(counter.vC);
@@ -148,6 +146,8 @@ OBJ ObjParser::Parse(string filePath)
   obj.textureCoords.reserve(counter.vtC);
   obj.faces.reserve(counter.fC);
 #ifdef SHOW_TIMINGS
+  totalElementsCount = 0;
+  totalTime = 0;
   counter = {0};
   clock_t start = 0, end = 0;
 #endif
