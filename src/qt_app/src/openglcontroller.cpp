@@ -58,7 +58,7 @@ void OpenGLController::initializeGL()
   glEnable(GL_LINE_SMOOTH);
   glEnable(GL_MULTISAMPLE);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-  geometries = new Engine(program);
+  engine = new Engine(program);
   camera = new Camera(vw, vh, cameraConf.Position);
   camera->setMode(cameraConf.Mode);
   camera->setFocusPoint(cameraConf.FocusPoint);
@@ -109,38 +109,22 @@ void OpenGLController::paintGL()
                  cameraConf.zRange.y(),
                  *program,
                  "camMatrix");
-  QMatrix4x4 modelRot;
-  QMatrix4x4 modelTranslate;
-  QMatrix4x4 modelScale;
-  modelTranslate.setToIdentity();
-  modelScale.setToIdentity();
-
-  modelTranslate.translate(translationVec);
-  modelScale.scale(scale);
-
-  modelRot.rotate(rotationVec.x(), 1, 0, 0);
-  modelRot.rotate(rotationVec.y(), 0, 1, 0);
-  modelRot.rotate(rotationVec.z(), 0, 0, 1);
-
-  int modelLoc = glGetUniformLocation(program->ID, "model");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (modelTranslate * modelRot * modelScale).data());
-
   int ColorLoc = glGetUniformLocation(program->ID, "aColor");
   if (drawArrConf.Points) {
     setPointUniform(drawArrConf.roundCircle, drawArrConf.Point_size);
     setColorUniform(ColorLoc, DotColor);
-    geometries->drawGeometry(GL_POINTS);
+    engine->drawGeometry(GL_POINTS);
     setPointUniform(false, drawArrConf.Point_size);
   }
   if (drawArrConf.Triangles) {
     setColorUniform(ColorLoc, FragmentColor);
-    geometries->drawGeometry(GL_TRIANGLES);
+    engine->drawGeometry(GL_TRIANGLES);
   }
   if (drawArrConf.Lines) {
     if (drawArrConf.dashedLines)
       setLineDash(true);
     setColorUniform(ColorLoc, LineColor);
-    geometries->drawGeometry(GL_LINES);
+    engine->drawGeometry(GL_LINES);
     if (drawArrConf.dashedLines)
       setLineDash(false);
   }
@@ -225,17 +209,29 @@ std::vector<QImage> OpenGLController::stopScreenCapture() {
   captureTimer.stop();
   return captureBuffer;
 }
+
+std::vector<Transform *> OpenGLController::GetMeshTransforms()
+{
+  if (!engine) return std::vector<Transform *>();
+  return engine->GetMeshTransforms();
+}
+
+std::vector<Mesh *> OpenGLController::GetMeshes()
+{
+  if (!engine) return std::vector<Mesh *>();
+  return engine->GetMeshes();
+}
 void OpenGLController::importObjFile(QString filename)
 {
-  if (!geometries) return;
+  if (!engine) return;
   makeCurrent();
-  geometries->importObj(filename);
+  engine->importObj(filename);
   QFileInfo fileInfo(filename);
   update();
-  emit importComleted(geometries->verticesN, geometries->verticesN/3 * 2, fileInfo.fileName());
+  emit importComleted(engine->verticesN, engine->verticesN/3 * 2, fileInfo.fileName());
 }
 OpenGLController::~OpenGLController() {
-  delete geometries;
+  delete engine;
   delete program;
   delete camera;
 }

@@ -21,6 +21,7 @@ set(ENGINE_HEADER
     includes/Types/Normal.h
     includes/Types/OBJ.h
     includes/Types/TextureCoord.h   
+    includes/Types/Transform.h
     includes/Types/Vertex.h
     includes/Types/VertexColor.h
     includes/Types/VertexData.h
@@ -30,6 +31,7 @@ add_library(${LIB_NAME} STATIC
     ${ENGINE_HEADER}
 )
 target_link_libraries(${LIB_NAME} PRIVATE
+    Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::OpenGL
     Qt${QT_VERSION_MAJOR}::OpenGLWidgets
 )

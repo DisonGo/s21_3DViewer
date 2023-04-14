@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QAbstractButton>
+#include <transformwidget.h>
 #include <QVector3D>
 #include <QSettings>
 #include "camera.h"
@@ -43,6 +44,7 @@ private:
     void saveSettings();
     void saveGif(std::vector<QImage> gifData);
 private slots:
+    void UpdateGL();
     void TranslationTest(QVector3D values);
     void choose_file();
     void choose_color();

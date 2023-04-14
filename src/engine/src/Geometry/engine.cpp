@@ -28,12 +28,27 @@ void Engine::importObj(QString fileName)
 {
   OBJ obj = ObjParser::Parse(fileName.toStdString());
   indicesN += obj.vertices.size();
-  meshes.push_back(new Mesh(obj));
+  Mesh* mesh = new Mesh(obj);
+  mesh->SetShader(program);
+  meshes.push_back(mesh);
+}
+
+std::vector<Transform*> Engine::GetMeshTransforms()
+{
+  size_t size = meshes.size();
+  std::vector<Transform*> result;
+  for (int i = 0; i < size; i++)
+    result.push_back(meshes[i]->GetTransformLink());
+  return result;
+}
+
+std::vector<Mesh *> Engine::GetMeshes()
+{
+  return meshes;
 }
 
 void Engine::drawGeometry(GLenum type)
 {
-  program->Activate();
   for (auto mesh : meshes)
     mesh->Draw(type);
 }

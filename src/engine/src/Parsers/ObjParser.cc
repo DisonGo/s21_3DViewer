@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#define SHOW_TIMINGS
+//#define SHOW_TIMINGS
 using std::string;
 using std::vector;
 
@@ -186,13 +186,13 @@ OBJ ObjParser::Parse(string filePath)
     }
   }
 #ifdef SHOW_TIMINGS
-  for (auto face : obj.faces) {
-      std::ostringstream oss;
-      oss << "f ";
-      for (auto i : face.indices)
-          oss << i.vIndex << "/" << i.tIndex << "/" << i.nIndex << " ";
-      qDebug() << oss.str().c_str();
-  }
+//  for (auto face : obj.faces) {
+//      std::ostringstream oss;
+//      oss << "f ";
+//      for (auto i : face.indices)
+//          oss << i.vIndex << "/" << i.tIndex << "/" << i.nIndex << " ";
+//      qDebug() << oss.str().c_str();
+//  }
   OutputTime(&start, &end, counter);
   qDebug() << "Total lines count:" << totalElementsCount;
   qDebug() << "Total parsing time:" << totalTime << "ms";

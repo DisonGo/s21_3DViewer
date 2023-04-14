@@ -7,6 +7,7 @@
 #include <QVariantAnimation>
 #include <qgifimage.h>
 #include <ObjParser.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -25,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->zNear_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
   connect(ui->zFar_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
   connect(ui->openGLWidget, SIGNAL(importComleted(long,long,QString)), this, SLOT(updateInfoLabels(long,long,QString)));
-  connect(ui->widget, SIGNAL(TranslationChanged(QVector3D)), this, SLOT(TranslationTest(QVector3D)));
+
 }
 void MainWindow::TranslationTest(QVector3D values) {
     qDebug() << values;
@@ -200,12 +201,33 @@ void MainWindow::setCameraMode(QAbstractButton* but) {
   viewTypeIndex = ui->CameraMode->checkedId();
   ui->openGLWidget->update();
 }
-
+void clearLayout(QLayout* layout, bool deleteWidgets = true)
+{
+    while (QLayoutItem* item = layout->takeAt(0))
+    {
+        if (deleteWidgets)
+        {
+            if (QWidget* widget = item->widget())
+                widget->deleteLater();
+        }
+        if (QLayout* childLayout = item->layout())
+            clearLayout(childLayout, deleteWidgets);
+        delete item;
+    }
+}
 void MainWindow::on_pushButton_loadFile_clicked()
 {
   QString filePath = ui->comboBox_tab1->currentText();
   if (filePath.isEmpty()) return;
   ui->openGLWidget->importObjFile(filePath);
+  std::vector<Mesh*> meshes = ui->openGLWidget->GetMeshes();
+  clearLayout(ui->TransformsBlock);
+  for (auto mesh : meshes) {
+    TransformWidget* wid  = new TransformWidget(this);
+    ui->TransformsBlock->addWidget(wid);
+    wid->LinkMesh(mesh);
+    connect(wid, SIGNAL(TransformUpdated()), this, SLOT(UpdateGL()));
+  }
 }
 
 void MainWindow::on_doubleSpinBox_widthLine_valueChanged(double arg1)
@@ -317,6 +339,11 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
     name = qgetenv("USERNAME");
   QString savePath = QFileDialog::getSaveFileName(this, tr("Save gif"),"/Users/" + name,"Image (*.gif)");
   gif.save(savePath);
+}
+
+void MainWindow::UpdateGL()
+{
+  ui->openGLWidget->update();
 }
 void MainWindow::endCapture() {
   gifBuffer = ui->openGLWidget->stopScreenCapture();

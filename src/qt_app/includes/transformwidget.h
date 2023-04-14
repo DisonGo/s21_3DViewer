@@ -3,28 +3,34 @@
 
 #include <QWidget>
 #include <QVector3D>
+#include "Types/Transform.h"
+#include "Mesh.h"
 namespace Ui {
 class TransformWidget;
 }
 
 class TransformWidget : public QWidget
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    explicit TransformWidget(QWidget *parent = nullptr);
-    ~TransformWidget();
+  explicit TransformWidget(QWidget *parent = nullptr);
+  ~TransformWidget();
+
+  void LinkMesh(Mesh* mesh);
 public slots:
-    void ResetValues();
+  void ResetValues();
 signals:
-    void TranslationChanged(const QVector3D);
-    void RotationChanged(const QVector3D);
-    void ScaleChanged(const QVector3D);
+  void TransformUpdated();
+private slots:
+  void LinkTranform(Transform* transform);
+  void SetTranslation(const QVector3D);
+  void SetRotation(const QVector3D);
+  void SetScale(const QVector3D);
 private:
-    QVector3D translation = QVector3D(0,0,0);
-    QVector3D rotation = QVector3D(0,0,0);
-    QVector3D scale = QVector3D(0,0,0);
-    Ui::TransformWidget *ui;
+  Mesh* mesh = nullptr;
+  Transform* transform = nullptr;
+  Ui::TransformWidget *ui;
 };
 
 #endif // TRANSFORMWIDGET_H

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1548</width>
+    <width>1545</width>
     <height>720</height>
    </rect>
   </property>
@@ -1217,24 +1217,20 @@
      <string notr="true"/>
     </property>
    </widget>
-   <widget class="TransformWidget" name="widget" native="true">
+   <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>1206</x>
-      <y>128</y>
-      <width>246</width>
-      <height>189</height>
+      <x>1195</x>
+      <y>30</y>
+      <width>333</width>
+      <height>662</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="class" stdset="0">
-     <string>transform_wid</string>
-    </property>
+    <layout class="QVBoxLayout" name="TransformsBlock">
+     <property name="spacing">
+      <number>1</number>
+     </property>
+    </layout>
    </widget>
   </widget>
  </widget>
@@ -1244,20 +1240,14 @@
    <extends>QOpenGLWidget</extends>
    <header>openglcontroller.h</header>
   </customwidget>
-  <customwidget>
-   <class>TransformWidget</class>
-   <extends>QWidget</extends>
-   <header>transformwidget.h</header>
-   <container>1</container>
-  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/res.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="LinePattern"/>
-  <buttongroup name="PointType"/>
   <buttongroup name="CameraMode"/>
+  <buttongroup name="PointType"/>
+  <buttongroup name="LinePattern"/>
  </buttongroups>
 </ui>

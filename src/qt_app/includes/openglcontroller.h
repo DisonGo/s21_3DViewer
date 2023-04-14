@@ -47,6 +47,8 @@ public:
   cameraConfig cameraConf;
   void startScreenCapture(int FPS);
   std::vector<QImage> stopScreenCapture();
+  std::vector<Transform*> GetMeshTransforms();
+  std::vector<Mesh* > GetMeshes();
 public slots:
   void setDrawArrConfig(struct glDrawArraysConfig config);
   void setCameraConfig(struct cameraConfig config);
@@ -99,7 +101,7 @@ private:
   int gifLength = 5;
 
   Shader* program = nullptr;
-  Engine *geometries = nullptr;
+  Engine *engine = nullptr;
   void initShaders();
 
   void setColorUniform(int id, QColor in);
