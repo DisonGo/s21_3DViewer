@@ -5,11 +5,13 @@ set(VIEWER_HEADERS
     includes/styleloader.h
     includes/transformwidget.h
     includes/tripletcontroller.h
+    includes/camerawidget.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui
     UI/transformwidget.ui
     UI/tripletcontroller.ui
+    UI/camerawidget.ui
 )
 set(VIEWER_RES
     resources/res.qrc

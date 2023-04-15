@@ -133,7 +133,6 @@ std::vector<QImage> OpenGLController::stopScreenCapture() {
   captureTimer.stop();
   return captureBuffer;
 }
-
 std::vector<Transform *> OpenGLController::GetMeshTransforms()
 {
   if (!engine) return std::vector<Transform *>();

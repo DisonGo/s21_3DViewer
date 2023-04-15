@@ -88,8 +88,6 @@ private: // vars
   float moveSpeed = 0.1f;
   float rotationSpeed = 0.1f;
 
-  float baseSpeed = 0;
-  float multiSpeed = 20;
 signals:
   void dataUpdated(CameraData data);
 };

@@ -19,6 +19,8 @@ public:
 
 public slots:
     void ResetValues();
+    void Lock();
+    void Unlock();
 signals:
     void InputsChanged(const QVector3D values);
 private slots:
