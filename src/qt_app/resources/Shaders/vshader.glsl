@@ -20,8 +20,8 @@ void main()
 {
     mvp_vec = camMatrix * model * vec4(aPos, 1);
     gl_Position = mvp_vec;
-    gl_PointSize = aPointSize;
-    f_color = vec4(aColor, 1.0);
+    gl_PointSize = 1;
+    f_color = vec4(1.0,0.1,0.1, 1.0);
 
     if (dashed) {
 //        float length = length(vec2(fwidth(gl_Position.xy)));

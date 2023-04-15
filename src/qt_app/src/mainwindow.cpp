@@ -137,7 +137,6 @@ void MainWindow::applySettings() {
   gl->drawArrConf.Line_width = lineWidth;
   if (!lineWidth) gl->drawArrConf.Lines = false;
   gl->drawArrConf.Point_size = pointWidth;
-  gl->setScale(scale);
   gl->cameraConf.Position = cameraPos;
   gl->cameraConf.Orientation = cameraOrient;
 
@@ -266,49 +265,7 @@ void MainWindow::updateInfoLabels(long int vertN, long int edgesN, QString filen
   ui->edges_l->setText(QString("Total edges:%1").arg(edgesN));
   ui->filename_l->setText("File name:" + filename);
 }
-void MainWindow::on_doubleSpinBox_scale_valueChanged(double arg1)
-{
-  scale = arg1;
-  ui->openGLWidget->setScale(scale);
-}
 
-
-void MainWindow::on_doubleSpinBox_moveX_valueChanged(double arg1)
-{
-  translation.setX(arg1);
-  ui->openGLWidget->setTranslation(translation);
-}
-
-
-void MainWindow::on_doubleSpinBox_moveY_valueChanged(double arg1)
-{
-  translation.setY(arg1);
-  ui->openGLWidget->setTranslation(translation);
-}
-
-
-void MainWindow::on_doubleSpinBox_moveZ_valueChanged(double arg1)
-{
-  translation.setZ(arg1);
-  ui->openGLWidget->setTranslation(translation);
-}
-
-
-void MainWindow::on_doubleSpinBox_rotateX_valueChanged(double arg1)
-{
-  rotation.setX(arg1);
-  ui->openGLWidget->setRotation(rotation);
-}
-void MainWindow::on_doubleSpinBox_rotateY_valueChanged(double arg1)
-{
-  rotation.setY(arg1);
-  ui->openGLWidget->setRotation(rotation);
-}
-void MainWindow::on_doubleSpinBox_rotateZ_valueChanged(double arg1)
-{
-  rotation.setZ(arg1);
-  ui->openGLWidget->setRotation(rotation);
-}
 
 
 void MainWindow::on_comboBox_tab1_currentIndexChanged(int index)

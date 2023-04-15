@@ -3,13 +3,13 @@
 
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
-#include "shader.h"
+#include "camera.h"
 #include "ObjParser.h"
 #include "Mesh.h"
 class Engine : protected QOpenGLFunctions
 {
 public:
-  Engine(Shader *program);
+  Engine(Camera* camera);
   virtual ~Engine();
 
   void drawGeometry(GLenum type);
@@ -19,8 +19,8 @@ public:
   std::vector<Transform*> GetMeshTransforms();
   std::vector<Mesh*> GetMeshes();
 private:
+  Camera* camera = nullptr;
   std::vector<Mesh*> meshes;
-  Shader* program = nullptr;
 };
 
 #endif // ENGINE_H

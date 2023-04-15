@@ -62,6 +62,11 @@ void Shader::Delete() {
   glDeleteProgram(ID);
 }
 
+Shader* Shader::Default()
+{
+  return new Shader(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl", nullptr);
+}
+
 Shader &Shader::operator=(Shader &&obj)
 {
   this->ID = obj.ID;

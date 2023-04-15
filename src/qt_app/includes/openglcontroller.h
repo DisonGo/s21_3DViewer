@@ -53,10 +53,6 @@ public slots:
   void setDrawArrConfig(struct glDrawArraysConfig config);
   void setCameraConfig(struct cameraConfig config);
   void importObjFile(QString filename);
-  void setLineWidth(float width);
-  void setScale(float scale);
-  void setTranslation(QVector3D translation);
-  void setRotation(QVector3D rotation);
   std::vector<QImage> getScreencast();
 signals:
 
@@ -102,11 +98,6 @@ private:
 
   Shader* program = nullptr;
   Engine *engine = nullptr;
-  void initShaders();
-
-  void setColorUniform(int id, QColor in);
-  void setPointUniform(bool circle, float size);
-  void setLineDash(bool on);
 };
 
 #endif // OPENGLCONTROLLER_H

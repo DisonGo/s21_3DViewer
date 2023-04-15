@@ -18,6 +18,7 @@ public:
   Shader(const char* vertexFile = "", const char* fragmentFile = "", QObject* parent = nullptr);
   void Activate();
   void Delete();
+  static Shader* Default();
   Shader &operator=(Shader&&);
 private:
   GLint vertexId = -1;

@@ -12,10 +12,10 @@
 //  return color;
 //}
 
-Engine::Engine(Shader *program)
+Engine::Engine(Camera* camera)
 {
   initializeOpenGLFunctions();
-  this->program = program;
+  this->camera = camera;
 }
 
 Engine::~Engine()
@@ -29,7 +29,6 @@ void Engine::importObj(QString fileName)
   OBJ obj = ObjParser::Parse(fileName.toStdString());
   indicesN += obj.vertices.size();
   Mesh* mesh = new Mesh(obj);
-  mesh->SetShader(program);
   meshes.push_back(mesh);
 }
 
@@ -50,5 +49,5 @@ std::vector<Mesh *> Engine::GetMeshes()
 void Engine::drawGeometry(GLenum type)
 {
   for (auto mesh : meshes)
-    mesh->Draw(type);
+    mesh->Draw(type, camera);
 }

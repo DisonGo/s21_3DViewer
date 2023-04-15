@@ -53,13 +53,6 @@ private slots:
     void on_doubleSpinBox_widthTop_valueChanged(double arg1);
     void updateCircleType(QAbstractButton *but);
     void updateZPlane(double value);
-    void on_doubleSpinBox_scale_valueChanged(double arg1);
-    void on_doubleSpinBox_moveX_valueChanged(double arg1);
-    void on_doubleSpinBox_moveY_valueChanged(double arg1);
-    void on_doubleSpinBox_moveZ_valueChanged(double arg1);
-    void on_doubleSpinBox_rotateX_valueChanged(double arg1);
-    void on_doubleSpinBox_rotateY_valueChanged(double arg1);
-    void on_doubleSpinBox_rotateZ_valueChanged(double arg1);
     void setCameraMode(QAbstractButton *but);
     void setLinePattern(QAbstractButton *but);
     void updateInfoLabels(long vertN, long edgesN, QString filename);

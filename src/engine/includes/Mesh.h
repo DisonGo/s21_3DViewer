@@ -5,14 +5,16 @@
 #include "VAO.h"
 #include "Types/OBJ.h"
 #include "Types/Transform.h"
+#include "camera.h"
 #include "shader.h"
 class Mesh : protected QOpenGLFunctions
 {
 public:
   Mesh();
   Mesh(OBJ obj);
+  Mesh(OBJ obj, Shader* shader);
   ~Mesh();
-  void Draw(GLenum type);
+  void Draw(GLenum type, Camera* camera);
   void LoadObj(const OBJ& obj);
   void SetTransform(const Transform new_transform);
   void SetShader(Shader* shader);

@@ -16,12 +16,22 @@ std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::
 Mesh::Mesh()
 {
   initializeOpenGLFunctions();
+  SetShader(Shader::Default());
   LoadTransform();
 }
 
 Mesh::Mesh(OBJ obj)
 {
   initializeOpenGLFunctions();
+  SetShader(Shader::Default());
+  LoadTransform();
+  LoadObj(obj);
+}
+
+Mesh::Mesh(OBJ obj, Shader *shader)
+{
+  initializeOpenGLFunctions();
+  SetShader(shader);
   LoadTransform();
   LoadObj(obj);
 }
@@ -32,11 +42,12 @@ Mesh::~Mesh()
   vertexBuf.Delete();
 }
 
-void Mesh::Draw(GLenum type)
+void Mesh::Draw(GLenum type, Camera* camera)
 {
-  if (!shader) return;
+  if (!shader || !camera) return;
   shader->Activate();
   LoadModelMatrix();
+  camera->Matrix(60, 0.001, 1000, *shader, "camMatrix");
   vertexBuf.Bind();
   glDrawArrays(type, 0, verticesN);
   vertexBuf.Unbind();
