@@ -8,19 +8,16 @@ Camera::Camera(QObject *parent) : QObject(parent)
   setPosition(QVector3D(0,0,0));
   initializeOpenGLFunctions();
 }
-Camera::Camera(int width, int height, QVector3D position, QObject *parent) : QObject(parent) {
+Camera::Camera(int width, int height, QObject *parent) : QObject(parent) {
   setVw(width);
   setVh(height);
-  setPosition(position);
   initializeOpenGLFunctions();
 }
 
-void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader &shader, const char *uniform)
+void Camera::Matrix(Shader &shader, const char *uniform)
 {
-
   QMatrix4x4 view, projection, model;
-  baseSpeed = abs(farPlane - nearPlane) / 1000;
-  moveSpeed = baseSpeed;
+  moveSpeed = abs(zRange.y() - zRange.x()) / 1000;
   rotationSpeed = 10;
   model.setToIdentity();
   view.setToIdentity();
@@ -33,14 +30,10 @@ void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader &shade
     lookAtVec = FocusPoint;
   view.lookAt(Position, lookAtVec, Up);
   if (viewMode == Orthographic)
-    projection.ortho(-100, 100, -100, 100, nearPlane, farPlane) ;
+    projection.ortho(-100, 100, -100, 100, zRange.x() , zRange.y() ) ;
   if (viewMode == Perspective)
-    projection.perspective(FOVdeg, (float)vw / vh, nearPlane, farPlane);
+    projection.perspective(FOV, (float)vw / vh, zRange.x() , zRange.y() );
   glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, (projection * view).constData());
-//  glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camModel"), 1, GL_FALSE, model.constData());
-//  glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camView"), 1, GL_FALSE, view.constData());
-//  glUniformMatrix4fv(glGetUniformLocation(shader.ID, "camProjection"), 1, GL_FALSE, projection.constData());
-
 }
 
 void Camera::keyPressSlot(QKeyEvent *e)
@@ -48,7 +41,7 @@ void Camera::keyPressSlot(QKeyEvent *e)
   int key = e->key();
 
   if (key == Qt::Key_Shift)
-    setSpeed(baseSpeed * multiSpeed);
+    setMoveSpeed(moveSpeed);
   if (mode == Free) {
     if (key == Qt::Key_W)
       Position += moveSpeed * Orientation;
@@ -64,50 +57,48 @@ void Camera::keyPressSlot(QKeyEvent *e)
       Position += moveSpeed * -Up;
   }
 
-  if (mode == Focus) {
-    if (!( key == Qt::Key_W
-        || key == Qt::Key_A
-        || key == Qt::Key_S
-        || key == Qt::Key_D)) return;        // Rotate left around the center of rotation
-    QMatrix4x4 RotateMat;
-    RotateMat.setToIdentity();
-    QVector3D C = QVector3D::crossProduct(FocusPoint, Position);
+//  if (mode == Focus) {
+//    if (!( key == Qt::Key_W
+//        || key == Qt::Key_A
+//        || key == Qt::Key_S
+//        || key == Qt::Key_D)) return;        // Rotate left around the center of rotation
+//    QMatrix4x4 RotateMat;
+//    RotateMat.setToIdentity();
+//    QVector3D C = QVector3D::crossProduct(FocusPoint, Position);
 
-    // Calculate the vector representing the x-axis of the plane
-    QVector3D AxisX = QVector3D::crossProduct(Position, C).normalized();
+//    // Calculate the vector representing the x-axis of the plane
+//    QVector3D AxisX = QVector3D::crossProduct(Position, C).normalized();
 
-    // Calculate the vector representing the y-axis of the plane
-    QVector3D AxisY = QVector3D::crossProduct(C, AxisX);
-//    AxisX.normalize();
-//    AxisY.normalize();
-//    if (FocusPoint != QVector3D(0,0,0)) {
-////      AxisY = QVector3D::normal(Position, FocusPoint);
-////      AxisX =
-      qDebug() << AxisX;
-      qDebug() << AxisY;
+//    // Calculate the vector representing the y-axis of the plane
+//    QVector3D AxisY = QVector3D::crossProduct(C, AxisX);
+////    AxisX.normalize();
+////    AxisY.normalize();
+////    if (FocusPoint != QVector3D(0,0,0)) {
+//////      AxisY = QVector3D::normal(Position, FocusPoint);
+//////      AxisX =
+//      qDebug() << AxisX;
+//      qDebug() << AxisY;
+////    }
+////    RotateMat.translate(Position);
+////    RotateMat.translate(FocusPoint);
+//    if (key == Qt::Key_W) {
+//      RotateMat.rotate(rotationSpeed, AxisX);
 //    }
-//    RotateMat.translate(Position);
-//    RotateMat.translate(FocusPoint);
-    if (key == Qt::Key_W) {
-      RotateMat.rotate(rotationSpeed, AxisX);
-    }
-    if (key == Qt::Key_S) {
-      RotateMat.rotate(-rotationSpeed, AxisX);
-    }
-    if (key == Qt::Key_A) {
-      RotateMat.rotate(rotationSpeed, AxisY);
-    }
-    if (key == Qt::Key_D) {
-      RotateMat.rotate(-rotationSpeed, AxisY);
-    }
-    Position = RotateMat.map(Position);
+//    if (key == Qt::Key_S) {
+//      RotateMat.rotate(-rotationSpeed, AxisX);
+//    }
+//    if (key == Qt::Key_A) {
+//      RotateMat.rotate(rotationSpeed, AxisY);
+//    }
+//    if (key == Qt::Key_D) {
+//      RotateMat.rotate(-rotationSpeed, AxisY);
+//    }
+//    Position = RotateMat.map(Position);
 
-  }
+//  }
 }
 void Camera::keyReleaseSlot(QKeyEvent *e) {
-  int key = e->key();
-  if (key == Qt::Key_Shift)
-    setSpeed(baseSpeed);
+
 }
 void Camera::mousePressSlot(QMouseEvent *e)
 {
@@ -125,60 +116,15 @@ void Camera::mouseMoveSlot(QMouseEvent *e)
   processFreeMode(e->pos());
 }
 
-void Camera::wheelSlot(QWheelEvent *e)
+void Camera::SetConfig(CameraConfig config)
 {
-//  float increment_sign = e->angleDelta().ry() > 0 ? 1 : -1;
-//  float distance = FocusPoint.distanceToPoint(Position) + moveSpeed * -increment_sign;
-//  QVector3D norm_displacement = (Position - FocusPoint).normalized();
-//  QVector3D new_Position = FocusPoint + norm_displacement * distance;
-//  if (new_Position == QVector3D(0,0,0)) return;
-//  Position = new_Position;
-//  CameraData new_data = {
-//    QPoint(0,0),
-//    QPoint(0,0),
-//    0,
-//    0,
-//    0,
-//    moveSpeed,
-//    FocusPoint,
-//    Position
-//  };
-//  emit dataUpdated(new_data);
-}
-
-const QVector3D &Camera::getPosition() const
-{
-  return Position;
-}
-
-void Camera::setPosition(const QVector3D &newPosition)
-{
-  Position = newPosition;
-}
-
-int Camera::getVw() const
-{
-  return vw;
-}
-
-void Camera::setVw(int newVw)
-{
-  vw = newVw;
-}
-
-int Camera::getVh() const
-{
-  return vh;
-}
-
-void Camera::setVh(int newVh)
-{
-  vh = newVh;
-}
-
-void Camera::setSpeed(float newSpeed)
-{
-  moveSpeed = newSpeed;
+  mode = config.Mode;
+  viewMode = config.viewMode;
+  FocusPoint = config.FocusPoint;
+  Position = config.Position;
+  Orientation = config.Orientation;
+  zRange = config.zRange;
+  FOV = config.FOV;
 }
 
 
@@ -217,19 +163,40 @@ void Camera::processFreeMode(QPoint ePos)
     Orientation = rotationMatrix.map(Orientation);
 }
 
-const QVector3D &Camera::getOrientation() const
+
+void Camera::setZRange(const QVector2D &newZRange)
 {
-  return Orientation;
+  zRange = newZRange;
+}
+
+void Camera::setFOV(float newFOV)
+{
+  FOV = newFOV;
+}
+
+void Camera::setVw(int newVw)
+{
+  vw = newVw;
+}
+
+void Camera::setVh(int newVh)
+{
+  vh = newVh;
+}
+
+void Camera::setMoveSpeed(float newMoveSpeed)
+{
+  moveSpeed = newMoveSpeed;
+}
+
+void Camera::setRotationSpeed(float newRotationSpeed)
+{
+  rotationSpeed = newRotationSpeed;
 }
 
 void Camera::setOrientation(const QVector3D &newOrientation)
 {
   Orientation = newOrientation;
-}
-
-Camera::ViewMode Camera::getViewMode() const
-{
-  return viewMode;
 }
 
 void Camera::setViewMode(ViewMode newViewMode)
@@ -240,11 +207,6 @@ void Camera::setViewMode(ViewMode newViewMode)
 void Camera::setFocusPoint(const QVector3D &newFocusPoint)
 {
   FocusPoint = newFocusPoint;
-}
-
-Camera::CameraMode Camera::getMode() const
-{
-  return mode;
 }
 
 void Camera::setMode(CameraMode newMode)

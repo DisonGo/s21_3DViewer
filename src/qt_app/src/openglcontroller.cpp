@@ -53,11 +53,8 @@ void OpenGLController::initializeGL()
   glEnable(GL_LINE_SMOOTH);
   glEnable(GL_MULTISAMPLE);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-  camera = new Camera(vw, vh, cameraConf.Position);
+  camera = new Camera(vw, vh);
   engine = new Engine(camera);
-  camera->setMode(cameraConf.Mode);
-  camera->setFocusPoint(cameraConf.FocusPoint);
-  camera->setOrientation(cameraConf.Orientation);
 }
 
 void OpenGLController::resizeGL(int w, int h)
@@ -97,13 +94,10 @@ void OpenGLController::setDrawArrConfig(struct glDrawArraysConfig config)
   update();
 }
 
-void OpenGLController::setCameraConfig(struct cameraConfig config)
+void OpenGLController::setCameraConfig(Camera::CameraConfig config)
 {
-  cameraConf = config;
   if (camera) {
-    camera->setMode(cameraConf.Mode);
-    camera->setFocusPoint(cameraConf.FocusPoint);
-    camera->setPosition(cameraConf.Position);
+    camera->SetConfig(config);
     update();
   }
 }

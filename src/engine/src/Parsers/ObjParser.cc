@@ -5,19 +5,19 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-//#define SHOW_TIMINGS
+#define SHOW_TIMINGS
 using std::string;
 using std::vector;
-
+using std::isspace;
 Normal ParseNormal(const string& line) {
   Normal normal;
   const char* str = line.c_str();
-  while (*str && std::isspace(*str)) ++str;
+  while (*str && isspace(*str)) ++str;
   normal.x = atof(str);
-  while (*str && !std::isspace(*str)) ++str;
-  while (*str && std::isspace(*str)) ++str;
+  while (*str && !isspace(*str)) ++str;
+  while (*str && isspace(*str)) ++str;
   normal.y = atof(str);
-  while (*str && !std::isspace(*str)) ++str;
+  while (*str && !isspace(*str)) ++str;
   normal.z = atof(str);
   return normal;
 }
@@ -25,9 +25,9 @@ Normal ParseNormal(const string& line) {
 TextureCoord ParseTextureCoord(const string& line) {
   TextureCoord textureCoord;
   const char* str = line.c_str();
-  while (*str && std::isspace(*str)) ++str;
+  while (*str && isspace(*str)) ++str;
   textureCoord.u = atof(str);
-  while (*str && !std::isspace(*str)) ++str;
+  while (*str && !isspace(*str)) ++str;
   textureCoord.v = atof(str);
   return textureCoord;
 }
@@ -35,12 +35,12 @@ TextureCoord ParseTextureCoord(const string& line) {
 Vertex ParseVertex(const string& line) {
   Vertex vert;
   const char* str = line.c_str();
-  while (*str && std::isspace(*str)) ++str;
+  while (*str && isspace(*str)) ++str;
   vert.x = atof(str);
-  while (*str && !std::isspace(*str)) ++str;
-  while (*str && std::isspace(*str)) ++str;
+  while (*str && !isspace(*str)) ++str;
+  while (*str && isspace(*str)) ++str;
   vert.y = atof(str);
-  while (*str && !std::isspace(*str)) ++str;
+  while (*str && !isspace(*str)) ++str;
   vert.z = atof(str);
 //  qDebug() << vert.x << vert.y << vert.z;
   return vert;
@@ -50,12 +50,12 @@ vector<FaceVertex> ParsePolygon(const string& line) {
   vector<FaceVertex> polygonVertices;
   FaceVertex faceVertex;
   const char* str = line.c_str();
-  while (*str && std::isspace(*str)) ++str;
+  while (*str && isspace(*str)) ++str;
   while (*str) {
-    while (*str && std::isspace(*str)) ++str;
+    while (*str && isspace(*str)) ++str;
     for (int i = 0; i < 3; ++i) {
       int index = 0;
-      while (*str && !std::isspace(*str) && *str != '/') {
+      while (*str && !isspace(*str) && *str != '/') {
         index = index * 10 + (*str - '0');
         ++str;
       }
@@ -78,12 +78,13 @@ void ParseFaces(const string& line, OBJ *obj) {
   vector<FaceVertex> polygonVertices = ParsePolygon(line);
 
   // Transform polygon face to triangle faces
-
-  for (size_t i = 2; i < polygonVertices.size(); i++) {
+  size_t size = polygonVertices.size();
+  for (size_t i = 1; i < size - 1; i++) {
     Face face;
     face.indices.push_back(polygonVertices[0]);
-    face.indices.push_back(polygonVertices[i - 1]);
     face.indices.push_back(polygonVertices[i]);
+    if (i + 1 < size)
+      face.indices.push_back(polygonVertices[i + 1]);
     obj->faces.push_back(face);
   }
 }

@@ -29,29 +29,21 @@ public:
     bool dashedLines = false;
 
   };
-  struct cameraConfig {
-    Camera::ViewMode viewMode = Camera::Perspective;
-    Camera::CameraMode Mode = Camera::Free;
-    QVector3D FocusPoint = QVector3D(0,0,0);
-    QVector3D Position = QVector3D(0,0,0);
-    QVector3D Orientation = QVector3D(0,0,1);
-    QVector2D zRange = QVector2D(0.1, 10);
-    float FOV = 60;
-  };
+
   Camera * camera = nullptr;
   QColor FragmentColor = QColor(255,255,255);
   QColor LineColor = QColor(255,255,255);
   QColor DotColor = QColor(255,255,255);
   QColor BackColor = QColor(0,0,0);
   glDrawArraysConfig drawArrConf;
-  cameraConfig cameraConf;
+  Camera::CameraConfig cameraConf;
   void startScreenCapture(int FPS);
   std::vector<QImage> stopScreenCapture();
   std::vector<Transform*> GetMeshTransforms();
   std::vector<Mesh* > GetMeshes();
 public slots:
   void setDrawArrConfig(struct glDrawArraysConfig config);
-  void setCameraConfig(struct cameraConfig config);
+  void setCameraConfig(struct Camera::CameraConfig config);
   void importObjFile(QString filename);
   std::vector<QImage> getScreencast();
 signals:

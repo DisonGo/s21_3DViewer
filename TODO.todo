@@ -14,8 +14,10 @@
                   "content": "Individual mesh transformation",
                   "id": 1681302518808,
                   "level": "success",
-                  "done": false,
-                  "start": 1681302518808
+                  "done": true,
+                  "start": 1681302518808,
+                  "focus": false,
+                  "end": 1681563593786
                 }
               },
               {
@@ -189,6 +191,52 @@
               "done": false,
               "start": 1681302781429
             }
+          },
+          {
+            "key": 1681563450464,
+            "children": [
+              {
+                "key": 1681563466078,
+                "children": [],
+                "todo": {
+                  "content": "Intuitive control",
+                  "id": 1681563466078,
+                  "level": "default",
+                  "done": false,
+                  "start": 1681563466078
+                }
+              },
+              {
+                "key": 1681563500912,
+                "children": [
+                  {
+                    "key": 1681563538476,
+                    "children": [],
+                    "todo": {
+                      "content": "On wheel distance change",
+                      "id": 1681563538476,
+                      "level": "default",
+                      "done": false,
+                      "start": 1681563538476
+                    }
+                  }
+                ],
+                "todo": {
+                  "content": "Focus on point mode",
+                  "id": 1681563500912,
+                  "level": "default",
+                  "done": false,
+                  "start": 1681563500912
+                }
+              }
+            ],
+            "todo": {
+              "content": "Rework camera",
+              "id": 1681563450464,
+              "level": "default",
+              "done": false,
+              "start": 1681563450464
+            }
           }
         ],
         "todo": {
@@ -198,16 +246,40 @@
           "done": false,
           "start": 1681303220509
         }
+      },
+      {
+        "key": 1681563615593,
+        "children": [
+          {
+            "key": 1681563621079,
+            "children": [],
+            "todo": {
+              "content": "Objects explorer - tree view of all objects and their properties",
+              "id": 1681563621079,
+              "level": "default",
+              "done": false,
+              "start": 1681563621079
+            }
+          }
+        ],
+        "todo": {
+          "content": "UI",
+          "id": 1681563615593,
+          "level": "default",
+          "done": false,
+          "start": 1681563615593
+        }
       }
     ],
     "expandKeys": [
       1681302896900,
-      1681302658110,
       1681303103864,
       1681303220509,
       1681302585820,
-      1681302651442,
-      1681302460149
+      1681302460149,
+      1681563450464,
+      1681563500912,
+      1681563615593
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -218,6 +290,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1681394373138"
+    "version": "1681563682535"
   }
 }

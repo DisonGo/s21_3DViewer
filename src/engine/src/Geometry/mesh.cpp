@@ -47,7 +47,7 @@ void Mesh::Draw(GLenum type, Camera* camera)
   if (!shader || !camera) return;
   shader->Activate();
   LoadModelMatrix();
-  camera->Matrix(60, 0.001, 1000, *shader, "camMatrix");
+  camera->Matrix(*shader, "camMatrix");
   vertexBuf.Bind();
   glDrawArrays(type, 0, verticesN);
   vertexBuf.Unbind();
