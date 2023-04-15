@@ -122,14 +122,14 @@
      </layout>
     </item>
     <item>
-     <widget class="QLabel" name="CameraModeL_2">
+     <widget class="QLabel" name="ViewModeL">
       <property name="text">
        <string>View mode:</string>
       </property>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="CameraModeGrid_2">
+     <layout class="QHBoxLayout" name="ViewModeGrid">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -140,7 +140,7 @@
        <number>6</number>
       </property>
       <item>
-       <widget class="QRadioButton" name="CameraModeFree_2">
+       <widget class="QRadioButton" name="ViewModePerspective">
         <property name="text">
          <string>Perspective</string>
         </property>
@@ -150,9 +150,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="CameraModeFocus_2">
+       <widget class="QRadioButton" name="ViewModeParallel">
         <property name="text">
-         <string>Focus</string>
+         <string>Parallel</string>
         </property>
        </widget>
       </item>

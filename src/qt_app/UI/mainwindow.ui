@@ -57,7 +57,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <property name="iconSize">
      <size>
@@ -1246,8 +1246,8 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="CameraMode"/>
   <buttongroup name="PointType"/>
   <buttongroup name="LinePattern"/>
+  <buttongroup name="CameraMode"/>
  </buttongroups>
 </ui>
