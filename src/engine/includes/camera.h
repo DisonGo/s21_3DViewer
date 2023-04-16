@@ -50,7 +50,6 @@ public slots:
   void mousePressSlot(QMouseEvent *e);
   void mouseReleaseSlot(QMouseEvent *e);
   void mouseMoveSlot(QMouseEvent *e);
-  void wheelSlot(QWheelEvent *e);
 public: // Setters / Getters
   void SetConfig(CameraConfig config);
 

@@ -26,10 +26,6 @@ void OpenGLController::mouseReleaseEvent(QMouseEvent *e)
     if (camera) camera->mouseReleaseSlot(e);
   }
 }
-void OpenGLController::wheelEvent(QWheelEvent *e) {
-  if (camera) camera->wheelSlot(e);
-  update();
-}
 
 void OpenGLController::keyPressEvent(QKeyEvent *e)
 {

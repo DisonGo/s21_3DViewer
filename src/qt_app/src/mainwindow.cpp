@@ -54,8 +54,8 @@ void MainWindow::saveSettings() {
   settings.setValue("fileFieldIndex", fileFieldIndex);
   settings.setValue("scale", scale);
 
-  settings.setValue("cameraPos", ui->openGLWidget->camera->getPosition());
-  settings.setValue("cameraOrient", ui->openGLWidget->camera->getOrientation());
+//  settings.setValue("cameraPos", ui->openGLWidget->camera->getPosition());
+//  settings.setValue("cameraOrient", ui->openGLWidget->camera->getOrientation());
 
   settings.beginWriteArray("filePaths");
   int i = 0;

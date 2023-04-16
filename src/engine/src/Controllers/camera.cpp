@@ -209,6 +209,11 @@ void Camera::setFocusPoint(const QVector3D &newFocusPoint)
   FocusPoint = newFocusPoint;
 }
 
+void Camera::setPosition(const QVector3D &newPosition)
+{
+  Position = newPosition;
+}
+
 void Camera::setMode(CameraMode newMode)
 {
   mode = newMode;

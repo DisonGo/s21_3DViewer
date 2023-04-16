@@ -1223,7 +1223,7 @@
       <x>1195</x>
       <y>30</y>
       <width>333</width>
-      <height>662</height>
+      <height>161</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="TransformsBlock">
@@ -1231,6 +1231,16 @@
       <number>1</number>
      </property>
     </layout>
+   </widget>
+   <widget class="CameraWidget" name="cameraWid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1190</x>
+      <y>210</y>
+      <width>341</width>
+      <height>431</height>
+     </rect>
+    </property>
    </widget>
   </widget>
  </widget>
@@ -1240,14 +1250,20 @@
    <extends>QOpenGLWidget</extends>
    <header>openglcontroller.h</header>
   </customwidget>
+  <customwidget>
+   <class>CameraWidget</class>
+   <extends>QWidget</extends>
+   <header>camerawidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/res.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="PointType"/>
-  <buttongroup name="LinePattern"/>
   <buttongroup name="CameraMode"/>
+  <buttongroup name="LinePattern"/>
+  <buttongroup name="PointType"/>
  </buttongroups>
 </ui>
