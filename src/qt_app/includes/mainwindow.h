@@ -44,6 +44,7 @@ private:
     void saveSettings();
     void saveGif(std::vector<QImage> gifData);
 private slots:
+    void SetupCameraWid();
     void UpdateGL();
     void TranslationTest(QVector3D values);
     void choose_file();

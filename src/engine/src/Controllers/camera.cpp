@@ -30,7 +30,7 @@ void Camera::Matrix(Shader &shader, const char *uniform)
     lookAtVec = FocusPoint;
   view.lookAt(Position, lookAtVec, Up);
   if (viewMode == Orthographic)
-    projection.ortho(-100, 100, -100, 100, zRange.x() , zRange.y() ) ;
+    projection.ortho(boxLeft, boxRight, boxBottom, boxTop, zRange.x() , zRange.y() ) ;
   if (viewMode == Perspective)
     projection.perspective(FOV, (float)vw / vh, zRange.x() , zRange.y() );
   glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, (projection * view).constData());
@@ -43,6 +43,7 @@ void Camera::keyPressSlot(QKeyEvent *e)
   if (key == Qt::Key_Shift)
     setMoveSpeed(moveSpeed);
   if (mode == Free) {
+    QVector3D Buf = Position;
     if (key == Qt::Key_W)
       Position += moveSpeed * Orientation;
     if (key == Qt::Key_A)
@@ -55,6 +56,8 @@ void Camera::keyPressSlot(QKeyEvent *e)
       Position += moveSpeed * Up;
     if (key == Qt::Key_Control)
       Position += moveSpeed * -Up;
+    if (Buf != Position)
+      emit ConfigUpdated(assembleConfig());
   }
 
 //  if (mode == Focus) {
@@ -114,6 +117,7 @@ void Camera::mouseReleaseSlot(QMouseEvent *e)
 void Camera::mouseMoveSlot(QMouseEvent *e)
 {
   processFreeMode(e->pos());
+  emit ConfigUpdated(assembleConfig());
 }
 
 void Camera::SetConfig(CameraConfig config)
@@ -125,6 +129,10 @@ void Camera::SetConfig(CameraConfig config)
   Orientation = config.Orientation;
   zRange = config.zRange;
   FOV = config.FOV;
+  boxLeft = config.boxLeft;
+  boxRight = config.boxRight;
+  boxBottom = config.boxBottom;
+  boxTop = config.boxTop;
 }
 
 
@@ -167,11 +175,13 @@ void Camera::processFreeMode(QPoint ePos)
 void Camera::setZRange(const QVector2D &newZRange)
 {
   zRange = newZRange;
+  emit ConfigUpdated(assembleConfig());
 }
 
 void Camera::setFOV(float newFOV)
 {
   FOV = newFOV;
+  emit ConfigUpdated(assembleConfig());
 }
 
 void Camera::setVw(int newVw)
@@ -194,28 +204,49 @@ void Camera::setRotationSpeed(float newRotationSpeed)
   rotationSpeed = newRotationSpeed;
 }
 
+const Camera::CameraConfig& Camera::assembleConfig()
+{
+  config.Mode = mode;
+  config.viewMode = viewMode;
+  config.FocusPoint = FocusPoint;
+  config.Position = Position;
+  config.Orientation = Orientation;
+  config.zRange = zRange;
+  config.FOV = FOV;
+  config.boxTop = boxTop;
+  config.boxBottom = boxBottom;
+  config.boxRight = boxRight;
+  config.boxLeft = boxLeft;
+  return config;
+}
+
 void Camera::setOrientation(const QVector3D &newOrientation)
 {
   Orientation = newOrientation;
+  emit ConfigUpdated(assembleConfig());
 }
 
 void Camera::setViewMode(ViewMode newViewMode)
 {
   viewMode = newViewMode;
+  emit ConfigUpdated(assembleConfig());
 }
 
 void Camera::setFocusPoint(const QVector3D &newFocusPoint)
 {
   FocusPoint = newFocusPoint;
+  emit ConfigUpdated(assembleConfig());
 }
 
 void Camera::setPosition(const QVector3D &newPosition)
 {
   Position = newPosition;
+  emit ConfigUpdated(assembleConfig());
 }
 
 void Camera::setMode(CameraMode newMode)
 {
   mode = newMode;
+  emit ConfigUpdated(assembleConfig());
 }
 

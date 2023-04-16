@@ -47,7 +47,7 @@ public slots:
   void importObjFile(QString filename);
   std::vector<QImage> getScreencast();
 signals:
-
+  void initialized();
   void importComleted(long int vertN, long int edgesN, QString filename);
   void FOVChanged();
   void zNearChanged();

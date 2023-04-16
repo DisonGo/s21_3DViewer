@@ -5,16 +5,6 @@
 #include "shader.h"
 #include <QVector3D>
 #include <QKeyEvent>
-struct CameraData {
-  QPoint centerPoint;
-  QPoint relevantPoint;
-  float rotX;
-  float rotY;
-  float angle;
-  float speed;
-  QVector3D orientation;
-  QVector3D position;
-};
 
 class Camera : public QObject , protected QOpenGLFunctions
 {
@@ -39,10 +29,12 @@ public:
     QVector3D Orientation = QVector3D(0,0,1);
     QVector2D zRange = QVector2D(0.001, 100);
     float FOV = 60;
+    float boxLeft = -100, boxRight = 100, boxBottom = -100, boxTop = 100;
   };
 
   Camera(int width, int height, QObject *parent = nullptr);
   void Matrix(Shader& shader, const char* uniform);
+  const CameraConfig& assembleConfig();
 
 public slots:
   void keyPressSlot(QKeyEvent *e);
@@ -86,9 +78,9 @@ private: // vars
   QPoint mCenterPos = QPoint(0,0);
   float moveSpeed = 0.1f;
   float rotationSpeed = 0.1f;
-
+  float boxLeft = -100, boxRight = 100, boxBottom = -100, boxTop = 100;
 signals:
-  void dataUpdated(CameraData data);
+  void ConfigUpdated(const Camera::CameraConfig& config);
 };
 
 #endif // CAMERA_H

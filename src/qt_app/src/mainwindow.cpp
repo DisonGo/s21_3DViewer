@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
   setUnifiedTitleAndToolBarOnMac(true);
   loadSettings();
   applySettings();
+  connect(ui->openGLWidget, SIGNAL(initialized()), this, SLOT(SetupCameraWid()));
   connect(ui->toolButton_tab1, SIGNAL(clicked()), this, SLOT(choose_file()));
   connect(ui->pushButton_colorLine, SIGNAL(clicked()), this, SLOT(choose_color()));
   connect(ui->pushButton_colorVersh, SIGNAL(clicked()), this, SLOT(choose_color()));
@@ -296,6 +297,11 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
     name = qgetenv("USERNAME");
   QString savePath = QFileDialog::getSaveFileName(this, tr("Save gif"),"/Users/" + name,"Image (*.gif)");
   gif.save(savePath);
+}
+
+void MainWindow::SetupCameraWid()
+{
+  ui->cameraWid->SetCamera(ui->openGLWidget->camera);
 }
 
 void MainWindow::UpdateGL()

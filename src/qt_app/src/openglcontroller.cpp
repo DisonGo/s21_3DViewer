@@ -51,6 +51,7 @@ void OpenGLController::initializeGL()
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
   camera = new Camera(vw, vh);
   engine = new Engine(camera);
+  emit initialized();
 }
 
 void OpenGLController::resizeGL(int w, int h)
