@@ -27,8 +27,10 @@
                   "content": "Camera transformation",
                   "id": 1681302951082,
                   "level": "default",
-                  "done": false,
-                  "start": 1681302951082
+                  "done": true,
+                  "start": 1681302951082,
+                  "focus": false,
+                  "end": 1681725772594
                 }
               },
               {
@@ -237,6 +239,17 @@
               "done": false,
               "start": 1681563450464
             }
+          },
+          {
+            "key": 1681726468969,
+            "children": [],
+            "todo": {
+              "content": "World axis/planes/grid",
+              "id": 1681726468969,
+              "level": "default",
+              "done": false,
+              "start": 1681726468969
+            }
           }
         ],
         "todo": {
@@ -252,7 +265,89 @@
         "children": [
           {
             "key": 1681563621079,
-            "children": [],
+            "children": [
+              {
+                "key": 1681725829238,
+                "children": [
+                  {
+                    "key": 1681725853520,
+                    "children": [
+                      {
+                        "key": 1681725872236,
+                        "children": [],
+                        "todo": {
+                          "content": "CameraWidget",
+                          "id": 1681725872236,
+                          "level": "default",
+                          "done": false,
+                          "start": 1681725872236
+                        }
+                      }
+                    ],
+                    "todo": {
+                      "content": "Camera",
+                      "id": 1681725853520,
+                      "level": "default",
+                      "done": false,
+                      "start": 1681725853520
+                    }
+                  },
+                  {
+                    "key": 1681725857747,
+                    "children": [
+                      {
+                        "key": 1681725904206,
+                        "children": [
+                          {
+                            "key": 1681725938067,
+                            "children": [],
+                            "todo": {
+                              "content": "Transform",
+                              "id": 1681725938067,
+                              "level": "default",
+                              "done": false,
+                              "start": 1681725938067
+                            }
+                          }
+                        ],
+                        "todo": {
+                          "content": "Mesh",
+                          "id": 1681725904206,
+                          "level": "default",
+                          "done": false,
+                          "start": 1681725904206
+                        }
+                      },
+                      {
+                        "key": 1681725916170,
+                        "children": [],
+                        "todo": {
+                          "content": "Shader",
+                          "id": 1681725916170,
+                          "level": "default",
+                          "done": false,
+                          "start": 1681725916170
+                        }
+                      }
+                    ],
+                    "todo": {
+                      "content": "Model",
+                      "id": 1681725857747,
+                      "level": "default",
+                      "done": false,
+                      "start": 1681725857747
+                    }
+                  }
+                ],
+                "todo": {
+                  "content": "Object",
+                  "id": 1681725829238,
+                  "level": "default",
+                  "done": false,
+                  "start": 1681725829238
+                }
+              }
+            ],
             "todo": {
               "content": "Objects explorer - tree view of all objects and their properties",
               "id": 1681563621079,
@@ -275,11 +370,13 @@
       1681302896900,
       1681303103864,
       1681303220509,
-      1681302585820,
       1681302460149,
-      1681563450464,
-      1681563500912,
-      1681563615593
+      1681563615593,
+      1681563621079,
+      1681725829238,
+      1681725853520,
+      1681725857747,
+      1681725904206
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -290,6 +387,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1681563682535"
+    "version": "1681726510774"
   }
 }
