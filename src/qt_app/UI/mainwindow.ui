@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1545</width>
-    <height>720</height>
+    <width>1547</width>
+    <height>707</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1217,28 +1217,13 @@
      <string notr="true"/>
     </property>
    </widget>
-   <widget class="QWidget" name="verticalLayoutWidget">
+   <widget class="QTreeView" name="Tree">
     <property name="geometry">
      <rect>
-      <x>1195</x>
-      <y>30</y>
-      <width>333</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="TransformsBlock">
-     <property name="spacing">
-      <number>1</number>
-     </property>
-    </layout>
-   </widget>
-   <widget class="CameraWidget" name="cameraWid" native="true">
-    <property name="geometry">
-     <rect>
-      <x>1190</x>
-      <y>210</y>
-      <width>341</width>
-      <height>431</height>
+      <x>1197</x>
+      <y>33</y>
+      <width>320</width>
+      <height>658</height>
      </rect>
     </property>
    </widget>
@@ -1250,20 +1235,14 @@
    <extends>QOpenGLWidget</extends>
    <header>openglcontroller.h</header>
   </customwidget>
-  <customwidget>
-   <class>CameraWidget</class>
-   <extends>QWidget</extends>
-   <header>camerawidget.h</header>
-   <container>1</container>
-  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/res.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="CameraMode"/>
-  <buttongroup name="LinePattern"/>
   <buttongroup name="PointType"/>
+  <buttongroup name="LinePattern"/>
+  <buttongroup name="CameraMode"/>
  </buttongroups>
 </ui>

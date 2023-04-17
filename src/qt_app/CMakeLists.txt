@@ -6,6 +6,7 @@ set(VIEWER_HEADERS
     includes/transformwidget.h
     includes/tripletcontroller.h
     includes/camerawidget.h
+    includes/eobjectitemmodel.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui
