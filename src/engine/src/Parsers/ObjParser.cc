@@ -1,14 +1,17 @@
 #include "ObjParser.h"
-#include "Types/Normal.h"
-#include "Types/TextureCoord.h"
-#include <iostream>
+
+#include <cstdio>
+#include <cstdlib>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+
+#include "Types/Normal.h"
+#include "Types/TextureCoord.h"
 #define SHOW_TIMINGS
+using std::isspace;
 using std::string;
 using std::vector;
-using std::isspace;
 Normal ParseNormal(const string& line) {
   Normal normal;
   const char* str = line.c_str();
@@ -42,7 +45,7 @@ Vertex ParseVertex(const string& line) {
   vert.y = atof(str);
   while (*str && !isspace(*str)) ++str;
   vert.z = atof(str);
-//  qDebug() << vert.x << vert.y << vert.z;
+  //  qDebug() << vert.x << vert.y << vert.z;
   return vert;
 }
 
@@ -55,10 +58,8 @@ vector<FaceVertex> ParsePolygon(const string& line) {
     while (*str && isspace(*str)) ++str;
     for (int i = 0; i < 3; ++i) {
       int index = 0;
-      while (*str && !isspace(*str) && *str != '/') {
-        index = index * 10 + (*str - '0');
-        ++str;
-      }
+      index = atof(str);
+      while (*str && std::isdigit(*str)) ++str;
       index -= 1;
       if (i == 0) {
         faceVertex.vIndex = index;
@@ -67,14 +68,19 @@ vector<FaceVertex> ParsePolygon(const string& line) {
       } else if (i == 2) {
         faceVertex.nIndex = index;
       }
-      if (*str == '/') ++str;
+      if (*str == '/')
+        ++str;
+      else
+        i = 2;
+
     }
 
     polygonVertices.push_back(faceVertex);
+    while(*str && *str == '\n') ++str;
   }
   return polygonVertices;
 }
-void ParseFaces(const string& line, OBJ *obj) {
+void ParseFaces(const string& line, OBJ* obj) {
   vector<FaceVertex> polygonVertices = ParsePolygon(line);
 
   // Transform polygon face to triangle faces
@@ -83,46 +89,58 @@ void ParseFaces(const string& line, OBJ *obj) {
     Face face;
     face.indices.push_back(polygonVertices[0]);
     face.indices.push_back(polygonVertices[i]);
-    if (i + 1 < size)
-      face.indices.push_back(polygonVertices[i + 1]);
+    if (i + 1 < size) face.indices.push_back(polygonVertices[i + 1]);
     obj->faces.push_back(face);
   }
 }
-typedef struct _TagCounters{
+typedef struct _TagCounters {
   long vC = 0, vnC = 0, vtC = 0, fC = 0;
-}TagCounters;
+} TagCounters;
 long totalElementsCount = 0;
 double totalTime = 0;
 TagCounters CountTags(const string filePath) {
-  std::ifstream obj_file;
-  obj_file.open(filePath, std::ios_base::in);
-  if (!obj_file.is_open())
-    throw std::invalid_argument("Can't open file");
+  FILE* obj_file = NULL;
+  obj_file = fopen(filePath.c_str(), "r");
+  if (!obj_file) throw std::invalid_argument("Can't open file");
+  size_t linesz = 0;
+  char* str = nullptr;
+  string line;
+  string tag;
   TagCounters counter;
-  for (string line; getline( obj_file, line );) {
-    string tag = line.substr(0, line.find(' '));
+  for (; getline(&str, &linesz, obj_file) > 0;) {
+    line.assign(str);
+    tag.assign(line.substr(0, line.find(' ')));
     if (tag == "v") counter.vC++;
     if (tag == "vn") counter.vnC++;
     if (tag == "vt") counter.vtC++;
     if (tag == "f") counter.fC++;
   }
-  obj_file.close();
+  free(str);
+  fclose(obj_file);
   return counter;
 }
-void OutputTime(clock_t *s, clock_t *f, TagCounters &counter) {
+void OutputTime(clock_t* s, clock_t* f, TagCounters& counter) {
   *f = clock();
   if (*s != 0 && *f != 0) {
     QString tag = "None";
     long count = 0;
-    if (counter.vC) tag = "Vertices";
-    else if (counter.vnC) tag = "Normals";
-    else if (counter.vtC) tag = "TextureCords";
-    else if (counter.fC) tag = "Faces";
-    if (counter.vC) count = counter.vC;
-    else if (counter.vnC) count = counter.vnC;
-    else if (counter.vtC) count = counter.vtC;
-    else if (counter.fC) count = counter.fC;
-    double time = (double)(*f - *s)/(double)CLOCKS_PER_SEC * 1000;
+    if (counter.vC)
+      tag = "Vertices";
+    else if (counter.vnC)
+      tag = "Normals";
+    else if (counter.vtC)
+      tag = "TextureCords";
+    else if (counter.fC)
+      tag = "Faces";
+    if (counter.vC)
+      count = counter.vC;
+    else if (counter.vnC)
+      count = counter.vnC;
+    else if (counter.vtC)
+      count = counter.vtC;
+    else if (counter.fC)
+      count = counter.fC;
+    double time = (double)(*f - *s) / (double)CLOCKS_PER_SEC * 1000;
     qDebug() << "Parsed" << count << tag << "in" << time << "ms";
     totalTime += time;
     totalElementsCount += count;
@@ -133,71 +151,56 @@ void OutputTime(clock_t *s, clock_t *f, TagCounters &counter) {
   counter.fC = 0;
   *s = clock();
 }
-OBJ ObjParser::Parse(string filePath)
-{
-
-  std::ifstream obj_file;
-  obj_file.open(filePath, std::ios_base::in);
-  if (!obj_file.is_open())
-    throw std::invalid_argument("Can't open file");
+OBJ ObjParser::Parse(string filePath) {
+  FILE* obj_file = NULL;
+  obj_file = fopen(filePath.c_str(), "r");
+  if (!obj_file) throw std::invalid_argument("Can't open file");
   OBJ obj;
-  TagCounters counter = CountTags(filePath);
-  obj.vertices.reserve(counter.vC);
-  obj.normals.reserve(counter.vnC);
-  obj.textureCoords.reserve(counter.vtC);
-  obj.faces.reserve(counter.fC);
-#ifdef SHOW_TIMINGS
-  totalElementsCount = 0;
-  totalTime = 0;
-  counter = {0};
-  clock_t start = 0, end = 0;
-#endif
-  for (string line; getline( obj_file, line );) {
+  TagCounters tags = CountTags(filePath);
+  obj.vertices.reserve(tags.vC);
+  obj.normals.reserve(tags.vnC);
+  obj.textureCoords.reserve(tags.vtC);
+  obj.faces.reserve(tags.fC);
+  TagCounters counter;
+  size_t linesz = 0;
+  char* str = nullptr;
+  string line;
+  Vertex* vertices = new Vertex[tags.vC];
+  Normal* normals = new Normal[tags.vnC];
+  TextureCoord* textureCords = new TextureCoord[tags.vtC];
+  // Face* faces = new Face[tags.fC];
+
+  for (; getline(&str, &linesz, obj_file) > 0;) {
+    line.assign(str);
     size_t pos = line.find(' ');
     string tag = line.substr(0, pos);
     string values = line.substr(pos + 1, line.size() - 1);
     if (tag == "v") {
-#ifdef SHOW_TIMINGS
-      if (counter.vC == 0)
-        OutputTime(&start, &end, counter);
-      counter.vC++;
-#endif
-      obj.vertices.push_back(ParseVertex(values));
+      vertices[counter.vC++] = ParseVertex(values);
     } else if (tag == "vn") {
-#ifdef SHOW_TIMINGS
-      if (counter.vnC == 0)
-        OutputTime(&start, &end, counter);
-      counter.vnC++;
-#endif
-      obj.normals.push_back(ParseNormal(values));
+      normals[counter.vnC++] = ParseNormal(values);
     } else if (tag == "vt") {
-#ifdef SHOW_TIMINGS
-      if (counter.vtC == 0)
-        OutputTime(&start, &end, counter);
-      counter.vtC++;
-#endif
-      obj.textureCoords.push_back(ParseTextureCoord(values));
+      textureCords[counter.vtC++] = ParseTextureCoord(values);
     } else if (tag == "f") {
-#ifdef SHOW_TIMINGS
-      if (counter.fC == 0)
-        OutputTime(&start, &end, counter);
-      counter.fC++;
-#endif
       ParseFaces(values, &obj);
     }
   }
-#ifdef SHOW_TIMINGS
-//  for (auto face : obj.faces) {
-//      std::ostringstream oss;
-//      oss << "f ";
-//      for (auto i : face.indices)
-//          oss << i.vIndex << "/" << i.tIndex << "/" << i.nIndex << " ";
-//      qDebug() << oss.str().c_str();
+  obj.vertices.insert(obj.vertices.end(), vertices, &vertices[counter.vC - 1]);
+  obj.normals.insert(obj.normals.end(), normals, &normals[counter.vnC - 1]);
+  obj.textureCoords.insert(obj.textureCoords.end(), textureCords,
+                           &textureCords[counter.vtC - 1]);
+
+  delete[] vertices;
+  delete[] normals;
+  delete[] textureCords;
+  free(str);
+  fclose(obj_file);
+//  for (auto& face : obj.faces) {
+//    std::ostringstream oss;
+//    oss << "f ";
+//    for (auto i : face.indices)
+//      oss << i.vIndex << "/" << i.tIndex << "/" << i.nIndex << " ";
+//    qDebug() << oss.str().c_str();
 //  }
-  OutputTime(&start, &end, counter);
-  qDebug() << "Total lines count:" << totalElementsCount;
-  qDebug() << "Total parsing time:" << totalTime << "ms";
-#endif
-  obj_file.close();
   return obj;
 }

@@ -4,6 +4,7 @@
         "obj_parser.h": "c",
         "points_parser.h": "c",
         "vertex_parser.h": "c",
-        "qopenglfunctions": "cpp"
+        "qopenglfunctions": "cpp",
+        "vector": "cpp"
     }
 }

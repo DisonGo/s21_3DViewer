@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1547</width>
-    <height>707</height>
+    <height>728</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -1222,8 +1222,29 @@
      <rect>
       <x>1197</x>
       <y>33</y>
-      <width>320</width>
-      <height>658</height>
+      <width>0</width>
+      <height>0</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>1200</x>
+      <y>83</y>
+      <width>321</width>
+      <height>251</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="Transforms"/>
+   </widget>
+   <widget class="CameraWidget" name="camWid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>1210</x>
+      <y>354</y>
+      <width>307</width>
+      <height>368</height>
      </rect>
     </property>
    </widget>
@@ -1235,14 +1256,20 @@
    <extends>QOpenGLWidget</extends>
    <header>openglcontroller.h</header>
   </customwidget>
+  <customwidget>
+   <class>CameraWidget</class>
+   <extends>QWidget</extends>
+   <header>camerawidget.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../resources/res.qrc"/>
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="PointType"/>
-  <buttongroup name="LinePattern"/>
   <buttongroup name="CameraMode"/>
+  <buttongroup name="LinePattern"/>
+  <buttongroup name="PointType"/>
  </buttongroups>
 </ui>

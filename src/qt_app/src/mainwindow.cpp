@@ -28,9 +28,6 @@ MainWindow::MainWindow(QWidget *parent)
   connect(ui->zFar_i, SIGNAL(valueChanged(double)), this, SLOT(updateZPlane(double)));
   connect(ui->openGLWidget, SIGNAL(importComleted(long,long,QString)), this, SLOT(updateInfoLabels(long,long,QString)));
 
-  QFileSystemModel *model = new QFileSystemModel;
-  model->setRootPath(QDir::currentPath());
-  ui->Tree->setModel(model);
 
 }
 void MainWindow::TranslationTest(QVector3D values) {
@@ -224,14 +221,14 @@ void MainWindow::on_pushButton_loadFile_clicked()
   QString filePath = ui->comboBox_tab1->currentText();
   if (filePath.isEmpty()) return;
   ui->openGLWidget->importObjFile(filePath);
-//  std::vector<Mesh*> meshes = ui->openGLWidget->GetMeshes();
-//  clearLayout(ui->TransformsBlock);
-//  for (auto mesh : meshes) {
-//    TransformWidget* wid  = new TransformWidget(this);
-//    ui->TransformsBlock->addWidget(wid);
-//    wid->LinkMesh(mesh);
-//    connect(wid, SIGNAL(TransformUpdated()), this, SLOT(UpdateGL()));
-//  }
+  std::vector<Mesh*> meshes = ui->openGLWidget->GetMeshes();
+  clearLayout(ui->Transforms);
+  for (auto mesh : meshes) {
+    TransformWidget* wid  = new TransformWidget(this);
+    ui->Transforms->addWidget(wid);
+    wid->LinkMesh(mesh);
+    connect(wid, SIGNAL(TransformUpdated()), this, SLOT(UpdateGL()));
+  }
 }
 
 void MainWindow::on_doubleSpinBox_widthLine_valueChanged(double arg1)
@@ -305,7 +302,7 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
 
 void MainWindow::SetupCameraWid()
 {
-//  ui->cameraWid->SetCamera(ui->openGLWidget->camera);
+  ui->camWid->SetCamera(ui->openGLWidget->camera);
 }
 
 void MainWindow::UpdateGL()

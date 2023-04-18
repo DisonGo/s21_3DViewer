@@ -14,7 +14,7 @@ endif
 all: install open
 build:
 	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
-	@cmake -B ${BUILD_PATH} .
+	@cmake -G Xcode -B ${BUILD_PATH} .
 	@cd ${BUILD_PATH}; make
 run: build
 	./${EXE_PATH}
