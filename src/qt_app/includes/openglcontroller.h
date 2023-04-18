@@ -19,8 +19,8 @@ public:
   using QOpenGLWidget::QOpenGLWidget;
   ~OpenGLController();
   struct glDrawArraysConfig {
-    bool Points = false;
-    bool Lines = true;
+    bool Points = true;
+    bool Lines = false;
     bool Triangles = true;
     bool Triangles_strip = false;
     float Point_size = 1;

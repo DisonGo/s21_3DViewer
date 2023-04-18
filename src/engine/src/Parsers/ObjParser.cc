@@ -49,10 +49,23 @@ Vertex ParseVertex(const string& line) {
   return vert;
 }
 
-vector<FaceVertex> ParsePolygon(const string& line) {
-  vector<FaceVertex> polygonVertices;
+size_t CountFaceVertices(const char* line) {
+  size_t count = 0;
+  for (; *line; ++line) {
+    if (*line && !isspace(*line)) {
+      count++;
+      while (*line && !isspace(*line)) ++line;
+    }
+  }
+  return count;
+}
+
+std::pair<FaceVertex*, size_t> ParsePolygon(const string& line) {
   FaceVertex faceVertex;
   const char* str = line.c_str();
+  size_t size = CountFaceVertices(str);
+  FaceVertex* faceVertices = new FaceVertex[size];
+  size_t vertexI = 0;
   while (*str && isspace(*str)) ++str;
   while (*str) {
     while (*str && isspace(*str)) ++str;
@@ -72,26 +85,29 @@ vector<FaceVertex> ParsePolygon(const string& line) {
         ++str;
       else
         i = 2;
-
     }
 
-    polygonVertices.push_back(faceVertex);
-    while(*str && *str == '\n') ++str;
+    faceVertices[vertexI++] = faceVertex;
+    while (*str && *str == '\n') ++str;
   }
-  return polygonVertices;
+  return {faceVertices, vertexI};
 }
-void ParseFaces(const string& line, OBJ* obj) {
-  vector<FaceVertex> polygonVertices = ParsePolygon(line);
+void ParseFaces(const string& line, OBJ& obj) {
+  std::pair<FaceVertex*, size_t> faceVertexPair = ParsePolygon(line);
+  FaceVertex* polygonVertices = faceVertexPair.first;
+  size_t size = faceVertexPair.second - 2;
+
 
   // Transform polygon face to triangle faces
-  size_t size = polygonVertices.size();
-  for (size_t i = 1; i < size - 1; i++) {
+  for (size_t i = 1, j = 0; j < size; i++, j++)  {
+    // CRASH: if size is much bigger then usual polygons (50+) (Heap overflow?)
     Face face;
-    face.indices.push_back(polygonVertices[0]);
-    face.indices.push_back(polygonVertices[i]);
-    if (i + 1 < size) face.indices.push_back(polygonVertices[i + 1]);
-    obj->faces.push_back(face);
+    FaceVertex triangle[] = {polygonVertices[0], polygonVertices[i], polygonVertices[i + 1]};
+    size_t triangleSize = sizeof(triangle) / sizeof(FaceVertex);
+    face.indices.assign(triangle, triangle + triangleSize);
+    obj.faces.push_back(face);
   }
+  delete[] polygonVertices;
 }
 typedef struct _TagCounters {
   long vC = 0, vnC = 0, vtC = 0, fC = 0;
@@ -106,14 +122,20 @@ TagCounters CountTags(const string filePath) {
   char* str = nullptr;
   string line;
   string tag;
+  string values;
   TagCounters counter;
   for (; getline(&str, &linesz, obj_file) > 0;) {
     line.assign(str);
-    tag.assign(line.substr(0, line.find(' ')));
+    size_t pos = line.find(' ');
+    tag.assign(line.substr(0, pos));
     if (tag == "v") counter.vC++;
     if (tag == "vn") counter.vnC++;
     if (tag == "vt") counter.vtC++;
-    if (tag == "f") counter.fC++;
+    if (tag == "f") {
+      values = line.substr(pos + 1, line.size() - 1);
+      size_t faceVerticesCount = CountFaceVertices(values.c_str());
+      counter.fC += faceVerticesCount - 2;
+    }
   }
   free(str);
   fclose(obj_file);
@@ -164,17 +186,17 @@ OBJ ObjParser::Parse(string filePath) {
   TagCounters counter;
   size_t linesz = 0;
   char* str = nullptr;
-  string line;
   Vertex* vertices = new Vertex[tags.vC];
   Normal* normals = new Normal[tags.vnC];
   TextureCoord* textureCords = new TextureCoord[tags.vtC];
-  // Face* faces = new Face[tags.fC];
-
+  string line;
+  string tag;
+  string values;
   for (; getline(&str, &linesz, obj_file) > 0;) {
     line.assign(str);
     size_t pos = line.find(' ');
-    string tag = line.substr(0, pos);
-    string values = line.substr(pos + 1, line.size() - 1);
+    tag = line.substr(0, pos);
+    values = line.substr(pos + 1, line.size() - 1);
     if (tag == "v") {
       vertices[counter.vC++] = ParseVertex(values);
     } else if (tag == "vn") {
@@ -182,7 +204,7 @@ OBJ ObjParser::Parse(string filePath) {
     } else if (tag == "vt") {
       textureCords[counter.vtC++] = ParseTextureCoord(values);
     } else if (tag == "f") {
-      ParseFaces(values, &obj);
+      ParseFaces(values, obj);
     }
   }
   obj.vertices.insert(obj.vertices.end(), vertices, &vertices[counter.vC - 1]);
@@ -195,12 +217,12 @@ OBJ ObjParser::Parse(string filePath) {
   delete[] textureCords;
   free(str);
   fclose(obj_file);
-//  for (auto& face : obj.faces) {
-//    std::ostringstream oss;
-//    oss << "f ";
-//    for (auto i : face.indices)
-//      oss << i.vIndex << "/" << i.tIndex << "/" << i.nIndex << " ";
-//    qDebug() << oss.str().c_str();
-//  }
+  //  for (auto& face : obj.faces) {
+  //    std::ostringstream oss;
+  //    oss << "f ";
+  //    for (auto i : face.indices)
+  //      oss << i.vIndex << "/" << i.tIndex << "/" << i.nIndex << " ";
+  //    qDebug() << oss.str().c_str();
+  //  }
   return obj;
 }
