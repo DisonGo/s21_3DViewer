@@ -22,6 +22,7 @@ set(ENGINE_HEADER
     includes/Types/OBJ.h
     includes/Types/TextureCoord.h   
     includes/Types/Transform.h
+    includes/Types/TriangleFace.h
     includes/Types/Vertex.h
     includes/Types/VertexColor.h
     includes/Types/VertexData.h

@@ -1,12 +1,12 @@
 #include "Mesh.h"
 #include "VBO.h"
 #include "EBO.h"
-std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::vector<Face> faces) {
+std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::vector<TriangleFace> faces) {
   std::vector<VertexData> new_arr;
   size_t size = old_arr.size();
   for (auto &face : faces) {
-    for (auto indexTuple : face.indices) {
-      GLuint index = indexTuple.vIndex;
+    for (size_t i = 0; i < 3; i++) {
+      GLuint index = face.indices[i].vIndex;
       if (index < size)
         new_arr.push_back({old_arr.at(index)});
     }
@@ -59,8 +59,8 @@ void Mesh::LoadObj(const OBJ& obj)
   vertexBuf.Bind();
   std::vector<VertexData> vData = reassembleVertexArray(obj.vertices, obj.faces);
   verticesN = vData.size();
-  for (auto &face : obj.faces)
-    indicesN += face.indices.size();
+  indicesN = obj.faces.size() * 3;
+  qDebug() << QString("Loading %1 vertices.").arg(verticesN);
   VBO VBO1(vData);
   vertexBuf.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   vertexBuf.Unbind();
