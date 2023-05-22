@@ -38,6 +38,7 @@ MainWindow::~MainWindow()
   delete ui;
 }
 void MainWindow::closeEvent(QCloseEvent *event) {
+  Q_UNUSED(event)
   saveSettings();
 }
 void MainWindow::saveSettings() {
