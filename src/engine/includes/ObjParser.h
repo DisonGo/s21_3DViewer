@@ -4,6 +4,7 @@ class ObjParser
 {
 public:
   static OBJ Parse(std::string filePath);
+  static OBJ ParseEdges(std::string filePath);
 private:
 };
 

@@ -13,6 +13,18 @@ std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::
   }
   return new_arr;
 }
+std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::vector<Face> faces) {
+  std::vector<VertexData> new_arr;
+  size_t size = old_arr.size();
+  for (auto& face : faces) {
+    for (auto& indices : face.indices) {
+      GLuint index = indices.vIndex;
+      if (index < size)
+        new_arr.push_back({old_arr.at(index)});
+    }
+  }
+  return new_arr;
+}
 Mesh::Mesh()
 {
   initializeOpenGLFunctions();
@@ -57,7 +69,7 @@ void Mesh::LoadObj(const OBJ& obj)
 {
   qDebug() << "Loading obj >> Vertex array ID:" << vertexBuf.ID;
   vertexBuf.Bind();
-  std::vector<VertexData> vData = reassembleVertexArray(obj.vertices, obj.faces);
+  std::vector<VertexData> vData = reassembleVertexArray(obj.vertices, obj.edges);
   verticesN = vData.size();
   indicesN = obj.faces.size() * 3;
   qDebug() << QString("Loading %1 vertices.").arg(verticesN);
