@@ -364,14 +364,113 @@
           "done": false,
           "start": 1681563615593
         }
+      },
+      {
+        "key": 1687723053618,
+        "children": [
+          {
+            "key": 1687723069763,
+            "children": [
+              {
+                "key": 1687723672439,
+                "children": [],
+                "todo": {
+                  "content": "Make it as less coupled as possible if it's not costing us a lot of code readability and time.",
+                  "id": 1687723672439,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723672439
+                }
+              },
+              {
+                "key": 1687723776961,
+                "children": [],
+                "todo": {
+                  "content": "Standartize coding style (naming \\ logic patterns)",
+                  "id": 1687723776961,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723776961
+                }
+              }
+            ],
+            "todo": {
+              "content": "Code Refactoring",
+              "id": 1687723069763,
+              "level": "default",
+              "done": false,
+              "start": 1687723069763
+            }
+          },
+          {
+            "key": 1687723105337,
+            "children": [
+              {
+                "key": 1687723122916,
+                "children": [],
+                "todo": {
+                  "content": "MVC (Whole UI)",
+                  "id": 1687723122916,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723122916
+                }
+              },
+              {
+                "key": 1687723126963,
+                "children": [],
+                "todo": {
+                  "content": "Singleton (Engine)",
+                  "id": 1687723126963,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723126963
+                }
+              },
+              {
+                "key": 1687723144810,
+                "children": [],
+                "todo": {
+                  "content": "Facade (summarize any logic in engine subproject)?",
+                  "id": 1687723144810,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723144810
+                }
+              },
+              {
+                "key": 1687723278987,
+                "children": [],
+                "todo": {
+                  "content": "Decorators (Maybe use it for Items Object View Tree)?",
+                  "id": 1687723278987,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723278987
+                }
+              }
+            ],
+            "todo": {
+              "content": "Design Patterns:",
+              "id": 1687723105337,
+              "level": "default",
+              "done": false,
+              "start": 1687723105337
+            }
+          }
+        ],
+        "todo": {
+          "content": "Architecture",
+          "id": 1687723053618,
+          "level": "success",
+          "done": false,
+          "start": 1687723053618
+        }
       }
     ],
     "expandKeys": [
       1681302896900,
       1681303103864,
-      1681303220509,
-      1681302460149,
-      1681563615593,
       1681563621079,
       1681725829238,
       1681725853520,
@@ -391,6 +490,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1682098086394"
+    "version": "1687723832392"
   }
 }

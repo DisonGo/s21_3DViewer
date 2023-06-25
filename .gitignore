@@ -7,7 +7,7 @@ report*
 *.DS_Store
 /other
 src/build*
-*.json
+# *.json
 *.txt.user
 # Prerequisites
 *.d

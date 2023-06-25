@@ -41,3 +41,5 @@ Implementation of our own version of the 3D Viewer.
    ```
    make dist
    ```
+### FAQ
+   [Diagram view site](https://programforyou.ru/block-diagram-redactor)

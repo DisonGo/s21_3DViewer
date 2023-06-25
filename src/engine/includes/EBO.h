@@ -2,7 +2,7 @@
 #define EBO_H_
 #include "GL/GLBuffer.h"
 #include "Types/Face.h"
-class EBO : private GLBuffer {
+class EBO : public GLBuffer {
  public:
   EBO(std::vector<Face> indices);
   GLsizei GetSize();
