@@ -25,5 +25,3 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidg
 add_subdirectory(qt_app)
 add_subdirectory(engine)
 add_subdirectory(gifImage)
-
-#C:\gits\3D_Viewer\src\CMakeLists.txt:14: error: Found package configuration file: D:/Qt/qtbase/lib/cmake/Qt6/Qt6Config.cmake but it set Qt6_FOUND to FALSE so package "Qt6" is considered to be NOT FOUND.  Reason given by package: Failed to find required Qt component "GifImage". Expected Config file at "D:/Qt/qtbase/lib/cmake/Qt6GifImage/Qt6GifImageConfig.cmake" does NOT exist

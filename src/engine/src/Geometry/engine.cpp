@@ -26,7 +26,7 @@ Engine::~Engine()
 
 void Engine::importObj(QString fileName)
 {
-  OBJ obj = ObjParser::ParseEdges(fileName.toStdString());
+  OBJ obj = ObjParser::Parse(fileName.toStdString());
   indicesN += obj.vertices.size();
   Mesh* mesh = new Mesh(obj);
   meshes.push_back(mesh);
@@ -36,7 +36,7 @@ std::vector<Transform*> Engine::GetMeshTransforms()
 {
   size_t size = meshes.size();
   std::vector<Transform*> result;
-  for (int i = 0; i < size; i++)
+  for (size_t i = 0; i < size; i++)
     result.push_back(meshes[i]->GetTransformLink());
   return result;
 }

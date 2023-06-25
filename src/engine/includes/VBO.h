@@ -1,17 +1,10 @@
-#ifndef VBO_H_
-#define VBO_H_
-#include "opengl_helper.h"
+#ifndef VBO_H
+#define VBO_H
+#include "GL/GLBuffer.h"
 #include "Types/VertexData.h"
-
-class VBO : protected QOpenGLExtraFunctions {
-public:
-  GLuint ID = -1;
-  VBO();
+class VBO : public GLBuffer {
+ public:
   VBO(std::vector<VertexData> vertices);
   void BindVertices(std::vector<VertexData> vertices);
-  void Bind();
-  void Unbind();
-  void Delete();
-  ~VBO();
 };
-#endif // !VBO_H_
+#endif  // !VBO_H_

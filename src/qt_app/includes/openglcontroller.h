@@ -20,8 +20,8 @@ public:
   ~OpenGLController();
   struct glDrawArraysConfig {
     bool Points = true;
-    bool Lines = true;
-    bool Triangles = false;
+    bool Lines = false;
+    bool Triangles = true;
     bool Triangles_strip = false;
     float Point_size = 1;
     float Line_width = 1;

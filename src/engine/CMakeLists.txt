@@ -11,6 +11,9 @@ set(ENGINE_HEADER
     includes/engine.h
     includes/mesh.h
     includes/camera.h
+    includes/GL/GLObject.h
+    includes/GL/GLArray.h
+    includes/GL/GLBuffer.h
     includes/EBO.h
     includes/VAO.h
     includes/VBO.h
