@@ -5,9 +5,11 @@ class GLBuffer : public GLObject {
  public:
   GLBuffer() { glGenBuffers(1, &ID); };
   ~GLBuffer() { Delete(); };
-  void Bind() { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ID); };
-  void Unbind() { glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); };
-  void Delete() { glDeleteBuffers(1, &ID); };
+  void Bind() override { glBindBuffer(GetType(), ID); };
+  void Unbind() override { glBindBuffer(GetType(), 0); };
+  void Delete() override { glDeleteBuffers(1, &ID); };
+  virtual GLenum GetType() { return type; };
+  GLenum type = GL_ELEMENT_ARRAY_BUFFER;
 };
 
 #endif  // GLBUFFER_H

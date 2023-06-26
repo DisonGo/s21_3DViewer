@@ -7,6 +7,8 @@ class EBO : public GLBuffer {
   EBO(std::vector<Face> indices);
   GLsizei GetSize();
   void BindIndices(std::vector<Face> indices);
+  GLenum GetType() override { return type; };
+  GLenum type = GL_ELEMENT_ARRAY_BUFFER;
 
  private:
   GLsizei allocated_ = 0;
