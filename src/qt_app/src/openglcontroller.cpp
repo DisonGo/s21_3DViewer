@@ -134,4 +134,5 @@ void OpenGLController::importObjFile(QString filename) {
 OpenGLController::~OpenGLController() {
   delete engine;
   delete program;
+  delete cameraSpacer;
 }
