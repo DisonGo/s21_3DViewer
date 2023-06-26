@@ -4,16 +4,18 @@ AUX_SOURCE_DIRECTORY(./src/Geometry ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Objects ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Shaders ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Parsers ENGINE_SRCS)
+AUX_SOURCE_DIRECTORY(./src/Spacers ENGINE_SRCS)
 set(LIB_NAME engine)
 set(ENGINE_HEADER
-    includes/buffers.h
     includes/opengl_helper.h
     includes/engine.h
     includes/mesh.h
     includes/camera.h
+    includes/E/EObject.h
     includes/GL/GLObject.h
     includes/GL/GLArray.h
     includes/GL/GLBuffer.h
+    includes/Spacers/CameraSpacer.h
     includes/EBO.h
     includes/VAO.h
     includes/VBO.h

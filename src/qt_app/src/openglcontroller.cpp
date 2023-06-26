@@ -7,14 +7,14 @@ void OpenGLController::mousePressEvent(QMouseEvent *e)
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
     mPos = e->pos();
-    camera->mousePressSlot(e);
+    cameraSpacer->mousePressSlot(e);
   }
 }
 
 void OpenGLController::mouseMoveEvent(QMouseEvent *e)
 {
   if (!LMB_pressed) return;
-  camera->mouseMoveSlot(e);
+  cameraSpacer->mouseMoveSlot(e);
   update();
 }
 
@@ -23,18 +23,18 @@ void OpenGLController::mouseReleaseEvent(QMouseEvent *e)
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = false;
     mPos = e->pos();
-    if (camera) camera->mouseReleaseSlot(e);
+    if (cameraSpacer) cameraSpacer->mouseReleaseSlot(e);
   }
 }
 
 void OpenGLController::keyPressEvent(QKeyEvent *e)
 {
-  if (camera) camera->keyPressSlot(e);
+  if (cameraSpacer) cameraSpacer->keyPressSlot(e);
   update();
 }
 void OpenGLController::keyReleaseEvent(QKeyEvent *e)
 {
-  if (camera) camera->keyReleaseSlot(e);
+  if (cameraSpacer) cameraSpacer->keyReleaseSlot(e);
   update();
 }
 void OpenGLController::initializeGL()
@@ -50,6 +50,7 @@ void OpenGLController::initializeGL()
   glEnable(GL_MULTISAMPLE);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
   camera = new Camera(vw, vh);
+  cameraSpacer = new CameraSpacer(this, *camera);
   engine = new Engine(camera);
   emit initialized();
 }
@@ -58,8 +59,8 @@ void OpenGLController::resizeGL(int w, int h)
 {
   glViewport(0, 0, w, h);
   calcSizes(w, h);
-  camera->setVw(vw);
-  camera->setVh(vh);
+  cameraSpacer->SetVw(vw);
+  cameraSpacer->SetVh(vh);
   update();
 }
 void OpenGLController::paintGL()
@@ -89,14 +90,6 @@ void OpenGLController::setDrawArrConfig(struct glDrawArraysConfig config)
 {
   drawArrConf = config;
   update();
-}
-
-void OpenGLController::setCameraConfig(Camera::CameraConfig config)
-{
-  if (camera) {
-    camera->SetConfig(config);
-    update();
-  }
 }
 std::vector<QImage> OpenGLController::getScreencast() {
   std::vector<QImage> gifFrames;

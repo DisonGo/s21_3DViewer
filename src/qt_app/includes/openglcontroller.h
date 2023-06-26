@@ -11,7 +11,7 @@
 #include <QSurfaceFormat>
 #include "engine.h"
 #include "shader.h"
-#include "camera.h"
+#include "Spacers/CameraSpacer.h"
 class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions
 {
   Q_OBJECT
@@ -30,20 +30,19 @@ public:
 
   };
 
-  Camera * camera = nullptr;
+  Camera *camera = nullptr;
+  CameraSpacer *cameraSpacer = nullptr;
   QColor FragmentColor = QColor(255,255,255);
   QColor LineColor = QColor(255,255,255);
   QColor DotColor = QColor(255,255,255);
   QColor BackColor = QColor(0,0,0);
   glDrawArraysConfig drawArrConf;
-  Camera::CameraConfig cameraConf;
   void startScreenCapture(int FPS);
   std::vector<QImage> stopScreenCapture();
   std::vector<Transform*> GetMeshTransforms();
   std::vector<Mesh* > GetMeshes();
 public slots:
   void setDrawArrConfig(struct glDrawArraysConfig config);
-  void setCameraConfig(struct Camera::CameraConfig config);
   void importObjFile(QString filename);
   std::vector<QImage> getScreencast();
 signals:

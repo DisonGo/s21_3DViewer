@@ -1,12 +1,17 @@
-#pragma once
+#ifndef TRANSFORM_H
+#define TRANSFORM_H
 #include <QVector3D>
-struct Transform{
-    QVector3D translate = QVector3D(0,0,0);
-    QVector3D rotation = QVector3D(0,0,0);
-    QVector3D scale = QVector3D(1,1,1);
-    bool operator==(Transform a) const {
-      return (translate == a.translate &&
-          rotation == a.rotation &&
-          scale == a.scale);
-    }
+
+#include "E/EObject.h"
+class Transform : public EObject {
+public:
+  QVector3D translate = QVector3D(0, 0, 0);
+  QVector3D rotation = QVector3D(0, 0, 0);
+  QVector3D scale = QVector3D(1, 1, 1);
+  bool operator==(const Transform& a) const {
+    return (translate == a.translate && rotation == a.rotation &&
+            scale == a.scale);
+  }
 };
+
+#endif  // TRANSFORM_H

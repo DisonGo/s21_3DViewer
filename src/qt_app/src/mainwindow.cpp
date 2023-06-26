@@ -136,13 +136,9 @@ void MainWindow::applySettings() {
   gl->DotColor = pointColor;
   gl->BackColor = backColor;
 
-  gl->cameraConf.zRange = zRange;
   gl->drawArrConf.Line_width = lineWidth;
   if (!lineWidth) gl->drawArrConf.Lines = false;
   gl->drawArrConf.Point_size = pointWidth;
-  gl->cameraConf.Position = cameraPos;
-  gl->cameraConf.Orientation = cameraOrient;
-
   loading_setting_done = true;
 }
 void MainWindow::choose_file(){
@@ -167,7 +163,6 @@ void MainWindow::updateZPlane(double value) {
   else if (caller == ui->zFar_i)
     zRange.setY(value);
   else return;
-  ui->openGLWidget->cameraConf.zRange = zRange;
   ui->openGLWidget->update();
 }
 void MainWindow::choose_color(){
@@ -195,11 +190,6 @@ void MainWindow::setLinePattern(QAbstractButton* but) {
   ui->openGLWidget->update();
 }
 void MainWindow::setCameraMode(QAbstractButton* but) {
-  if (but == ui->radioButton_typeParallel)
-    ui->openGLWidget->cameraConf.viewMode = Camera::Orthographic;
-  else if (but == ui->radioButton_typeCentr)
-    ui->openGLWidget->cameraConf.viewMode = Camera::Perspective;
-  else return;
   viewTypeIndex = ui->CameraMode->checkedId();
   ui->openGLWidget->update();
 }
@@ -303,7 +293,7 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
 
 void MainWindow::SetupCameraWid()
 {
-  ui->camWid->SetCamera(ui->openGLWidget->camera);
+  ui->camWid->SetCameraSpacer(ui->openGLWidget->cameraSpacer);
 }
 
 void MainWindow::UpdateGL()

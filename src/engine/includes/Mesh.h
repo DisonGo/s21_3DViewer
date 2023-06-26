@@ -1,15 +1,16 @@
 #ifndef MESH_H
 #define MESH_H
-#include <QOpenGLFunctions>
 #include <QMatrix4x4>
-#include "VAO.h"
+#include <QOpenGLFunctions>
+
+#include "E/EObject.h"
 #include "Types/OBJ.h"
 #include "Types/Transform.h"
+#include "VAO.h"
 #include "camera.h"
 #include "shader.h"
-class Mesh : protected QOpenGLFunctions
-{
-public:
+class Mesh : public EObject, protected QOpenGLFunctions {
+ public:
   Mesh();
   Mesh(OBJ obj);
   Mesh(OBJ obj, Shader* shader);
@@ -20,10 +21,12 @@ public:
   void SetShader(Shader* shader);
   Transform* GetTransformLink();
   void UpdateTransform();
-private:
+
+ private:
   void LoadModelMatrix();
   void LoadTransform();
-private:
+
+ private:
   Transform transform;
   Shader* shader = nullptr;
   QMatrix4x4 modelRot;
@@ -35,4 +38,4 @@ private:
   VAO vertexBuf;
 };
 
-#endif // MESH_H
+#endif  // MESH_H

@@ -2,7 +2,7 @@
 #define CAMERAWIDGET_H
 
 #include <QWidget>
-#include "camera.h"
+#include "Spacers/CameraSpacer.h"
 #include <QAbstractButton>
 
 namespace Ui {
@@ -14,15 +14,15 @@ class CameraWidget : public QWidget
   Q_OBJECT
 
 public:
-  explicit CameraWidget(QWidget *parent = nullptr);
-  CameraWidget(Camera* camera, QWidget *parent = nullptr);
+  explicit CameraWidget(QWidget *parent = nullptr, CameraSpacer* cameraSpacer = nullptr);
   ~CameraWidget();
-  void SetCamera(Camera* camera);
 
 
+    void SetCameraSpacer(CameraSpacer *cameraSpacer);
 private slots:
-  void on_ResetBut_clicked();
-  void SetValuesFromConfig(const Camera::CameraConfig& config);
+//  void on_ResetBut_clicked();
+  void SetConfig(Camera::CameraConfig* config);
+  void SetValuesFromConfig();
   void SetPosition(const QVector3D&);
   void SetOrientation(const QVector3D&);
   void SetFocusPoint(const QVector3D&);
@@ -38,8 +38,8 @@ private slots:
 
 private:
   void SetupConnects();
-  Camera::CameraConfig config;
-  Camera *camera = nullptr;
+  CameraSpacer* cameraSpacer_{};
+  Camera::CameraConfig* config_{};
   Ui::CameraWidget *ui;
 };
 
