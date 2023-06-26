@@ -29,8 +29,6 @@ public:
     bool dashedLines = false;
 
   };
-
-  Camera *camera = nullptr;
   CameraSpacer *cameraSpacer = nullptr;
   QColor FragmentColor = QColor(255,255,255);
   QColor LineColor = QColor(255,255,255);

@@ -15,6 +15,7 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   Mesh(OBJ obj);
   Mesh(OBJ obj, Shader* shader);
   ~Mesh();
+  EObjectType type = EObjectType::kMesh;
   void Draw(GLenum type, Camera* camera);
   void LoadObj(const OBJ& obj);
   void SetTransform(const Transform new_transform);

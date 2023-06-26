@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "mesh.h"
 #include "VBO.h"
 #include "EBO.h"
 std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::vector<TriangleFace> faces) {

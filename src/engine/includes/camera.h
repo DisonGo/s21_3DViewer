@@ -11,7 +11,8 @@ class Camera : public EObject, protected QOpenGLFunctions {
   friend class CameraConfig;
   friend class CameraSpacer;
   explicit Camera();
-
+  Camera(int width, int height);
+  EObjectType type = EObjectType::kCamera;
   enum CameraMode { Free = 0, Focus = 1 };
   enum ViewMode { Perspective = 0, Orthographic = 1 };
   class ParallelBox {
@@ -51,7 +52,6 @@ class Camera : public EObject, protected QOpenGLFunctions {
     ParallelBox &box;
   };
 
-  Camera(int width, int height);
   void Matrix(Shader &shader, const char *uniform);
   CameraConfig &GetConfig() { return config_; };
 
