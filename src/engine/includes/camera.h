@@ -4,7 +4,7 @@
 #include <QVector3D>
 
 #include "E/EObject.h"
-#include "shader.h"
+#include "Shader.h"
 
 class Camera : public EObject, protected QOpenGLFunctions {
  public:

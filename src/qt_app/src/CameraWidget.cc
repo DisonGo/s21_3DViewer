@@ -1,4 +1,4 @@
-#include "camerawidget.h"
+#include "CameraWidget.h"
 
 #include "ui_camerawidget.h"
 CameraWidget::CameraWidget(QWidget *parent, CameraSpacer *cameraSpacer)

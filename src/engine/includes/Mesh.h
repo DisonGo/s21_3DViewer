@@ -7,8 +7,8 @@
 #include "Types/OBJ.h"
 #include "Types/Transform.h"
 #include "VAO.h"
-#include "camera.h"
-#include "shader.h"
+#include "Camera.h"
+#include "Shader.h"
 class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();

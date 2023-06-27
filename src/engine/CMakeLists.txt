@@ -1,16 +1,15 @@
 
-AUX_SOURCE_DIRECTORY(./src/Controllers ENGINE_SRCS)
-AUX_SOURCE_DIRECTORY(./src/Geometry ENGINE_SRCS)
-AUX_SOURCE_DIRECTORY(./src/Objects ENGINE_SRCS)
+AUX_SOURCE_DIRECTORY(./src/EngineObjects ENGINE_SRCS)
+AUX_SOURCE_DIRECTORY(./src/GL_Objects ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Shaders ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Parsers ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Spacers ENGINE_SRCS)
+AUX_SOURCE_DIRECTORY(./src ENGINE_SRCS)
 set(LIB_NAME engine)
 set(ENGINE_HEADER
-    includes/opengl_helper.h
-    includes/engine.h
-    includes/mesh.h
-    includes/camera.h
+    includes/Engine.h
+    includes/Mesh.h
+    includes/Camera.h
     includes/E/EObject.h
     includes/GL/GLObject.h
     includes/GL/GLArray.h
@@ -19,7 +18,7 @@ set(ENGINE_HEADER
     includes/EBO.h
     includes/VAO.h
     includes/VBO.h
-    includes/shader.h
+    includes/Shader.h
     includes/ObjParser.h
 
     includes/Types/Face.h

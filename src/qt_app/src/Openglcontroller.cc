@@ -1,4 +1,4 @@
-#include "openglcontroller.h"
+#include "OpenGLController.h"
 
 #include <QFileInfo>
 #include <QMouseEvent>

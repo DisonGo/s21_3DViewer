@@ -4,9 +4,9 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 
+#include "Mesh.h"
 #include "ObjParser.h"
-#include "camera.h"
-#include "mesh.h"
+#include "Camera.h"
 class Engine : protected QOpenGLFunctions {
  public:
   Engine();

@@ -1,10 +1,11 @@
-#include "shader.h"
-#include "QDebug"
+#include "Shader.h"
+
 #include <QFile>
+
+#include "QDebug"
 QString Shader::getFileContent(const char* fileName) {
   QFile shader_file(fileName);
-  if(!shader_file.open(QIODevice::ReadOnly))
-  {
+  if (!shader_file.open(QIODevice::ReadOnly)) {
     qDebug() << "Cannot open shader file " << fileName;
     return "";
   }
@@ -12,13 +13,14 @@ QString Shader::getFileContent(const char* fileName) {
   return shader_content;
 }
 
-Shader::Shader(QObject* parent): QObject(parent)
-{
+Shader::Shader(QObject* parent) : QObject(parent) {
   initializeOpenGLFunctions();
   ID = -1;
 }
 
-Shader::Shader(const char* vertexFile, const char* fragmentFile, QObject* parent) : QObject(parent)  {
+Shader::Shader(const char* vertexFile, const char* fragmentFile,
+               QObject* parent)
+    : QObject(parent) {
   initializeOpenGLFunctions();
   SetVertexShader(vertexFile);
   SetFragmentShader(fragmentFile);
@@ -52,29 +54,22 @@ void Shader::PrintProgramError(int obj) {
 }
 void Shader::Check_compilation(int id, ShaderType type) {
   const char* fileName = type == Vertex ? vertexFileName : fragmentFileName;
-  if (!CompileSuccessful(id))
-    PrintShaderError(id, fileName);
+  if (!CompileSuccessful(id)) PrintShaderError(id, fileName);
 }
-void Shader::Activate() {
-	glUseProgram(ID);
-}
-void Shader::Delete() {
-  glDeleteProgram(ID);
+void Shader::Activate() { glUseProgram(ID); }
+void Shader::Delete() { glDeleteProgram(ID); }
+
+Shader* Shader::Default() {
+  return new Shader(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl",
+                    nullptr);
 }
 
-Shader* Shader::Default()
-{
-  return new Shader(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl", nullptr);
-}
-
-Shader &Shader::operator=(Shader &&obj)
-{
+Shader& Shader::operator=(Shader&& obj) {
   this->ID = obj.ID;
   return *this;
 }
 
-void Shader::SetVertexShader(const char *vertexFile)
-{
+void Shader::SetVertexShader(const char* vertexFile) {
   vertexFileName = vertexFile;
   std::string vertexCode = getFileContent(vertexFile).toStdString();
   const char* vertexSource = vertexCode.c_str();
@@ -84,8 +79,7 @@ void Shader::SetVertexShader(const char *vertexFile)
   Check_compilation(vertexId, Vertex);
 }
 
-void Shader::SetFragmentShader(const char *fragmentFile)
-{
+void Shader::SetFragmentShader(const char* fragmentFile) {
   fragmentFileName = fragmentFile;
   std::string fragmentCode = getFileContent(fragmentFile).toStdString();
   const char* fragmentSource = fragmentCode.c_str();
@@ -95,10 +89,8 @@ void Shader::SetFragmentShader(const char *fragmentFile)
   Check_compilation(fragmentId, Fragment);
 }
 
-void Shader::setProgram()
-{
-  if (vertexId == -1 || fragmentId == -1)
-    return;
+void Shader::setProgram() {
+  if (vertexId == -1 || fragmentId == -1) return;
   ID = glCreateProgram();
   glAttachShader(ID, vertexId);
   glAttachShader(ID, fragmentId);

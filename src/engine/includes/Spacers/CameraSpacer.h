@@ -3,13 +3,13 @@
 #include <QKeyEvent>
 #include <QObject>
 
-#include "camera.h"
+#include "Camera.h"
 
 class CameraSpacer : public QObject {
   Q_OBJECT
  public:
   CameraSpacer(QObject *parent, Camera &camera_);
-  Camera::CameraConfig& GetConfig() { return camera_.GetConfig();};
+  Camera::CameraConfig &GetConfig() { return camera_.GetConfig(); };
   void SetMode(Camera::CameraMode newMode);
   void SetViewMode(Camera::ViewMode newViewMode);
   void SetFocusPoint(const QVector3D &newFocusPoint);
@@ -34,6 +34,5 @@ class CameraSpacer : public QObject {
  private:
   Camera &camera_;
 };
-
 
 #endif  // CAMERASPACER_H

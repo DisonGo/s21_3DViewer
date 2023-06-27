@@ -1,12 +1,12 @@
 AUX_SOURCE_DIRECTORY(./src VIEWER_SRCS)
 set(VIEWER_HEADERS
-    includes/mainwindow.h
-    includes/openglcontroller.h
-    includes/styleloader.h
-    includes/transformwidget.h
-    includes/tripletcontroller.h
-    includes/camerawidget.h
-    includes/eobjectitemmodel.h
+    includes/MainWindow.h
+    includes/OpenGLController.h
+    includes/StyleLoader.h
+    includes/TransformWidget.h
+    includes/TripletController.h
+    includes/CameraWidget.h
+    includes/EobjectItemModel.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui

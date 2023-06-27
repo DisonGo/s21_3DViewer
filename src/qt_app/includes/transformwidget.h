@@ -1,36 +1,37 @@
 #ifndef TRANSFORMWIDGET_H
 #define TRANSFORMWIDGET_H
 
-#include <QWidget>
 #include <QVector3D>
+#include <QWidget>
+
+#include "Mesh.h"
 #include "Types/Transform.h"
-#include "mesh.h"
 namespace Ui {
 class TransformWidget;
 }
 
-class TransformWidget : public QWidget
-{
+class TransformWidget : public QWidget {
   Q_OBJECT
 
-public:
-  explicit TransformWidget(QWidget *parent = nullptr);
+ public:
+  explicit TransformWidget(QWidget* parent = nullptr);
   ~TransformWidget();
 
   void LinkMesh(Mesh* mesh);
-public slots:
+ public slots:
   void ResetValues();
-signals:
+ signals:
   void TransformUpdated();
-private slots:
+ private slots:
   void LinkTranform(Transform* transform);
   void SetTranslation(const QVector3D);
   void SetRotation(const QVector3D);
   void SetScale(const QVector3D);
-private:
+
+ private:
   Mesh* mesh = nullptr;
   Transform* transform = nullptr;
-  Ui::TransformWidget *ui;
+  Ui::TransformWidget* ui;
 };
 
-#endif // TRANSFORMWIDGET_H
+#endif  // TRANSFORMWIDGET_H

@@ -1,61 +1,57 @@
-#include "mesh.h"
-#include "VBO.h"
+#include "Mesh.h"
+
 #include "EBO.h"
-std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::vector<TriangleFace> faces) {
+#include "VBO.h"
+std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
+                                              std::vector<TriangleFace> faces) {
   std::vector<VertexData> new_arr;
   size_t size = old_arr.size();
-  for (auto &face : faces) {
+  for (auto& face : faces) {
     for (size_t i = 0; i < 3; i++) {
       GLuint index = face.indices[i].vIndex;
-      if (index < size)
-        new_arr.push_back({old_arr.at(index)});
+      if (index < size) new_arr.push_back({old_arr.at(index)});
     }
   }
   return new_arr;
 }
-std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr, std::vector<Face> faces) {
+std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
+                                              std::vector<Face> faces) {
   std::vector<VertexData> new_arr;
   size_t size = old_arr.size();
   for (auto& face : faces) {
     for (auto& indices : face.indices) {
       GLuint index = indices.vIndex;
-      if (index < size)
-        new_arr.push_back({old_arr.at(index)});
+      if (index < size) new_arr.push_back({old_arr.at(index)});
     }
   }
   return new_arr;
 }
-Mesh::Mesh()
-{
+Mesh::Mesh() {
   initializeOpenGLFunctions();
   SetShader(Shader::Default());
   LoadTransform();
 }
 
-Mesh::Mesh(OBJ obj)
-{
+Mesh::Mesh(OBJ obj) {
   initializeOpenGLFunctions();
   SetShader(Shader::Default());
   LoadTransform();
   LoadObj(obj);
 }
 
-Mesh::Mesh(OBJ obj, Shader *shader)
-{
+Mesh::Mesh(OBJ obj, Shader* shader) {
   initializeOpenGLFunctions();
   SetShader(shader);
   LoadTransform();
   LoadObj(obj);
 }
 
-Mesh::~Mesh()
-{
+Mesh::~Mesh() {
   qDebug() << "Mesh " << vertexBuf.ID << " destroyed";
   vertexBuf.Delete();
 }
 
-void Mesh::Draw(GLenum type, Camera* camera)
-{
+void Mesh::Draw(GLenum type, Camera* camera) {
   if (!shader || !camera) return;
   shader->Activate();
   LoadModelMatrix();
@@ -65,11 +61,11 @@ void Mesh::Draw(GLenum type, Camera* camera)
   vertexBuf.Unbind();
 }
 
-void Mesh::LoadObj(const OBJ& obj)
-{
+void Mesh::LoadObj(const OBJ& obj) {
   qDebug() << "Loading obj >> Vertex array ID:" << vertexBuf.ID;
   vertexBuf.Bind();
-  std::vector<VertexData> vData = reassembleVertexArray(obj.vertices, obj.faces);
+  std::vector<VertexData> vData =
+      reassembleVertexArray(obj.vertices, obj.faces);
   verticesN = vData.size();
   indicesN = obj.faces.size() * 3;
   qDebug() << QString("Loading %1 vertices.").arg(verticesN);
@@ -79,8 +75,7 @@ void Mesh::LoadObj(const OBJ& obj)
   VBO1.Unbind();
 }
 
-void Mesh::SetTransform(const Transform new_transform)
-{
+void Mesh::SetTransform(const Transform new_transform) {
   if (transform == new_transform) return;
 
   transform = new_transform;
@@ -88,33 +83,23 @@ void Mesh::SetTransform(const Transform new_transform)
   LoadTransform();
 }
 
-void Mesh::SetShader(Shader *shader)
-{
-  this->shader = shader;
-}
+void Mesh::SetShader(Shader* shader) { this->shader = shader; }
 
-Transform* Mesh::GetTransformLink()
-{
-  return &transform;
-}
+Transform* Mesh::GetTransformLink() { return &transform; }
 
-void Mesh::UpdateTransform()
-{
-  LoadTransform();
-}
+void Mesh::UpdateTransform() { LoadTransform(); }
 
-void Mesh::LoadModelMatrix()
-{
+void Mesh::LoadModelMatrix() {
   if (!awaitingLoadInShader) return;
   if (!shader) return;
   int modelLoc = glGetUniformLocation(shader->ID, "model");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, (modelTranslate * modelRot * modelScale).data());
+  glUniformMatrix4fv(modelLoc, 1, GL_FALSE,
+                     (modelTranslate * modelRot * modelScale).data());
 
   awaitingLoadInShader = false;
 }
 
-void Mesh::LoadTransform()
-{
+void Mesh::LoadTransform() {
   modelTranslate.setToIdentity();
   modelScale.setToIdentity();
   modelRot.setToIdentity();

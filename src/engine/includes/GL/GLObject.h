@@ -1,6 +1,8 @@
 #ifndef GLOBJECT_H
 #define GLOBJECT_H
-#include "opengl_helper.h"
+#define GL_SILENCE_DEPRECATION
+#include <QOpenGLFunctions>
+#include <QOpenGLExtraFunctions>
 class GLObject : public QOpenGLExtraFunctions {
  public:
   explicit GLObject() { initializeOpenGLFunctions(); };
