@@ -21,6 +21,8 @@ class Engine : protected QOpenGLFunctions {
   Camera* GetCurrentCamera();
     void SetParser(s21::BaseParser* parser);
  private:
+  Object3D *GetObjectTriangle(QString fileName);
+  Object3D *GetObjectEdge(QString fileName);
   Camera* current_camera_ = nullptr;
   s21::BaseParser* OBJParser_ = nullptr;
   std::vector<EObject*> engine_objects_;

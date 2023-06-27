@@ -22,7 +22,8 @@ class Object3D : public EObject {
   virtual EObjectType GetType() const override { return type; };
   void Draw(GLenum type, Camera* camera);
 
-  void UploadMesh(const OBJ& obj);
+  void UploadMesh(const s21::EdgeOBJ& obj);
+  void UploadMesh(const s21::TriangleOBJ& obj);
 
   void SetMesh(const Mesh& mesh);
   void SetShader(Shader& shader);

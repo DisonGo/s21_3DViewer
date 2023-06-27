@@ -45,7 +45,7 @@ void s21::EdgeParser::ParseFaceEdges(const string values, Face* faces, size_t& i
   delete[] edges;
 }
 
-s21::BaseOBJ s21::EdgeParser::Parse(string filePath) {
+s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
   FILE* obj_file = NULL;
   obj_file = fopen(filePath.c_str(), "r");
   if (!obj_file) throw std::invalid_argument("Can't open file");
@@ -119,5 +119,5 @@ s21::BaseOBJ s21::EdgeParser::Parse(string filePath) {
 
   if (str) free(str);
   fclose(obj_file);
-  return obj;
+  return new s21::EdgeOBJ(obj);
 }

@@ -28,11 +28,19 @@ Engine::~Engine() {
 }
 
 void Engine::importObj(QString fileName) {
-  auto obj = OBJParser_->Parse(fileName.toStdString());
-  indicesN += obj.vertices.size();
-  auto object_3d = new Object3D();
+  Object3D* object_3d = nullptr;
+  switch (OBJParser_->GetType()) {
+    case s21::kEdgeParser:
+      object_3d = GetObjectEdge(fileName);
+      break;
+    case s21::kTriangleParser:
+      object_3d = GetObjectTriangle(fileName);
+      break;
+    default:
+      throw "Engine: Parser type not selected.";
+    break;
+  }
   auto shader = Shader::Default();
-  object_3d->UploadMesh(obj);
   object_3d->SetShader(*shader);
   objects_3d_.push_back(object_3d);
   engine_objects_.push_back(object_3d);
@@ -41,10 +49,27 @@ void Engine::importObj(QString fileName) {
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
-void Engine::SetParser(s21::BaseParser *parser)
+void Engine::SetParser(s21::BaseParser* parser) {
+  if (OBJParser_) delete OBJParser_;
+  OBJParser_ = parser;
+}
+
+Object3D *Engine::GetObjectTriangle(QString fileName)
 {
-    if (OBJParser_) delete OBJParser_;
-    OBJParser_ = parser;
+  auto obj = s21::TriangleParser().Parse(fileName.toStdString());
+  auto object_3d = new Object3D();
+  object_3d->UploadMesh(*obj);
+  delete obj;
+  return object_3d;
+}
+
+Object3D *Engine::GetObjectEdge(QString fileName)
+{
+  auto obj = s21::EdgeParser().Parse(fileName.toStdString());
+  auto object_3d = new Object3D();
+  object_3d->UploadMesh(*obj);
+  delete obj;
+  return object_3d;
 }
 
 void Engine::drawGeometry(GLenum type) {

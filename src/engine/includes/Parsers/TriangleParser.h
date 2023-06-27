@@ -7,11 +7,13 @@
 namespace s21 {
 class TriangleParser : public s21::BaseParser {
  public:
-    BaseOBJ Parse(string filePath) override;
-private:
-    s21::TagCounters CountTags(const string filePath);
-    FaceVertex *ParsePolygon(const string values, size_t &size);
-    void ParseFace(const string values, TriangleFace *faces, size_t &index);
+  OBJParserTypes type = kTriangleParser;
+  virtual OBJParserTypes GetType() const override { return type; } ;
+  TriangleOBJ* Parse(string filePath);
+ private:
+  s21::TagCounters CountTags(const string filePath);
+  FaceVertex *ParsePolygon(const string values, size_t &size);
+  void ParseFace(const string values, TriangleFace *faces, size_t &index);
 };
 };  // namespace s21
 

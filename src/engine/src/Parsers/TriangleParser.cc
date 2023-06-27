@@ -88,7 +88,7 @@ void s21::TriangleParser::ParseFace(const string values, TriangleFace* faces, si
   delete[] vertices;
 }
 
-s21::BaseOBJ s21::TriangleParser::Parse(string filePath) {
+s21::TriangleOBJ* s21::TriangleParser::Parse(string filePath) {
   FILE* obj_file = NULL;
   obj_file = fopen(filePath.c_str(), "r");
   if (!obj_file) throw std::invalid_argument("Can't open file");
@@ -162,5 +162,5 @@ s21::BaseOBJ s21::TriangleParser::Parse(string filePath) {
 
   if (str) free(str);
   fclose(obj_file);
-  return obj;
+  return new s21::TriangleOBJ(obj);
 }
