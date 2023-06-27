@@ -26,7 +26,7 @@ void TransformWidget::LinkTranform(Transform *transform) {
 void TransformWidget::LinkMesh(Mesh *mesh) {
   if (!mesh) return;
   this->mesh = mesh;
-  LinkTranform(this->mesh->GetTransformLink());
+//  LinkTranform(this->mesh->GetTransformLink());
 }
 
 void TransformWidget::ResetValues() {
@@ -38,20 +38,20 @@ void TransformWidget::ResetValues() {
 void TransformWidget::SetTranslation(const QVector3D translate) {
   if (!transform) return;
   transform->translate = translate;
-  mesh->UpdateTransform();
+//  mesh->UpdateTransform();
   emit TransformUpdated();
 }
 
 void TransformWidget::SetRotation(const QVector3D rotation) {
   if (!transform) return;
   transform->rotation = rotation;
-  mesh->UpdateTransform();
+//  mesh->UpdateTransform();
   emit TransformUpdated();
 }
 
 void TransformWidget::SetScale(const QVector3D scale) {
   if (!transform) return;
   transform->scale = scale;
-  mesh->UpdateTransform();
+//  mesh->UpdateTransform();
   emit TransformUpdated();
 }

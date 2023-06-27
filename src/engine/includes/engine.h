@@ -4,9 +4,10 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 
-#include "Mesh.h"
+#include "E/Camera.h"
+#include "E/Object3D.h"
 #include "ObjParser.h"
-#include "Camera.h"
+#include "Shader.h"
 class Engine : protected QOpenGLFunctions {
  public:
   Engine();
@@ -17,14 +18,13 @@ class Engine : protected QOpenGLFunctions {
   int verticesN = 0;
   void importObj(QString fileName);
   Camera* GetCurrentCamera();
-  std::vector<Transform*> GetMeshTransforms();
-  std::vector<Mesh*> GetMeshes();
 
  private:
   Camera* current_camera_ = nullptr;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;
-  std::vector<Mesh*> meshes_;
+  std::vector<Object3D*> objects_3d_;
+  std::vector<Shader*> shaders_;
 };
 
 #endif  // ENGINE_H

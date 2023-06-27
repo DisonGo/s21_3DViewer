@@ -1,7 +1,9 @@
-#pragma once
+#ifndef VERTEXCOLOR_H
+#define VERTEXCOLOR_H
 #include <QOpenGLFunctions>
-struct VertexColor {
+typedef struct {
   GLfloat r;
   GLfloat g;
   GLfloat b;
-};
+} VertexColor;
+#endif // VERTEXCOLOR_H

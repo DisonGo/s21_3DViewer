@@ -22,29 +22,24 @@ Engine::Engine() {
 
 Engine::~Engine() {
   for (auto obj : engine_objects_) delete obj;
+  for (auto shader : shaders_) delete shader;
 }
 
 void Engine::importObj(QString fileName) {
   OBJ obj = ObjParser::ParseEdges(fileName.toStdString());
   indicesN += obj.vertices.size();
-  Mesh* mesh = new Mesh(obj);
-  meshes_.push_back(mesh);
-  engine_objects_.push_back(mesh);
+  auto object_3d = new Object3D();
+  auto shader = Shader::Default();
+  object_3d->UploadMesh(obj);
+  object_3d->SetShader(*shader);
+  objects_3d_.push_back(object_3d);
+  engine_objects_.push_back(object_3d);
+  shaders_.push_back(shader);
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
-std::vector<Transform*> Engine::GetMeshTransforms() {
-  size_t size = meshes_.size();
-  std::vector<Transform*> result;
-  for (size_t i = 0; i < size; i++)
-    result.push_back(meshes_[i]->GetTransformLink());
-  return result;
-}
-
-std::vector<Mesh*> Engine::GetMeshes() { return meshes_; }
-
 void Engine::drawGeometry(GLenum type) {
-  for (auto mesh : meshes_)
-    if (mesh) mesh->Draw(type, current_camera_);
+  for (auto object : objects_3d_)
+    if (object) object->Draw(type, current_camera_);
 }

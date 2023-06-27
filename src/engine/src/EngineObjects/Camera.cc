@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "E/Camera.h"
 
 #include <QMatrix4x4>
 
@@ -9,8 +9,7 @@ Camera::Camera() : config_(*this) {
   SetPosition(QVector3D(0, 0, 0));
   initializeOpenGLFunctions();
 }
-Camera::Camera(int width, int height)
-    : config_(*this) {
+Camera::Camera(int width, int height) : config_(*this) {
   SetVw(width);
   SetVh(height);
   initializeOpenGLFunctions();

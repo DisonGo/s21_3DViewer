@@ -113,15 +113,6 @@ std::vector<QImage> OpenGLController::stopScreenCapture() {
   captureTimer.stop();
   return captureBuffer;
 }
-std::vector<Transform *> OpenGLController::GetMeshTransforms() {
-  if (!engine) return std::vector<Transform *>();
-  return engine->GetMeshTransforms();
-}
-
-std::vector<Mesh *> OpenGLController::GetMeshes() {
-  if (!engine) return std::vector<Mesh *>();
-  return engine->GetMeshes();
-}
 void OpenGLController::importObjFile(QString filename) {
   if (!engine) return;
   makeCurrent();

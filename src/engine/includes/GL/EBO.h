@@ -1,5 +1,5 @@
-#ifndef EBO_H_
-#define EBO_H_
+#ifndef EBO_H
+#define EBO_H
 #include "GL/GLBuffer.h"
 #include "Types/Face.h"
 class EBO : public GLBuffer {
@@ -15,4 +15,4 @@ class EBO : public GLBuffer {
   GLuint size_ = 0;
 };
 
-#endif  // !EBO_H_
+#endif  // EBO_H

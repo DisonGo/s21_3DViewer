@@ -1,5 +1,7 @@
-#pragma once
+#ifndef VERTEXDATA_H
+#define VERTEXDATA_H
 #include "Vertex.h"
-struct VertexData {
+typedef struct VertexData {
   Vertex vertex;
-};
+} VertexData;
+#endif  // VERTEXDATA_H

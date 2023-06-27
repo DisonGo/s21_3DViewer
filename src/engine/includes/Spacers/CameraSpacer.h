@@ -3,7 +3,7 @@
 #include <QKeyEvent>
 #include <QObject>
 
-#include "Camera.h"
+#include "E/Camera.h"
 
 class CameraSpacer : public QObject {
   Q_OBJECT

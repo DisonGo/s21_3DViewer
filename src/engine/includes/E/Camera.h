@@ -54,6 +54,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
 
   void Matrix(Shader &shader, const char *uniform);
   CameraConfig &GetConfig() { return config_; };
+  virtual EObjectType GetType() const override { return type; };
 
  public:  // Setters / Getters
   void SetMode(CameraMode newMode);
