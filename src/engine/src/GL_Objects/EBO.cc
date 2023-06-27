@@ -1,4 +1,4 @@
-#include "EBO.h"
+#include "GL/EBO.h"
 
 EBO::EBO(std::vector<Face> indices) { BindIndices(indices); }
 

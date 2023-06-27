@@ -4,8 +4,8 @@
 #include <QVector3D>
 #include <QWidget>
 
-#include "Mesh.h"
-#include "Types/Transform.h"
+#include "E/Mesh.h"
+#include "E/Transform.h"
 namespace Ui {
 class TransformWidget;
 }

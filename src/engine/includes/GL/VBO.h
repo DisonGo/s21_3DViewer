@@ -9,4 +9,4 @@ class VBO : public GLBuffer {
   GLenum GetType() override { return type; };
   GLenum type = GL_ARRAY_BUFFER;
 };
-#endif  // !VBO_H_
+#endif  // VBO_H

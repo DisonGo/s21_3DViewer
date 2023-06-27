@@ -1,10 +1,11 @@
-#pragma once
+#ifndef OBJ_H
+#define OBJ_H
 #include <vector>
 
+#include "Face.h"
 #include "Normal.h"
 #include "TextureCoord.h"
 #include "TriangleFace.h"
-#include "Face.h"
 #include "Vertex.h"
 using std::vector;
 typedef struct {
@@ -14,3 +15,5 @@ typedef struct {
   vector<Normal> normals;
   vector<TextureCoord> textureCoords;
 } OBJ;
+
+#endif // OBJ_H

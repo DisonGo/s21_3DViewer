@@ -1,7 +1,7 @@
-#include "Mesh.h"
+#include "E/Mesh.h"
 
-#include "EBO.h"
-#include "VBO.h"
+#include "GL/VBO.h"
+#include "GL/VBO.h"
 std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
                                               std::vector<TriangleFace> faces) {
   std::vector<VertexData> new_arr;

@@ -1,4 +1,4 @@
-#include "VAO.h"
+#include "GL/VAO.h"
 
 void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
                      GLsizeiptr stride, void* offset) {

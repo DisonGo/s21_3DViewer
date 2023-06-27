@@ -8,7 +8,7 @@
 #include <QSettings>
 #include <QVector3D>
 
-#include "Camera.h"
+#include "E/Camera.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;

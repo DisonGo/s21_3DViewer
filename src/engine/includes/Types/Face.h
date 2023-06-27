@@ -1,7 +1,10 @@
-#pragma once
+#ifndef FACE_H
+#define FACE_H
 #include <vector>
 
 #include "FaceVertex.h"
-typedef struct _Face {
+typedef struct {
   std::vector<FaceVertex> indices;
 } Face;
+
+#endif // FACE_H

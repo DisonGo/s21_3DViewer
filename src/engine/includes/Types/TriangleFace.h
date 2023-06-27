@@ -1,6 +1,8 @@
-#pragma once
-
+#ifndef TRIANGLEFACE_H
+#define TRIANGLEFACE_H
 #include "FaceVertex.h"
-typedef struct _TriangleFace {
+typedef struct {
   FaceVertex indices[3];
 } TriangleFace;
+
+#endif // TRIANGLEFACE_H

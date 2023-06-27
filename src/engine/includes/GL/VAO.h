@@ -1,10 +1,10 @@
-#ifndef VAO_H_
-#define VAO_H_
+#ifndef VAO_H
+#define VAO_H
 #include "GL/GLArray.h"
-#include "VBO.h"
+#include "GL/VBO.h"
 class VAO : public GLArray {
  public:
   void LinkAttrib(VBO &VBO, GLuint layout, GLuint nComponents, GLenum type,
                   GLsizeiptr stride, void *offset);
 };
-#endif  // !VAO_H_
+#endif  // VAO_H

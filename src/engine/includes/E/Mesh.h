@@ -3,12 +3,12 @@
 #include <QMatrix4x4>
 #include <QOpenGLFunctions>
 
+#include "E/Camera.h"
 #include "E/EObject.h"
-#include "Types/OBJ.h"
-#include "Types/Transform.h"
-#include "VAO.h"
-#include "Camera.h"
+#include "E/Transform.h"
+#include "GL/VAO.h"
 #include "Shader.h"
+#include "Types/OBJ.h"
 class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();
