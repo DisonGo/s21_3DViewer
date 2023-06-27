@@ -3,6 +3,7 @@
 #include <QRandomGenerator>
 #include <QVector2D>
 #include <QVector3D>
+#include <functional>
 
 // VertexColor getRandRGB() {
 //   VertexColor color;
@@ -15,6 +16,7 @@
 Engine::Engine() {
   initializeOpenGLFunctions();
   Camera* default_camera = new Camera();
+  SetParser(new s21::TriangleParser());
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
@@ -26,7 +28,7 @@ Engine::~Engine() {
 }
 
 void Engine::importObj(QString fileName) {
-  OBJ obj = ObjParser::ParseEdges(fileName.toStdString());
+  auto obj = OBJParser_->Parse(fileName.toStdString());
   indicesN += obj.vertices.size();
   auto object_3d = new Object3D();
   auto shader = Shader::Default();
@@ -38,6 +40,12 @@ void Engine::importObj(QString fileName) {
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
+
+void Engine::SetParser(s21::BaseParser *parser)
+{
+    if (OBJParser_) delete OBJParser_;
+    OBJParser_ = parser;
+}
 
 void Engine::drawGeometry(GLenum type) {
   for (auto object : objects_3d_)

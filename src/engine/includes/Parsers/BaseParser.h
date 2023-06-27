@@ -29,6 +29,7 @@ class BaseParser {
   size_t CountFaceVertices(const char *line);
   double parseDigits(char **p);
   double parseDigits(char **p, int &count);
+  virtual ~BaseParser();
 };
 }  // namespace s21
 

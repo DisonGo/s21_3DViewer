@@ -4,7 +4,8 @@
 #include "E/EObject.h"
 #include "E/Mesh.h"
 #include "E/Transform.h"
-#include "Types/OBJ.h"
+#include "Types/EdgeOBJ.h"
+#include "Types/TriangleOBJ.h"
 #include "Shader.h"
 class Object3D : public EObject {
  public:
