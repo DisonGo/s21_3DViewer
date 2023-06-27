@@ -1,7 +1,6 @@
 #include "E/Mesh.h"
 
 #include "GL/VBO.h"
-#include "E/Mesh.h"
 std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
                                               std::vector<TriangleFace> faces) {
   std::vector<VertexData> new_arr;
@@ -28,9 +27,15 @@ std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
 }
 Mesh::Mesh() { initializeOpenGLFunctions(); }
 
-Mesh::Mesh(OBJ obj) {
+Mesh::Mesh(s21::EdgeOBJ obj) {
   initializeOpenGLFunctions();
   LoadObj(obj);
+}
+
+Mesh::Mesh(s21::TriangleOBJ obj)
+{
+    initializeOpenGLFunctions();
+    LoadObj(obj);
 }
 
 Mesh::~Mesh() {
@@ -46,16 +51,33 @@ void Mesh::Draw(GLenum type) {
   Unbind();
 }
 
-void Mesh::LoadObj(const OBJ& obj) {
-  qDebug() << "Loading obj >> Vertex array ID:" << vertexBuf.ID;
-  vertexBuf.Bind();
-  std::vector<VertexData> vData =
-      reassembleVertexArray(obj.vertices, obj.faces);
-  verticesN = vData.size();
-  indicesN = obj.faces.size() * 3;
-  qDebug() << QString("Loading %1 vertices.").arg(verticesN);
-  VBO VBO1(vData);
-  vertexBuf.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
-  vertexBuf.Unbind();
-  VBO1.Unbind();
+void Mesh::LoadObj(const s21::EdgeOBJ &obj)
+{
+    qDebug() << "Loading obj >> Vertex array ID:" << vertexBuf.ID;
+    vertexBuf.Bind();
+    std::vector<VertexData> vData =
+        reassembleVertexArray(obj.vertices, obj.faces);
+    verticesN = vData.size();
+    indicesN = obj.faces.size() * 3;
+    qDebug() << QString("Loading %1 vertices.").arg(verticesN);
+    VBO VBO1(vData);
+    vertexBuf.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
+    vertexBuf.Unbind();
+    VBO1.Unbind();
 }
+
+void Mesh::LoadObj(const s21::TriangleOBJ &obj)
+{
+    qDebug() << "Loading obj >> Vertex array ID:" << vertexBuf.ID;
+    vertexBuf.Bind();
+    std::vector<VertexData> vData =
+        reassembleVertexArray(obj.vertices, obj.faces);
+    verticesN = vData.size();
+    indicesN = obj.faces.size() * 3;
+    qDebug() << QString("Loading %1 vertices.").arg(verticesN);
+    VBO VBO1(vData);
+    vertexBuf.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
+    vertexBuf.Unbind();
+    VBO1.Unbind();
+}
+

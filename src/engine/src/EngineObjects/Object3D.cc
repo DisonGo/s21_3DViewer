@@ -7,7 +7,16 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   camera->Matrix(*shader_, "camMatrix");
   mesh_.Draw(type);
 }
-void Object3D::UploadMesh(const OBJ& obj) { mesh_.LoadObj(obj); }
+
+void Object3D::UploadMesh(const s21::EdgeOBJ &obj)
+{
+     mesh_.LoadObj(obj);
+}
+
+void Object3D::UploadMesh(const s21::TriangleOBJ &obj)
+{
+     mesh_.LoadObj(obj);
+}
 void Object3D::SetTransform(const Transform& transform) {
   if (transform_ == transform) return;
   transform_ = transform;
