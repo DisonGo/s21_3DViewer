@@ -13,14 +13,12 @@ QString Shader::getFileContent(const char* fileName) {
   return shader_content;
 }
 
-Shader::Shader(QObject* parent) : QObject(parent) {
+Shader::Shader(){
   initializeOpenGLFunctions();
   ID = -1;
 }
 
-Shader::Shader(const char* vertexFile, const char* fragmentFile,
-               QObject* parent)
-    : QObject(parent) {
+Shader::Shader(const char* vertexFile, const char* fragmentFile){
   initializeOpenGLFunctions();
   SetVertexShader(vertexFile);
   SetFragmentShader(fragmentFile);
@@ -60,8 +58,7 @@ void Shader::Activate() { glUseProgram(ID); }
 void Shader::Delete() { glDeleteProgram(ID); }
 
 Shader* Shader::Default() {
-  return new Shader(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl",
-                    nullptr);
+  return new Shader(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl");
 }
 
 Shader& Shader::operator=(Shader&& obj) {

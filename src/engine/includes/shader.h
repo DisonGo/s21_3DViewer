@@ -2,23 +2,20 @@
 #define SHADER_H
 #define GL_SILENCE_DEPRECATION
 
-#include <QObject>
 #include <QOpenGLFunctions>
 #include <string>
-class Shader : public QObject, protected QOpenGLFunctions {
-  Q_OBJECT
+class Shader : protected QOpenGLFunctions {
  public:
   enum ShaderType { Vertex = 0, Fragment };
   GLuint ID;
-  explicit Shader(QObject* parent = nullptr);
-  Shader(const char* vertexFile = "", const char* fragmentFile = "",
-         QObject* parent = nullptr);
+  Shader();
+  Shader(const char* vertexFile = "", const char* fragmentFile = "");
   void Activate();
   void Delete();
   static Shader* Default();
   Shader& operator=(Shader&&);
 
- private:
+private:
   GLint vertexId = -1;
   GLint fragmentId = -1;
 

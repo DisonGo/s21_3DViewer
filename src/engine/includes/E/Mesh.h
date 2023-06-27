@@ -13,29 +13,18 @@ class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();
   Mesh(OBJ obj);
-  Mesh(OBJ obj, Shader* shader);
   ~Mesh();
   EObjectType type = EObjectType::kMesh;
-  void Draw(GLenum type, Camera* camera);
+  void Bind();
+  void Unbind();
+  void Draw(GLenum type);
   void LoadObj(const OBJ& obj);
-  void SetTransform(const Transform new_transform);
-  void SetShader(Shader* shader);
-  Transform* GetTransformLink();
-  void UpdateTransform();
+  virtual EObjectType GetType() const override { return type; };
 
  private:
-  void LoadModelMatrix();
-  void LoadTransform();
-
- private:
-  Transform transform;
-  Shader* shader = nullptr;
-  QMatrix4x4 modelRot;
-  QMatrix4x4 modelTranslate;
-  QMatrix4x4 modelScale;
   int verticesN = 0;
   int indicesN = 0;
-  bool awaitingLoadInShader = false;
+
   VAO vertexBuf;
 };
 

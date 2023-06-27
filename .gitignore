@@ -1,3 +1,4 @@
+.vscode
 *.ini
 build*
 /src/renderer/main

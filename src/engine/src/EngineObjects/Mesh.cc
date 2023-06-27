@@ -1,7 +1,7 @@
 #include "E/Mesh.h"
 
 #include "GL/VBO.h"
-#include "GL/VBO.h"
+#include "E/Mesh.h"
 std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
                                               std::vector<TriangleFace> faces) {
   std::vector<VertexData> new_arr;
@@ -26,23 +26,10 @@ std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
   }
   return new_arr;
 }
-Mesh::Mesh() {
-  initializeOpenGLFunctions();
-  SetShader(Shader::Default());
-  LoadTransform();
-}
+Mesh::Mesh() { initializeOpenGLFunctions(); }
 
 Mesh::Mesh(OBJ obj) {
   initializeOpenGLFunctions();
-  SetShader(Shader::Default());
-  LoadTransform();
-  LoadObj(obj);
-}
-
-Mesh::Mesh(OBJ obj, Shader* shader) {
-  initializeOpenGLFunctions();
-  SetShader(shader);
-  LoadTransform();
   LoadObj(obj);
 }
 
@@ -51,14 +38,12 @@ Mesh::~Mesh() {
   vertexBuf.Delete();
 }
 
-void Mesh::Draw(GLenum type, Camera* camera) {
-  if (!shader || !camera) return;
-  shader->Activate();
-  LoadModelMatrix();
-  camera->Matrix(*shader, "camMatrix");
-  vertexBuf.Bind();
+void Mesh::Bind() { vertexBuf.Bind(); }
+void Mesh::Unbind() { vertexBuf.Unbind(); }
+void Mesh::Draw(GLenum type) {
+  Bind();
   glDrawArrays(type, 0, verticesN);
-  vertexBuf.Unbind();
+  Unbind();
 }
 
 void Mesh::LoadObj(const OBJ& obj) {
@@ -73,43 +58,4 @@ void Mesh::LoadObj(const OBJ& obj) {
   vertexBuf.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   vertexBuf.Unbind();
   VBO1.Unbind();
-}
-
-void Mesh::SetTransform(const Transform new_transform) {
-  if (transform == new_transform) return;
-
-  transform = new_transform;
-
-  LoadTransform();
-}
-
-void Mesh::SetShader(Shader* shader) { this->shader = shader; }
-
-Transform* Mesh::GetTransformLink() { return &transform; }
-
-void Mesh::UpdateTransform() { LoadTransform(); }
-
-void Mesh::LoadModelMatrix() {
-  if (!awaitingLoadInShader) return;
-  if (!shader) return;
-  int modelLoc = glGetUniformLocation(shader->ID, "model");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE,
-                     (modelTranslate * modelRot * modelScale).data());
-
-  awaitingLoadInShader = false;
-}
-
-void Mesh::LoadTransform() {
-  modelTranslate.setToIdentity();
-  modelScale.setToIdentity();
-  modelRot.setToIdentity();
-
-  modelTranslate.translate(transform.translate);
-  modelScale.scale(transform.scale);
-
-  modelRot.rotate(transform.rotation.x(), 1, 0, 0);
-  modelRot.rotate(transform.rotation.y(), 0, 1, 0);
-  modelRot.rotate(transform.rotation.z(), 0, 0, 1);
-
-  awaitingLoadInShader = true;
 }

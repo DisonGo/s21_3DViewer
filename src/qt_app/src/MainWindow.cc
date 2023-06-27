@@ -204,14 +204,14 @@ void MainWindow::on_pushButton_loadFile_clicked() {
   QString filePath = ui->comboBox_tab1->currentText();
   if (filePath.isEmpty()) return;
   ui->openGLWidget->importObjFile(filePath);
-  std::vector<Mesh*> meshes = ui->openGLWidget->GetMeshes();
-  clearLayout(ui->Transforms);
-  for (auto mesh : meshes) {
-    TransformWidget* wid = new TransformWidget(this);
-    ui->Transforms->addWidget(wid);
-    wid->LinkMesh(mesh);
-    connect(wid, SIGNAL(TransformUpdated()), this, SLOT(UpdateGL()));
-  }
+  // std::vector<Mesh*> meshes = ui->openGLWidget->GetMeshes();
+  // clearLayout(ui->Transforms);
+  // for (auto mesh : meshes) {
+  //   TransformWidget* wid = new TransformWidget(this);
+  //   ui->Transforms->addWidget(wid);
+  //   wid->LinkMesh(mesh);
+  //   connect(wid, SIGNAL(TransformUpdated()), this, SLOT(UpdateGL()));
+  // }
 }
 
 void MainWindow::on_doubleSpinBox_widthLine_valueChanged(double arg1) {
