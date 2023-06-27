@@ -65,9 +65,9 @@ void Mesh::LoadObj(const OBJ& obj) {
   qDebug() << "Loading obj >> Vertex array ID:" << vertexBuf.ID;
   vertexBuf.Bind();
   std::vector<VertexData> vData =
-      reassembleVertexArray(obj.vertices, obj.faces);
+      reassembleVertexArray(obj.vertices, obj.edges);
   verticesN = vData.size();
-  indicesN = obj.faces.size() * 3;
+  indicesN = obj.edges.size() * 3;
   qDebug() << QString("Loading %1 vertices.").arg(verticesN);
   VBO VBO1(vData);
   vertexBuf.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);

@@ -6,10 +6,11 @@
 #include <sstream>
 #include <stdexcept>
 #include <thread>
+
 #include "Types/Face.h"
 #include "Types/Normal.h"
 #include "Types/TextureCoord.h"
-#define SHOW_TIMINGS
+
 using std::isspace;
 using std::string;
 using std::vector;
@@ -24,7 +25,7 @@ double parseDigits(char** p) {
   }
   return value;
 }
-double parseDigits(char** p, int &count) {
+double parseDigits(char** p, int& count) {
   double value = 0;
   while (**p >= '0' && **p <= '9') {
     value = (value * 10.0) + (**p - '0');
@@ -207,17 +208,17 @@ void ParseFaceEdges(const string values, Face* faces, size_t& index) {
   size_t vCount = 0;
   vertices = ParsePolygon(values, vCount);
   edges = ParsePolygonEdges(vertices, vCount);
-  faces[index].indices.insert(faces[index].indices.end(), edges, edges + vCount * 2);
+  faces[index].indices.insert(faces[index].indices.end(), edges,
+                              edges + vCount * 2);
   ++index;
   delete[] vertices;
   delete[] edges;
 }
 void ParseFace(const string values, TriangleFace* faces, size_t& index) {
   FaceVertex* vertices = nullptr;
-  FaceVertex* edges = nullptr;
   size_t vCount = 0;
   vertices = ParsePolygon(values, vCount);
-  edges = ParsePolygonEdges(vertices, vCount);
+
   // Polygon contains n of Face vertices
   // Here polygon transforms in (n - 2) triangle faces;
   // Example:
@@ -243,7 +244,7 @@ OBJ ObjParser::Parse(string filePath) {
 
   // Count total amount of tags in file for memory allocation
 
-  TagCounters tags = CountTags(filePath);
+  TagCounters tags = CountTags(filePath);  // Подсчет 'v', 'vt', 'f'
 
   // std::vector memory allocation
 
@@ -278,7 +279,7 @@ OBJ ObjParser::Parse(string filePath) {
     // Parse and save values depending on tag
 
     if (tag == "v") {
-      vertices[counter.vC] = ParseVertex(values);
+      vertices[counter.vC] = ParseVertex(values);  // filling_array_vertexes
       counter.vC++;
     } else if (tag == "vt") {
       textureCoords[counter.vtC] = ParseTextureCoord(values);

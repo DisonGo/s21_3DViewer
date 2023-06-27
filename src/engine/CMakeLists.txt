@@ -20,11 +20,16 @@ set(ENGINE_HEADER
     includes/VBO.h
     includes/Shader.h
     includes/ObjParser.h
+    includes/Parsers/BaseParser.h
+    includes/Parsers/EdgeParser.h
+    includes/Parsers/TriangleParser.h
 
     includes/Types/Face.h
     includes/Types/FaceVertex.h
     includes/Types/Normal.h
-    includes/Types/OBJ.h
+    includes/Types/BaseOBJ.h
+    includes/Types/TriangleOBJ.h
+    includes/Types/EdgeOBJ.h
     includes/Types/TextureCoord.h   
     includes/Types/Transform.h
     includes/Types/TriangleFace.h

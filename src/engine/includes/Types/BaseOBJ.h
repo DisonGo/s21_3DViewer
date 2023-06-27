@@ -1,5 +1,6 @@
-#ifndef OBJ_H
-#define OBJ_H
+#ifndef SRC_INCLUDES_TYPES_BASE_OBJ_H
+#define SRC_INCLUDES_TYPES_BASE_OBJ_H
+
 #include <vector>
 
 #include "Face.h"
@@ -8,12 +9,16 @@
 #include "TriangleFace.h"
 #include "Vertex.h"
 using std::vector;
-typedef struct {
+
+namespace s21 {
+
+class BaseOBJ {
+ public:
   vector<Vertex> vertices;
-  vector<TriangleFace> faces;
-  vector<Face> edges;
   vector<Normal> normals;
   vector<TextureCoord> textureCoords;
-} OBJ;
+};
 
-#endif  // OBJ_H
+}  // namespace s21
+
+#endif  //   SRC_INCLUDES_TYPES_BASE_OBJ_H

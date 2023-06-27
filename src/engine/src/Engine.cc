@@ -25,7 +25,7 @@ Engine::~Engine() {
 }
 
 void Engine::importObj(QString fileName) {
-  OBJ obj = ObjParser::Parse(fileName.toStdString());
+  OBJ obj = ObjParser::ParseEdges(fileName.toStdString());
   indicesN += obj.vertices.size();
   Mesh* mesh = new Mesh(obj);
   meshes_.push_back(mesh);
