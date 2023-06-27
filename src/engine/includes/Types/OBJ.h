@@ -16,8 +16,5 @@ typedef struct {
   vector<TextureCoord> textureCoords;
 } OBJ;
 
-<<<<<<< HEAD
+
 #endif  // OBJ_H
-=======
-#endif // OBJ_H
->>>>>>> origin/develop
