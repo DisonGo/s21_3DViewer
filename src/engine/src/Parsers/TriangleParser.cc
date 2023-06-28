@@ -28,44 +28,8 @@ s21::TagCounters s21::TriangleParser::CountTags(const string filePath) {
   return counter;
 }
 
-FaceVertex* s21::TriangleParser::ParsePolygon(const string values, size_t& size) {
-  const char* str = values.c_str();
-  size = CountFaceVertices(str);
-  FaceVertex* vertices = new FaceVertex[size];
-
-  // Face vertex is object with 3 values 'vertex index' 'texture coordinate
-  // index' 'normal index' Face vertex patterns:
-  /*
-    1/1/1   2/2/2   2/2/2   (All 3 indices)
-    1//1    2//2    3//3    (Vertex and normal indices)
-    1/1     2/2     3/3     (Vertex and texture indices)
-    1       2       3       (Only vertex indices)
-  */
-  // If any of indices is not present it is set to -1;
-
-  for (size_t i = 0; i < size && *str; i++) {
-    FaceVertex& vertex = vertices[i];
-    for (int j = 0; j < 3 && *str; j++) {
-      unsigned index = stod(str) - 1;
-      while (*str && isspace(*str)) ++str;
-      while (*str && std::isdigit(*str)) ++str;
-      if (j == 0) vertex.vIndex = index;
-      if (j == 1) vertex.tIndex = index;
-      if (j == 2) vertex.nIndex = index;
-      bool isslash = *str == '/';
-      if (isslash) ++str;
-      if (!isslash) {
-        if (j == 0) vertex.tIndex = -1;
-        if (j != 2) vertex.nIndex = -1;
-        j = 2;
-      }
-    }
-    while (*str && !isspace(*str)) ++str;
-  }
-  return vertices;
-}
-
-void s21::TriangleParser::ParseFace(const string values, TriangleFace* faces, size_t& index) {
+void s21::TriangleParser::ParseFace(const string values, TriangleFace* faces,
+                                    size_t& index) {
   FaceVertex* vertices = nullptr;
   size_t vCount = 0;
   vertices = ParsePolygon(values, vCount);

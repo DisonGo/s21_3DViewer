@@ -23,7 +23,9 @@ s21::TagCounters s21::EdgeParser::CountTagsEdges(const string filePath) {
   fclose(obj_file);
   return counter;
 }
-FaceVertex* s21::EdgeParser::ParsePolygonEdges(FaceVertex* vertices, size_t& size) {
+
+FaceVertex* s21::EdgeParser::ParsePolygonEdges(FaceVertex* vertices,
+                                               size_t& size) {
   size_t edge_count = size * 2;
   FaceVertex* edges = new FaceVertex[edge_count];
   for (size_t i = 0, j = 0; i < size; ++i) {
@@ -33,10 +35,12 @@ FaceVertex* s21::EdgeParser::ParsePolygonEdges(FaceVertex* vertices, size_t& siz
   return edges;
 }
 
-void s21::EdgeParser::ParseFaceEdges(const string values, Face* faces, size_t& index) {
+void s21::EdgeParser::ParseFaceEdges(const string values, Face* faces,
+                                     size_t& index) {
   FaceVertex* vertices = nullptr;
   FaceVertex* edges = nullptr;
   size_t vCount = 0;
+  vertices = ParsePolygon(values, vCount);
   edges = ParsePolygonEdges(vertices, vCount);
   faces[index].indices.insert(faces[index].indices.end(), edges,
                               edges + vCount * 2);

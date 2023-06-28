@@ -20,7 +20,8 @@ typedef struct {
 } TagCounters;
 enum OBJParserTypes { kBaseParser, kEdgeParser, kTriangleParser };
 class BaseParser {
- public:;
+ public:
+  ;
   OBJParserTypes type = kBaseParser;
   virtual OBJParserTypes GetType() const { return type; };
 
@@ -29,6 +30,7 @@ class BaseParser {
   TextureCoord ParseTextureCoord(const string& line);
   Vertex ParseVertex(const string& line);
   Normal ParseNormal(const string& line);
+  FaceVertex* ParsePolygon(const string values, size_t& size);
 
   double stod(const char* s);
   double parseDigits(char** p);

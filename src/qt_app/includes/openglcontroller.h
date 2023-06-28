@@ -20,7 +20,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   struct glDrawArraysConfig {
     bool Points = true;
     bool Lines = true;
-    bool Triangles = true;
+    bool Triangles = false;
     bool Triangles_strip = false;
     float Point_size = 1;
     float Line_width = 1;

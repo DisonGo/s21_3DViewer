@@ -16,7 +16,7 @@
 Engine::Engine() {
   initializeOpenGLFunctions();
   Camera* default_camera = new Camera();
-  SetParser(new s21::TriangleParser());
+  SetParser(new s21::EdgeParser());
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
@@ -38,7 +38,7 @@ void Engine::importObj(QString fileName) {
       break;
     default:
       throw "Engine: Parser type not selected.";
-    break;
+      break;
   }
   auto shader = Shader::Default();
   object_3d->SetShader(*shader);
@@ -54,8 +54,7 @@ void Engine::SetParser(s21::BaseParser* parser) {
   OBJParser_ = parser;
 }
 
-Object3D *Engine::GetObjectTriangle(QString fileName)
-{
+Object3D* Engine::GetObjectTriangle(QString fileName) {
   auto obj = s21::TriangleParser().Parse(fileName.toStdString());
   auto object_3d = new Object3D();
   object_3d->UploadMesh(*obj);
@@ -63,8 +62,7 @@ Object3D *Engine::GetObjectTriangle(QString fileName)
   return object_3d;
 }
 
-Object3D *Engine::GetObjectEdge(QString fileName)
-{
+Object3D* Engine::GetObjectEdge(QString fileName) {
   auto obj = s21::EdgeParser().Parse(fileName.toStdString());
   auto object_3d = new Object3D();
   object_3d->UploadMesh(*obj);
