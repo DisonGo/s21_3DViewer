@@ -3,13 +3,13 @@
 #include <QMatrix4x4>
 
 #include "QtMath"
-Camera::Camera() : config_(*this) {
+Camera::Camera() {
   SetVh(0);
   SetVw(0);
   SetPosition(QVector3D(0, 0, 0));
   initializeOpenGLFunctions();
 }
-Camera::Camera(int width, int height) : config_(*this) {
+Camera::Camera(int width, int height) {
   SetVw(width);
   SetVh(height);
   initializeOpenGLFunctions();
@@ -84,6 +84,8 @@ void Camera::SetRotationSpeed(float newRotationSpeed) {
   rotationSpeed = newRotationSpeed;
 }
 
+void Camera::SetBox(const ParallelBox &newBox) { box = newBox; }
+
 void Camera::SetOrientation(const QVector3D &newOrientation) {
   Orientation = newOrientation;
 }
@@ -99,3 +101,16 @@ void Camera::SetPosition(const QVector3D &newPosition) {
 }
 
 void Camera::SetMode(CameraMode newMode) { mode = newMode; }
+
+Camera::CameraMode Camera::GetMode() const { return mode; };
+Camera::ViewMode Camera::GetViewMode() const { return viewMode; };
+const QVector3D &Camera::GetFocusPoint() const { return FocusPoint; };
+const QVector3D &Camera::GetPosition() const { return Position; };
+const QVector3D &Camera::GetOrientation() const { return Orientation; };
+const QVector2D &Camera::GetZRange() const { return zRange; };
+float Camera::GetFOV() const { return FOV; };
+int Camera::GetVw() const { return vw; };
+int Camera::GetVh() const { return vh; };
+float Camera::GetMoveSpeed() const { return moveSpeed; };
+float Camera::GetRotationSpeed() const { return rotationSpeed; };
+const Camera::ParallelBox &Camera::GetBox() const { return box; };

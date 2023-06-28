@@ -1,9 +1,9 @@
-#include "TripletController.h"
+#include "TripletWidget.h"
 
-#include "ui_tripletcontroller.h"
+#include "ui_TripletWidget.h"
 
-TripletController::TripletController(QWidget* parent)
-    : QWidget(parent), ui(new Ui::TripletController) {
+TripletWidget::TripletWidget(QWidget* parent)
+    : QWidget(parent), ui(new Ui::TripletWidget) {
   ui->setupUi(this);
   connect(ui->firstV, SIGNAL(valueChanged(double)), this,
           SLOT(ReadInput(double)));
@@ -13,42 +13,43 @@ TripletController::TripletController(QWidget* parent)
           SLOT(ReadInput(double)));
 }
 
-TripletController::~TripletController() { delete ui; }
+TripletWidget::~TripletWidget() { delete ui; }
 
-void TripletController::SetValues(const QVector3D values) {
+void TripletWidget::SetValues(const QVector3D& values) {
+  if (values == this->values) return;
   this->values = values;
   UpdateInputs();
 }
 
-QVector3D TripletController::GetValues() const { return values; }
+QVector3D TripletWidget::GetValues() const { return values; }
 
-void TripletController::ResetValues() {
+void TripletWidget::ResetValues() {
   values.setX(0);
   values.setY(0);
   values.setZ(0);
   UpdateInputs();
 }
 
-void TripletController::Lock() {
+void TripletWidget::Lock() {
   ui->firstV->setDisabled(true);
   ui->secondV->setDisabled(true);
   ui->thirdV->setDisabled(true);
 }
 
-void TripletController::Unlock() {
+void TripletWidget::Unlock() {
   ui->firstV->setEnabled(true);
   ui->secondV->setEnabled(true);
   ui->thirdV->setEnabled(true);
 }
 
-void TripletController::UpdateInputs() {
+void TripletWidget::UpdateInputs() {
   ui->firstV->setValue(values.x());
   ui->secondV->setValue(values.y());
   ui->thirdV->setValue(values.z());
   emit InputsChanged(values);
 }
 
-void TripletController::ReadInput(double val) {
+void TripletWidget::ReadInput(double val) {
   QDoubleSpinBox* wid = (QDoubleSpinBox*)sender();
   if (!wid) return;
   if (wid == ui->firstV) values.setX(val);

@@ -44,7 +44,7 @@ void OpenGLController::initializeGL() {
   glEnable(GL_LINE_SMOOTH);
   glEnable(GL_MULTISAMPLE);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-  engine = new Engine();
+  engine = Engine::Instance();
   cameraSpacer = new CameraSpacer(this, *engine->GetCurrentCamera());
   emit initialized();
 }
@@ -57,19 +57,7 @@ void OpenGLController::resizeGL(int w, int h) {
   update();
 }
 void OpenGLController::paintGL() {
-  glClearColor(BackColor.redF(), BackColor.greenF(), BackColor.blueF(), 1);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  if (drawArrConf.Points) {
-    engine->drawGeometry(GL_POINTS);
-  }
-  if (drawArrConf.Triangles) {
-    engine->drawGeometry(GL_TRIANGLES);
-  }
-  if (drawArrConf.Lines) {
-    engine->drawGeometry(GL_LINES);
-  }
+  engine->Cycle();
 }
 void OpenGLController::calcSizes(int w, int h) {
   vw = w;
@@ -123,7 +111,6 @@ void OpenGLController::importObjFile(QString filename) {
                       fileInfo.fileName());
 }
 OpenGLController::~OpenGLController() {
-  delete engine;
   delete program;
   delete cameraSpacer;
 }

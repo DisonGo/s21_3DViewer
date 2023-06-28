@@ -8,7 +8,6 @@
 
 class Camera : public EObject, protected QOpenGLFunctions {
  public:
-  friend class CameraConfig;
   friend class CameraSpacer;
   explicit Camera();
   Camera(int width, int height);
@@ -30,30 +29,8 @@ class Camera : public EObject, protected QOpenGLFunctions {
     float bottom = -1;
     float left = -1;
   };
-  class CameraConfig {
-   public:
-    //    CameraConfig() = delete;
-    CameraConfig(Camera &camera)
-        : viewMode(camera.viewMode),
-          Mode(camera.mode),
-          FocusPoint(camera.FocusPoint),
-          Position(camera.Position),
-          Orientation(camera.Orientation),
-          zRange(camera.zRange),
-          FOV(camera.FOV),
-          box(camera.box){};
-    ViewMode &viewMode;
-    CameraMode &Mode;
-    QVector3D &FocusPoint;
-    QVector3D &Position;
-    QVector3D &Orientation;
-    QVector2D &zRange;
-    float &FOV;
-    ParallelBox &box;
-  };
 
   void Matrix(Shader &shader, const char *uniform);
-  CameraConfig &GetConfig() { return config_; };
   virtual EObjectType GetType() const override { return type; };
 
  public:  // Setters / Getters
@@ -68,13 +45,26 @@ class Camera : public EObject, protected QOpenGLFunctions {
   void SetVh(int newVh);
   void SetMoveSpeed(float newMoveSpeed);
   void SetRotationSpeed(float newRotationSpeed);
+  void SetBox(const ParallelBox& newBox);
+
+  Camera::CameraMode GetMode() const;
+  Camera::ViewMode GetViewMode() const;
+  const QVector3D &GetFocusPoint() const;
+  const QVector3D &GetPosition() const;
+  const QVector3D &GetOrientation() const;
+  const QVector2D &GetZRange() const;
+  float GetFOV() const;
+  int GetVw() const;
+  int GetVh() const;
+  float GetMoveSpeed() const;
+  float GetRotationSpeed() const;
+  const Camera::ParallelBox &GetBox() const;
 
  private:  // Methods
   void processFreeMode(QPoint ePos);
   void processFocusMode(QPoint focusPoint);
 
  private:  // vars
-  CameraConfig config_;
   CameraMode mode = Free;
   ViewMode viewMode = Perspective;
   QVector3D FocusPoint = QVector3D(0, 0, 0);

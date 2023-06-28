@@ -1,4 +1,4 @@
-#include "Spacers/CameraSpacer.h"
+  #include "Spacers/CameraSpacer.h"
 CameraSpacer::CameraSpacer(QObject *parent, Camera &camera)
     : QObject(parent), camera_(camera) {}
 
@@ -123,20 +123,84 @@ void CameraSpacer::SetFOV(float newFOV) {
 
 void CameraSpacer::SetVw(int newVw) {
   camera_.SetVw(newVw);
-  // emit ConfigUpdated();
+  emit ConfigUpdated();
 }
 
 void CameraSpacer::SetVh(int newVh) {
   camera_.SetVh(newVh);
-  // emit ConfigUpdated();
+  emit ConfigUpdated();
 }
 
 void CameraSpacer::SetMoveSpeed(float newMoveSpeed) {
   camera_.SetMoveSpeed(newMoveSpeed);
-  // emit ConfigUpdated();
+  emit ConfigUpdated();
 }
 
 void CameraSpacer::SetRotationSpeed(float newRotationSpeed) {
   camera_.SetRotationSpeed(newRotationSpeed);
-  // emit ConfigUpdated();
+  emit ConfigUpdated();
+}
+void CameraSpacer::SetBox(const Camera::ParallelBox &newBox) {
+  camera_.SetBox(newBox);
+  emit ConfigUpdated();
+}
+
+Camera::CameraMode CameraSpacer::GetMode() const
+{
+  return camera_.GetMode();
+}
+
+Camera::ViewMode CameraSpacer::GetViewMode() const
+{
+  return camera_.GetViewMode();
+}
+
+const QVector3D& CameraSpacer::GetFocusPoint() const
+{
+  return camera_.GetFocusPoint();
+}
+
+const QVector3D& CameraSpacer::GetPosition() const
+{
+  return camera_.GetPosition();
+}
+
+const QVector3D& CameraSpacer::GetOrientation() const
+{
+  return camera_.GetOrientation();
+}
+
+const QVector2D& CameraSpacer::GetZRange() const
+{
+  return camera_.GetZRange();
+}
+
+float CameraSpacer::GetFOV() const
+{
+  return camera_.GetFOV();
+}
+
+int CameraSpacer::GetVw() const
+{
+  return camera_.GetVw();
+}
+
+int CameraSpacer::GetVh() const
+{
+  return camera_.GetVh();
+}
+
+float CameraSpacer::GetMoveSpeed() const
+{
+  return camera_.GetMoveSpeed();
+}
+
+float CameraSpacer::GetRotationSpeed() const
+{
+  return camera_.GetRotationSpeed();
+}
+
+const Camera::ParallelBox& CameraSpacer::GetBox() const
+{
+  return camera_.GetBox();
 }

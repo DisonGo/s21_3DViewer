@@ -1,0 +1,34 @@
+#ifndef TRIPLETCONTROLLER_H
+#define TRIPLETCONTROLLER_H
+
+#include <QVector3D>
+#include <QWidget>
+namespace Ui {
+class TripletWidget;
+}
+
+class TripletWidget : public QWidget {
+  Q_OBJECT
+
+ public:
+  explicit TripletWidget(QWidget *parent = nullptr);
+  ~TripletWidget();
+  void SetValues(const QVector3D& values);
+  QVector3D GetValues() const;
+
+ public slots:
+  void ResetValues();
+  void Lock();
+  void Unlock();
+ signals:
+  void InputsChanged(const QVector3D values);
+ private slots:
+  void UpdateInputs();
+  void ReadInput(double val);
+
+ private:
+  QVector3D values = QVector3D(0, 0, 0);
+  Ui::TripletWidget *ui;
+};
+
+#endif  // TRIPLETCONTROLLER_H

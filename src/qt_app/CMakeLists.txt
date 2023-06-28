@@ -3,16 +3,12 @@ set(VIEWER_HEADERS
     includes/MainWindow.h
     includes/OpenGLController.h
     includes/StyleLoader.h
-    includes/TransformWidget.h
-    includes/TripletController.h
-    includes/CameraWidget.h
+
     includes/EobjectItemModel.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui
-    UI/transformwidget.ui
-    UI/tripletcontroller.ui
-    UI/camerawidget.ui
+
 )
 set(VIEWER_RES
     resources/res.qrc
@@ -45,6 +41,7 @@ endif()
 
 target_link_libraries(3D_Viewer PRIVATE
     engine
+    widgets
     QtGifImage_
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::OpenGL

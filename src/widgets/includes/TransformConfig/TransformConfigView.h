@@ -4,34 +4,31 @@
 #include <QVector3D>
 #include <QWidget>
 
-#include "E/Mesh.h"
-#include "E/Transform.h"
+#include "Spacers/TransformSpacer.h"
 namespace Ui {
-class TransformWidget;
+class TransformConfigView;
 }
 
-class TransformWidget : public QWidget {
+class TransformConfigView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit TransformWidget(QWidget* parent = nullptr);
-  ~TransformWidget();
+  explicit TransformConfigView(QWidget* parent = nullptr);
+  ~TransformConfigView();
 
-  void LinkMesh(Mesh* mesh);
  public slots:
   void ResetValues();
  signals:
   void TransformUpdated();
  private slots:
-  void LinkTranform(Transform* transform);
+  void SetTranformSpacer(TransformSpacer* transform);
   void SetTranslation(const QVector3D);
   void SetRotation(const QVector3D);
   void SetScale(const QVector3D);
 
  private:
-  Mesh* mesh = nullptr;
-  Transform* transform = nullptr;
-  Ui::TransformWidget* ui;
+  TransformSpacer* transformSpacer_ = nullptr;
+  Ui::TransformConfigView* ui;
 };
 
 #endif  // TRANSFORMWIDGET_H

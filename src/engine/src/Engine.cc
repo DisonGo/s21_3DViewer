@@ -1,5 +1,5 @@
 #include "Engine.h"
-
+#include <memory.h>
 #include <QRandomGenerator>
 #include <QVector2D>
 #include <QVector3D>
@@ -15,8 +15,9 @@
 
 Engine::Engine() {
   initializeOpenGLFunctions();
+  drawConfig_ = &DrawConfig::Instance();
   Camera* default_camera = new Camera();
-  SetParser(new s21::EdgeParser());
+  SetParser(new s21::TriangleParser());
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
@@ -47,11 +48,38 @@ void Engine::importObj(QString fileName) {
   shaders_.push_back(shader);
 }
 
+void Engine::Cycle()
+{
+  glClearColor(drawConfig_->BackColor.redF(),
+               drawConfig_->BackColor.greenF(),
+               drawConfig_->BackColor.blueF(), 1);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+//  qDebug() << drawConfig_->Points;
+//  qDebug() << drawConfig_->Lines;
+//  qDebug() << drawConfig_->Triangles;
+//  qDebug() << drawConfig_->TrianglesStrip;
+  if (drawConfig_->Points)
+    drawGeometry(GL_POINTS);
+  if (drawConfig_->Lines)
+    drawGeometry(GL_LINES);
+  if (drawConfig_->Triangles)
+    drawGeometry(GL_TRIANGLES);
+  if (drawConfig_->TrianglesStrip)
+    drawGeometry(GL_TRIANGLE_STRIP);
+}
+
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
 void Engine::SetParser(s21::BaseParser* parser) {
   if (OBJParser_) delete OBJParser_;
   OBJParser_ = parser;
+}
+
+Engine* Engine::Instance() {
+  static Engine instance;
+  return &instance;
 }
 
 Object3D* Engine::GetObjectTriangle(QString fileName) {

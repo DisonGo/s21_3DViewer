@@ -9,7 +9,6 @@ class CameraSpacer : public QObject {
   Q_OBJECT
  public:
   CameraSpacer(QObject *parent, Camera &camera_);
-  Camera::CameraConfig &GetConfig() { return camera_.GetConfig(); };
   void SetMode(Camera::CameraMode newMode);
   void SetViewMode(Camera::ViewMode newViewMode);
   void SetFocusPoint(const QVector3D &newFocusPoint);
@@ -21,6 +20,20 @@ class CameraSpacer : public QObject {
   void SetVh(int newVh);
   void SetMoveSpeed(float newMoveSpeed);
   void SetRotationSpeed(float newRotationSpeed);
+  void SetBox(const Camera::ParallelBox &newBox);
+
+  Camera::CameraMode GetMode() const;
+  Camera::ViewMode GetViewMode() const;
+  const QVector3D &GetFocusPoint() const;
+  const QVector3D &GetPosition() const;
+  const QVector3D &GetOrientation() const;
+  const QVector2D &GetZRange() const;
+  float GetFOV() const;
+  int GetVw() const;
+  int GetVh() const;
+  float GetMoveSpeed() const;
+  float GetRotationSpeed() const;
+  const Camera::ParallelBox &GetBox() const;
 
  public slots:
   void keyPressSlot(QKeyEvent *e);
@@ -34,5 +47,7 @@ class CameraSpacer : public QObject {
  private:
   Camera &camera_;
 };
+
+
 
 #endif  // CAMERASPACER_H

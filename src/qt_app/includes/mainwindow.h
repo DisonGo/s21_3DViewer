@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <TransformWidget.h>
+#include <TransformConfig/TransformConfigView.h>
 
 #include <QAbstractButton>
 #include <QMainWindow>
@@ -23,12 +23,10 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 
  private:
-  QVector3D translation = QVector3D(0, 0, 0);
-  QVector3D rotation = QVector3D(0, 0, 0);
   QColor lineColor = QColor(255, 255, 255);
   QColor pointColor = QColor(255, 0, 0);
   QColor backColor = QColor(0, 0, 0);
-  QVector2D zRange = QVector2D(0.1, 100);
+
   float lineWidth = 1;
   float pointWidth = 1;
   int pointTypeIndex = -1;
@@ -51,14 +49,10 @@ class MainWindow : public QMainWindow {
   void UpdateGL();
   void TranslationTest(QVector3D values);
   void choose_file();
-  void choose_color();
+
   void on_pushButton_loadFile_clicked();
-  void on_doubleSpinBox_widthLine_valueChanged(double arg1);
-  void on_doubleSpinBox_widthTop_valueChanged(double arg1);
-  void updateCircleType(QAbstractButton *but);
-  void updateZPlane(double value);
-  void setCameraMode(QAbstractButton *but);
-  void setLinePattern(QAbstractButton *but);
+
+
   void updateInfoLabels(long vertN, long edgesN, QString filename);
   void loadSettings();
   void applySettings();

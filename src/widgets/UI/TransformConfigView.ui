@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-  <class>TransformWidget</class>
-  <widget class="QWidget" name="TransformWidget">
+  <class>TransformConfigView</class>
+  <widget class="QWidget" name="TransformConfigView">
     <property name="geometry">
       <rect>
         <x>0</x>
@@ -97,7 +97,7 @@
                   </widget>
                 </item>
                 <item>
-                  <widget class="TripletController" name="TranslationTriplet" native="true" />
+                  <widget class="TripletWidget" name="TranslationTriplet" native="true" />
                 </item>
                 <item>
                   <widget class="QLabel" name="RotationL">
@@ -107,7 +107,7 @@
                   </widget>
                 </item>
                 <item>
-                  <widget class="TripletController" name="RotationTriplet" native="true" />
+                  <widget class="TripletWidget" name="RotationTriplet" native="true" />
                 </item>
                 <item>
                   <widget class="QLabel" name="ScaleL">
@@ -117,7 +117,7 @@
                   </widget>
                 </item>
                 <item>
-                  <widget class="TripletController" name="ScaleTriplet" native="true" />
+                  <widget class="TripletWidget" name="ScaleTriplet" native="true" />
                 </item>
               </layout>
             </widget>
@@ -128,9 +128,9 @@
   </widget>
   <customwidgets>
     <customwidget>
-      <class>TripletController</class>
+      <class>TripletWidget</class>
       <extends>QWidget</extends>
-      <header location="global">TripletController.h</header>
+      <header location="global">TripletWidget.h</header>
       <container>1</container>
     </customwidget>
   </customwidgets>

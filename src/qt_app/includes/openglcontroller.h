@@ -83,7 +83,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   int gifLength = 5;
 
   Shader *program = nullptr;
-  Engine *engine = nullptr;
+  Engine *engine;
 };
 
 #endif  // OPENGLCONTROLLER_H

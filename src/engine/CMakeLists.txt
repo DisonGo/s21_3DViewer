@@ -22,6 +22,7 @@ set(ENGINE_HEADER
     includes/GL/VAO.h
 
     includes/Spacers/CameraSpacer.h
+    includes/Spacers/DrawConfigSpacer.h
 
     includes/Shader.h
     includes/ObjParser.h

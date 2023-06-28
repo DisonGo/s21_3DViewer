@@ -6,27 +6,35 @@
 #include "E/EObject.h"
 #include "Shader.h"
 class Transform : public EObject {
+  friend class TransformSpacer;
+
  public:
-  Transform(){UpdateModel();};
-
-  QVector3D translate = QVector3D(0, 0, 0);
-  QVector3D rotation = QVector3D(0, 0, 0);
-  QVector3D scale = QVector3D(1, 1, 1);
-
-  QMatrix4x4 modelTranslate;
-  QMatrix4x4 modelRot;
-  QMatrix4x4 modelScale;
+  Transform() { UpdateModel(); };
 
   void UpdateModel();
-  void LoadModelMatrix(Shader* shader);
+  void LoadModelMatrix(Shader *shader);
 
   EObjectType type = EObjectType::kTransform;
   virtual EObjectType GetType() const override { return type; };
-  bool operator==(const Transform& a) const;
+  bool operator==(const Transform &a) const;
+
+  const QVector3D &GetScale() const;
+  const QVector3D &GetRotation() const;
+  const QVector3D &GetTranslate() const;
+
+  void SetScale(const QVector3D &newScale);
+  void SetRotation(const QVector3D &newRotation);
+  void SetTranslate(const QVector3D &newTranslate);
 
  private:
+  QVector3D scale_ = QVector3D(1, 1, 1);
+  QVector3D rotation_ = QVector3D(0, 0, 0);
+  QVector3D translate_ = QVector3D(0, 0, 0);
+
+  QMatrix4x4 modelScale_;
+  QMatrix4x4 modelRot_;
+  QMatrix4x4 modelTranslate_;
   bool awaitingLoadInShader_ = false;
 };
-
 
 #endif  // TRANSFORM_H
