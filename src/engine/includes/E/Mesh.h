@@ -7,9 +7,11 @@
 #include "E/EObject.h"
 #include "E/Transform.h"
 #include "GL/VAO.h"
+#include "GL/EBO.h"
 #include "Shader.h"
 #include "Types/EdgeOBJ.h"
 #include "Types/TriangleOBJ.h"
+#include "DrawConfig.h"
 class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();
@@ -27,8 +29,9 @@ class Mesh : public EObject, protected QOpenGLFunctions {
  private:
   int verticesN = 0;
   int indicesN = 0;
-
-  VAO vertexBuf;
+  DrawConfig* drawConfig_;
+  VAO vertexOnlyVAO_;
+  VAO mixVAO_;
 };
 
 #endif  // MESH_H

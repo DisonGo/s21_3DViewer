@@ -11,6 +11,8 @@ DrawConfigView::DrawConfigView(QWidget *parent)
   ui->TrianglesStripCheckBox->setChecked(drawConfigSpacer_.GetTrianglesStrip());
   ui->RoundCircleCheckBox->setChecked(drawConfigSpacer_.GetRoundCircle());
   ui->DashedLinesCheckBox->setChecked(drawConfigSpacer_.GetDashedLines());
+  ui->IndexDrawCheckBox->setChecked(drawConfigSpacer_.GetIndexDraw());
+  ui->VertexOnlyDrawCheckBox->setChecked(drawConfigSpacer_.GetVertexOnlyDraw());
   connect(ui->PointsCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,
           SLOT(SetPoints(int)));
   connect(ui->LinesCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,
@@ -23,6 +25,10 @@ DrawConfigView::DrawConfigView(QWidget *parent)
           &drawConfigSpacer_, SLOT(SetRoundCircle(int)));
   connect(ui->DashedLinesCheckBox, SIGNAL(stateChanged(int)),
           &drawConfigSpacer_, SLOT(SetDashedLines(int)));
+  connect(ui->IndexDrawCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,
+          SLOT(SetIndexDraw(int)));
+  connect(ui->VertexOnlyDrawCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,
+          SLOT(SetVertexOnlyDraw(int)));
 
   connect(ui->PointsCheckBox, SIGNAL(stateChanged(int)), this,
           SIGNAL(DrawConfigUpdated()));
@@ -35,6 +41,10 @@ DrawConfigView::DrawConfigView(QWidget *parent)
   connect(ui->RoundCircleCheckBox, SIGNAL(stateChanged(int)), this,
           SIGNAL(DrawConfigUpdated()));
   connect(ui->DashedLinesCheckBox, SIGNAL(stateChanged(int)), this,
+          SIGNAL(DrawConfigUpdated()));
+  connect(ui->IndexDrawCheckBox, SIGNAL(stateChanged(int)), this,
+          SIGNAL(DrawConfigUpdated()));
+  connect(ui->VertexOnlyDrawCheckBox, SIGNAL(stateChanged(int)), this,
           SIGNAL(DrawConfigUpdated()));
 }
 

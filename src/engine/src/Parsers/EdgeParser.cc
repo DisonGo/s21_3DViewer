@@ -28,9 +28,9 @@ FaceVertex* s21::EdgeParser::ParsePolygonEdges(FaceVertex* vertices,
                                                size_t& size) {
   size_t edge_count = size * 2;
   FaceVertex* edges = new FaceVertex[edge_count];
-  for (size_t i = 0, j = 0; i < size; ++i) {
+  for (size_t i = 0, j = 0; i < size - 1; ++i) {
     edges[j++] = vertices[i];
-    edges[j++] = vertices[i + 1];
+//    edges[j++] = vertices[i + 1];
   }
   return edges;
 }

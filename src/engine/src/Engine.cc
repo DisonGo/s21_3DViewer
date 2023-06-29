@@ -17,7 +17,7 @@ Engine::Engine() {
   initializeOpenGLFunctions();
   drawConfig_ = &DrawConfig::Instance();
   Camera* default_camera = new Camera();
-  SetParser(new s21::TriangleParser());
+  SetParser(new s21::TriangleParser);
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
