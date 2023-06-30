@@ -20,11 +20,11 @@ MainWindow::MainWindow(QWidget* parent)
   connect(ui->openGLWidget, SIGNAL(initialized()), this,
           SLOT(SetupCameraWid()));
   connect(ui->toolButton_tab1, SIGNAL(clicked()), this, SLOT(choose_file()));
-  connect(ui->openGLWidget, SIGNAL(importComleted(long,long,QString)), this,
-          SLOT(updateInfoLabels(long,long,QString)));
+  connect(ui->openGLWidget, SIGNAL(importComleted(long, long, QString)), this,
+          SLOT(updateInfoLabels(long, long, QString)));
   connect(ui->camWid, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
-  connect(ui->DrawConfigWid, SIGNAL(DrawConfigUpdated()), this, SLOT(UpdateGL()));
-
+  connect(ui->DrawConfigWid, SIGNAL(DrawConfigUpdated()), this,
+          SLOT(UpdateGL()));
 }
 void MainWindow::TranslationTest(QVector3D values) { qDebug() << values; }
 MainWindow::~MainWindow() { delete ui; }

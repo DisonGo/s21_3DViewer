@@ -56,9 +56,7 @@ void OpenGLController::resizeGL(int w, int h) {
   cameraSpacer->SetVh(vh);
   update();
 }
-void OpenGLController::paintGL() {
-  engine->Cycle();
-}
+void OpenGLController::paintGL() { engine->Cycle(); }
 void OpenGLController::calcSizes(int w, int h) {
   vw = w;
   vh = h;

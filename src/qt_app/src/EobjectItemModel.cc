@@ -21,4 +21,6 @@ int EObjectItemModel::columnCount(const QModelIndex &parent) const {
   return 1;
 }
 
-QVariant EObjectItemModel::data(const QModelIndex &index, int role) const {}
+QVariant EObjectItemModel::data(const QModelIndex &index, int role) const {
+  
+}
