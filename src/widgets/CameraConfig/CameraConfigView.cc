@@ -5,16 +5,23 @@ CameraConfigView::CameraConfigView(QWidget *parent, CameraSpacer *cameraSpacer)
     : QWidget(parent), ui(new Ui::CameraConfigView) {
   ui->setupUi(this);
   SetCameraSpacer(cameraSpacer);
+  ui->PositionTriplet->SetRange(-10000, 10000);
+  ui->FocusPointTriplet->SetRange(-10000, 10000);
+  ui->OrientationTriplet->SetRange(-10000, 10000);
   SetupConnects();
 }
 
-CameraConfigView::~CameraConfigView() { delete ui; }
+CameraConfigView::~CameraConfigView() {
+  if (cameraSpacer_) delete cameraSpacer_;
+  delete ui;
+}
 
 void CameraConfigView::SetCameraSpacer(CameraSpacer *cameraSpacer) {
   cameraSpacer_ = cameraSpacer;
   if (!cameraSpacer) return;
   connect(cameraSpacer_, SIGNAL(ConfigUpdated()), this,
           SLOT(SetValuesFromConfig()));
+  SetValuesFromConfig();
 }
 
 void CameraConfigView::SetValuesFromConfig() {

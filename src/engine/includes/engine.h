@@ -4,11 +4,12 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 
+#include "DrawConfig.h"
 #include "E/Camera.h"
+#include "E/EObjectItemModel.h"
 #include "E/Object3D.h"
 #include "Parsers/EdgeParser.h"
 #include "Parsers/TriangleParser.h"
-#include "DrawConfig.h"
 #include "Shader.h"
 class Engine : protected QOpenGLFunctions {
  public:
@@ -18,7 +19,7 @@ class Engine : protected QOpenGLFunctions {
   void importObj(QString fileName);
 
   void Cycle();
-
+  EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();
   void SetParser(s21::BaseParser* parser);
   static Engine* Instance();
@@ -32,6 +33,7 @@ class Engine : protected QOpenGLFunctions {
   Object3D* GetObjectTriangle(QString fileName);
   Object3D* GetObjectEdge(QString fileName);
   Camera* current_camera_ = nullptr;
+  EObjectItemModel eObjectModel_;
   s21::BaseParser* OBJParser_ = nullptr;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;

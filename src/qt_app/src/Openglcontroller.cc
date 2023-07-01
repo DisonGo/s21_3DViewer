@@ -7,12 +7,13 @@ void OpenGLController::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
     mPos = e->pos();
+    if (!cameraSpacer) return;
     cameraSpacer->mousePressSlot(e);
   }
 }
 
 void OpenGLController::mouseMoveEvent(QMouseEvent *e) {
-  if (!LMB_pressed) return;
+  if (!LMB_pressed || !cameraSpacer) return;
   cameraSpacer->mouseMoveSlot(e);
   update();
 }
@@ -45,15 +46,17 @@ void OpenGLController::initializeGL() {
   glEnable(GL_MULTISAMPLE);
   glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
   engine = Engine::Instance();
-  cameraSpacer = new CameraSpacer(this, *engine->GetCurrentCamera());
+  auto cam = engine->GetCurrentCamera();
+  if (cam) {
+    cam->SetVh(vh);
+    cam->SetVw(vh);
+  }
   emit initialized();
 }
 
 void OpenGLController::resizeGL(int w, int h) {
   glViewport(0, 0, w, h);
   calcSizes(w, h);
-  cameraSpacer->SetVw(vw);
-  cameraSpacer->SetVh(vh);
   update();
 }
 void OpenGLController::paintGL() { engine->Cycle(); }
@@ -110,5 +113,5 @@ void OpenGLController::importObjFile(QString filename) {
 }
 OpenGLController::~OpenGLController() {
   delete program;
-  delete cameraSpacer;
+  //  delete cameraSpacer;
 }

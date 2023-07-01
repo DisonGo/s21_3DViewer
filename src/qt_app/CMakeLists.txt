@@ -3,8 +3,6 @@ set(VIEWER_HEADERS
     includes/MainWindow.h
     includes/OpenGLController.h
     includes/StyleLoader.h
-
-    includes/EobjectItemModel.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui

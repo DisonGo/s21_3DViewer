@@ -4,9 +4,9 @@
 #include "E/EObject.h"
 #include "E/Mesh.h"
 #include "E/Transform.h"
+#include "Shader.h"
 #include "Types/EdgeOBJ.h"
 #include "Types/TriangleOBJ.h"
-#include "Shader.h"
 class Object3D : public EObject {
  public:
   Object3D(){};
@@ -28,6 +28,8 @@ class Object3D : public EObject {
   void SetMesh(const Mesh& mesh);
   void SetShader(Shader& shader);
   void SetTransform(const Transform& transform);
+  Mesh& GetMesh() { return mesh_; };
+  Transform& GetTrasform() { return transform_; };
 
  private:
   Mesh mesh_;

@@ -63,10 +63,9 @@ Mesh::~Mesh() {
 void Mesh::Bind() { vertexOnlyVAO_.Bind(); }
 void Mesh::Unbind() { vertexOnlyVAO_.Unbind(); }
 void Mesh::Draw(GLenum type) {
-  if (drawConfig_->IndexDraw)
-  {
+  if (drawConfig_->IndexDraw) {
     mixVAO_.Bind();
-    glDrawElements(type, indicesN, GL_UNSIGNED_INT, (void*)0);
+    glDrawElements(type, indicesN, GL_UNSIGNED_INT, 0);
     mixVAO_.Unbind();
   }
   if (drawConfig_->VertexOnlyDraw) {
@@ -84,12 +83,12 @@ void Mesh::LoadObj(const s21::EdgeOBJ& obj) {
   for (auto& face : obj.faces) indicesN += face.indices.size();
   qDebug() << QString("Loading %1 indices.").arg(indicesN);
   VBO VBO1(vData);
-  mixVAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   EBO EBO1(obj.faces);
+  mixVAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   mixVAO_.Unbind();
   VBO1.Unbind();
   EBO1.Unbind();
-  //Vertex Only Draw
+  // Vertex Only Draw
   qDebug() << "Loading obj >> Vertex array ID:" << vertexOnlyVAO_.ID;
   vertexOnlyVAO_.Bind();
   vData = reassembleVertexArray(obj.vertices, obj.faces);
@@ -112,14 +111,12 @@ void Mesh::LoadObj(const s21::TriangleOBJ& obj) {
   for (auto& face : faces) indicesN += face.indices.size();
   qDebug() << QString("Loading %1 indices.").arg(indicesN);
   VBO VBO1(vData);
-
-  mixVAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   EBO EBO1(faces);
-
+  mixVAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   mixVAO_.Unbind();
   VBO1.Unbind();
   EBO1.Unbind();
-  //Vertex Only Draw
+  // Vertex Only Draw
   qDebug() << "Loading obj >> Vertex array ID:" << vertexOnlyVAO_.ID;
   vertexOnlyVAO_.Bind();
   vData = reassembleVertexArray(obj.vertices, obj.faces);

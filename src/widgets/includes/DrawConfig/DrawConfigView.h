@@ -3,8 +3,8 @@
 
 #include <QWidget>
 
-#include "Spacers/DrawConfigSpacer.h"
 #include "DrawConfig.h"
+#include "Spacers/DrawConfigSpacer.h"
 namespace Ui {
 class DrawConfigView;
 }

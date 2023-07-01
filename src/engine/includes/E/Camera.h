@@ -45,7 +45,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   void SetVh(int newVh);
   void SetMoveSpeed(float newMoveSpeed);
   void SetRotationSpeed(float newRotationSpeed);
-  void SetBox(const ParallelBox& newBox);
+  void SetBox(const ParallelBox &newBox);
 
   Camera::CameraMode GetMode() const;
   Camera::ViewMode GetViewMode() const;

@@ -7,4 +7,4 @@ typedef struct {
   std::vector<FaceVertex> indices;
 } Face;
 
-#endif // FACE_H
+#endif  // FACE_H

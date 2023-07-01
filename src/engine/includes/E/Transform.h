@@ -5,11 +5,18 @@
 
 #include "E/EObject.h"
 #include "Shader.h"
-class Transform : public EObject {
+class Transform : public EObject, protected QOpenGLFunctions {
   friend class TransformSpacer;
 
  public:
-  Transform() { UpdateModel(); };
+  Transform(const Transform &other)
+      : scale_(other.scale_),
+        rotation_(other.rotation_),
+        translate_(other.translate_) {}
+  Transform() {
+    initializeOpenGLFunctions();
+    UpdateModel();
+  };
 
   void UpdateModel();
   void LoadModelMatrix(Shader *shader);

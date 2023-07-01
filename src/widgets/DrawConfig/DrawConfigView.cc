@@ -27,8 +27,8 @@ DrawConfigView::DrawConfigView(QWidget *parent)
           &drawConfigSpacer_, SLOT(SetDashedLines(int)));
   connect(ui->IndexDrawCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,
           SLOT(SetIndexDraw(int)));
-  connect(ui->VertexOnlyDrawCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,
-          SLOT(SetVertexOnlyDraw(int)));
+  connect(ui->VertexOnlyDrawCheckBox, SIGNAL(stateChanged(int)),
+          &drawConfigSpacer_, SLOT(SetVertexOnlyDraw(int)));
 
   connect(ui->PointsCheckBox, SIGNAL(stateChanged(int)), this,
           SIGNAL(DrawConfigUpdated()));

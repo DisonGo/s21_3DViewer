@@ -13,7 +13,9 @@ set(ENGINE_HEADER
     includes/E/EObject.h
     includes/E/Transform.h
     includes/E/Object3D.h
-
+    includes/E/EObjectItemModel.h
+    includes/E/EObjectTreeItem.h
+    
     includes/GL/GLObject.h
     includes/GL/GLArray.h
     includes/GL/GLBuffer.h
@@ -23,6 +25,7 @@ set(ENGINE_HEADER
 
     includes/Spacers/CameraSpacer.h
     includes/Spacers/DrawConfigSpacer.h
+    includes/Spacers/TransformSpacer.h
 
     includes/Shader.h
     includes/ObjParser.h

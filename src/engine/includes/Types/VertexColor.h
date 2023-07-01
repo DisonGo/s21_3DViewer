@@ -6,4 +6,4 @@ typedef struct {
   GLfloat g;
   GLfloat b;
 } VertexColor;
-#endif // VERTEXCOLOR_H
+#endif  // VERTEXCOLOR_H

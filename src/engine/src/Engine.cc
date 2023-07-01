@@ -1,5 +1,7 @@
 #include "Engine.h"
+
 #include <memory.h>
+
 #include <QRandomGenerator>
 #include <QVector2D>
 #include <QVector3D>
@@ -21,6 +23,7 @@ Engine::Engine() {
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
+  eObjectModel_.AddItem(default_camera);
 }
 
 Engine::~Engine() {
@@ -44,30 +47,21 @@ void Engine::importObj(QString fileName) {
   auto shader = Shader::Default();
   object_3d->SetShader(*shader);
   objects_3d_.push_back(object_3d);
+  eObjectModel_.AddItem(object_3d);
   engine_objects_.push_back(object_3d);
   shaders_.push_back(shader);
 }
 
-void Engine::Cycle()
-{
-  glClearColor(drawConfig_->BackColor.redF(),
-               drawConfig_->BackColor.greenF(),
+void Engine::Cycle() {
+  glClearColor(drawConfig_->BackColor.redF(), drawConfig_->BackColor.greenF(),
                drawConfig_->BackColor.blueF(), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//  qDebug() << drawConfig_->Points;
-//  qDebug() << drawConfig_->Lines;
-//  qDebug() << drawConfig_->Triangles;
-//  qDebug() << drawConfig_->TrianglesStrip;
-  if (drawConfig_->Points)
-    drawGeometry(GL_POINTS);
-  if (drawConfig_->Lines)
-    drawGeometry(GL_LINES);
-  if (drawConfig_->Triangles)
-    drawGeometry(GL_TRIANGLES);
-  if (drawConfig_->TrianglesStrip)
-    drawGeometry(GL_TRIANGLE_STRIP);
+  if (drawConfig_->Points) drawGeometry(GL_POINTS);
+  if (drawConfig_->Lines) drawGeometry(GL_LINES);
+  if (drawConfig_->Triangles) drawGeometry(GL_TRIANGLES);
+  if (drawConfig_->TrianglesStrip) drawGeometry(GL_TRIANGLE_STRIP);
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }

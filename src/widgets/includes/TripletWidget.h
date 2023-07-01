@@ -13,13 +13,16 @@ class TripletWidget : public QWidget {
  public:
   explicit TripletWidget(QWidget *parent = nullptr);
   ~TripletWidget();
-  void SetValues(const QVector3D& values);
+  void SetValues(const QVector3D &values);
   QVector3D GetValues() const;
 
  public slots:
   void ResetValues();
   void Lock();
   void Unlock();
+  void SetRangeMin(double min);
+  void SetRangeMax(double max);
+  void SetRange(double min, double max);
  signals:
   void InputsChanged(const QVector3D values);
  private slots:

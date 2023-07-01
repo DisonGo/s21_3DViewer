@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <CameraConfig/CameraConfigView.h>
 #include <TransformConfig/TransformConfigView.h>
 
 #include <QAbstractButton>
@@ -9,6 +10,7 @@
 #include <QVector3D>
 
 #include "E/Camera.h"
+#include "Engine.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -38,20 +40,20 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
   std::vector<QImage> gifBuffer;
   bool timerStarted = false;
-
+  EObjectItemModel *eObjectModel;
   QVector3D cameraPos = QVector3D(0, 0, 0);
   QVector3D cameraOrient = QVector3D(0, 0, 1);
 
   void saveSettings();
   void saveGif(std::vector<QImage> gifData);
  private slots:
-  void SetupCameraWid();
+  void ShowObjectWidget(EObject *object);
+  void SetupEObjectTreeView();
   void UpdateGL();
   void TranslationTest(QVector3D values);
   void choose_file();
 
   void on_pushButton_loadFile_clicked();
-
 
   void updateInfoLabels(long vertN, long edgesN, QString filename);
   void loadSettings();

@@ -5,4 +5,4 @@ typedef struct {
   FaceVertex indices[3];
 } TriangleFace;
 
-#endif // TRIANGLEFACE_H
+#endif  // TRIANGLEFACE_H

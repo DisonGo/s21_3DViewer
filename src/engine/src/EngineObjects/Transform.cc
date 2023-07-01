@@ -8,14 +8,19 @@ const QVector3D &Transform::GetScale() const { return scale_; }
 const QVector3D &Transform::GetRotation() const { return rotation_; }
 const QVector3D &Transform::GetTranslate() const { return translate_; }
 
-void Transform::SetScale(const QVector3D &newScale) { scale_ = newScale; }
+void Transform::SetScale(const QVector3D &newScale) {
+  scale_ = newScale;
+  UpdateModel();
+}
 
 void Transform::SetRotation(const QVector3D &newRotation) {
   rotation_ = newRotation;
+  UpdateModel();
 }
 
 void Transform::SetTranslate(const QVector3D &newTranslate) {
   translate_ = newTranslate;
+  UpdateModel();
 }
 
 void Transform::UpdateModel() {

@@ -15,7 +15,7 @@ class Shader : protected QOpenGLFunctions {
   static Shader* Default();
   Shader& operator=(Shader&&);
 
-private:
+ private:
   GLint vertexId = -1;
   GLint fragmentId = -1;
 

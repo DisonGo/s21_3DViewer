@@ -4,4 +4,4 @@
 typedef struct {
   GLuint vIndex, tIndex, nIndex;
 } FaceVertex;
-#endif // FACEVERTEX_H
+#endif  // FACEVERTEX_H

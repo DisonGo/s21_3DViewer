@@ -28,6 +28,5 @@ class DrawConfig {
   DrawConfig(const DrawConfig&);
   const DrawConfig& operator=(const DrawConfig&);
   ~DrawConfig(){};
-
 };
 #endif  // DRAWCONFIG_H

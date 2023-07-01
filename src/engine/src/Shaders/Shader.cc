@@ -13,12 +13,12 @@ QString Shader::getFileContent(const char* fileName) {
   return shader_content;
 }
 
-Shader::Shader(){
+Shader::Shader() {
   initializeOpenGLFunctions();
   ID = -1;
 }
 
-Shader::Shader(const char* vertexFile, const char* fragmentFile){
+Shader::Shader(const char* vertexFile, const char* fragmentFile) {
   initializeOpenGLFunctions();
   SetVertexShader(vertexFile);
   SetFragmentShader(fragmentFile);

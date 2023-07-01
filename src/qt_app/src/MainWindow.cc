@@ -17,12 +17,12 @@ MainWindow::MainWindow(QWidget* parent)
   setUnifiedTitleAndToolBarOnMac(true);
   loadSettings();
   applySettings();
+
   connect(ui->openGLWidget, SIGNAL(initialized()), this,
-          SLOT(SetupCameraWid()));
+          SLOT(SetupEObjectTreeView()));
   connect(ui->toolButton_tab1, SIGNAL(clicked()), this, SLOT(choose_file()));
   connect(ui->openGLWidget, SIGNAL(importComleted(long, long, QString)), this,
           SLOT(updateInfoLabels(long, long, QString)));
-  connect(ui->camWid, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
   connect(ui->DrawConfigWid, SIGNAL(DrawConfigUpdated()), this,
           SLOT(UpdateGL()));
 }
@@ -75,8 +75,6 @@ void MainWindow::loadSettings() {
 void MainWindow::applySettings() {
   for (auto& filePath : filePaths) ui->comboBox_tab1->addItem(filePath);
   if (fileFieldIndex != -1) ui->comboBox_tab1->setCurrentIndex(fileFieldIndex);
-
-  OpenGLController* gl = ui->openGLWidget;
   loading_setting_done = true;
 }
 void MainWindow::choose_file() {
@@ -92,7 +90,7 @@ void MainWindow::choose_file() {
 void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   while (QLayoutItem* item = layout->takeAt(0)) {
     if (deleteWidgets) {
-      if (QWidget* widget = item->widget()) widget->deleteLater();
+      if (QWidget* widget = item->widget()) widget->close();
     }
     if (QLayout* childLayout = item->layout())
       clearLayout(childLayout, deleteWidgets);
@@ -147,8 +145,40 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
   gif.save(savePath);
 }
 
-void MainWindow::SetupCameraWid() {
-  ui->camWid->SetCameraSpacer(ui->openGLWidget->cameraSpacer);
+void MainWindow::ShowObjectWidget(EObject* object) {
+  clearLayout(ui->ObjectWidgetHolder);
+  if (object->GetType() != kCamera) ui->openGLWidget->cameraSpacer = nullptr;
+  switch (object->GetType()) {
+    case kCamera: {
+      auto spacer = new CameraSpacer(this, *static_cast<Camera*>(object));
+      auto ptr = new CameraConfigView(this, spacer);
+      ptr->setAttribute(Qt::WA_DeleteOnClose);
+      connect(ptr, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
+      ui->ObjectWidgetHolder->addWidget(ptr);
+      ui->openGLWidget->cameraSpacer = spacer;
+      break;
+    }
+    case kTransform: {
+      auto obj_ptr = static_cast<Transform*>(object);
+      auto spacer = new TransformSpacer(*obj_ptr, this);
+      auto view = new TransformConfigView(spacer, this);
+      view->setAttribute(Qt::WA_DeleteOnClose);
+      connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
+      ui->ObjectWidgetHolder->addWidget(view);
+    } break;
+  }
+}
+
+void MainWindow::SetupEObjectTreeView() {
+  //  ui->camWid->SetCameraSpacer(ui->openGLWidget->cameraSpacer);
+  eObjectModel = &Engine::Instance()->GetEObjectItemModel();
+
+  connect(ui->Tree, &QAbstractItemView::clicked, eObjectModel,
+          &EObjectItemModel::FindAndSelectIndex);
+
+  connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
+          &MainWindow::ShowObjectWidget);
+  ui->Tree->setModel(eObjectModel);
 }
 
 void MainWindow::UpdateGL() { ui->openGLWidget->update(); }

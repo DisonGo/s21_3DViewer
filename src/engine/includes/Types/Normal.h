@@ -4,4 +4,4 @@
 typedef struct {
   GLfloat x, y, z;
 } Normal;
-#endif // NORMAL_H
+#endif  // NORMAL_H

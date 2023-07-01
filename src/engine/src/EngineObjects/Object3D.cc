@@ -8,17 +8,12 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   mesh_.Draw(type);
 }
 
-void Object3D::UploadMesh(const s21::EdgeOBJ &obj)
-{
-     mesh_.LoadObj(obj);
-}
+void Object3D::UploadMesh(const s21::EdgeOBJ& obj) { mesh_.LoadObj(obj); }
 
-void Object3D::UploadMesh(const s21::TriangleOBJ &obj)
-{
-     mesh_.LoadObj(obj);
-}
+void Object3D::UploadMesh(const s21::TriangleOBJ& obj) { mesh_.LoadObj(obj); }
 void Object3D::SetTransform(const Transform& transform) {
   if (transform_ == transform) return;
+
   transform_ = transform;
   transform_.UpdateModel();
 }

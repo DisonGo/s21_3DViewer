@@ -48,6 +48,4 @@ class CameraSpacer : public QObject {
   Camera &camera_;
 };
 
-
-
 #endif  // CAMERASPACER_H

@@ -4,4 +4,4 @@
 typedef struct {
   GLfloat u, v;
 } TextureCoord;
-#endif // TEXTURECOORD_H
+#endif  // TEXTURECOORD_H

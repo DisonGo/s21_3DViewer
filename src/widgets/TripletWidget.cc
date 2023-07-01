@@ -24,6 +24,9 @@ void TripletWidget::SetValues(const QVector3D& values) {
 QVector3D TripletWidget::GetValues() const { return values; }
 
 void TripletWidget::ResetValues() {
+  ui->firstV->setRange(-10000, 10000);
+  ui->secondV->setRange(-10000, 10000);
+  ui->thirdV->setRange(-10000, 10000);
   values.setX(0);
   values.setY(0);
   values.setZ(0);
@@ -40,6 +43,24 @@ void TripletWidget::Unlock() {
   ui->firstV->setEnabled(true);
   ui->secondV->setEnabled(true);
   ui->thirdV->setEnabled(true);
+}
+
+void TripletWidget::SetRangeMin(double min) {
+  ui->firstV->setMinimum(min);
+  ui->secondV->setMinimum(min);
+  ui->thirdV->setMinimum(min);
+}
+
+void TripletWidget::SetRangeMax(double max) {
+  ui->firstV->setMaximum(max);
+  ui->secondV->setMaximum(max);
+  ui->thirdV->setMaximum(max);
+}
+
+void TripletWidget::SetRange(double min, double max) {
+  if (min > max) std::swap(min, max);
+  SetRangeMin(min);
+  SetRangeMax(max);
 }
 
 void TripletWidget::UpdateInputs() {

@@ -5,4 +5,4 @@ typedef struct {
   GLfloat x, y, z;
 } Vertex;
 
-#endif // VERTEX_H
+#endif  // VERTEX_H

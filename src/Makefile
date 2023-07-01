@@ -52,7 +52,7 @@ gcov_report:
 
 	@$(OPEN_CMD) report/index.html
 clang:
-	clang-format --style=Google -n $(shell find ./transforms ./obj_parser -name '*.c') $(shell find ./transforms ./obj_parser -name '*.h')
+	clang-format --style=Google -n $(shell find . -name '*.cc') $(shell find . -name '*.h')
 clang-replace:
-	clang-format --style=Google -i $(shell find ./transforms ./obj_parser -name '*.c') $(shell find ./transforms ./obj_parser -name '*.h')
+	clang-format --style=Google -i $(shell find . -name '*.cc') $(shell find . -name '*.h')
 .PHONY: all build run install uninstall open dist dvi clean clang clang-replace gcov_report
