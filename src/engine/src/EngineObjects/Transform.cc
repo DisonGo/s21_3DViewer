@@ -23,15 +23,13 @@ void Transform::SetTranslate(const QVector3D &newTranslate) {
   UpdateTranslate();
 }
 
-void Transform::UpdateScale()
-{
+void Transform::UpdateScale() {
   modelScale_.setToIdentity();
   modelScale_.scale(scale_);
   awaitingLoadInShader_ = true;
 }
 
-void Transform::UpdateRotation()
-{
+void Transform::UpdateRotation() {
   modelRot_.setToIdentity();
   modelRot_.rotate(rotation_.x(), 1, 0, 0);
   modelRot_.rotate(rotation_.y(), 0, 1, 0);
@@ -39,8 +37,7 @@ void Transform::UpdateRotation()
   awaitingLoadInShader_ = true;
 }
 
-void Transform::UpdateTranslate()
-{
+void Transform::UpdateTranslate() {
   modelTranslate_.setToIdentity();
   modelTranslate_.translate(translate_);
   awaitingLoadInShader_ = true;

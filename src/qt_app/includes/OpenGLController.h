@@ -12,6 +12,7 @@
 #include "Engine.h"
 #include "Shader.h"
 #include "Spacers/CameraSpacer.h"
+
 class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   Q_OBJECT
  public:

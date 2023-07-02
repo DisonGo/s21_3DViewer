@@ -15,7 +15,7 @@
 using std::string;
 namespace s21 {
 
-struct TagCounters{
+struct TagCounters {
   size_t vC = 0, vnC = 0, vtC = 0, fC = 0;
 };
 enum OBJParserTypes { kBaseParser, kEdgeParser, kTriangleParser };

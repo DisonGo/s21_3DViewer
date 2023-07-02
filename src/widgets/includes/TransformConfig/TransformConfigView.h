@@ -1,5 +1,5 @@
-#ifndef TRANSFORMWIDGET_H
-#define TRANSFORMWIDGET_H
+#ifndef TRANSFORMCONFIGVIEW_H
+#define TRANSFORMCONFIGVIEW_H
 
 #include <QVector3D>
 #include <QWidget>
@@ -34,5 +34,4 @@ class TransformConfigView : public QWidget {
   TransformSpacer* transformSpacer_ = nullptr;
   Ui::TransformConfigView* ui;
 };
-
-#endif  // TRANSFORMWIDGET_H
+#endif  // TRANSFORMCONFIGVIEW_H

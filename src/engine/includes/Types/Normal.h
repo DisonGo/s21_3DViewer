@@ -1,7 +1,7 @@
 #ifndef NORMAL_H
 #define NORMAL_H
 #include <QOpenGLFunctions>
-struct Normal{
+struct Normal {
   GLfloat x, y, z;
 };
 #endif  // NORMAL_H

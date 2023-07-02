@@ -1,7 +1,7 @@
 #ifndef TRIANGLEFACE_H
 #define TRIANGLEFACE_H
 #include "FaceVertex.h"
-struct TriangleFace{
+struct TriangleFace {
   FaceVertex indices[3];
 };
 

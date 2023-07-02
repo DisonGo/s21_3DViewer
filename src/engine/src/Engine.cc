@@ -31,15 +31,16 @@ Engine::~Engine() {
   for (auto shader : shaders_) delete shader;
 }
 
-s21::BaseOBJ *Engine::GenerateOBJ(QString fileName)
-{
+s21::BaseOBJ* Engine::GenerateOBJ(QString fileName) {
   s21::BaseOBJ* obj = nullptr;
   switch (OBJParser_->GetType()) {
     case s21::kEdgeParser:
-      obj = static_cast<s21::EdgeParser*>(OBJParser_)->Parse(fileName.toStdString());
+      obj = static_cast<s21::EdgeParser*>(OBJParser_)
+                ->Parse(fileName.toStdString());
       break;
     case s21::kTriangleParser:
-      obj = static_cast<s21::TriangleParser*>(OBJParser_)->Parse(fileName.toStdString());
+      obj = static_cast<s21::TriangleParser*>(OBJParser_)
+                ->Parse(fileName.toStdString());
       break;
     default:
       throw "Engine: Parser type not selected.";
@@ -48,8 +49,7 @@ s21::BaseOBJ *Engine::GenerateOBJ(QString fileName)
   return obj;
 }
 
-Object3D *Engine::GenerateObject(QString fileName)
-{
+Object3D* Engine::GenerateObject(QString fileName) {
   s21::BaseOBJ* obj = GenerateOBJ(fileName);
   auto object_3d = new Object3D();
   if (!obj) return object_3d;

@@ -81,16 +81,20 @@ std::string EObjectItemModel::GetTitle(EObjectType type) {
       return "";
       break;
     case kCamera:
-      return (QString("Camera_") + QString().number(camera_ptrs_.size())).toStdString();
+      return (QString("Camera_") + QString().number(camera_ptrs_.size()))
+          .toStdString();
       break;
     case kObject3D:
-      return (QString("Object3D_") + QString().number(object3D_ptrs_.size())).toStdString();
+      return (QString("Object3D_") + QString().number(object3D_ptrs_.size()))
+          .toStdString();
       break;
     case kTransform:
-      return (QString("Transform_") + QString().number(transform_ptrs_.size())).toStdString();
+      return (QString("Transform_") + QString().number(transform_ptrs_.size()))
+          .toStdString();
       break;
     case kMesh:
-      return (QString("Mesh_") + QString().number(mesh_ptrs_.size())).toStdString();
+      return (QString("Mesh_") + QString().number(mesh_ptrs_.size()))
+          .toStdString();
       break;
   }
 }
@@ -150,16 +154,16 @@ void EObjectItemModel::PushObjectInVectors(EObject *item) {
       return;
       break;
     case kCamera:
-      camera_ptrs_ << static_cast<Camera*>(item);
+      camera_ptrs_ << static_cast<Camera *>(item);
       break;
     case kObject3D:
-      object3D_ptrs_ << static_cast<Object3D*>(item);
+      object3D_ptrs_ << static_cast<Object3D *>(item);
       break;
     case kTransform:
-      transform_ptrs_ << static_cast<Transform*>(item);
+      transform_ptrs_ << static_cast<Transform *>(item);
       break;
     case kMesh:
-      mesh_ptrs_ << static_cast<Mesh*>(item);
+      mesh_ptrs_ << static_cast<Mesh *>(item);
       break;
   }
 }

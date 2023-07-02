@@ -1,5 +1,5 @@
-#ifndef SRC_INCLUDES_TYPES_BASE_OBJ_H
-#define SRC_INCLUDES_TYPES_BASE_OBJ_H
+#ifndef BASEOBJ_H
+#define BASEOBJ_H
 
 #include <vector>
 
@@ -11,11 +11,7 @@
 using std::vector;
 
 namespace s21 {
-enum OBJType {
-  kBaseOBJ,
-  kEdgeOBJ,
-  kTriangleOBJ
-};
+enum OBJType { kBaseOBJ, kEdgeOBJ, kTriangleOBJ };
 class BaseOBJ {
  public:
   vector<Vertex> vertices;
@@ -27,5 +23,4 @@ class BaseOBJ {
 };
 
 }  // namespace s21
-
-#endif  //   SRC_INCLUDES_TYPES_BASE_OBJ_H
+#endif  // BASEOBJ_H

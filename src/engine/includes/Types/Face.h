@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "FaceVertex.h"
-struct Face{
+struct Face {
   std::vector<FaceVertex> indices;
 };
 

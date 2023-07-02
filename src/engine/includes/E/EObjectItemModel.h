@@ -4,6 +4,7 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
+
 #include "EObjectTreeItem.h"
 using std::string;
 using std::vector;
@@ -34,7 +35,7 @@ class EObjectItemModel : public QAbstractItemModel {
   void FindAndSelectIndex(const QModelIndex &index);
   void PrintIndexObject(const QModelIndex &index);
   void AddItem(EObject *item, EObjectTreeItem *parent = nullptr);
-  void PushObjectInVectors(EObject* item);
+  void PushObjectInVectors(EObject *item);
 
  private:
   EObjectTreeItem *rootItem_;
@@ -46,6 +47,5 @@ class EObjectItemModel : public QAbstractItemModel {
 
   std::string GetTitle(EObjectType type);
 };
-
 
 #endif  // EOBJECTITEMMODEL_H

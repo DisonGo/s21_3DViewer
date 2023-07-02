@@ -1,5 +1,5 @@
-#ifndef SRC_INCLUDES_TYPES_EDGE_OBJ_H
-#define SRC_INCLUDES_TYPES_EDGE_OBJ_H
+#ifndef EDGEOBJ_H
+#define EDGEOBJ_H
 
 #include "BaseOBJ.h"
 
@@ -14,4 +14,4 @@ class EdgeOBJ : public s21::BaseOBJ {
 
 }  // namespace s21
 
-#endif  //   SRC_INCLUDES_TYPES_EDGE_OBJ_H
+#endif  // EDGEOBJ_H

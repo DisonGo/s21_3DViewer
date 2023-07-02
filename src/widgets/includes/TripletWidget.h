@@ -1,5 +1,5 @@
-#ifndef TRIPLETCONTROLLER_H
-#define TRIPLETCONTROLLER_H
+#ifndef TRIPLETWIDGET_H
+#define TRIPLETWIDGET_H
 
 #include <QVector3D>
 #include <QWidget>
@@ -34,4 +34,4 @@ class TripletWidget : public QWidget {
   Ui::TripletWidget *ui;
 };
 
-#endif  // TRIPLETCONTROLLER_H
+#endif  // TRIPLETWIDGET_H
