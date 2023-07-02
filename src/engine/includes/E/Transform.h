@@ -9,10 +9,6 @@ class Transform : public EObject, protected QOpenGLFunctions {
   friend class TransformSpacer;
 
  public:
-  Transform(const Transform &other)
-      : scale_(other.scale_),
-        rotation_(other.rotation_),
-        translate_(other.translate_) {}
   Transform() {
     initializeOpenGLFunctions();
     UpdateModel();
@@ -34,6 +30,9 @@ class Transform : public EObject, protected QOpenGLFunctions {
   void SetTranslate(const QVector3D &newTranslate);
 
  private:
+  void UpdateScale();
+  void UpdateRotation();
+  void UpdateTranslate();
   QVector3D scale_ = QVector3D(1, 1, 1);
   QVector3D rotation_ = QVector3D(0, 0, 0);
   QVector3D translate_ = QVector3D(0, 0, 0);
