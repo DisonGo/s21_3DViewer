@@ -6,9 +6,9 @@ set(LIB_NAME widgets)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ./UI)
 set(WIDGETS_HEADER
     includes/DrawConfig/DrawConfigView.h
-    includes/DrawConfig/DrawConfigControler.h
     includes/CameraConfig/CameraConfigView.h
     includes/TransformConfig/TransformConfigView.h
+    
     includes/TripletWidget.h
 )
 set(WIDGETS_UIS

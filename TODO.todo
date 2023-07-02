@@ -2,11 +2,124 @@
   "todotree": {
     "tree": [
       {
+        "key": 1687723053618,
+        "children": [
+          {
+            "key": 1687723069763,
+            "children": [
+              {
+                "key": 1687723672439,
+                "children": [],
+                "todo": {
+                  "content": "Make it as less coupled as possible if it's not costing us a lot of code readability and time.",
+                  "id": 1687723672439,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723672439
+                }
+              },
+              {
+                "key": 1687723776961,
+                "children": [],
+                "todo": {
+                  "content": "Standartize coding style (naming \\ logic patterns)",
+                  "id": 1687723776961,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723776961
+                }
+              }
+            ],
+            "todo": {
+              "content": "Code Refactoring",
+              "id": 1687723069763,
+              "level": "default",
+              "done": false,
+              "start": 1687723069763
+            }
+          },
+          {
+            "key": 1687723105337,
+            "children": [
+              {
+                "key": 1687723122916,
+                "children": [],
+                "todo": {
+                  "content": "MVC (Whole UI)",
+                  "id": 1687723122916,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723122916
+                }
+              },
+              {
+                "key": 1687723126963,
+                "children": [],
+                "todo": {
+                  "content": "Singleton (Engine)",
+                  "id": 1687723126963,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723126963
+                }
+              },
+              {
+                "key": 1687723144810,
+                "children": [],
+                "todo": {
+                  "content": "Facade (summarize any logic in engine subproject)?",
+                  "id": 1687723144810,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723144810
+                }
+              },
+              {
+                "key": 1687723278987,
+                "children": [],
+                "todo": {
+                  "content": "Decorators (Maybe use it for Items Object View Tree)?",
+                  "id": 1687723278987,
+                  "level": "default",
+                  "done": false,
+                  "start": 1687723278987
+                }
+              }
+            ],
+            "todo": {
+              "content": "Design Patterns:",
+              "id": 1687723105337,
+              "level": "default",
+              "done": false,
+              "start": 1687723105337
+            }
+          }
+        ],
+        "todo": {
+          "content": "Architecture",
+          "id": 1687723053618,
+          "level": "success",
+          "done": false,
+          "start": 1687723053618
+        }
+      },
+      {
         "key": 1681302460149,
         "children": [
           {
             "key": 1681302896900,
             "children": [
+              {
+                "key": 1681303075334,
+                "children": [],
+                "todo": {
+                  "content": "OBJ Files loading widget",
+                  "id": 1681303075334,
+                  "level": "default",
+                  "done": false,
+                  "start": 1681303075334
+                }
+              },
               {
                 "key": 1681302518808,
                 "children": [],
@@ -31,17 +144,6 @@
                   "start": 1681302951082,
                   "focus": false,
                   "end": 1681725772594
-                }
-              },
-              {
-                "key": 1681303075334,
-                "children": [],
-                "todo": {
-                  "content": "OBJ Files loading widget",
-                  "id": 1681303075334,
-                  "level": "default",
-                  "done": false,
-                  "start": 1681303075334
                 }
               }
             ],
@@ -93,6 +195,17 @@
             "key": 1681302585820,
             "children": [
               {
+                "key": 1688286042464,
+                "children": [],
+                "todo": {
+                  "content": "Find an fix issue of wrong render if using EBO in index draw method.",
+                  "id": 1688286042464,
+                  "level": "warning",
+                  "done": false,
+                  "start": 1688286042464
+                }
+              },
+              {
                 "key": 1681302612498,
                 "children": [],
                 "todo": {
@@ -113,17 +226,6 @@
                   "done": false,
                   "start": 1681302623658
                 }
-              },
-              {
-                "key": 1688286042464,
-                "children": [],
-                "todo": {
-                  "content": "Find an fix issue of wrong render if using EBO in index draw method.",
-                  "id": 1688286042464,
-                  "level": "warning",
-                  "done": false,
-                  "start": 1688286042464
-                }
               }
             ],
             "todo": {
@@ -138,39 +240,14 @@
             "key": 1681302651442,
             "children": [
               {
-                "key": 1681302658110,
-                "children": [
-                  {
-                    "key": 1681302666282,
-                    "children": [],
-                    "todo": {
-                      "content": "Possibly add smothing and other features presented in Wavefront",
-                      "id": 1681302666282,
-                      "level": "secondary",
-                      "done": false,
-                      "start": 1681302666282
-                    }
-                  },
-                  {
-                    "key": 1681303103864,
-                    "children": [],
-                    "todo": {
-                      "content": "Make c++ obj parser",
-                      "id": 1681303103864,
-                      "level": "default",
-                      "done": true,
-                      "start": 1681303103864,
-                      "focus": false,
-                      "end": 1681303131668
-                    }
-                  }
-                ],
+                "key": 1681302666282,
+                "children": [],
                 "todo": {
-                  "content": "BaseParser",
-                  "id": 1681302658110,
+                  "content": "Possibly add smothing and other features presented in Wavefront",
+                  "id": 1681302666282,
                   "level": "secondary",
                   "done": false,
-                  "start": 1681302658110
+                  "start": 1681302666282
                 }
               },
               {
@@ -183,6 +260,32 @@
                   "done": false,
                   "start": 1681302721133
                 }
+              },
+              {
+                "key": 1681303103864,
+                "children": [],
+                "todo": {
+                  "content": "Make c++ obj parser",
+                  "id": 1681303103864,
+                  "level": "default",
+                  "done": true,
+                  "start": 1681303103864,
+                  "focus": false,
+                  "end": 1681303131668
+                }
+              },
+              {
+                "key": 1681302658110,
+                "children": [],
+                "todo": {
+                  "content": "BaseParser",
+                  "id": 1681302658110,
+                  "level": "secondary",
+                  "done": true,
+                  "start": 1681302658110,
+                  "focus": false,
+                  "end": 1688300973046
+                }
               }
             ],
             "todo": {
@@ -191,29 +294,6 @@
               "level": "default",
               "done": false,
               "start": 1681302651442
-            }
-          },
-          {
-            "key": 1681302781429,
-            "children": [
-              {
-                "key": 1681302789214,
-                "children": [],
-                "todo": {
-                  "content": "Save parsed and transformed obj in binary files for loading optimization",
-                  "id": 1681302789214,
-                  "level": "secondary",
-                  "done": false,
-                  "start": 1681302789214
-                }
-              }
-            ],
-            "todo": {
-              "content": "Optimization",
-              "id": 1681302781429,
-              "level": "secondary",
-              "done": false,
-              "start": 1681302781429
             }
           },
           {
@@ -272,6 +352,40 @@
               "done": false,
               "start": 1681726468969
             }
+          },
+          {
+            "key": 1681302781429,
+            "children": [
+              {
+                "key": 1681302789214,
+                "children": [],
+                "todo": {
+                  "content": "Save parsed and transformed obj in binary files for loading optimization",
+                  "id": 1681302789214,
+                  "level": "secondary",
+                  "done": false,
+                  "start": 1681302789214
+                }
+              }
+            ],
+            "todo": {
+              "content": "Optimization",
+              "id": 1681302781429,
+              "level": "secondary",
+              "done": false,
+              "start": 1681302781429
+            }
+          },
+          {
+            "key": 1688300934509,
+            "children": [],
+            "todo": {
+              "content": "Move from using QT classes (QVector , QMatrix etc.)",
+              "id": 1688300934509,
+              "level": "secondary",
+              "done": false,
+              "start": 1688300934509
+            }
           }
         ],
         "todo": {
@@ -288,6 +402,39 @@
           {
             "key": 1681563621079,
             "children": [
+              {
+                "key": 1688285738958,
+                "children": [],
+                "todo": {
+                  "content": "Code refactoring",
+                  "id": 1688285738958,
+                  "level": "default",
+                  "done": false,
+                  "start": 1688285738958
+                }
+              },
+              {
+                "key": 1688285750807,
+                "children": [],
+                "todo": {
+                  "content": "Add functionality to make it more flexible",
+                  "id": 1688285750807,
+                  "level": "default",
+                  "done": false,
+                  "start": 1688285750807
+                }
+              },
+              {
+                "key": 1688285809456,
+                "children": [],
+                "todo": {
+                  "content": "Maybe optimize Object view widget creation proccess",
+                  "id": 1688285809456,
+                  "level": "default",
+                  "done": false,
+                  "start": 1688285809456
+                }
+              },
               {
                 "key": 1681725829238,
                 "children": [
@@ -434,39 +581,6 @@
                   "focus": false,
                   "end": 1688285483271
                 }
-              },
-              {
-                "key": 1688285738958,
-                "children": [],
-                "todo": {
-                  "content": "Code refactoring",
-                  "id": 1688285738958,
-                  "level": "default",
-                  "done": false,
-                  "start": 1688285738958
-                }
-              },
-              {
-                "key": 1688285750807,
-                "children": [],
-                "todo": {
-                  "content": "Add functionality to make it more flexible",
-                  "id": 1688285750807,
-                  "level": "default",
-                  "done": false,
-                  "start": 1688285750807
-                }
-              },
-              {
-                "key": 1688285809456,
-                "children": [],
-                "todo": {
-                  "content": "Maybe optimize Object view widget creation proccess",
-                  "id": 1688285809456,
-                  "level": "default",
-                  "done": false,
-                  "start": 1688285809456
-                }
               }
             ],
             "todo": {
@@ -485,108 +599,6 @@
           "done": false,
           "start": 1681563615593
         }
-      },
-      {
-        "key": 1687723053618,
-        "children": [
-          {
-            "key": 1687723069763,
-            "children": [
-              {
-                "key": 1687723672439,
-                "children": [],
-                "todo": {
-                  "content": "Make it as less coupled as possible if it's not costing us a lot of code readability and time.",
-                  "id": 1687723672439,
-                  "level": "default",
-                  "done": false,
-                  "start": 1687723672439
-                }
-              },
-              {
-                "key": 1687723776961,
-                "children": [],
-                "todo": {
-                  "content": "Standartize coding style (naming \\ logic patterns)",
-                  "id": 1687723776961,
-                  "level": "default",
-                  "done": false,
-                  "start": 1687723776961
-                }
-              }
-            ],
-            "todo": {
-              "content": "Code Refactoring",
-              "id": 1687723069763,
-              "level": "default",
-              "done": false,
-              "start": 1687723069763
-            }
-          },
-          {
-            "key": 1687723105337,
-            "children": [
-              {
-                "key": 1687723122916,
-                "children": [],
-                "todo": {
-                  "content": "MVC (Whole UI)",
-                  "id": 1687723122916,
-                  "level": "default",
-                  "done": false,
-                  "start": 1687723122916
-                }
-              },
-              {
-                "key": 1687723126963,
-                "children": [],
-                "todo": {
-                  "content": "Singleton (Engine)",
-                  "id": 1687723126963,
-                  "level": "default",
-                  "done": false,
-                  "start": 1687723126963
-                }
-              },
-              {
-                "key": 1687723144810,
-                "children": [],
-                "todo": {
-                  "content": "Facade (summarize any logic in engine subproject)?",
-                  "id": 1687723144810,
-                  "level": "default",
-                  "done": false,
-                  "start": 1687723144810
-                }
-              },
-              {
-                "key": 1687723278987,
-                "children": [],
-                "todo": {
-                  "content": "Decorators (Maybe use it for Items Object View Tree)?",
-                  "id": 1687723278987,
-                  "level": "default",
-                  "done": false,
-                  "start": 1687723278987
-                }
-              }
-            ],
-            "todo": {
-              "content": "Design Patterns:",
-              "id": 1687723105337,
-              "level": "default",
-              "done": false,
-              "start": 1687723105337
-            }
-          }
-        ],
-        "todo": {
-          "content": "Architecture",
-          "id": 1687723053618,
-          "level": "success",
-          "done": false,
-          "start": 1687723053618
-        }
       }
     ],
     "expandKeys": [
@@ -594,10 +606,19 @@
       1681725853520,
       1681725857747,
       1681725904206,
-      1687723053618,
       1681725872236,
       1681563450464,
-      1681302658110
+      1681302658110,
+      1681303220509,
+      1681302651442,
+      1681302460149,
+      1681302896900,
+      1687723053618,
+      1687723069763,
+      1687723105337,
+      1681563615593,
+      1681563621079,
+      1681302585820
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -608,6 +629,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1688286248649"
+    "version": "1688301129358"
   }
 }
