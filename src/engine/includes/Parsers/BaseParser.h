@@ -15,9 +15,9 @@
 using std::string;
 namespace s21 {
 
-typedef struct {
+struct TagCounters{
   size_t vC = 0, vnC = 0, vtC = 0, fC = 0;
-} TagCounters;
+};
 enum OBJParserTypes { kBaseParser, kEdgeParser, kTriangleParser };
 class BaseParser {
  public:
@@ -35,6 +35,7 @@ class BaseParser {
   double stod(const char* s);
   double parseDigits(char** p);
   double parseDigits(char** p, int& count);
+  virtual ~BaseParser() = default;
 };
 }  // namespace s21
 
