@@ -11,12 +11,19 @@
 using std::vector;
 
 namespace s21 {
-
+enum OBJType {
+  kBaseOBJ,
+  kEdgeOBJ,
+  kTriangleOBJ
+};
 class BaseOBJ {
  public:
   vector<Vertex> vertices;
   vector<Normal> normals;
   vector<TextureCoord> textureCoords;
+  OBJType type = OBJType::kBaseOBJ;
+  virtual OBJType GetType() const { return type; };
+  virtual ~BaseOBJ() = default;
 };
 
 }  // namespace s21
