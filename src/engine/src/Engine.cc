@@ -31,19 +31,45 @@ Engine::~Engine() {
   for (auto shader : shaders_) delete shader;
 }
 
-void Engine::importObj(QString fileName) {
-  Object3D* object_3d = nullptr;
+s21::BaseOBJ *Engine::GenerateOBJ(QString fileName)
+{
+  s21::BaseOBJ* obj = nullptr;
   switch (OBJParser_->GetType()) {
     case s21::kEdgeParser:
-      object_3d = GetObjectEdge(fileName);
+      obj = static_cast<s21::EdgeParser*>(OBJParser_)->Parse(fileName.toStdString());
       break;
     case s21::kTriangleParser:
-      object_3d = GetObjectTriangle(fileName);
+      obj = static_cast<s21::TriangleParser*>(OBJParser_)->Parse(fileName.toStdString());
       break;
     default:
       throw "Engine: Parser type not selected.";
       break;
   }
+  return obj;
+}
+
+Object3D *Engine::GenerateObject(QString fileName)
+{
+  s21::BaseOBJ* obj = GenerateOBJ(fileName);
+  auto object_3d = new Object3D();
+  if (!obj) return object_3d;
+  switch (obj->GetType()) {
+    case s21::kBaseOBJ:
+      break;
+    case s21::kEdgeOBJ:
+      object_3d->UploadMesh(*static_cast<s21::EdgeOBJ*>(obj));
+      break;
+    case s21::kTriangleOBJ:
+      object_3d->UploadMesh(*static_cast<s21::TriangleOBJ*>(obj));
+      break;
+  }
+  delete obj;
+  return object_3d;
+}
+
+void Engine::importObj(QString fileName) {
+  Object3D* object_3d = GenerateObject(fileName);
+  if (!object_3d) return;
   auto shader = Shader::Default();
   object_3d->SetShader(*shader);
   objects_3d_.push_back(object_3d);
@@ -74,22 +100,6 @@ void Engine::SetParser(s21::BaseParser* parser) {
 Engine* Engine::Instance() {
   static Engine instance;
   return &instance;
-}
-
-Object3D* Engine::GetObjectTriangle(QString fileName) {
-  auto obj = s21::TriangleParser().Parse(fileName.toStdString());
-  auto object_3d = new Object3D();
-  object_3d->UploadMesh(*obj);
-  delete obj;
-  return object_3d;
-}
-
-Object3D* Engine::GetObjectEdge(QString fileName) {
-  auto obj = s21::EdgeParser().Parse(fileName.toStdString());
-  auto object_3d = new Object3D();
-  object_3d->UploadMesh(*obj);
-  delete obj;
-  return object_3d;
 }
 
 void Engine::drawGeometry(GLenum type) {

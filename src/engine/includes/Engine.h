@@ -30,8 +30,8 @@ class Engine : protected QOpenGLFunctions {
   const Engine& operator=(const Engine& old);  // disallow assignment operator
   ~Engine();
   DrawConfig* drawConfig_{};
-  Object3D* GetObjectTriangle(QString fileName);
-  Object3D* GetObjectEdge(QString fileName);
+  s21::BaseOBJ* GenerateOBJ(QString fileName);
+  Object3D* GenerateObject(QString fileName);
   Camera* current_camera_ = nullptr;
   EObjectItemModel eObjectModel_;
   s21::BaseParser* OBJParser_ = nullptr;
