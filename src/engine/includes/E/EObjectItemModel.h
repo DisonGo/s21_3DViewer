@@ -4,8 +4,8 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
-
 #include "EObjectTreeItem.h"
+using std::string;
 using std::vector;
 class EObjectItemModel : public QAbstractItemModel {
   Q_OBJECT
@@ -28,19 +28,13 @@ class EObjectItemModel : public QAbstractItemModel {
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
   ~EObjectItemModel() { delete rootItem_; };
-  std::string GetCameraTitle();
-  std::string GetObject3DTitle();
-  std::string GetTransformTitle();
-  std::string GetMeshTitle();
  signals:
   void ObjectSelected(EObject *);
  public slots:
   void FindAndSelectIndex(const QModelIndex &index);
   void PrintIndexObject(const QModelIndex &index);
-  void AddItem(Camera *item, EObjectTreeItem *parent = nullptr);
-  void AddItem(Object3D *item, EObjectTreeItem *parent = nullptr);
-  void AddItem(Transform *item, EObjectTreeItem *parent = nullptr);
-  void AddItem(Mesh *item, EObjectTreeItem *parent = nullptr);
+  void AddItem(EObject *item, EObjectTreeItem *parent = nullptr);
+  void PushObjectInVectors(EObject* item);
 
  private:
   EObjectTreeItem *rootItem_;
@@ -49,6 +43,9 @@ class EObjectItemModel : public QAbstractItemModel {
   QVector<Object3D *> object3D_ptrs_;
   QVector<Transform *> transform_ptrs_;
   QVector<Mesh *> mesh_ptrs_;
+
+  std::string GetTitle(EObjectType type);
 };
+
 
 #endif  // EOBJECTITEMMODEL_H

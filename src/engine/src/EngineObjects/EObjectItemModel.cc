@@ -75,25 +75,25 @@ QVariant EObjectItemModel::data(const QModelIndex &index, int role) const {
   return item->data(index.column());
 }
 
-std::string EObjectItemModel::GetCameraTitle() {
-  return (QString("Camera_") + QString().number(camera_ptrs_.size()))
-      .toStdString();
+std::string EObjectItemModel::GetTitle(EObjectType type) {
+  switch (type) {
+    case kNone:
+      return "";
+      break;
+    case kCamera:
+      return (QString("Camera_") + QString().number(camera_ptrs_.size())).toStdString();
+      break;
+    case kObject3D:
+      return (QString("Object3D_") + QString().number(object3D_ptrs_.size())).toStdString();
+      break;
+    case kTransform:
+      return (QString("Transform_") + QString().number(transform_ptrs_.size())).toStdString();
+      break;
+    case kMesh:
+      return (QString("Mesh_") + QString().number(mesh_ptrs_.size())).toStdString();
+      break;
+  }
 }
-
-std::string EObjectItemModel::GetObject3DTitle() {
-  return (QString("Object3D_") + QString().number(object3D_ptrs_.size()))
-      .toStdString();
-}
-
-std::string EObjectItemModel::GetTransformTitle() {
-  return (QString("Transform_") + QString().number(transform_ptrs_.size()))
-      .toStdString();
-}
-
-std::string EObjectItemModel::GetMeshTitle() {
-  return (QString("Mesh_") + QString().number(mesh_ptrs_.size())).toStdString();
-}
-
 void EObjectItemModel::FindAndSelectIndex(const QModelIndex &index) {
   if (!index.isValid()) return;
   EObjectTreeItem *item =
@@ -126,46 +126,40 @@ void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
   } catch (...) {
   }
 }
-
-void EObjectItemModel::AddItem(Camera *item, EObjectTreeItem *parent) {
+void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent) {
+  if (!item || item->GetType() == kNone) return;
   if (!parent) parent = rootItem_;
+  auto type = item->GetType();
   auto row = rowCount();
+  string title = GetTitle(type);
   beginInsertRows(QModelIndex(), row + 1, row + 1);
-
-  new EObjectTreeItem({tr(GetCameraTitle().c_str())}, item, parent);
-  camera_ptrs_ << item;
+  auto new_item = new EObjectTreeItem({tr(title.c_str())}, item, parent);
+  PushObjectInVectors(item);
   endInsertRows();
+  if (type == kObject3D) {
+    auto object3d = static_cast<Object3D *>(item);
+    AddItem(&object3d->GetTrasform(), new_item);
+    AddItem(&object3d->GetMesh(), new_item);
+  }
 }
 
-void EObjectItemModel::AddItem(Object3D *item, EObjectTreeItem *parent) {
-  if (!parent) parent = rootItem_;
-  auto row = rowCount();
-  beginInsertRows(QModelIndex(), row + 1, row + 1);
-
-  auto new_item =
-      new EObjectTreeItem({tr(GetObject3DTitle().c_str())}, item, parent);
-  object3D_ptrs_ << item;
-  endInsertRows();
-
-  AddItem(&item->GetTrasform(), new_item);
-  AddItem(&item->GetMesh(), new_item);
-}
-
-void EObjectItemModel::AddItem(Transform *item, EObjectTreeItem *parent) {
-  if (!parent) parent = rootItem_;
-  auto row = rowCount();
-  beginInsertRows(QModelIndex(), row + 1, row + 1);
-
-  new EObjectTreeItem({tr(GetTransformTitle().c_str())}, item, parent);
-  transform_ptrs_ << item;
-  endInsertRows();
-}
-
-void EObjectItemModel::AddItem(Mesh *item, EObjectTreeItem *parent) {
-  if (!parent) parent = rootItem_;
-  auto row = rowCount();
-  beginInsertRows(QModelIndex(), row + 1, row + 1);
-  new EObjectTreeItem({tr(GetMeshTitle().c_str())}, item, parent);
-  mesh_ptrs_ << item;
-  endInsertRows();
+void EObjectItemModel::PushObjectInVectors(EObject *item) {
+  if (!item) return;
+  switch (item->GetType()) {
+    case kNone:
+      return;
+      break;
+    case kCamera:
+      camera_ptrs_ << static_cast<Camera*>(item);
+      break;
+    case kObject3D:
+      object3D_ptrs_ << static_cast<Object3D*>(item);
+      break;
+    case kTransform:
+      transform_ptrs_ << static_cast<Transform*>(item);
+      break;
+    case kMesh:
+      mesh_ptrs_ << static_cast<Mesh*>(item);
+      break;
+  }
 }
