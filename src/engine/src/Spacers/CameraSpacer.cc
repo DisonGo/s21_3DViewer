@@ -70,14 +70,18 @@ void CameraSpacer::keyPressSlot(QKeyEvent *e) {
   emit ConfigUpdated();
 }
 
-void CameraSpacer::keyReleaseSlot(QKeyEvent *e) {}
+void CameraSpacer::keyReleaseSlot(QKeyEvent *e) {
+  Q_UNUSED(e)
+}
 
 void CameraSpacer::mousePressSlot(QMouseEvent *e) {
+  Q_UNUSED(e)
   camera_.LMBPressed = true;
   camera_.mCenterPos = e->pos();
 }
 
 void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
+  Q_UNUSED(e)
   camera_.LMBPressed = false;
 }
 

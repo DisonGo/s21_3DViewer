@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 
-#include <ObjParser.h>
 #include <qgifimage.h>
 
 #include <QColorDialog>

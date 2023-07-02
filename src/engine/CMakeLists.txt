@@ -28,7 +28,6 @@ set(ENGINE_HEADER
     includes/Spacers/TransformSpacer.h
 
     includes/Shader.h
-    includes/ObjParser.h
     includes/Parsers/BaseParser.h
     includes/Parsers/EdgeParser.h
     includes/Parsers/TriangleParser.h
