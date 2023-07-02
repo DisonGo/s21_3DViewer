@@ -3,8 +3,8 @@
 #include <vector>
 
 #include "FaceVertex.h"
-typedef struct {
+struct Face{
   std::vector<FaceVertex> indices;
-} Face;
+};
 
 #endif  // FACE_H
