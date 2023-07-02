@@ -4,19 +4,19 @@
 #include "E/EObject.h"
 #include "E/Mesh.h"
 #include "E/Transform.h"
-#include "Shader.h"
+#include "Shaders/Program.h"
 #include "Types/EdgeOBJ.h"
 #include "Types/TriangleOBJ.h"
 class Object3D : public EObject {
  public:
   Object3D(){};
   Object3D(const Mesh& mesh) : mesh_(mesh){};
-  Object3D(const Mesh& mesh, Shader& shader) : mesh_(mesh) {
-    SetShader(shader);
+  Object3D(const Mesh& mesh, Program& program) : mesh_(mesh) {
+    SetProgram(program);
   };
-  Object3D(const Mesh& mesh, Shader& shader, const Transform& transform)
+  Object3D(const Mesh& mesh, Program& program, const Transform& transform)
       : mesh_(mesh), transform_(transform) {
-    SetShader(shader);
+    SetProgram(program);
   };
   EObjectType type = kObject3D;
   virtual EObjectType GetType() const override { return type; };
@@ -26,14 +26,14 @@ class Object3D : public EObject {
   void UploadMesh(const s21::TriangleOBJ& obj);
 
   void SetMesh(const Mesh& mesh);
-  void SetShader(Shader& shader);
+  void SetProgram(Program& program);
   void SetTransform(const Transform& transform);
   Mesh& GetMesh() { return mesh_; };
   Transform& GetTrasform() { return transform_; };
 
  private:
   Mesh mesh_;
-  Shader* shader_{};
+  Program* program_{};
   Transform transform_;
 };
 

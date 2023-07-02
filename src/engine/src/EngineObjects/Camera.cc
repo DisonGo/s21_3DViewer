@@ -15,7 +15,7 @@ Camera::Camera(int width, int height) {
   initializeOpenGLFunctions();
 }
 
-void Camera::Matrix(Shader &shader, const char *uniform) {
+void Camera::Matrix(Program &program, const char *uniform) {
   QMatrix4x4 view, projection, model;
   moveSpeed = abs(zRange.y() - zRange.x()) / 1000;
   rotationSpeed = 10;
@@ -32,7 +32,7 @@ void Camera::Matrix(Shader &shader, const char *uniform) {
                      zRange.y());
   if (viewMode == Perspective)
     projection.perspective(FOV, (float)vw / vh, zRange.x(), zRange.y());
-  glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE,
+  glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
                      (projection * view).constData());
 }
 

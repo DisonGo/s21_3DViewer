@@ -4,7 +4,7 @@
 #include <QVector3D>
 
 #include "E/EObject.h"
-#include "Shader.h"
+#include "Shaders/Program.h"
 class Transform : public EObject, protected QOpenGLFunctions {
   friend class TransformSpacer;
 
@@ -15,7 +15,7 @@ class Transform : public EObject, protected QOpenGLFunctions {
   };
 
   void UpdateModel();
-  void LoadModelMatrix(Shader *shader);
+  void LoadModelMatrix(Program *program);
 
   EObjectType type = EObjectType::kTransform;
   virtual EObjectType GetType() const override { return type; };
@@ -40,7 +40,7 @@ class Transform : public EObject, protected QOpenGLFunctions {
   QMatrix4x4 modelScale_;
   QMatrix4x4 modelRot_;
   QMatrix4x4 modelTranslate_;
-  bool awaitingLoadInShader_ = false;
+  bool awaitingLoadInProgram_ = false;
 };
 
 #endif  // TRANSFORM_H

@@ -3,14 +3,13 @@
 #include <QMatrix4x4>
 #include <QObject>
 #include <QOpenGLExtraFunctions>
-#include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QOpenGLWidget>
 #include <QSurfaceFormat>
 #include <QTimer>
 
 #include "Engine.h"
-#include "Shader.h"
+#include "Shaders/Program.h"
 #include "Spacers/CameraSpacer.h"
 
 class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
@@ -83,7 +82,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   int gifFps = 10;
   int gifLength = 5;
 
-  Shader *program = nullptr;
+  Program *program = nullptr;
   Engine *engine;
 };
 

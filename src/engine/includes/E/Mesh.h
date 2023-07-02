@@ -9,7 +9,7 @@
 #include "E/Transform.h"
 #include "GL/EBO.h"
 #include "GL/VAO.h"
-#include "Shader.h"
+#include "Shaders/Program.h"
 #include "Types/EdgeOBJ.h"
 #include "Types/TriangleOBJ.h"
 class Mesh : public EObject, protected QOpenGLFunctions {

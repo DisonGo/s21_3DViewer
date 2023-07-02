@@ -28,7 +28,7 @@ Engine::Engine() {
 
 Engine::~Engine() {
   for (auto obj : engine_objects_) delete obj;
-  for (auto shader : shaders_) delete shader;
+  for (auto program : programs_) delete program;
 }
 
 s21::BaseOBJ* Engine::GenerateOBJ(QString fileName) {
@@ -70,12 +70,12 @@ Object3D* Engine::GenerateObject(QString fileName) {
 void Engine::importObj(QString fileName) {
   Object3D* object_3d = GenerateObject(fileName);
   if (!object_3d) return;
-  auto shader = Shader::Default();
-  object_3d->SetShader(*shader);
+  auto program = Program::Default();
+  object_3d->SetProgram(*program);
   objects_3d_.push_back(object_3d);
   eObjectModel_.AddItem(object_3d);
   engine_objects_.push_back(object_3d);
-  shaders_.push_back(shader);
+  programs_.push_back(program);
 }
 
 void Engine::Cycle() {

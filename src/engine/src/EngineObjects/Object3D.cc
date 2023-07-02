@@ -1,10 +1,10 @@
 #include "E/Object3D.h"
 
 void Object3D::Draw(GLenum type, Camera* camera) {
-  if (!shader_ || !camera) return;
-  shader_->Activate();
-  transform_.LoadModelMatrix(shader_);
-  camera->Matrix(*shader_, "camMatrix");
+  if (!program_ || !camera) return;
+  program_->Activate();
+  transform_.LoadModelMatrix(program_);
+  camera->Matrix(*program_, "camMatrix");
   mesh_.Draw(type);
 }
 
@@ -17,6 +17,6 @@ void Object3D::SetTransform(const Transform& transform) {
   transform_ = transform;
   transform_.UpdateModel();
 }
-void Object3D::SetShader(Shader& shader) { shader_ = &shader; }
+void Object3D::SetProgram(Program& program) { program_ = &program; }
 
 void Object3D::SetMesh(const Mesh& mesh) { mesh_ = mesh; }

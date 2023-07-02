@@ -4,7 +4,7 @@
 #include <QVector3D>
 
 #include "E/EObject.h"
-#include "Shader.h"
+#include "Shaders/Program.h"
 
 class Camera : public EObject, protected QOpenGLFunctions {
  public:
@@ -30,7 +30,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
     float left = -1;
   };
 
-  void Matrix(Shader &shader, const char *uniform);
+  void Matrix(Program &program, const char *uniform);
   virtual EObjectType GetType() const override { return type; };
 
  public:  // Setters / Getters

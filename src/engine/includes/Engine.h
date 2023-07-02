@@ -2,7 +2,6 @@
 #define ENGINE_H
 
 #include <QOpenGLFunctions>
-#include <QOpenGLShaderProgram>
 
 #include "DrawConfig.h"
 #include "E/Camera.h"
@@ -10,7 +9,7 @@
 #include "E/Object3D.h"
 #include "Parsers/EdgeParser.h"
 #include "Parsers/TriangleParser.h"
-#include "Shader.h"
+#include "Shaders/Program.h"
 class Engine : protected QOpenGLFunctions {
  public:
   void drawGeometry(GLenum type);
@@ -38,7 +37,7 @@ class Engine : protected QOpenGLFunctions {
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;
   std::vector<Object3D*> objects_3d_;
-  std::vector<Shader*> shaders_;
+  std::vector<Program*> programs_;
 };
 
 #endif  // ENGINE_H

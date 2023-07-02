@@ -8,6 +8,7 @@ AUX_SOURCE_DIRECTORY(./src ENGINE_SRCS)
 set(LIB_NAME engine)
 set(ENGINE_HEADER
     includes/Engine.h
+    includes/DrawConfig.h
     includes/E/Mesh.h
     includes/E/Camera.h
     includes/E/EObject.h
@@ -27,7 +28,11 @@ set(ENGINE_HEADER
     includes/Spacers/DrawConfigSpacer.h
     includes/Spacers/TransformSpacer.h
 
-    includes/Shader.h
+    includes/Shaders/Program.h
+    includes/Shaders/Shader.h
+    includes/Shaders/VertexShader.h
+    includes/Shaders/FragmentShader.h
+
     includes/Parsers/BaseParser.h
     includes/Parsers/EdgeParser.h
     includes/Parsers/TriangleParser.h
