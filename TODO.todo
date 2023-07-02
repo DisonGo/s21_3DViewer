@@ -59,8 +59,10 @@
                   "content": "Singleton (Engine)",
                   "id": 1687723126963,
                   "level": "default",
-                  "done": false,
-                  "start": 1687723126963
+                  "done": true,
+                  "start": 1687723126963,
+                  "focus": false,
+                  "end": 1688340169683
                 }
               },
               {
@@ -343,17 +345,6 @@
             }
           },
           {
-            "key": 1681726468969,
-            "children": [],
-            "todo": {
-              "content": "World axis/planes/grid",
-              "id": 1681726468969,
-              "level": "default",
-              "done": false,
-              "start": 1681726468969
-            }
-          },
-          {
             "key": 1681302781429,
             "children": [
               {
@@ -386,6 +377,51 @@
               "done": false,
               "start": 1688300934509
             }
+          },
+          {
+            "key": 1688339853710,
+            "children": [
+              {
+                "key": 1681726468969,
+                "children": [],
+                "todo": {
+                  "content": "World axis/planes/grid",
+                  "id": 1681726468969,
+                  "level": "default",
+                  "done": false,
+                  "start": 1681726468969
+                }
+              },
+              {
+                "key": 1688339882278,
+                "children": [],
+                "todo": {
+                  "content": "Reimplementing Transform to Transform2D/Transform3D",
+                  "id": 1688339882278,
+                  "level": "default",
+                  "done": false,
+                  "start": 1688339882278
+                }
+              }
+            ],
+            "todo": {
+              "content": "Implement Object2D",
+              "id": 1688339853710,
+              "level": "secondary",
+              "done": false,
+              "start": 1688339853710
+            }
+          },
+          {
+            "key": 1688340015664,
+            "children": [],
+            "todo": {
+              "content": "Decrease inheritence of QOpenGLFunctions class.",
+              "id": 1688340015664,
+              "level": "secondary",
+              "done": false,
+              "start": 1688340015664
+            }
           }
         ],
         "todo": {
@@ -415,7 +451,52 @@
               },
               {
                 "key": 1688285750807,
-                "children": [],
+                "children": [
+                  {
+                    "key": 1688339678961,
+                    "children": [],
+                    "todo": {
+                      "content": "Title change",
+                      "id": 1688339678961,
+                      "level": "default",
+                      "done": false,
+                      "start": 1688339678961
+                    }
+                  },
+                  {
+                    "key": 1688339690817,
+                    "children": [],
+                    "todo": {
+                      "content": "Hide/Show object",
+                      "id": 1688339690817,
+                      "level": "default",
+                      "done": false,
+                      "start": 1688339690817
+                    }
+                  },
+                  {
+                    "key": 1688339705874,
+                    "children": [],
+                    "todo": {
+                      "content": "Ability to move objects in tree",
+                      "id": 1688339705874,
+                      "level": "default",
+                      "done": false,
+                      "start": 1688339705874
+                    }
+                  },
+                  {
+                    "key": 1688339739971,
+                    "children": [],
+                    "todo": {
+                      "content": "Customize design for unique type of objects",
+                      "id": 1688339739971,
+                      "level": "default",
+                      "done": false,
+                      "start": 1688339739971
+                    }
+                  }
+                ],
                 "todo": {
                   "content": "Add functionality to make it more flexible",
                   "id": 1688285750807,
@@ -607,18 +688,15 @@
       1681725857747,
       1681725904206,
       1681725872236,
-      1681563450464,
       1681302658110,
       1681303220509,
-      1681302651442,
       1681302460149,
-      1681302896900,
       1687723053618,
       1687723069763,
       1687723105337,
       1681563615593,
       1681563621079,
-      1681302585820
+      1688285750807
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -629,6 +707,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1688301129358"
+    "version": "1688340169834"
   }
 }
