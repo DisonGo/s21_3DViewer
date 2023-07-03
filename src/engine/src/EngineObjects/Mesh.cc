@@ -1,5 +1,7 @@
 #include "E/Mesh.h"
 
+#include <iostream>
+
 #include "GL/VBO.h"
 std::vector<VertexData> reassembleVertexArray(std::vector<Vertex> old_arr,
                                               std::vector<TriangleFace> faces) {
@@ -80,10 +82,19 @@ void Mesh::LoadObj(const s21::EdgeOBJ& obj) {
   qDebug() << "Loading obj >> Vertex array ID:" << mix_VAO_.ID_;
   mix_VAO_.Bind();
   std::vector<VertexData> vData = reassembleVertexArray(obj.vertices);
-  for (auto& face : obj.faces) indicesN_ += face.indices.size();
-  qDebug() << QString("Loading %1 indices.").arg(indicesN_);
+
+//  for (auto& face : obj.faces) {
+//    for (auto& indices : face.indices) {
+//      std::cout << indices.v_index << ' ';
+//    }
+//    std::cout << '\n';
+//  }
+
+  // for (auto& face : obj.faces) indicesN_ += face.indices.size();
   VBO VBO1(vData);
   EBO EBO1(obj.faces);
+  indicesN_ = EBO1.GetSize();
+  qDebug() << QString("Loading %1 indices.").arg(indicesN_);
   mix_VAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   mix_VAO_.Unbind();
   VBO1.Unbind();
@@ -109,10 +120,11 @@ void Mesh::LoadObj(const s21::TriangleOBJ& obj) {
   mix_VAO_.Bind();
   std::vector<VertexData> vData = reassembleVertexArray(obj.vertices);
   auto faces = TriangleToPolygon(obj.faces);
-  for (auto& face : faces) indicesN_ += face.indices.size();
+  // for (auto& face : faces) indicesN_ += face.indices.size();
   qDebug() << QString("Loading %1 indices.").arg(indicesN_);
   VBO VBO1(vData);
   EBO EBO1(faces);
+  indicesN_ = EBO1.GetSize();
   mix_VAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
   mix_VAO_.Unbind();
   VBO1.Unbind();

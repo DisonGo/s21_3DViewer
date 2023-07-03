@@ -27,3 +27,6 @@ add_subdirectory(engine)
 add_subdirectory(gifImage)
 add_subdirectory(widgets)
 
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
+

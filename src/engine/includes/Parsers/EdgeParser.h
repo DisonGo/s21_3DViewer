@@ -12,6 +12,7 @@ class EdgeParser : public s21::BaseParser {
   EdgeOBJ *Parse(string filePath);
 
  private:
+  std::vector<Face> RearangeIndices(const std::vector<Face>& arr);
   void ParseFaceEdges(const string values, Face *faces, size_t &index);
   FaceVertex *ParsePolygonEdges(FaceVertex *vertices, size_t &size);
   s21::TagCounters CountTagsEdges(const string filePath);

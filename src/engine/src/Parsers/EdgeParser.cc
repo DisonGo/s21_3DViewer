@@ -26,13 +26,7 @@ s21::TagCounters s21::EdgeParser::CountTagsEdges(const string filePath) {
 
 FaceVertex* s21::EdgeParser::ParsePolygonEdges(FaceVertex* vertices,
                                                size_t& size) {
-  size_t edge_count = size * 2;
-  FaceVertex* edges = new FaceVertex[edge_count];
-  for (size_t i = 0, j = 0; i < size - 1; ++i) {
-    edges[j++] = vertices[i];
-    //    edges[j++] = vertices[i + 1];
-  }
-  return edges;
+  return vertices;
 }
 
 void s21::EdgeParser::ParseFaceEdges(const string values, Face* faces,
@@ -43,10 +37,9 @@ void s21::EdgeParser::ParseFaceEdges(const string values, Face* faces,
   vertices = ParsePolygon(values, vCount);
   edges = ParsePolygonEdges(vertices, vCount);
   faces[index].indices.insert(faces[index].indices.end(), edges,
-                              edges + vCount * 2);
+                              edges + vCount);
   ++index;
   delete[] vertices;
-  delete[] edges;
 }
 
 s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
@@ -113,7 +106,7 @@ s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
                             textureCoords + tags.vtC);
 
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-
+  obj.faces = RearangeIndices(obj.faces);
   // Cleaning
 
   delete[] vertices;
@@ -124,4 +117,27 @@ s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
   if (str) free(str);
   fclose(obj_file);
   return new s21::EdgeOBJ(obj);
+}
+
+std::vector<Face> s21::EdgeParser::RearangeIndices(
+    const std::vector<Face>& arr) {
+  // edges[0] = vertices[0];
+  // for (size_t i = 0, j = 0; i < size - 1; ++i) {
+  //   edges[j++] = vertices[i];
+  //   edges[j++] = vertices[i + 1];
+  // }
+  // edges[edge_count - 1] = vertices[size - 1];
+  // return edges;
+  std::vector<Face> new_arr;
+  for (auto& face : arr) {
+      Face f;
+      f.indices.push_back(face.indices.front());
+      for (size_t i = 1; i < face.indices.size(); i++) {
+          f.indices.push_back(face.indices[i]);
+          f.indices.push_back(face.indices[i]);
+      }
+      f.indices.push_back(face.indices.front());
+      new_arr.push_back(f);
+  }
+  return new_arr;
 }
