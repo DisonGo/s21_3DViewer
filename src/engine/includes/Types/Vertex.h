@@ -2,7 +2,7 @@
 #define VERTEX_H
 #include <QOpenGLFunctions>
 struct Vertex {
-  GLfloat x, y, z;
+  GLfloat x_, y_, z_;
 };
 
 #endif  // VERTEX_H

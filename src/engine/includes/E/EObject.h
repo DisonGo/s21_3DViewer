@@ -3,8 +3,8 @@
 enum EObjectType { kNone = 0, kMesh, kCamera, kTransform, kObject3D };
 class EObject {
  public:
-  EObjectType type = kNone;
-  virtual EObjectType GetType() const { return type; };
+  EObjectType type_ = kNone;
+  virtual EObjectType GetType() const { return type_; };
   virtual ~EObject() = default;
   bool SameType(const EObject& obj) { return GetType() == obj.GetType(); };
 };

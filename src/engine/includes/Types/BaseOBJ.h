@@ -14,11 +14,11 @@ namespace s21 {
 enum OBJType { kBaseOBJ, kEdgeOBJ, kTriangleOBJ };
 class BaseOBJ {
  public:
-  vector<Vertex> vertices;
-  vector<Normal> normals;
-  vector<TextureCoord> textureCoords;
-  OBJType type = OBJType::kBaseOBJ;
-  virtual OBJType GetType() const { return type; };
+  vector<Vertex> vertices_;
+  vector<Normal> normals_;
+  vector<TextureCoord> texture_coords_;
+  OBJType type_ = OBJType::kBaseOBJ;
+  virtual OBJType GetType() const { return type_; };
   virtual ~BaseOBJ() = default;
 };
 

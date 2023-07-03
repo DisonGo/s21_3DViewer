@@ -7,8 +7,8 @@
 namespace s21 {
 class EdgeParser : public s21::BaseParser {
  public:
-  OBJParserTypes type = kEdgeParser;
-  virtual OBJParserTypes GetType() const override { return type; };
+  OBJParserTypes type_ = kEdgeParser;
+  virtual OBJParserTypes GetType() const override { return type_; };
   EdgeOBJ *Parse(string filePath);
 
  private:

@@ -10,52 +10,54 @@ class DrawConfigSpacer : public QObject {
   DrawConfigSpacer(QObject* parent = nullptr) : QObject(parent) {
     config_ = &DrawConfig::Instance();
   };
-  float GetPointSize() const { return config_->PointSize; };
-  float GetLineWidth() const { return config_->LineWidth; };
-  bool GetPoints() const { return config_->Points; };
-  bool GetLines() const { return config_->Lines; };
-  bool GetTriangles() const { return config_->Triangles; };
-  bool GetTrianglesStrip() const { return config_->TrianglesStrip; };
-  bool GetRoundCircle() const { return config_->RoundCircle; };
-  bool GetDashedLines() const { return config_->DashedLines; };
-  bool GetIndexDraw() const { return config_->IndexDraw; };
-  bool GetVertexOnlyDraw() const { return config_->VertexOnlyDraw; };
-  const QColor& GetFragmentColor() const { return config_->FragmentColor; };
-  const QColor& GetLineColor() const { return config_->LineColor; };
-  const QColor& GetDotColor() const { return config_->DotColor; };
-  const QColor& GetBackColor() const { return config_->BackColor; };
+  float GetPointSize() const { return config_->point_size_; };
+  float GetLineWidth() const { return config_->line_width_; };
+  bool GetPoints() const { return config_->points_; };
+  bool GetLines() const { return config_->lines_; };
+  bool GetTriangles() const { return config_->triangles_; };
+  bool GetTrianglesStrip() const { return config_->triangles_strip_; };
+  bool GetRoundCircle() const { return config_->round_circle_; };
+  bool GetDashedLines() const { return config_->dashed_lines_; };
+  bool GetIndexDraw() const { return config_->index_draw_; };
+  bool GetVertexOnlyDraw() const { return config_->vertex_only_draw_; };
+  const QColor& GetFragmentColor() const { return config_->fragment_color_; };
+  const QColor& GetLineColor() const { return config_->line_color_; };
+  const QColor& GetDotColor() const { return config_->dot_color_; };
+  const QColor& GetBackColor() const { return config_->back_color_; };
  public slots:
-  void SetPointSize(float newPointSize) { config_->PointSize = newPointSize; };
-  void SetLineWidth(float newLineWidth) { config_->LineWidth = newLineWidth; };
-  void SetPoints(int newPoints) { config_->Points = (bool)newPoints; };
-  void SetLines(int newLines) { config_->Lines = (bool)newLines; };
+  void SetPointSize(float newPointSize) { config_->point_size_ = newPointSize; };
+  void SetLineWidth(float newLineWidth) {
+    config_->line_width_ = newLineWidth;
+  };
+  void SetPoints(int newPoints) { config_->points_ = (bool)newPoints; };
+  void SetLines(int newLines) { config_->lines_ = (bool)newLines; };
   void SetTriangles(int newTriangles) {
-    config_->Triangles = (bool)newTriangles;
+    config_->triangles_ = (bool)newTriangles;
   };
   void SetTrianglesStrip(int newTrianglesStrip) {
-    config_->TrianglesStrip = (bool)newTrianglesStrip;
+    config_->triangles_strip_ = (bool)newTrianglesStrip;
   };
   void SetRoundCircle(int newRoundCircle) {
-    config_->RoundCircle = (bool)newRoundCircle;
+    config_->round_circle_ = (bool)newRoundCircle;
   };
   void SetDashedLines(int newDashedLines) {
-    config_->DashedLines = (bool)newDashedLines;
+    config_->dashed_lines_ = (bool)newDashedLines;
   };
-  void SetIndexDraw(int newIndexDraw) { config_->IndexDraw = newIndexDraw; };
+  void SetIndexDraw(int newIndexDraw) { config_->index_draw_ = newIndexDraw; };
   void SetVertexOnlyDraw(int newVertexOnlyDraw) {
-    config_->VertexOnlyDraw = newVertexOnlyDraw;
+    config_->vertex_only_draw_ = newVertexOnlyDraw;
   };
   void SetFragmentColor(const QColor& newFragmentColor) {
-    config_->FragmentColor = newFragmentColor;
+    config_->fragment_color_ = newFragmentColor;
   };
   void SetLineColor(const QColor& newLineColor) {
-    config_->LineColor = newLineColor;
+    config_->line_color_ = newLineColor;
   };
   void SetDotColor(const QColor& newDotColor) {
-    config_->DotColor = newDotColor;
+    config_->dot_color_ = newDotColor;
   };
   void SetBackColor(const QColor& newBackColor) {
-    config_->BackColor = newBackColor;
+    config_->back_color_ = newBackColor;
   };
 
  private:

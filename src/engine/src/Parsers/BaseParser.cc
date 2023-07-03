@@ -14,7 +14,7 @@ size_t s21::BaseParser::CountFaceVertices(const char* line) {
   return count;
 }
 
-double s21::BaseParser::parseDigits(char** p) {
+double s21::BaseParser::ParseDigits(char** p) {
   double value = 0;
   while (**p >= '0' && **p <= '9') {
     value = (value * 10.0) + (**p - '0');
@@ -23,7 +23,7 @@ double s21::BaseParser::parseDigits(char** p) {
   return value;
 }
 
-double s21::BaseParser::parseDigits(char** p, int& count) {
+double s21::BaseParser::ParseDigits(char** p, int& count) {
   double value = 0;
   while (**p >= '0' && **p <= '9') {
     value = (value * 10.0) + (**p - '0');
@@ -33,7 +33,7 @@ double s21::BaseParser::parseDigits(char** p, int& count) {
   return value;
 }
 
-double s21::BaseParser::stod(const char* s) {
+double s21::BaseParser::Stod(const char* s) {
   double r = 0.0;
   char* p = (char*)s;
   while (*p && std::isspace(*p)) ++p;
@@ -41,12 +41,12 @@ double s21::BaseParser::stod(const char* s) {
 
   bool neg = *p == '-';
   if (neg) ++p;
-  r = parseDigits(&p);
+  r = ParseDigits(&p);
   if (*p == '.') {
     double f = 0.0;
     int n = 0;
     ++p;
-    f = parseDigits(&p, n);
+    f = ParseDigits(&p, n);
     r += f / std::pow(10.0, n);
   }
   if (neg) r = -r;
@@ -57,12 +57,12 @@ Vertex s21::BaseParser::ParseVertex(const string& line) {
   Vertex vert;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  vert.x = stod(str);
+  vert.x_ = Stod(str);
   while (*str && !isspace(*str)) ++str;
   while (*str && isspace(*str)) ++str;
-  vert.y = stod(str);
+  vert.y_ = Stod(str);
   while (*str && !isspace(*str)) ++str;
-  vert.z = stod(str);
+  vert.z_ = Stod(str);
   return vert;
 }
 
@@ -70,9 +70,9 @@ TextureCoord s21::BaseParser::ParseTextureCoord(const string& line) {
   TextureCoord textureCoord;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  textureCoord.u = stod(str);
+  textureCoord.u_ = Stod(str);
   while (*str && !isspace(*str)) ++str;
-  textureCoord.v = stod(str);
+  textureCoord.v_ = Stod(str);
   return textureCoord;
 }
 
@@ -80,12 +80,12 @@ Normal s21::BaseParser::ParseNormal(const string& line) {
   Normal normal;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  normal.x = stod(str);
+  normal.x_ = Stod(str);
   while (*str && !isspace(*str)) ++str;
   while (*str && isspace(*str)) ++str;
-  normal.y = stod(str);
+  normal.y_ = Stod(str);
   while (*str && !isspace(*str)) ++str;
-  normal.z = stod(str);
+  normal.z_ = Stod(str);
   return normal;
 }
 
@@ -107,17 +107,17 @@ FaceVertex* s21::BaseParser::ParsePolygon(const string values, size_t& size) {
   for (size_t i = 0; i < size && *str; i++) {
     FaceVertex& vertex = vertices[i];
     for (int j = 0; j < 3 && *str; j++) {
-      unsigned index = stod(str) - 1;
+      unsigned index = Stod(str) - 1;
       while (*str && isspace(*str)) ++str;
       while (*str && std::isdigit(*str)) ++str;
-      if (j == 0) vertex.vIndex = index;
-      if (j == 1) vertex.tIndex = index;
-      if (j == 2) vertex.nIndex = index;
+      if (j == 0) vertex.v_index_ = index;
+      if (j == 1) vertex.t_index_ = index;
+      if (j == 2) vertex.n_index_ = index;
       bool isslash = *str == '/';
       if (isslash) ++str;
       if (!isslash) {
-        if (j == 0) vertex.tIndex = -1;
-        if (j != 2) vertex.nIndex = -1;
+        if (j == 0) vertex.t_index_ = -1;
+        if (j != 2) vertex.n_index_ = -1;
         j = 2;
       }
     }

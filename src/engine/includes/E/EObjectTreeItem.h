@@ -12,7 +12,7 @@ class EObjectTreeItem {
                            EObjectTreeItem *parent = nullptr);
   ~EObjectTreeItem();
 
-  void appendChild(EObjectTreeItem *child);
+  void AppendChild(EObjectTreeItem *child);
 
   EObjectTreeItem *child(int row);
   int childCount() const;
@@ -26,11 +26,11 @@ class EObjectTreeItem {
   EObjectType GetType() { return type_; };
 
  private:
-  QList<EObjectTreeItem *> m_childItems;
-  QList<QVariant> m_itemData;
+  QList<EObjectTreeItem *> m_child_items_;
+  QList<QVariant> m_item_data_;
   EObject *object_ptr_;
   EObjectType type_ = kNone;
-  EObjectTreeItem *m_parentItem;
+  EObjectTreeItem *m_parent_item_;
 };
 
 #endif  // EOBJECTTREEITEM_H

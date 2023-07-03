@@ -108,7 +108,7 @@ void OpenGLController::importObjFile(QString filename) {
   engine->importObj(filename);
   QFileInfo fileInfo(filename);
   update();
-  emit importComleted(engine->verticesN, engine->verticesN / 3 * 2,
+  emit importComleted(engine->verticesN_, engine->verticesN_ / 3 * 2,
                       fileInfo.fileName());
 }
 OpenGLController::~OpenGLController() {

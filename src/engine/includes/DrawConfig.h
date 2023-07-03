@@ -8,20 +8,20 @@ class DrawConfig {
     static DrawConfig instance_;
     return instance_;
   };
-  float PointSize = 1;
-  float LineWidth = 1;
-  bool Points = true;
-  bool Lines = true;
-  bool Triangles = true;
-  bool TrianglesStrip = false;
-  bool RoundCircle = false;
-  bool DashedLines = false;
-  bool IndexDraw = false;
-  bool VertexOnlyDraw = true;
-  QColor FragmentColor = QColor(255, 255, 255);
-  QColor LineColor = QColor(255, 255, 255);
-  QColor DotColor = QColor(255, 255, 255);
-  QColor BackColor = QColor(0, 0, 0);
+  float point_size_ = 1;
+  float line_width_ = 1;
+  bool points_ = true;
+  bool lines_ = true;
+  bool triangles_ = true;
+  bool triangles_strip_ = false;
+  bool round_circle_ = false;
+  bool dashed_lines_ = false;
+  bool index_draw_ = false;
+  bool vertex_only_draw_ = true;
+  QColor fragment_color_ = QColor(255, 255, 255);
+  QColor line_color_ = QColor(255, 255, 255);
+  QColor dot_color_ = QColor(255, 255, 255);
+  QColor back_color_ = QColor(0, 0, 0);
 
  private:
   DrawConfig(){};

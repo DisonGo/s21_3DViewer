@@ -28,7 +28,7 @@ class EObjectItemModel : public QAbstractItemModel {
                       int role = Qt::DisplayRole) const override;
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
-  ~EObjectItemModel() { delete rootItem_; };
+  ~EObjectItemModel() { delete root_item_; };
  signals:
   void ObjectSelected(EObject *);
  public slots:
@@ -38,7 +38,7 @@ class EObjectItemModel : public QAbstractItemModel {
   void PushObjectInVectors(EObject *item);
 
  private:
-  EObjectTreeItem *rootItem_;
+  EObjectTreeItem *root_item_;
   //  QVector<EObject*> all_objects;
   QVector<Camera *> camera_ptrs_;
   QVector<Object3D *> object3D_ptrs_;

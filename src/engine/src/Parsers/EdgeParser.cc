@@ -14,10 +14,10 @@ s21::TagCounters s21::EdgeParser::CountTagsEdges(const string filePath) {
     line.assign(str);
     size_t pos = line.find(' ');
     tag.assign(line.substr(0, pos));
-    if (tag == "v") counter.vC++;
-    if (tag == "vn") counter.vnC++;
-    if (tag == "vt") counter.vtC++;
-    if (tag == "f") counter.fC++;
+    if (tag == "v") counter.vC_++;
+    if (tag == "vn") counter.vnC_++;
+    if (tag == "vt") counter.vtC_++;
+    if (tag == "f") counter.fC_++;
   }
   free(str);
   fclose(obj_file);
@@ -42,8 +42,8 @@ void s21::EdgeParser::ParseFaceEdges(const string values, Face* faces,
   size_t vCount = 0;
   vertices = ParsePolygon(values, vCount);
   edges = ParsePolygonEdges(vertices, vCount);
-  faces[index].indices.insert(faces[index].indices.end(), edges,
-                              edges + vCount * 2);
+  faces[index].indices_.insert(faces[index].indices_.end(), edges,
+                               edges + vCount * 2);
   ++index;
   delete[] vertices;
   delete[] edges;
@@ -61,17 +61,17 @@ s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
 
   // std::vector memory allocation
 
-  obj.vertices.reserve(tags.vC);
-  obj.normals.reserve(tags.vnC);
-  obj.textureCoords.reserve(tags.vtC);
-  obj.faces.reserve(tags.fC);
+  obj.vertices_.reserve(tags.vC_);
+  obj.normals_.reserve(tags.vnC_);
+  obj.texture_coords_.reserve(tags.vtC_);
+  obj.faces_.reserve(tags.fC_);
 
   // Dynamic arrays memory allocation
 
-  Vertex* vertices = new Vertex[tags.vC];
-  Normal* normals = new Normal[tags.vnC];
-  TextureCoord* textureCoords = new TextureCoord[tags.vtC];
-  Face* faces = new Face[tags.fC];
+  Vertex* vertices = new Vertex[tags.vC_];
+  Normal* normals = new Normal[tags.vnC_];
+  TextureCoord* textureCoords = new TextureCoord[tags.vtC_];
+  Face* faces = new Face[tags.fC_];
 
   s21::TagCounters counter;  // Index counter for dynamic arrays
   size_t linesz = 0;
@@ -92,27 +92,27 @@ s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
     // Parse and save values depending on tag
 
     if (tag == "v") {
-      vertices[counter.vC] = ParseVertex(values);
-      counter.vC++;
+      vertices[counter.vC_] = ParseVertex(values);
+      counter.vC_++;
     } else if (tag == "vt") {
-      textureCoords[counter.vtC] = ParseTextureCoord(values);
-      counter.vtC++;
+      textureCoords[counter.vtC_] = ParseTextureCoord(values);
+      counter.vtC_++;
     } else if (tag == "vn") {
-      normals[counter.vnC] = ParseNormal(values);
-      counter.vnC++;
+      normals[counter.vnC_] = ParseNormal(values);
+      counter.vnC_++;
     } else if (tag == "f") {
-      ParseFaceEdges(values, faces, counter.fC);
+      ParseFaceEdges(values, faces, counter.fC_);
     }
   }
 
   // Insert values from dynamic arrays to OBJ std::vector`s
 
-  obj.vertices.insert(obj.vertices.end(), vertices, vertices + tags.vC);
-  obj.normals.insert(obj.normals.end(), normals, normals + tags.vnC);
-  obj.textureCoords.insert(obj.textureCoords.end(), textureCoords,
-                           textureCoords + tags.vtC);
+  obj.vertices_.insert(obj.vertices_.end(), vertices, vertices + tags.vC_);
+  obj.normals_.insert(obj.normals_.end(), normals, normals + tags.vnC_);
+  obj.texture_coords_.insert(obj.texture_coords_.end(), textureCoords,
+                             textureCoords + tags.vtC_);
 
-  obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
+  obj.faces_.insert(obj.faces_.end(), faces, faces + tags.fC_);
 
   // Cleaning
 

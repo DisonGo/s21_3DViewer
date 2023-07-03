@@ -16,14 +16,14 @@ using std::string;
 namespace s21 {
 
 struct TagCounters {
-  size_t vC = 0, vnC = 0, vtC = 0, fC = 0;
+  size_t vC_ = 0, vnC_ = 0, vtC_ = 0, fC_ = 0;
 };
 enum OBJParserTypes { kBaseParser, kEdgeParser, kTriangleParser };
 class BaseParser {
  public:
   ;
-  OBJParserTypes type = kBaseParser;
-  virtual OBJParserTypes GetType() const { return type; };
+  OBJParserTypes type_ = kBaseParser;
+  virtual OBJParserTypes GetType() const { return type_; };
 
   size_t CountFaceVertices(const char* line);
 
@@ -32,9 +32,9 @@ class BaseParser {
   Normal ParseNormal(const string& line);
   FaceVertex* ParsePolygon(const string values, size_t& size);
 
-  double stod(const char* s);
-  double parseDigits(char** p);
-  double parseDigits(char** p, int& count);
+  double Stod(const char* s);
+  double ParseDigits(char** p);
+  double ParseDigits(char** p, int& count);
   virtual ~BaseParser() = default;
 };
 }  // namespace s21

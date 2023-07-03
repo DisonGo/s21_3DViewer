@@ -4,7 +4,7 @@
 
 #include "FaceVertex.h"
 struct Face {
-  std::vector<FaceVertex> indices;
+  std::vector<FaceVertex> indices_;
 };
 
 #endif  // FACE_H
