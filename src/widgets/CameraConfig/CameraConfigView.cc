@@ -8,6 +8,9 @@ CameraConfigView::CameraConfigView(QWidget *parent, CameraSpacer *cameraSpacer)
   ui->PositionTriplet->SetRange(-10000, 10000);
   ui->FocusPointTriplet->SetRange(-10000, 10000);
   ui->OrientationTriplet->SetRange(-10000, 10000);
+  ui->zRangeYV->setSingleStep(100);
+  ui->zRangeXV->setSingleStep(0.1);
+
   SetupConnects();
 }
 

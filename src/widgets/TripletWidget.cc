@@ -21,6 +21,14 @@ void TripletWidget::SetValues(const QVector3D& values) {
   UpdateInputs();
 }
 
+void TripletWidget::SetStep(double step) {
+  static constexpr double EPS = 1e-2;
+  if (step < EPS) return;
+  ui->firstV->setSingleStep(step);
+  ui->secondV->setSingleStep(step);
+  ui->thirdV->setSingleStep(step);
+}
+
 QVector3D TripletWidget::GetValues() const { return values; }
 
 void TripletWidget::ResetValues() {
