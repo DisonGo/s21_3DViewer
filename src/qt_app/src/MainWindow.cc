@@ -167,7 +167,7 @@ void MainWindow::ShowObjectWidget(EObject* object) {
     } break;
   }
 }
-
+#include "Delegates/CChoicePathDelegate/CChoicePathDelegate.h"
 void MainWindow::SetupEObjectTreeView() {
   //  ui->camWid->SetCameraSpacer(ui->openGLWidget->cameraSpacer);
   eObjectModel = &Engine::Instance()->GetEObjectItemModel();
@@ -177,7 +177,9 @@ void MainWindow::SetupEObjectTreeView() {
 
   connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
+  auto delegate = new CChoicePathDelegate (this);
   ui->Tree->setModel(eObjectModel);
+  ui->Tree->setItemDelegateForRow(1, delegate);
 }
 
 void MainWindow::UpdateGL() { ui->openGLWidget->update(); }

@@ -1,6 +1,7 @@
 AUX_SOURCE_DIRECTORY(./DrawConfig WIDGETS_SRCS)
 AUX_SOURCE_DIRECTORY(./CameraConfig WIDGETS_SRCS)
 AUX_SOURCE_DIRECTORY(./TransformConfig WIDGETS_SRCS)
+AUX_SOURCE_DIRECTORY(./Delegates/CChoicePathDelegate WIDGETS_SRCS)
 AUX_SOURCE_DIRECTORY(./ WIDGETS_SRCS)
 set(LIB_NAME widgets)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ./UI)
@@ -8,6 +9,7 @@ set(WIDGETS_HEADER
     includes/DrawConfig/DrawConfigView.h
     includes/CameraConfig/CameraConfigView.h
     includes/TransformConfig/TransformConfigView.h
+    includes/Delegates/CChoicePathDelegate/CChoicePathDelegate.h
     
     includes/TripletWidget.h
 )
