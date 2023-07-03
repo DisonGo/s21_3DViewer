@@ -16,7 +16,7 @@ class BaseOBJ {
  public:
   vector<Vertex> vertices;
   vector<Normal> normals;
-  vector<TextureCoord> textureCoords;
+  vector<TextureCoord> texture_coords;
   OBJType type = OBJType::kBaseOBJ;
   virtual OBJType GetType() const { return type; };
   virtual ~BaseOBJ() = default;

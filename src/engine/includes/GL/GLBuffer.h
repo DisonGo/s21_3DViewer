@@ -3,11 +3,11 @@
 #include "GLObject.h"
 class GLBuffer : public GLObject {
  public:
-  GLBuffer() { glGenBuffers(1, &ID); };
+  GLBuffer() { glGenBuffers(1, &ID_); };
   ~GLBuffer() { Delete(); };
-  void Bind() override { glBindBuffer(GetType(), ID); };
+  void Bind() override { glBindBuffer(GetType(), ID_); };
   void Unbind() override { glBindBuffer(GetType(), 0); };
-  void Delete() override { glDeleteBuffers(1, &ID); };
+  void Delete() override { glDeleteBuffers(1, &ID_); };
   virtual GLenum GetType() { return type; };
   GLenum type = GL_ELEMENT_ARRAY_BUFFER;
 };

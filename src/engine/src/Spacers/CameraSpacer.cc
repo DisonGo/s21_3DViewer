@@ -5,29 +5,29 @@ CameraSpacer::CameraSpacer(QObject *parent, Camera &camera)
 void CameraSpacer::keyPressSlot(QKeyEvent *e) {
   int key = e->key();
 
-  if (key == Qt::Key_Shift) camera_.SetMoveSpeed(camera_.moveSpeed);
-  if (camera_.mode == Camera::Free) {
-    QVector3D Buf = camera_.Position;
+  if (key == Qt::Key_Shift) camera_.SetMoveSpeed(camera_.move_speed_);
+  if (camera_.mode_ == Camera::kFree) {
+    QVector3D Buf = camera_.position_;
     if (key == Qt::Key_W)
-      camera_.Position += camera_.moveSpeed * camera_.Orientation;
+      camera_.position_ += camera_.move_speed_ * camera_.orientation_;
     if (key == Qt::Key_A)
-      camera_.Position += camera_.moveSpeed *
-                          -QVector3D::normal(camera_.Orientation, camera_.Up) *
-                          0.1;
+      camera_.position_ +=
+          camera_.move_speed_ *
+          -QVector3D::normal(camera_.orientation_, camera_.up_) * 0.1;
     if (key == Qt::Key_S)
-      camera_.Position += camera_.moveSpeed * -camera_.Orientation;
+      camera_.position_ += camera_.move_speed_ * -camera_.orientation_;
     if (key == Qt::Key_D)
-      camera_.Position += camera_.moveSpeed *
-                          QVector3D::normal(camera_.Orientation, camera_.Up) *
-                          0.1;
+      camera_.position_ +=
+          camera_.move_speed_ *
+          QVector3D::normal(camera_.orientation_, camera_.up_) * 0.1;
     if (key == Qt::Key_Space)
-      camera_.Position += camera_.moveSpeed * camera_.Up;
+      camera_.position_ += camera_.move_speed_ * camera_.up_;
     if (key == Qt::Key_Control)
-      camera_.Position += camera_.moveSpeed * -camera_.Up;
-    if (Buf != camera_.Position) emit ConfigUpdated();
+      camera_.position_ += camera_.move_speed_ * -camera_.up_;
+    if (Buf != camera_.position_) emit ConfigUpdated();
   }
 
-  //  if (mode == Focus) {
+  //  if (mode == kFocus) {
   //    if (!( key == Qt::Key_W
   //        || key == Qt::Key_A
   //        || key == Qt::Key_S
@@ -70,23 +70,21 @@ void CameraSpacer::keyPressSlot(QKeyEvent *e) {
   emit ConfigUpdated();
 }
 
-void CameraSpacer::keyReleaseSlot(QKeyEvent *e) {
-  Q_UNUSED(e)
-}
+void CameraSpacer::keyReleaseSlot(QKeyEvent *e) { Q_UNUSED(e) }
 
 void CameraSpacer::mousePressSlot(QMouseEvent *e) {
   Q_UNUSED(e)
-  camera_.LMBPressed = true;
-  camera_.mCenterPos = e->pos();
+  camera_.LMBPressed_ = true;
+  camera_.m_center_pos_ = e->pos();
 }
 
 void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
   Q_UNUSED(e)
-  camera_.LMBPressed = false;
+  camera_.LMBPressed_ = false;
 }
 
 void CameraSpacer::mouseMoveSlot(QMouseEvent *e) {
-  camera_.processFreeMode(e->pos());
+  camera_.ProcessFreeMode(e->pos());
   emit ConfigUpdated();
 }
 

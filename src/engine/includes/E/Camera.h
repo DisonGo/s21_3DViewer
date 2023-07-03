@@ -11,27 +11,26 @@ class Camera : public EObject, protected QOpenGLFunctions {
   friend class CameraSpacer;
   explicit Camera();
   Camera(int width, int height);
-  EObjectType type = EObjectType::kCamera;
-  enum CameraMode { Free = 0, Focus = 1 };
-  enum ViewMode { Perspective = 0, Orthographic = 1 };
+  enum CameraMode { kFree = 0, kFocus = 1 };
+  enum ViewMode { kPerspective = 0, kOrthographic = 1 };
   class ParallelBox {
    public:
     ParallelBox(float vertical, float horizontal)
-        : top(vertical),
-          right(horizontal),
-          bottom(vertical),
-          left(horizontal){};
+        : top_(vertical),
+          right_(horizontal),
+          bottom_(vertical),
+          left_(horizontal){};
     ParallelBox(float top = 1, float right = 1, float bottom = -1,
                 float left = -1)
-        : top(top), right(right), bottom(bottom), left(left){};
-    float top = 1;
-    float right = 1;
-    float bottom = -1;
-    float left = -1;
+        : top_(top), right_(right), bottom_(bottom), left_(left){};
+    float top_ = 1;
+    float right_ = 1;
+    float bottom_ = -1;
+    float left_ = -1;
   };
 
   void Matrix(Program &program, const char *uniform);
-  virtual EObjectType GetType() const override { return type; };
+  virtual EObjectType GetType() const override { return type_; };
 
  public:  // Setters / Getters
   void SetMode(CameraMode newMode);
@@ -60,28 +59,31 @@ class Camera : public EObject, protected QOpenGLFunctions {
   float GetRotationSpeed() const;
   const Camera::ParallelBox &GetBox() const;
 
+ protected:
+  EObjectType type_ = EObjectType::kCamera;
+
  private:  // Methods
-  void processFreeMode(QPoint ePos);
-  void processFocusMode(QPoint focusPoint);
+  void ProcessFreeMode(QPoint ePos);
+  void ProcessFocusMode(QPoint focusPoint);
 
  private:  // vars
-  CameraMode mode = Free;
-  ViewMode viewMode = Perspective;
-  QVector3D FocusPoint = QVector3D(0, 0, 0);
-  QVector3D Position = QVector3D(0, 0, 0);
-  QVector3D Orientation = QVector3D(0, 0, 1);
-  QVector2D zRange = QVector2D(0.001, 100);
+  CameraMode mode_ = kFree;
+  ViewMode view_mode_ = kPerspective;
+  QVector3D focus_point_ = QVector3D(0, 0, 0);
+  QVector3D position_ = QVector3D(0, 0, 0);
+  QVector3D orientation_ = QVector3D(0, 0, 1);
+  QVector2D z_range_ = QVector2D(0.001, 100);
 
-  QVector3D Up = QVector3D(0.0f, 1.0f, 0.0f);
-  float FOV = 60;
+  QVector3D up_ = QVector3D(0.0f, 1.0f, 0.0f);
+  float FOV_ = 60;
 
-  bool LMBPressed = false;
-  int vw = 1;
-  int vh = 1;
-  QPoint mCenterPos = QPoint(0, 0);
-  float moveSpeed = 0.1f;
-  float rotationSpeed = 0.1f;
-  ParallelBox box{};
+  bool LMBPressed_ = false;
+  int vw_ = 1;
+  int vh_ = 1;
+  QPoint m_center_pos_ = QPoint(0, 0);
+  float move_speed_ = 0.1f;
+  float rotation_speed_ = 0.1f;
+  ParallelBox box_{};
 };
 
 #endif  // CAMERA_H

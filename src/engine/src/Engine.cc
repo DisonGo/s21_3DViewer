@@ -79,15 +79,15 @@ void Engine::importObj(QString fileName) {
 }
 
 void Engine::Cycle() {
-  glClearColor(drawConfig_->BackColor.redF(), drawConfig_->BackColor.greenF(),
-               drawConfig_->BackColor.blueF(), 1);
+  glClearColor(drawConfig_->back_color.redF(), drawConfig_->back_color.greenF(),
+               drawConfig_->back_color.blueF(), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  if (drawConfig_->Points) drawGeometry(GL_POINTS);
-  if (drawConfig_->Lines) drawGeometry(GL_LINES);
-  if (drawConfig_->Triangles) drawGeometry(GL_TRIANGLES);
-  if (drawConfig_->TrianglesStrip) drawGeometry(GL_TRIANGLE_STRIP);
+  if (drawConfig_->points) drawGeometry(GL_POINTS);
+  if (drawConfig_->lines) drawGeometry(GL_LINES);
+  if (drawConfig_->triangles) drawGeometry(GL_TRIANGLES);
+  if (drawConfig_->triangles_strip) drawGeometry(GL_TRIANGLE_STRIP);
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }

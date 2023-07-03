@@ -2,7 +2,7 @@
 
 EObjectItemModel::EObjectItemModel(QObject *parent)
     : QAbstractItemModel{parent} {
-  rootItem_ = new EObjectTreeItem({tr("Object")}, nullptr);
+  root_item_ = new EObjectTreeItem({tr("Object")}, nullptr);
 }
 
 QModelIndex EObjectItemModel::index(int row, int column,
@@ -12,7 +12,7 @@ QModelIndex EObjectItemModel::index(int row, int column,
   EObjectTreeItem *parentItem;
 
   if (!parent.isValid())
-    parentItem = rootItem_;
+    parentItem = root_item_;
   else
     parentItem = static_cast<EObjectTreeItem *>(parent.internalPointer());
 
@@ -28,7 +28,7 @@ QModelIndex EObjectItemModel::parent(const QModelIndex &index) const {
       static_cast<EObjectTreeItem *>(index.internalPointer());
   EObjectTreeItem *parentItem = childItem->parentItem();
 
-  if (parentItem == rootItem_) return QModelIndex();
+  if (parentItem == root_item_) return QModelIndex();
   if (parentItem == nullptr) return QModelIndex();
   return createIndex(parentItem->row(), 0, parentItem);
 }
@@ -38,7 +38,7 @@ int EObjectItemModel::rowCount(const QModelIndex &parent) const {
   if (parent.column() > 0) return 0;
 
   if (!parent.isValid())
-    parentItem = rootItem_;
+    parentItem = root_item_;
   else
     parentItem = static_cast<EObjectTreeItem *>(parent.internalPointer());
   return parentItem->childCount();
@@ -48,7 +48,7 @@ int EObjectItemModel::columnCount(const QModelIndex &parent) const {
   if (parent.isValid())
     return static_cast<EObjectTreeItem *>(parent.internalPointer())
         ->columnCount();
-  return rootItem_->columnCount();
+  return root_item_->columnCount();
 }
 
 Qt::ItemFlags EObjectItemModel::flags(const QModelIndex &index) const {
@@ -59,7 +59,7 @@ Qt::ItemFlags EObjectItemModel::flags(const QModelIndex &index) const {
 QVariant EObjectItemModel::headerData(int section, Qt::Orientation orientation,
                                       int role) const {
   if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-    return rootItem_->data(section);
+    return root_item_->data(section);
 
   return QVariant();
 }
@@ -132,7 +132,7 @@ void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
 }
 void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent) {
   if (!item || item->GetType() == kNone) return;
-  if (!parent) parent = rootItem_;
+  if (!parent) parent = root_item_;
   auto type = item->GetType();
   auto row = rowCount();
   string title = GetTitle(type);

@@ -36,27 +36,27 @@ void CameraConfigView::SetValuesFromConfig() {
   ui->zRangeYV->setValue(zRange.y());
 
   switch (cameraSpacer_->GetMode()) {
-    case Camera::Free:
+    case Camera::kFree:
       ui->CameraModeFree->setChecked(true);
       break;
-    case Camera::Focus:
+    case Camera::kFocus:
       ui->CameraModeFocus->setChecked(true);
       break;
   }
 
   switch (cameraSpacer_->GetViewMode()) {
-    case Camera::Perspective:
+    case Camera::kPerspective:
       ui->ViewModePerspective->setChecked(true);
       break;
-    case Camera::Orthographic:
+    case Camera::kOrthographic:
       ui->ViewModeParallel->setChecked(true);
       break;
   }
   auto box = cameraSpacer_->GetBox();
-  ui->TopV->setValue(box.top);
-  ui->RightV->setValue(box.right);
-  ui->BottomV->setValue(box.bottom);
-  ui->LeftV->setValue(box.left);
+  ui->TopV->setValue(box.top_);
+  ui->RightV->setValue(box.right_);
+  ui->BottomV->setValue(box.bottom_);
+  ui->LeftV->setValue(box.left_);
   emit UpdateRequest();
 }
 
@@ -80,17 +80,17 @@ void CameraConfigView::SetFocusPoint(const QVector3D &focusPoint) {
 
 void CameraConfigView::SetCameraMode(QAbstractButton *but) {
   if (!cameraSpacer_) return;
-  if (but == ui->CameraModeFocus) cameraSpacer_->SetMode(Camera::Focus);
-  if (but == ui->CameraModeFree) cameraSpacer_->SetMode(Camera::Free);
+  if (but == ui->CameraModeFocus) cameraSpacer_->SetMode(Camera::kFocus);
+  if (but == ui->CameraModeFree) cameraSpacer_->SetMode(Camera::kFree);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetViewMode(QAbstractButton *but) {
   if (!cameraSpacer_) return;
   if (but == ui->ViewModePerspective)
-    cameraSpacer_->SetViewMode(Camera::Perspective);
+    cameraSpacer_->SetViewMode(Camera::kPerspective);
   if (but == ui->ViewModeParallel)
-    cameraSpacer_->SetViewMode(Camera::Orthographic);
+    cameraSpacer_->SetViewMode(Camera::kOrthographic);
   emit UpdateRequest();
 }
 
@@ -113,7 +113,7 @@ void CameraConfigView::SetZFar(double val) {
 void CameraConfigView::SetBoxLeft(double val) {
   if (!cameraSpacer_) return;
   auto box = cameraSpacer_->GetBox();
-  box.left = val;
+  box.left_ = val;
   cameraSpacer_->SetBox(box);
   emit UpdateRequest();
 }
@@ -121,7 +121,7 @@ void CameraConfigView::SetBoxLeft(double val) {
 void CameraConfigView::SetBoxRight(double val) {
   if (!cameraSpacer_) return;
   auto box = cameraSpacer_->GetBox();
-  box.right = val;
+  box.right_ = val;
   cameraSpacer_->SetBox(box);
   emit UpdateRequest();
 }
@@ -129,7 +129,7 @@ void CameraConfigView::SetBoxRight(double val) {
 void CameraConfigView::SetBoxBottom(double val) {
   if (!cameraSpacer_) return;
   auto box = cameraSpacer_->GetBox();
-  box.bottom = val;
+  box.bottom_ = val;
   cameraSpacer_->SetBox(box);
   emit UpdateRequest();
 }
@@ -137,7 +137,7 @@ void CameraConfigView::SetBoxBottom(double val) {
 void CameraConfigView::SetBoxTop(double val) {
   if (!cameraSpacer_) return;
   auto box = cameraSpacer_->GetBox();
-  box.top = val;
+  box.top_ = val;
   cameraSpacer_->SetBox(box);
   emit UpdateRequest();
 }

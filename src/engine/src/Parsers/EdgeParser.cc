@@ -63,7 +63,7 @@ s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
 
   obj.vertices.reserve(tags.vC);
   obj.normals.reserve(tags.vnC);
-  obj.textureCoords.reserve(tags.vtC);
+  obj.texture_coords.reserve(tags.vtC);
   obj.faces.reserve(tags.fC);
 
   // Dynamic arrays memory allocation
@@ -109,8 +109,8 @@ s21::EdgeOBJ* s21::EdgeParser::Parse(string filePath) {
 
   obj.vertices.insert(obj.vertices.end(), vertices, vertices + tags.vC);
   obj.normals.insert(obj.normals.end(), normals, normals + tags.vnC);
-  obj.textureCoords.insert(obj.textureCoords.end(), textureCoords,
-                           textureCoords + tags.vtC);
+  obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
+                            textureCoords + tags.vtC);
 
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
 

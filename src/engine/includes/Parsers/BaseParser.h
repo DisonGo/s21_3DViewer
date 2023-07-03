@@ -21,7 +21,6 @@ struct TagCounters {
 enum OBJParserTypes { kBaseParser, kEdgeParser, kTriangleParser };
 class BaseParser {
  public:
-  ;
   OBJParserTypes type = kBaseParser;
   virtual OBJParserTypes GetType() const { return type; };
 
@@ -32,9 +31,9 @@ class BaseParser {
   Normal ParseNormal(const string& line);
   FaceVertex* ParsePolygon(const string values, size_t& size);
 
-  double stod(const char* s);
-  double parseDigits(char** p);
-  double parseDigits(char** p, int& count);
+  double Stod(const char* s);
+  double ParseDigits(char** p);
+  double ParseDigits(char** p, int& count);
   virtual ~BaseParser() = default;
 };
 }  // namespace s21

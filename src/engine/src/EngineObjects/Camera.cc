@@ -17,27 +17,27 @@ Camera::Camera(int width, int height) {
 
 void Camera::Matrix(Program &program, const char *uniform) {
   QMatrix4x4 view, projection, model;
-  moveSpeed = abs(zRange.y() - zRange.x()) / 1000;
-  rotationSpeed = 10;
+  move_speed_ = abs(z_range_.y() - z_range_.x()) / 1000;
+  rotation_speed_ = 10;
   model.setToIdentity();
   view.setToIdentity();
   projection.setToIdentity();
-  model.translate(Position);
+  model.translate(position_);
   QVector3D lookAtVec(0, 0, 0);
-  if (mode == Free) lookAtVec = Orientation + Position;
-  if (mode == Focus) lookAtVec = FocusPoint;
-  view.lookAt(Position, lookAtVec, Up);
-  if (viewMode == Orthographic)
-    projection.ortho(box.left, box.right, box.bottom, box.top, zRange.x(),
-                     zRange.y());
-  if (viewMode == Perspective)
-    projection.perspective(FOV, (float)vw / vh, zRange.x(), zRange.y());
+  if (mode_ == kFree) lookAtVec = orientation_ + position_;
+  if (mode_ == kFocus) lookAtVec = focus_point_;
+  view.lookAt(position_, lookAtVec, up_);
+  if (view_mode_ == kOrthographic)
+    projection.ortho(box_.left_, box_.right_, box_.bottom_, box_.top_,
+                     z_range_.x(), z_range_.y());
+  if (view_mode_ == kPerspective)
+    projection.perspective(FOV_, (float)vw_ / vh_, z_range_.x(), z_range_.y());
   glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
                      (projection * view).constData());
 }
 
-void Camera::processFreeMode(QPoint ePos) {
-  if (!LMBPressed) return;
+void Camera::ProcessFreeMode(QPoint ePos) {
+  if (!LMBPressed_) return;
 
   // Stores the coordinates of the cursor
   double mouseX = ePos.rx();
@@ -46,71 +46,71 @@ void Camera::processFreeMode(QPoint ePos) {
   // Normalizes and shifts the coordinates of the cursor such that they begin in
   // the middle of the screen and then "transforms" them into degrees
 
-  float rotX = rotationSpeed * (float)(mouseY - (vh / 2)) / vh;
-  float rotY = rotationSpeed * (float)(mouseX - (vw / 2)) / vw;
+  float rotX = rotation_speed_ * (float)(mouseY - (vh_ / 2)) / vh_;
+  float rotY = rotation_speed_ * (float)(mouseX - (vw_ / 2)) / vw_;
 
   // Calculates upcoming vertical change in the Orientation
 
   QMatrix4x4 rotationMatrix;
   rotationMatrix.setToIdentity();
-  rotationMatrix.rotate(-rotX, QVector3D::normal(Orientation, Up));
-  QVector3D newOrientation = rotationMatrix.map(Orientation);
+  rotationMatrix.rotate(-rotX, QVector3D::normal(orientation_, up_));
+  QVector3D newOrientation = rotationMatrix.map(orientation_);
 
   // Decides whether or not the next vertical Orientation is legal or not
 
-  float dotProd = QVector3D::dotProduct(newOrientation, Up);
+  float dotProd = QVector3D::dotProduct(newOrientation, up_);
   float angle =
-      qAcos(dotProd / (newOrientation.length() * Up.length())) * 180 / M_PI;
-  if (abs(angle - 90.0f) <= 85.0f) Orientation = newOrientation;
+      qAcos(dotProd / (newOrientation.length() * up_.length())) * 180 / M_PI;
+  if (abs(angle - 90.0f) <= 85.0f) orientation_ = newOrientation;
   rotationMatrix.setToIdentity();
-  rotationMatrix.rotate(-rotY, Up);
+  rotationMatrix.rotate(-rotY, up_);
 
   // Rotates the Orientation left and right
 
-  Orientation = rotationMatrix.map(Orientation);
+  orientation_ = rotationMatrix.map(orientation_);
 }
 
-void Camera::SetZRange(const QVector2D &newZRange) { zRange = newZRange; }
+void Camera::SetZRange(const QVector2D &newZRange) { z_range_ = newZRange; }
 
-void Camera::SetFOV(float newFOV) { FOV = newFOV; }
+void Camera::SetFOV(float newFOV) { FOV_ = newFOV; }
 
-void Camera::SetVw(int newVw) { vw = newVw; }
+void Camera::SetVw(int newVw) { vw_ = newVw; }
 
-void Camera::SetVh(int newVh) { vh = newVh; }
+void Camera::SetVh(int newVh) { vh_ = newVh; }
 
-void Camera::SetMoveSpeed(float newMoveSpeed) { moveSpeed = newMoveSpeed; }
+void Camera::SetMoveSpeed(float newMoveSpeed) { move_speed_ = newMoveSpeed; }
 
 void Camera::SetRotationSpeed(float newRotationSpeed) {
-  rotationSpeed = newRotationSpeed;
+  rotation_speed_ = newRotationSpeed;
 }
 
-void Camera::SetBox(const ParallelBox &newBox) { box = newBox; }
+void Camera::SetBox(const ParallelBox &newBox) { box_ = newBox; }
 
 void Camera::SetOrientation(const QVector3D &newOrientation) {
-  Orientation = newOrientation;
+  orientation_ = newOrientation;
 }
 
-void Camera::SetViewMode(ViewMode newViewMode) { viewMode = newViewMode; }
+void Camera::SetViewMode(ViewMode newViewMode) { view_mode_ = newViewMode; }
 
 void Camera::SetFocusPoint(const QVector3D &newFocusPoint) {
-  FocusPoint = newFocusPoint;
+  focus_point_ = newFocusPoint;
 }
 
 void Camera::SetPosition(const QVector3D &newPosition) {
-  Position = newPosition;
+  position_ = newPosition;
 }
 
-void Camera::SetMode(CameraMode newMode) { mode = newMode; }
+void Camera::SetMode(CameraMode newMode) { mode_ = newMode; }
 
-Camera::CameraMode Camera::GetMode() const { return mode; };
-Camera::ViewMode Camera::GetViewMode() const { return viewMode; };
-const QVector3D &Camera::GetFocusPoint() const { return FocusPoint; };
-const QVector3D &Camera::GetPosition() const { return Position; };
-const QVector3D &Camera::GetOrientation() const { return Orientation; };
-const QVector2D &Camera::GetZRange() const { return zRange; };
-float Camera::GetFOV() const { return FOV; };
-int Camera::GetVw() const { return vw; };
-int Camera::GetVh() const { return vh; };
-float Camera::GetMoveSpeed() const { return moveSpeed; };
-float Camera::GetRotationSpeed() const { return rotationSpeed; };
-const Camera::ParallelBox &Camera::GetBox() const { return box; };
+Camera::CameraMode Camera::GetMode() const { return mode_; };
+Camera::ViewMode Camera::GetViewMode() const { return view_mode_; };
+const QVector3D &Camera::GetFocusPoint() const { return focus_point_; };
+const QVector3D &Camera::GetPosition() const { return position_; };
+const QVector3D &Camera::GetOrientation() const { return orientation_; };
+const QVector2D &Camera::GetZRange() const { return z_range_; };
+float Camera::GetFOV() const { return FOV_; };
+int Camera::GetVw() const { return vw_; };
+int Camera::GetVh() const { return vh_; };
+float Camera::GetMoveSpeed() const { return move_speed_; };
+float Camera::GetRotationSpeed() const { return rotation_speed_; };
+const Camera::ParallelBox &Camera::GetBox() const { return box_; };
