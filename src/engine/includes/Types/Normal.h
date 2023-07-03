@@ -2,6 +2,6 @@
 #define NORMAL_H
 #include <QOpenGLFunctions>
 struct Normal {
-  GLfloat x_, y_, z_;
+  GLfloat x, y, z;
 };
 #endif  // NORMAL_H

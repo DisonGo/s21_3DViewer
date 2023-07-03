@@ -11,7 +11,6 @@ class Camera : public EObject, protected QOpenGLFunctions {
   friend class CameraSpacer;
   explicit Camera();
   Camera(int width, int height);
-  EObjectType type = EObjectType::kCamera;
   enum CameraMode { kFree = 0, kFocus = 1 };
   enum ViewMode { kPerspective = 0, kOrthographic = 1 };
   class ParallelBox {
@@ -31,7 +30,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   };
 
   void Matrix(Program &program, const char *uniform);
-  virtual EObjectType GetType() const override { return type; };
+  virtual EObjectType GetType() const override { return type_; };
 
  public:  // Setters / Getters
   void SetMode(CameraMode newMode);
@@ -59,6 +58,9 @@ class Camera : public EObject, protected QOpenGLFunctions {
   float GetMoveSpeed() const;
   float GetRotationSpeed() const;
   const Camera::ParallelBox &GetBox() const;
+
+ protected:
+  EObjectType type_ = EObjectType::kCamera;
 
  private:  // Methods
   void ProcessFreeMode(QPoint ePos);

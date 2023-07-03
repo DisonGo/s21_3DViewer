@@ -2,6 +2,6 @@
 #define FACEVERTEX_H
 #include <QOpenGLFunctions>
 struct FaceVertex {
-  GLuint v_index_, t_index_, n_index_;
+  GLuint v_index, t_index, n_index;
 };
 #endif  // FACEVERTEX_H

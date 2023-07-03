@@ -2,6 +2,6 @@
 #define VERTEXDATA_H
 #include "Vertex.h"
 struct VertexData {
-  Vertex vertex_;
+  Vertex vertex;
 };
 #endif  // VERTEXDATA_H

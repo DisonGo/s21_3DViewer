@@ -2,9 +2,11 @@
 #define EOBJECT_H
 enum EObjectType { kNone = 0, kMesh, kCamera, kTransform, kObject3D };
 class EObject {
+ protected:
+  EObjectType type_ = kNone;
+
  public:
-  EObjectType type = kNone;
-  virtual EObjectType GetType() const { return type; };
+  virtual EObjectType GetType() const { return type_; };
   virtual ~EObject() = default;
   bool SameType(const EObject& obj) { return GetType() == obj.GetType(); };
 };

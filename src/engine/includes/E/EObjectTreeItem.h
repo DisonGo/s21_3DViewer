@@ -23,13 +23,13 @@ class EObjectTreeItem {
   EObject *GetObjectPtr() { return object_ptr_; };
   int row() const;
   EObjectTreeItem *parentItem();
-  EObjectType GetType() { return type; };
+  EObjectType GetType() { return type_; };
 
  private:
   QList<EObjectTreeItem *> m_child_items_;
   QList<QVariant> m_item_data_;
   EObject *object_ptr_;
-  EObjectType type = kNone;
+  EObjectType type_ = kNone;
   EObjectTreeItem *m_parent_item_;
 };
 

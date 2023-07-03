@@ -17,8 +17,7 @@ class Transform : public EObject, protected QOpenGLFunctions {
   void UpdateModel();
   void LoadModelMatrix(Program *program);
 
-  EObjectType type = EObjectType::kTransform;
-  virtual EObjectType GetType() const override { return type; };
+  virtual EObjectType GetType() const override { return type_; };
   bool operator==(const Transform &a) const;
 
   const QVector3D &GetScale() const;
@@ -28,6 +27,9 @@ class Transform : public EObject, protected QOpenGLFunctions {
   void SetScale(const QVector3D &newScale);
   void SetRotation(const QVector3D &newRotation);
   void SetTranslate(const QVector3D &newTranslate);
+
+ protected:
+  EObjectType type_ = EObjectType::kTransform;
 
  private:
   void UpdateScale();

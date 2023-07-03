@@ -13,8 +13,8 @@
 class Engine : protected QOpenGLFunctions {
  public:
   void drawGeometry(GLenum type);
-  int indicesN_ = 0;
-  int verticesN_ = 0;
+  int indicesN = 0;
+  int verticesN = 0;
   void importObj(QString fileName);
 
   void Cycle();

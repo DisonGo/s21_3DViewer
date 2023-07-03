@@ -2,8 +2,8 @@
 #define VERTEXCOLOR_H
 #include <QOpenGLFunctions>
 struct VertexColor {
-  GLfloat r_;
-  GLfloat g_;
-  GLfloat b_;
+  GLfloat r;
+  GLfloat g;
+  GLfloat b;
 };
 #endif  // VERTEXCOLOR_H

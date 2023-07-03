@@ -57,12 +57,12 @@ Vertex s21::BaseParser::ParseVertex(const string& line) {
   Vertex vert;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  vert.x_ = Stod(str);
+  vert.x = Stod(str);
   while (*str && !isspace(*str)) ++str;
   while (*str && isspace(*str)) ++str;
-  vert.y_ = Stod(str);
+  vert.y = Stod(str);
   while (*str && !isspace(*str)) ++str;
-  vert.z_ = Stod(str);
+  vert.z = Stod(str);
   return vert;
 }
 
@@ -70,9 +70,9 @@ TextureCoord s21::BaseParser::ParseTextureCoord(const string& line) {
   TextureCoord textureCoord;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  textureCoord.u_ = Stod(str);
+  textureCoord.u = Stod(str);
   while (*str && !isspace(*str)) ++str;
-  textureCoord.v_ = Stod(str);
+  textureCoord.v = Stod(str);
   return textureCoord;
 }
 
@@ -80,12 +80,12 @@ Normal s21::BaseParser::ParseNormal(const string& line) {
   Normal normal;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  normal.x_ = Stod(str);
+  normal.x = Stod(str);
   while (*str && !isspace(*str)) ++str;
   while (*str && isspace(*str)) ++str;
-  normal.y_ = Stod(str);
+  normal.y = Stod(str);
   while (*str && !isspace(*str)) ++str;
-  normal.z_ = Stod(str);
+  normal.z = Stod(str);
   return normal;
 }
 
@@ -110,14 +110,14 @@ FaceVertex* s21::BaseParser::ParsePolygon(const string values, size_t& size) {
       unsigned index = Stod(str) - 1;
       while (*str && isspace(*str)) ++str;
       while (*str && std::isdigit(*str)) ++str;
-      if (j == 0) vertex.v_index_ = index;
-      if (j == 1) vertex.t_index_ = index;
-      if (j == 2) vertex.n_index_ = index;
+      if (j == 0) vertex.v_index = index;
+      if (j == 1) vertex.t_index = index;
+      if (j == 2) vertex.n_index = index;
       bool isslash = *str == '/';
       if (isslash) ++str;
       if (!isslash) {
-        if (j == 0) vertex.t_index_ = -1;
-        if (j != 2) vertex.n_index_ = -1;
+        if (j == 0) vertex.t_index = -1;
+        if (j != 2) vertex.n_index = -1;
         j = 2;
       }
     }

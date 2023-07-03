@@ -2,6 +2,6 @@
 #define TEXTURECOORD_H
 #include <QOpenGLFunctions>
 struct TextureCoord {
-  GLfloat u_, v_;
+  GLfloat u, v;
 };
 #endif  // TEXTURECOORD_H

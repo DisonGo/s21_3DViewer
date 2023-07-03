@@ -9,8 +9,8 @@ void EBO::BindIndices(std::vector<Face> indices) {
   Bind();
   std::vector<FaceVertex> new_indices;
   for (auto& face : indices)
-    new_indices.insert(new_indices.end(), face.indices_.begin(),
-                       face.indices_.end());
+    new_indices.insert(new_indices.end(), face.indices.begin(),
+                       face.indices.end());
   size_ = new_indices.size();
   allocated_ = size_ * sizeof(FaceVertex);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, allocated_, new_indices.data(),

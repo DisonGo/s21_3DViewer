@@ -16,12 +16,11 @@ using std::string;
 namespace s21 {
 
 struct TagCounters {
-  size_t vC_ = 0, vnC_ = 0, vtC_ = 0, fC_ = 0;
+  size_t vC = 0, vnC = 0, vtC = 0, fC = 0;
 };
 enum OBJParserTypes { kBaseParser, kEdgeParser, kTriangleParser };
 class BaseParser {
  public:
-  ;
   OBJParserTypes type = kBaseParser;
   virtual OBJParserTypes GetType() const { return type; };
 
