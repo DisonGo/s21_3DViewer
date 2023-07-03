@@ -3,7 +3,7 @@
 EObjectTreeItem::EObjectTreeItem(const QList<QVariant> &data, EObject *object,
                                  EObjectTreeItem *parent)
     : m_item_data_(data), object_ptr_(object), m_parent_item_(parent) {
-  if (object_ptr_) type_ = object->GetType();
+  if (object_ptr_) type = object->GetType();
   if (m_parent_item_) m_parent_item_->AppendChild(this);
 }
 

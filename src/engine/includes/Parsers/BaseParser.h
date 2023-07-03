@@ -22,8 +22,8 @@ enum OBJParserTypes { kBaseParser, kEdgeParser, kTriangleParser };
 class BaseParser {
  public:
   ;
-  OBJParserTypes type_ = kBaseParser;
-  virtual OBJParserTypes GetType() const { return type_; };
+  OBJParserTypes type = kBaseParser;
+  virtual OBJParserTypes GetType() const { return type; };
 
   size_t CountFaceVertices(const char* line);
 

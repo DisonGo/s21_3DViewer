@@ -7,8 +7,8 @@
 namespace s21 {
 class TriangleParser : public s21::BaseParser {
  public:
-  OBJParserTypes type_ = kTriangleParser;
-  virtual OBJParserTypes GetType() const override { return type_; };
+  OBJParserTypes type = kTriangleParser;
+  virtual OBJParserTypes GetType() const override { return type; };
   TriangleOBJ *Parse(string filePath);
 
  private:

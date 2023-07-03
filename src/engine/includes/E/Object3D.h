@@ -18,8 +18,8 @@ class Object3D : public EObject {
       : mesh_(mesh), transform_(transform) {
     SetProgram(program);
   };
-  EObjectType type_ = kObject3D;
-  virtual EObjectType GetType() const override { return type_; };
+  EObjectType type = kObject3D;
+  virtual EObjectType GetType() const override { return type; };
   void Draw(GLenum type, Camera* camera);
 
   void UploadMesh(const s21::EdgeOBJ& obj);

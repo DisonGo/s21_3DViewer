@@ -17,8 +17,8 @@ class Transform : public EObject, protected QOpenGLFunctions {
   void UpdateModel();
   void LoadModelMatrix(Program *program);
 
-  EObjectType type_ = EObjectType::kTransform;
-  virtual EObjectType GetType() const override { return type_; };
+  EObjectType type = EObjectType::kTransform;
+  virtual EObjectType GetType() const override { return type; };
   bool operator==(const Transform &a) const;
 
   const QVector3D &GetScale() const;

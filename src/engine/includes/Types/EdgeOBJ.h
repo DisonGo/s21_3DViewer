@@ -8,8 +8,8 @@ namespace s21 {
 class EdgeOBJ : public s21::BaseOBJ {
  public:
   vector<Face> faces_;
-  OBJType type_ = OBJType::kEdgeOBJ;
-  virtual OBJType GetType() const override { return type_; };
+  OBJType type = OBJType::kEdgeOBJ;
+  virtual OBJType GetType() const override { return type; };
 };
 
 }  // namespace s21

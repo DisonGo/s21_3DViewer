@@ -18,13 +18,13 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   Mesh(s21::EdgeOBJ obj);
   Mesh(s21::TriangleOBJ obj);
   ~Mesh();
-  EObjectType type_ = EObjectType::kMesh;
+  EObjectType type = EObjectType::kMesh;
   void Bind();
   void Unbind();
-  void Draw(GLenum type_);
+  void Draw(GLenum type);
   void LoadObj(const s21::EdgeOBJ& obj);
   void LoadObj(const s21::TriangleOBJ& obj);
-  virtual EObjectType GetType() const override { return type_; };
+  virtual EObjectType GetType() const override { return type; };
 
  private:
   int verticesN_ = 0;
