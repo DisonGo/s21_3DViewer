@@ -177,9 +177,9 @@ void MainWindow::SetupEObjectTreeView() {
 
   connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
-  auto delegate = new CChoicePathDelegate (this);
+  auto delegate = new ComboBoxDelegate (this);
   ui->Tree->setModel(eObjectModel);
-  ui->Tree->setItemDelegateForRow(1, delegate);
+  ui->Tree->setItemDelegate(delegate);
 }
 
 void MainWindow::UpdateGL() { ui->openGLWidget->update(); }

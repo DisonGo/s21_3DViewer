@@ -1,7 +1,7 @@
 #include "E/Camera.h"
 
 #include <QMatrix4x4>
-
+#include "Types/Vertex.h"
 #include "QtMath"
 Camera::Camera() {
   SetVh(0);
@@ -34,6 +34,8 @@ void Camera::Matrix(Program &program, const char *uniform) {
     projection.perspective(FOV_, (float)vw_ / vh_, z_range_.x(), z_range_.y());
   glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
                      (projection * view).constData());
+  GLfloat res[3] = {(GLfloat)vw_, (GLfloat)vh_, 0};
+  glUniformMatrix4fv(program.GetUniform("iResolution"), 1, GL_FALSE, res);
 }
 
 void Camera::ProcessFreeMode(QPoint ePos) {

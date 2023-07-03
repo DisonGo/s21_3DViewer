@@ -46,3 +46,8 @@ void EObjectTreeItem::RemoveChild(EObjectTreeItem *child) {
 }
 
 EObjectTreeItem *EObjectTreeItem::parentItem() { return m_parent_item_; }
+
+void EObjectTreeItem::SetData(QList<QVariant> &data)
+{
+  m_item_data_ = data;
+}

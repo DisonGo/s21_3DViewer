@@ -1,27 +1,30 @@
 #include "Delegates/CChoicePathDelegate/CChoicePathDelegate.h"
-CChoicePathDelegate::CChoicePathDelegate(QObject *parent)
-    : QItemDelegate(parent) {}
+ComboBoxDelegate::ComboBoxDelegate(QObject *parent)
+    : QItemDelegate(parent)
+{}
 
-QWidget *CChoicePathDelegate::createEditor(QWidget *parent,
-                                           const QStyleOptionViewItem &option,
-                                           const QModelIndex &index) const {
-  LineEdit *dlg = new LineEdit(index, parent);
-  return dlg;
+QWidget *ComboBoxDelegate::createEditor(QWidget *parent,
+    const QStyleOptionViewItem &/* option */,
+    const QModelIndex &index) const
+{
+    QLineEdit* editor = new QLineEdit(parent);
+    editor->setText(index.data(Qt::DisplayRole).toString());
+    return editor;
 }
 
-void CChoicePathDelegate::setEditorData(QWidget *editor,
-                                        const QModelIndex &index) const {
-  //в этой функции на входе данные из модели и указатель на виджет редактора
-  QString value = index.model()->data(index).toString();
-  LineEdit *fileDialog = static_cast<LineEdit *>(editor);
-  fileDialog->setText(value);  //устанавливаем текст
+void ComboBoxDelegate::setEditorData(QWidget *editor,
+    const QModelIndex &index) const
+{
+    QString value = index.model()->data(index, Qt::EditRole).toString();
+    QLineEdit *lineEdit = static_cast<QLineEdit*>(editor);
+    lineEdit->setText(value);
 }
 
-void CChoicePathDelegate::setModelData(QWidget *editor,
-                                       QAbstractItemModel *model,
-                                       const QModelIndex &index) const {
-  //сюда попадаем когда редактор делегата теряем фокус/закрывается
-  LineEdit *fileDialog = static_cast<LineEdit *>(editor);
-  if (!fileDialog->getChoice().isEmpty())
-    model->setData(index, fileDialog->getChoice());
+void ComboBoxDelegate::setModelData(QWidget *editor,
+    QAbstractItemModel *model,
+    const QModelIndex &index) const
+{
+    QLineEdit *lineEdit = static_cast<QLineEdit*>(editor);
+    QString value = lineEdit->text();
+    model->setData(index, value, Qt::EditRole);
 }

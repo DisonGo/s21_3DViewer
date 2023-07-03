@@ -52,9 +52,22 @@ int EObjectItemModel::columnCount(const QModelIndex &parent) const {
 }
 
 Qt::ItemFlags EObjectItemModel::flags(const QModelIndex &index) const {
+  Qt::ItemFlags flags = Qt::NoItemFlags;
+
   if (!index.isValid()) return Qt::NoItemFlags;
 
-  return QAbstractItemModel::flags(index);
+  auto *item = static_cast<EObjectTreeItem *>(index.internalPointer());
+
+  auto type = item->GetType();
+
+  if (type == kMesh) return Qt::NoItemFlags;
+  flags |= Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+  if (type == kObject3D)
+    flags &= Qt::ItemIsEnabled;
+  if (type == kCamera || type == kObject3D)
+    flags |= Qt::ItemIsEditable;
+
+  return flags;
 }
 QVariant EObjectItemModel::headerData(int section, Qt::Orientation orientation,
                                       int role) const {
@@ -66,13 +79,27 @@ QVariant EObjectItemModel::headerData(int section, Qt::Orientation orientation,
 
 QVariant EObjectItemModel::data(const QModelIndex &index, int role) const {
   if (!index.isValid()) return QVariant();
-
-  if (role != Qt::DisplayRole) return QVariant();
-
   EObjectTreeItem *item =
       static_cast<EObjectTreeItem *>(index.internalPointer());
 
-  return item->data(index.column());
+  if (role == Qt::DisplayRole) return item->data(index.column());
+  if (role == Qt::EditRole) return item->data(index.column());
+
+  return QVariant();
+}
+
+bool EObjectItemModel::setData(const QModelIndex &index, const QVariant &value,
+                               int role) {
+  if (!index.isValid()) return false;
+  if (role != Qt::EditRole) return false;
+  EObjectTreeItem *item =
+      static_cast<EObjectTreeItem *>(index.internalPointer());
+  QVariant val = value;
+  QList<QVariant> list;
+  list << val;
+  item->SetData(list);
+  emit dataChanged(index, index);
+  return true;
 }
 
 std::string EObjectItemModel::GetTitle(EObjectType type) {
@@ -89,12 +116,14 @@ std::string EObjectItemModel::GetTitle(EObjectType type) {
           .toStdString();
       break;
     case kTransform:
-      return (QString("Transform_") + QString().number(transform_ptrs_.size()))
-          .toStdString();
+//      return (QString("Transform_") + QString().number(transform_ptrs_.size()))
+//          .toStdString();
+        return "Transform";
       break;
     case kMesh:
-      return (QString("Mesh_") + QString().number(mesh_ptrs_.size()))
-          .toStdString();
+//      return (QString("Mesh_") + QString().number(mesh_ptrs_.size()))
+//          .toStdString();
+        return "Mesh";
       break;
   }
 }

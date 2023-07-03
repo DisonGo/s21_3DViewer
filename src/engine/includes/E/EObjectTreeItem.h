@@ -14,16 +14,17 @@ class EObjectTreeItem {
 
   void AppendChild(EObjectTreeItem *child);
 
-  EObjectTreeItem *child(int row);
   int childCount() const;
   int columnCount() const;
-  QVariant data(int column) const;
+  int row() const;
   void SetParent(EObjectTreeItem *parent = nullptr);
   void RemoveChild(EObjectTreeItem *child);
   EObject *GetObjectPtr() { return object_ptr_; };
-  int row() const;
-  EObjectTreeItem *parentItem();
+  QVariant data(int column) const;
   EObjectType GetType() { return type_; };
+  EObjectTreeItem *child(int row);
+  EObjectTreeItem *parentItem();
+  void SetData(QList<QVariant>& data);
 
  private:
   QList<EObjectTreeItem *> m_child_items_;

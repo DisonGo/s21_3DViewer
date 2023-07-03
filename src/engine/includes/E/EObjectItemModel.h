@@ -28,6 +28,7 @@ class EObjectItemModel : public QAbstractItemModel {
                       int role = Qt::DisplayRole) const override;
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
+  bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
   ~EObjectItemModel() { delete root_item_; };
  signals:
   void ObjectSelected(EObject *);
