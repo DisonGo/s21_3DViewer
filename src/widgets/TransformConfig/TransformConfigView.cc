@@ -23,6 +23,8 @@ void TransformConfigView::Setup() {
           SLOT(SetScale(QVector3D)));
   ui->TranslationTriplet->SetRange(-10000, 10000);
   ui->ScaleTriplet->SetRange(-10000, 10000);
+  ui->ScaleTriplet->SetStep(0.1);
+  ui->RotationTriplet->SetStep(5);
   ui->RotationTriplet->SetRange(-10000, 10000);
 }
 TransformConfigView::~TransformConfigView() {

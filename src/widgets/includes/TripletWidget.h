@@ -14,6 +14,7 @@ class TripletWidget : public QWidget {
   explicit TripletWidget(QWidget *parent = nullptr);
   ~TripletWidget();
   void SetValues(const QVector3D &values);
+  void SetStep(double step);
   QVector3D GetValues() const;
 
  public slots:
