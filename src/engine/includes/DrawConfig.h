@@ -16,8 +16,6 @@ class DrawConfig {
   bool triangles_strip = false;
   bool round_circle = false;
   bool dashed_lines = false;
-  bool index_draw = false;
-  bool vertex_only_draw = true;
   QColor fragment_color = QColor(255, 255, 255);
   QColor line_color = QColor(255, 255, 255);
   QColor dot_color = QColor(255, 255, 255);

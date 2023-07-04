@@ -7,7 +7,7 @@ class GLObject : public QOpenGLExtraFunctions {
  public:
   explicit GLObject() { initializeOpenGLFunctions(); };
 
-  GLuint ID_ = -1;
+  GLuint ID_ = 0;
 
  protected:
   virtual void Bind() = 0;

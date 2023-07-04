@@ -29,7 +29,6 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   EObjectType type_ = EObjectType::kMesh;
 
  private:
-  int verticesN_ = 0;
   int indicesN_ = 0;
   DrawConfig* draw_config_;
   VAO vertex_only_VAO_;

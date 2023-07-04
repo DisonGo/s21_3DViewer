@@ -18,8 +18,6 @@ class DrawConfigSpacer : public QObject {
   bool GetTrianglesStrip() const { return config_->triangles_strip; };
   bool GetRoundCircle() const { return config_->round_circle; };
   bool GetDashedLines() const { return config_->dashed_lines; };
-  bool GetIndexDraw() const { return config_->index_draw; };
-  bool GetVertexOnlyDraw() const { return config_->vertex_only_draw; };
   const QColor& GetFragmentColor() const { return config_->fragment_color; };
   const QColor& GetLineColor() const { return config_->line_color; };
   const QColor& GetDotColor() const { return config_->dot_color; };
@@ -42,10 +40,6 @@ class DrawConfigSpacer : public QObject {
   };
   void SetDashedLines(int newDashedLines) {
     config_->dashed_lines = (bool)newDashedLines;
-  };
-  void SetIndexDraw(int newIndexDraw) { config_->index_draw = newIndexDraw; };
-  void SetVertexOnlyDraw(int newVertexOnlyDraw) {
-    config_->vertex_only_draw = newVertexOnlyDraw;
   };
   void SetFragmentColor(const QColor& newFragmentColor) {
     config_->fragment_color = newFragmentColor;

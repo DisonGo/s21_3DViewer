@@ -18,6 +18,7 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
 
@@ -27,6 +28,4 @@ add_subdirectory(engine)
 add_subdirectory(gifImage)
 add_subdirectory(widgets)
 
-add_compile_options(-fsanitize=address)
-add_link_options(-fsanitize=address)
 

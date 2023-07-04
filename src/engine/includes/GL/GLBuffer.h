@@ -4,7 +4,7 @@
 class GLBuffer : public GLObject {
  public:
   GLBuffer() { glGenBuffers(1, &ID_); };
-  ~GLBuffer() { Delete(); };
+  ~GLBuffer() { glDeleteBuffers(1, &ID_); };
   void Bind() override { glBindBuffer(GetType(), ID_); };
   void Unbind() override { glBindBuffer(GetType(), 0); };
   void Delete() override { glDeleteBuffers(1, &ID_); };

@@ -11,8 +11,6 @@ DrawConfigView::DrawConfigView(QWidget *parent)
   ui->TrianglesStripCheckBox->setChecked(drawConfigSpacer_.GetTrianglesStrip());
   ui->RoundCircleCheckBox->setChecked(drawConfigSpacer_.GetRoundCircle());
   ui->DashedLinesCheckBox->setChecked(drawConfigSpacer_.GetDashedLines());
-  ui->IndexDrawCheckBox->setChecked(drawConfigSpacer_.GetIndexDraw());
-  ui->VertexOnlyDrawCheckBox->setChecked(drawConfigSpacer_.GetVertexOnlyDraw());
   connect(ui->PointsCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,
           SLOT(SetPoints(int)));
   connect(ui->LinesCheckBox, SIGNAL(stateChanged(int)), &drawConfigSpacer_,

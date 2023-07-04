@@ -4,9 +4,9 @@
 class GLArray : public GLObject {
  public:
   GLArray() { glGenVertexArrays(1, &ID_); };
-  ~GLArray() { Delete(); };
+  ~GLArray() { glDeleteVertexArrays(1, &ID_); };
   void Bind() { glBindVertexArray(ID_); };
   void Unbind() { glBindVertexArray(0); };
-  void Delete() { glDeleteVertexArrays(1, &ID_); };
+  void Delete()  { glDeleteVertexArrays(1, &ID_); };
 };
 #endif  // GLARRAY_H
