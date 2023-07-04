@@ -25,8 +25,10 @@
                   "content": "Standartize coding style (naming \\ logic patterns)",
                   "id": 1687723776961,
                   "level": "default",
-                  "done": false,
-                  "start": 1687723776961
+                  "done": true,
+                  "start": 1687723776961,
+                  "focus": false,
+                  "end": 1688480637362
                 }
               }
             ],
@@ -203,8 +205,10 @@
                   "content": "Find an fix issue of wrong render if using EBO in index draw method.",
                   "id": 1688286042464,
                   "level": "warning",
-                  "done": false,
-                  "start": 1688286042464
+                  "done": true,
+                  "start": 1688286042464,
+                  "focus": false,
+                  "end": 1688480697035
                 }
               },
               {
@@ -695,8 +699,9 @@
       1687723069763,
       1687723105337,
       1681563615593,
-      1688285750807,
-      1681563621079
+      1681302896900,
+      1681302585820,
+      1688339853710
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -707,6 +712,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1688371789953"
+    "version": "1688480850361"
   }
 }

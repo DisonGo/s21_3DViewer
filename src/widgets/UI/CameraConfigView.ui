@@ -7,25 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>417</height>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLabel" name="CameraL">
-     <property name="font">
-      <font>
-       <pointsize>12</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Camera</string>
-     </property>
-    </widget>
-   </item>
    <item row="1" column="0">
     <widget class="QWidget" name="TransformsGrid" native="true">
      <property name="sizePolicy">
@@ -34,7 +22,7 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -363,6 +351,26 @@
        </layout>
       </item>
       <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>FOV:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QSpinBox" name="FOV_V">
+        <property name="minimum">
+         <number>10</number>
+        </property>
+        <property name="maximum">
+         <number>180</number>
+        </property>
+        <property name="value">
+         <number>90</number>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="ResetBut">
         <property name="enabled">
          <bool>false</bool>
@@ -373,6 +381,18 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="CameraL">
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Camera</string>
+     </property>
     </widget>
    </item>
   </layout>
@@ -388,7 +408,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="CameraModeG"/>
   <buttongroup name="ViewModeG"/>
+  <buttongroup name="CameraModeG"/>
  </buttongroups>
 </ui>

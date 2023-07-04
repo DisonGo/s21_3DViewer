@@ -56,6 +56,7 @@ void CameraConfigView::SetValuesFromConfig() {
       break;
   }
   auto box = cameraSpacer_->GetBox();
+  ui->FOV_V->setValue(cameraSpacer_->GetFOV());
   ui->TopV->setValue(box.top_);
   ui->RightV->setValue(box.right_);
   ui->BottomV->setValue(box.bottom_);
@@ -94,6 +95,13 @@ void CameraConfigView::SetViewMode(QAbstractButton *but) {
     cameraSpacer_->SetViewMode(Camera::kPerspective);
   if (but == ui->ViewModeParallel)
     cameraSpacer_->SetViewMode(Camera::kOrthographic);
+  emit UpdateRequest();
+}
+
+void CameraConfigView::SetFOV(int)
+{
+  if (!cameraSpacer_) return;
+  cameraSpacer_->SetFOV(ui->FOV_V->value());
   emit UpdateRequest();
 }
 
@@ -168,6 +176,7 @@ void CameraConfigView::SetupConnects() {
           SLOT(SetBoxBottom(double)));
   connect(ui->TopV, SIGNAL(valueChanged(double)), this,
           SLOT(SetBoxTop(double)));
+  connect(ui->FOV_V, SIGNAL(valueChanged(int)), this, SLOT(SetFOV(int)));
 }
 
 // void CameraConfigView::on_ResetBut_clicked() {

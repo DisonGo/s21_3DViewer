@@ -29,6 +29,7 @@ class CameraConfigView : public QWidget {
   void SetFocusPoint(const QVector3D&);
   void SetCameraMode(QAbstractButton*);
   void SetViewMode(QAbstractButton*);
+  void SetFOV(int);
   void SetZNear(double);
   void SetZFar(double);
   void SetBoxLeft(double);

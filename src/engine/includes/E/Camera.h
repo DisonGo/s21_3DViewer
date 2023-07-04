@@ -75,7 +75,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   QVector2D z_range_ = QVector2D(0.001, 100);
 
   QVector3D up_ = QVector3D(0.0f, 1.0f, 0.0f);
-  float FOV_ = 60;
+  float FOV_ = 130;
 
   bool LMBPressed_ = false;
   int vw_ = 1;
