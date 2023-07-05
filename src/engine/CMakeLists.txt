@@ -42,6 +42,7 @@ set(ENGINE_HEADER
 
     includes/Parsers/BaseParser.h
     includes/Parsers/EdgeParser.h
+    includes/Parsers/OBJParser.h
     includes/Parsers/TriangleParser.h
 
     includes/Types/Face.h

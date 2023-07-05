@@ -42,10 +42,17 @@ void Mesh::Unbind() { vertex_only_VAO_.Unbind(); }
 
 void Mesh::Draw(GLenum type) {
   mix_VAO_.Bind();
-  glDrawElements(type, indicesN_, GL_UNSIGNED_INT, 0);
+  glDrawElements(type, mix_VAO_.GetIndicesN(), GL_UNSIGNED_INT, 0);
   mix_VAO_.Unbind();
 }
 
+void Mesh::Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer) {
+  if (!importer) {
+    qDebug() << "Importer is null";
+    return;
+  }
+  mix_VAO_ = importer->Import(obj);
+}
 void Mesh::LoadObj(const s21::EdgeOBJ& obj) {
   // Index draw
   qDebug() << "Loading obj >> Vertex array ID:" << mix_VAO_.ID_;

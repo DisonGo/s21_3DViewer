@@ -2,7 +2,7 @@
 #define OBJIMPORTWIREFRAMESTRATEGY_H
 #include "Strategies/Import/OBJImportStrategy.h"
 namespace s21 {
-class OBJImportWireframeStrategy : OBJImportStrategy {
+class OBJImportWireframeStrategy : public OBJImportStrategy {
  public:
   virtual VAO Import(const OBJ& obj) const override;
 

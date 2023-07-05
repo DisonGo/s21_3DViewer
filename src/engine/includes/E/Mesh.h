@@ -10,6 +10,10 @@
 #include "GL/EBO.h"
 #include "GL/VAO.h"
 #include "Shaders/Program.h"
+#include "Strategies/Import/OBJImportStandartStrategy.h"
+#include "Strategies/Import/OBJImportStrategy.h"
+#include "Strategies/Import/OBJImportTriangleStrategy.h"
+#include "Strategies/Import/OBJImportWireframeStrategy.h"
 #include "Types/EdgeOBJ.h"
 #include "Types/TriangleOBJ.h"
 class Mesh : public EObject, protected QOpenGLFunctions {
@@ -21,6 +25,7 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   void Bind();
   void Unbind();
   void Draw(GLenum type);
+  void Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer);
   void LoadObj(const s21::EdgeOBJ& obj);
   void LoadObj(const s21::TriangleOBJ& obj);
   virtual EObjectType GetType() const override { return type_; };

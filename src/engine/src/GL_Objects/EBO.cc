@@ -5,7 +5,7 @@ EBO::EBO(std::vector<Face> indices) { BindIndices(indices); }
 GLsizei EBO::GetSize() { return size_; }
 
 void EBO::BindIndices(std::vector<Face> indices) {
-  if (ID_ == (GLuint)-1) return;
+  if (ID_ == (GLuint) -1) return;
   Bind();
   std::vector<FaceVertex> new_indices;
   for (auto& face : indices)

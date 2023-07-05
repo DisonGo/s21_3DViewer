@@ -4,7 +4,8 @@
 class GLArray : public GLObject {
  public:
   GLArray() { glGenVertexArrays(1, &ID_); };
-  ~GLArray() { glDeleteVertexArrays(1, &ID_); };
+  ~GLArray() { qDebug() << "Deleting GLArray ID: " << ID_;
+    glDeleteVertexArrays(1, &ID_); };
   void Bind() { glBindVertexArray(ID_); };
   void Unbind() { glBindVertexArray(0); };
   void Delete()  { glDeleteVertexArrays(1, &ID_); };

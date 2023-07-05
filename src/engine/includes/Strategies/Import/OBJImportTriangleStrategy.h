@@ -2,7 +2,7 @@
 #define OBJIMPORTTRIANGLESTRATEGY_H
 #include "Strategies/Import/OBJImportStrategy.h"
 namespace s21 {
-class OBJImportTriangleStrategy : OBJImportStrategy {
+class OBJImportTriangleStrategy : public OBJImportStrategy {
  public:
   virtual VAO Import(const OBJ& obj) const override;
 

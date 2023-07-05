@@ -50,19 +50,24 @@ s21::BaseOBJ* Engine::GenerateOBJ(QString fileName) {
 }
 
 Object3D* Engine::GenerateObject(QString fileName) {
-  s21::BaseOBJ* obj = GenerateOBJ(fileName);
   auto object_3d = new Object3D();
-  if (!obj) return object_3d;
-  switch (obj->GetType()) {
-    case s21::kBaseOBJ:
-      break;
-    case s21::kEdgeOBJ:
-      object_3d->UploadMesh(*static_cast<s21::EdgeOBJ*>(obj));
-      break;
-    case s21::kTriangleOBJ:
-      object_3d->UploadMesh(*static_cast<s21::TriangleOBJ*>(obj));
-      break;
-  }
+
+//  s21::BaseOBJ* obj = GenerateOBJ(fileName);
+//  if (!obj) return object_3d;
+//  switch (obj->GetType()) {
+//    case s21::kBaseOBJ:
+//      break;
+//    case s21::kEdgeOBJ:
+//      object_3d->UploadMesh(*static_cast<s21::EdgeOBJ*>(obj));
+//      break;
+//    case s21::kTriangleOBJ:
+//      object_3d->UploadMesh(*static_cast<s21::TriangleOBJ*>(obj));
+//      break;
+//  }
+//  delete obj;
+  auto obj = s21::OBJParser().Parse(fileName.toStdString());
+  object_3d->UploadMesh(*obj);
+
   delete obj;
   return object_3d;
 }

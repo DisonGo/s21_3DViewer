@@ -7,6 +7,7 @@ VAO OBJImportTriangleStrategy::Import(const OBJ& obj) const {
   VBO vbo(GetVertexDataArray(obj));
   EBO ebo(GetTriangleIndexArray(obj));
   vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
+  vao.SetIndicesN(ebo.GetSize());
   vao.Unbind();
   vbo.Unbind();
   ebo.Unbind();

@@ -1,7 +1,7 @@
 #ifndef TRIANGLEOBJ_H
 #define TRIANGLEOBJ_H
 
-#include "BaseOBJ.h"
+#include "Types/OBJ.h"
 
 namespace s21 {
 

@@ -8,6 +8,7 @@
 #include "E/EObjectItemModel.h"
 #include "E/Object3D.h"
 #include "Parsers/EdgeParser.h"
+#include "Parsers/OBJParser.h"
 #include "Parsers/TriangleParser.h"
 #include "Shaders/Program.h"
 class Engine : protected QOpenGLFunctions {
@@ -16,7 +17,6 @@ class Engine : protected QOpenGLFunctions {
   int indicesN = 0;
   int verticesN = 0;
   void importObj(QString fileName);
-
   void Cycle();
   EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();

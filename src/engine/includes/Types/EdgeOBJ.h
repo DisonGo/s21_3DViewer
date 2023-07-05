@@ -1,7 +1,7 @@
 #ifndef EDGEOBJ_H
 #define EDGEOBJ_H
 
-#include "BaseOBJ.h"
+#include "Types/OBJ.h"
 
 namespace s21 {
 
