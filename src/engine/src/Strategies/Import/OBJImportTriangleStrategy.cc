@@ -1,0 +1,32 @@
+#include "Strategies/Import/OBJImportTriangleStrategy.h"
+
+namespace s21 {
+VAO OBJImportTriangleStrategy::Import(const OBJ& obj) const {
+  VAO vao;
+  vao.Bind();
+  VBO vbo(GetVertexDataArray(obj));
+  EBO ebo(GetTriangleIndexArray(obj));
+  vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
+  vao.Unbind();
+  vbo.Unbind();
+  ebo.Unbind();
+  return vao;
+}
+std::vector<VertexData> OBJImportTriangleStrategy::GetVertexDataArray(
+    const OBJ& obj) const {
+  std::vector<VertexData> new_arr;
+  for (auto& vertex : obj.vertices) new_arr.push_back({vertex});
+  return new_arr;
+}
+std::vector<Face> OBJImportTriangleStrategy::GetTriangleIndexArray(
+    const OBJ& obj) {
+  std::vector<Face> triangle_indices;
+  for (auto& face : obj.faces) {
+    auto size = face.indices.size();
+    const auto& first = face.indices.front();
+    for (size_t i = 1; i < size - 1; ++i)
+      triangle_indices.push_back({{first, face.indices.at(i), face.indices.at(i + 1)}});
+  }
+  return triangle_indices;
+};
+}  // namespace s21

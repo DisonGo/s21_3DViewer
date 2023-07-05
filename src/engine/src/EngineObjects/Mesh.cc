@@ -60,7 +60,6 @@ void Mesh::LoadObj(const s21::EdgeOBJ& obj) {
   VBO1.Unbind();
   EBO1.Unbind();
 }
-
 void Mesh::LoadObj(const s21::TriangleOBJ& obj) {
   // Index draw
   qDebug() << "Loading obj >> Vertex array ID:" << mix_VAO_.ID_;

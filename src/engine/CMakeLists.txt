@@ -3,6 +3,7 @@ AUX_SOURCE_DIRECTORY(./src/EngineObjects ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/GL_Objects ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Shaders ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Parsers ENGINE_SRCS)
+AUX_SOURCE_DIRECTORY(./src/Strategies/Import ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src/Spacers ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src ENGINE_SRCS)
 set(LIB_NAME engine)
@@ -24,6 +25,12 @@ set(ENGINE_HEADER
     includes/GL/VBO.h
     includes/GL/VAO.h
 
+    includes/Strategies/Import/ImportStrategy.h
+    includes/Strategies/Import/OBJImportStrategy.h
+    includes/Strategies/Import/OBJImportStandartStrategy.h
+    includes/Strategies/Import/OBJImportTriangleStrategy.h
+    includes/Strategies/Import/OBJImportWireframeStrategy.h
+
     includes/Spacers/CameraSpacer.h
     includes/Spacers/DrawConfigSpacer.h
     includes/Spacers/TransformSpacer.h
@@ -40,7 +47,7 @@ set(ENGINE_HEADER
     includes/Types/Face.h
     includes/Types/FaceVertex.h
     includes/Types/Normal.h
-    includes/Types/BaseOBJ.h
+    includes/Types/OBJ.h
     includes/Types/TriangleOBJ.h
     includes/Types/EdgeOBJ.h
     includes/Types/TextureCoord.h   
