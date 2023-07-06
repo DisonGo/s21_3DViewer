@@ -11,7 +11,6 @@ class OBJParser : public BaseParser {
 
  private:
   void ParseFace(const string values, Face *faces, size_t &index);
-//  FaceVertex *ParsePolygon(FaceVertex *vertices, size_t &size);
   TagCounters CountTags(const string filePath);
 };
 }  // namespace s21

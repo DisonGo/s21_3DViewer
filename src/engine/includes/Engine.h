@@ -7,13 +7,11 @@
 #include "E/Camera.h"
 #include "E/EObjectItemModel.h"
 #include "E/Object3D.h"
-#include "Parsers/EdgeParser.h"
 #include "Parsers/OBJParser.h"
-#include "Parsers/TriangleParser.h"
 #include "Shaders/Program.h"
 class Engine : protected QOpenGLFunctions {
  public:
-  void drawGeometry(GLenum type);
+  void DrawGeometry(GLenum type);
   int indicesN = 0;
   int verticesN = 0;
   void importObj(QString fileName);
@@ -29,7 +27,6 @@ class Engine : protected QOpenGLFunctions {
   const Engine& operator=(const Engine& old);  // disallow assignment operator
   ~Engine();
   DrawConfig* drawConfig_{};
-  s21::BaseOBJ* GenerateOBJ(QString fileName);
   Object3D* GenerateObject(QString fileName);
   Camera* current_camera_ = nullptr;
   EObjectItemModel eObjectModel_;

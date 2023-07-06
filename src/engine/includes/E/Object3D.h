@@ -5,8 +5,6 @@
 #include "E/Mesh.h"
 #include "E/Transform.h"
 #include "Shaders/Program.h"
-#include "Types/EdgeOBJ.h"
-#include "Types/TriangleOBJ.h"
 class Object3D : public EObject {
  public:
   Object3D(){};
@@ -22,8 +20,6 @@ class Object3D : public EObject {
   void Draw(GLenum type, Camera* camera);
 
   void UploadMesh(const s21::OBJ& obj);
-  void UploadMesh(const s21::EdgeOBJ& obj);
-  void UploadMesh(const s21::TriangleOBJ& obj);
 
   void SetMesh(const Mesh& mesh);
   void SetProgram(Program& program);

@@ -14,26 +14,25 @@
 #include "Strategies/Import/OBJImportStrategy.h"
 #include "Strategies/Import/OBJImportTriangleStrategy.h"
 #include "Strategies/Import/OBJImportWireframeStrategy.h"
-#include "Types/EdgeOBJ.h"
-#include "Types/TriangleOBJ.h"
+using std::map;
 class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();
-  Mesh(s21::EdgeOBJ obj);
-  Mesh(s21::TriangleOBJ obj);
+  Mesh(const s21::OBJ& obj);
   ~Mesh();
-  void Bind();
-  void Unbind();
   void Draw(GLenum type);
   void Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer);
-  void LoadObj(const s21::EdgeOBJ& obj);
-  void LoadObj(const s21::TriangleOBJ& obj);
+
   virtual EObjectType GetType() const override { return type_; };
 
  protected:
   EObjectType type_ = EObjectType::kMesh;
 
  private:
+//  struct VAOmap_ {
+
+//  };
+  map<s21::OBJImportStrategyType, VAO*> VAOmap_;
   int indicesN_ = 0;
   DrawConfig* draw_config_;
   VAO vertex_only_VAO_;

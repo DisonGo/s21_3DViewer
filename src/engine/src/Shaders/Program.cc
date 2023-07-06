@@ -6,12 +6,10 @@
 
 Program::Program() {
   initializeOpenGLFunctions();
-  ID_ = -1;
 }
 
 Program::Program(const std::string& vertexFile,
-                 const std::string& fragmentFile) {
-  initializeOpenGLFunctions();
+                 const std::string& fragmentFile) : Program(){
   SetProgram(vertexFile, fragmentFile);
 }
 bool Program::LinkSuccessful() {

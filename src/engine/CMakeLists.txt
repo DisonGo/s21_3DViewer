@@ -41,16 +41,12 @@ set(ENGINE_HEADER
     includes/Shaders/FragmentShader.h
 
     includes/Parsers/BaseParser.h
-    includes/Parsers/EdgeParser.h
     includes/Parsers/OBJParser.h
-    includes/Parsers/TriangleParser.h
 
     includes/Types/Face.h
     includes/Types/FaceVertex.h
     includes/Types/Normal.h
     includes/Types/OBJ.h
-    includes/Types/TriangleOBJ.h
-    includes/Types/EdgeOBJ.h
     includes/Types/TextureCoord.h   
     includes/Types/TriangleFace.h
     includes/Types/Vertex.h

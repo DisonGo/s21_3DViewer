@@ -22,28 +22,29 @@ Mesh::Mesh() {
   draw_config_ = &DrawConfig::Instance();
 }
 
-Mesh::Mesh(s21::EdgeOBJ obj) {
-  initializeOpenGLFunctions();
-  draw_config_ = &DrawConfig::Instance();
-  LoadObj(obj);
+Mesh::Mesh(const s21::OBJ &obj) : Mesh()
+{
+  auto imp = new s21::OBJImportWireframeStrategy;
+  Import(obj, imp);
+  delete imp;
 }
 
-Mesh::Mesh(s21::TriangleOBJ obj) {
-  initializeOpenGLFunctions();
-  draw_config_ = &DrawConfig::Instance();
-  LoadObj(obj);
+Mesh::~Mesh() {
+  qDebug() << "Destroying mesh:";
+  for (auto const& [key, val] : VAOmap_) {
+    if (!val) continue;
+    qDebug() << "Vertex Array: " << val->ID_ << " destroyed";
+    delete val;
+  }
 }
-
-Mesh::~Mesh() { qDebug() << "Mesh " << vertex_only_VAO_.ID_ << " destroyed"; }
-
-void Mesh::Bind() { vertex_only_VAO_.Bind(); }
-
-void Mesh::Unbind() { vertex_only_VAO_.Unbind(); }
 
 void Mesh::Draw(GLenum type) {
-  mix_VAO_.Bind();
-  glDrawElements(type, mix_VAO_.GetIndicesN(), GL_UNSIGNED_INT, 0);
-  mix_VAO_.Unbind();
+  for (auto const& [key, val] : VAOmap_) {
+    if (!val) continue;
+    val->Bind();
+    glDrawElements(type, val->GetIndicesN(), GL_UNSIGNED_INT, 0);
+    val->Unbind();
+  }
 }
 
 void Mesh::Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer) {
@@ -51,34 +52,5 @@ void Mesh::Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer) {
     qDebug() << "Importer is null";
     return;
   }
-  mix_VAO_ = importer->Import(obj);
-}
-void Mesh::LoadObj(const s21::EdgeOBJ& obj) {
-  // Index draw
-  qDebug() << "Loading obj >> Vertex array ID:" << mix_VAO_.ID_;
-  mix_VAO_.Bind();
-  std::vector<VertexData> vData = reassembleVertexArray(obj.vertices);
-  VBO VBO1(vData);
-  EBO EBO1(obj.faces);
-  indicesN_ = EBO1.GetSize();
-  qDebug() << QString("Loading %1 indices.").arg(indicesN_);
-  mix_VAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
-  mix_VAO_.Unbind();
-  VBO1.Unbind();
-  EBO1.Unbind();
-}
-void Mesh::LoadObj(const s21::TriangleOBJ& obj) {
-  // Index draw
-  qDebug() << "Loading obj >> Vertex array ID:" << mix_VAO_.ID_;
-  mix_VAO_.Bind();
-  std::vector<VertexData> vData = reassembleVertexArray(obj.vertices);
-  auto faces = TriangleToPolygon(obj.faces);
-  qDebug() << QString("Loading %1 indices.").arg(indicesN_);
-  VBO VBO1(vData);
-  EBO EBO1(faces);
-  indicesN_ = EBO1.GetSize();
-  mix_VAO_.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(VertexData), (void*)0);
-  mix_VAO_.Unbind();
-  VBO1.Unbind();
-  EBO1.Unbind();
+  VAOmap_.insert({importer->GetType(), new VAO(importer->Import(obj))});
 }

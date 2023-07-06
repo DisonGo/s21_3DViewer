@@ -19,14 +19,13 @@ void Camera::Matrix(Program &program, const char *uniform) {
   QMatrix4x4 view, projection, model;
   move_speed_ = abs(z_range_.y() - z_range_.x()) / 1000;
   rotation_speed_ = 10;
-  model.setToIdentity();
-  view.setToIdentity();
-  projection.setToIdentity();
   model.translate(position_);
   QVector3D lookAtVec(0, 0, 0);
+
   if (mode_ == kFree) lookAtVec = orientation_ + position_;
   if (mode_ == kFocus) lookAtVec = focus_point_;
   view.lookAt(position_, lookAtVec, up_);
+
   if (view_mode_ == kOrthographic)
     projection.ortho(box_.left_, box_.right_, box_.bottom_, box_.top_,
                      z_range_.x(), z_range_.y());
@@ -34,6 +33,10 @@ void Camera::Matrix(Program &program, const char *uniform) {
     projection.perspective(FOV_, (float)vw_ / vh_, z_range_.x(), z_range_.y());
   glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
                      (projection * view).constData());
+  glUniform2f(program.GetUniform("u_resolution"), vw_, vh_);
+  glUniform1f(program.GetUniform("u_dashSize"), 1);
+  glUniform1f(program.GetUniform("u_gapSize"), 1);
+  glLineWidth(20);
 }
 
 void Camera::ProcessFreeMode(QPoint ePos) {
@@ -52,7 +55,6 @@ void Camera::ProcessFreeMode(QPoint ePos) {
   // Calculates upcoming vertical change in the Orientation
 
   QMatrix4x4 rotationMatrix;
-  rotationMatrix.setToIdentity();
   rotationMatrix.rotate(-rotX, QVector3D::normal(orientation_, up_));
   QVector3D newOrientation = rotationMatrix.map(orientation_);
 
