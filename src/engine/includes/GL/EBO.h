@@ -2,6 +2,7 @@
 #define EBO_H
 #include "GL/GLBuffer.h"
 #include "Types/Face.h"
+namespace s21 {
 class EBO : public GLBuffer {
  public:
   EBO(std::vector<Face> indices);
@@ -14,5 +15,6 @@ class EBO : public GLBuffer {
   GLsizei allocated_ = 0;
   GLuint size_ = 0;
 };
+}  // namespace s21
 
 #endif  // EBO_H

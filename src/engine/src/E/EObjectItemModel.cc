@@ -1,5 +1,5 @@
 #include "E/EObjectItemModel.h"
-
+namespace s21 {
 EObjectItemModel::EObjectItemModel(QObject *parent)
     : QAbstractItemModel{parent} {
   root_item_ = new EObjectTreeItem({tr("Object")}, nullptr);
@@ -89,12 +89,10 @@ std::string EObjectItemModel::GetTitle(EObjectType type) {
           .toStdString();
       break;
     case kTransform:
-      return (QString("Transform_") + QString().number(transform_ptrs_.size()))
-          .toStdString();
+      return "Transform";
       break;
     case kMesh:
-      return (QString("Mesh_") + QString().number(mesh_ptrs_.size()))
-          .toStdString();
+      return "Mesh";
       break;
   }
 }
@@ -107,6 +105,7 @@ void EObjectItemModel::FindAndSelectIndex(const QModelIndex &index) {
 
   if (camera_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
   if (transform_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
+  if (mesh_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
 }
 
 void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
@@ -130,14 +129,14 @@ void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
   } catch (...) {
   }
 }
-void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent) {
+void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent, std::string title) {
   if (!item || item->GetType() == kNone) return;
   if (!parent) parent = root_item_;
   auto type = item->GetType();
   auto row = rowCount();
-  string title = GetTitle(type);
+  string Title = title == "" ? GetTitle(type) : title;
   beginInsertRows(QModelIndex(), row + 1, row + 1);
-  auto new_item = new EObjectTreeItem({tr(title.c_str())}, item, parent);
+  auto new_item = new EObjectTreeItem({tr(Title.c_str())}, item, parent);
   PushObjectInVectors(item);
   endInsertRows();
   if (type == kObject3D) {
@@ -166,4 +165,5 @@ void EObjectItemModel::PushObjectInVectors(EObject *item) {
       mesh_ptrs_ << static_cast<Mesh *>(item);
       break;
   }
+}
 }

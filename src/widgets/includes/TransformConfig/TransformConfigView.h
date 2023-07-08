@@ -14,14 +14,14 @@ class TransformConfigView : public QWidget {
 
  public:
   explicit TransformConfigView(QWidget* parent = nullptr);
-  explicit TransformConfigView(TransformSpacer* transform,
+  explicit TransformConfigView(s21::TransformSpacer* transform,
                                QWidget* parent = nullptr);
   ~TransformConfigView();
 
  public slots:
   void ResetValues();
   void SetValuesFromConfig();
-  void SetTranformSpacer(TransformSpacer* transform);
+  void SetTranformSpacer(s21::TransformSpacer* transform);
   void SetTranslation(const QVector3D);
   void SetRotation(const QVector3D);
   void SetScale(const QVector3D);
@@ -31,7 +31,7 @@ class TransformConfigView : public QWidget {
 
  private:
   void Setup();
-  TransformSpacer* transformSpacer_ = nullptr;
+  s21::TransformSpacer* transformSpacer_ = nullptr;
   Ui::TransformConfigView* ui;
 };
 #endif  // TRANSFORMCONFIGVIEW_H

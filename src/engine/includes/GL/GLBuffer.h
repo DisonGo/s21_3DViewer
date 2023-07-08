@@ -1,6 +1,7 @@
 #ifndef GLBUFFER_H
 #define GLBUFFER_H
 #include "GLObject.h"
+namespace s21 {
 class GLBuffer : public GLObject {
  public:
   GLBuffer() { glGenBuffers(1, &ID_); };
@@ -11,5 +12,6 @@ class GLBuffer : public GLObject {
   virtual GLenum GetType() { return type; };
   GLenum type = GL_ELEMENT_ARRAY_BUFFER;
 };
+}  // namespace s21
 
 #endif  // GLBUFFER_H

@@ -1,4 +1,5 @@
 #include "Spacers/CameraSpacer.h"
+namespace s21 {
 CameraSpacer::CameraSpacer(QObject *parent, Camera &camera)
     : QObject(parent), camera_(camera) {}
 
@@ -147,6 +148,10 @@ void CameraSpacer::SetBox(const Camera::ParallelBox &newBox) {
   emit ConfigUpdated();
 }
 
+void CameraSpacer::SetLineWidth(double newLineWidth) {
+  camera_.SetLineWidth(newLineWidth);
+  emit ConfigUpdated();
+}
 Camera::CameraMode CameraSpacer::GetMode() const { return camera_.GetMode(); }
 
 Camera::ViewMode CameraSpacer::GetViewMode() const {
@@ -182,3 +187,6 @@ float CameraSpacer::GetRotationSpeed() const {
 const Camera::ParallelBox &CameraSpacer::GetBox() const {
   return camera_.GetBox();
 }
+
+double CameraSpacer::GetLineWidth() { return camera_.GetLineWidth(); }
+}  // namespace s21

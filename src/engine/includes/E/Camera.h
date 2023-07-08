@@ -5,7 +5,7 @@
 
 #include "E/EObject.h"
 #include "Shaders/Program.h"
-
+namespace s21 {
 class Camera : public EObject, protected QOpenGLFunctions {
  public:
   friend class CameraSpacer;
@@ -45,6 +45,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   void SetMoveSpeed(float newMoveSpeed);
   void SetRotationSpeed(float newRotationSpeed);
   void SetBox(const ParallelBox &newBox);
+  void SetLineWidth(double newLineWidth);
 
   Camera::CameraMode GetMode() const;
   Camera::ViewMode GetViewMode() const;
@@ -58,6 +59,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   float GetMoveSpeed() const;
   float GetRotationSpeed() const;
   const Camera::ParallelBox &GetBox() const;
+  double GetLineWidth() const;
 
  protected:
   EObjectType type_ = EObjectType::kCamera;
@@ -70,12 +72,13 @@ class Camera : public EObject, protected QOpenGLFunctions {
   CameraMode mode_ = kFree;
   ViewMode view_mode_ = kPerspective;
   QVector3D focus_point_ = QVector3D(0, 0, 0);
-  QVector3D position_ = QVector3D(0, 0, 0);
+  QVector3D position_ = QVector3D(0, 1, 0);
   QVector3D orientation_ = QVector3D(0, 0, 1);
   QVector2D z_range_ = QVector2D(0.001, 100);
 
   QVector3D up_ = QVector3D(0.0f, 1.0f, 0.0f);
   float FOV_ = 130;
+  double lineWidth_ = 1;
 
   bool LMBPressed_ = false;
   int vw_ = 1;
@@ -85,5 +88,6 @@ class Camera : public EObject, protected QOpenGLFunctions {
   float rotation_speed_ = 0.1f;
   ParallelBox box_{};
 };
+}  // namespace s21
 
 #endif  // CAMERA_H

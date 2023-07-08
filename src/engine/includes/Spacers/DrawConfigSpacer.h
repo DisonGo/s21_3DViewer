@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include "DrawConfig.h"
+namespace s21 {
 class DrawConfigSpacer : public QObject {
   Q_OBJECT
  public:
@@ -23,9 +24,7 @@ class DrawConfigSpacer : public QObject {
   const QColor& GetDotColor() const { return config_->dot_color; };
   const QColor& GetBackColor() const { return config_->back_color; };
  public slots:
-  void SetPointSize(float newPointSize) {
-    config_->point_size = newPointSize;
-  };
+  void SetPointSize(float newPointSize) { config_->point_size = newPointSize; };
   void SetLineWidth(float newLineWidth) { config_->line_width = newLineWidth; };
   void SetPoints(int newPoints) { config_->points = (bool)newPoints; };
   void SetLines(int newLines) { config_->lines = (bool)newLines; };
@@ -57,4 +56,5 @@ class DrawConfigSpacer : public QObject {
  private:
   DrawConfig* config_;  // DrawConfig - Singltone
 };
+}  // namespace s21
 #endif  // DRAWCONFIGSPACER_H

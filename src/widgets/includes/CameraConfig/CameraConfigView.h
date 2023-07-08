@@ -15,10 +15,10 @@ class CameraConfigView : public QWidget {
 
  public:
   explicit CameraConfigView(QWidget* parent = nullptr,
-                            CameraSpacer* cameraSpacer = nullptr);
+                            s21::CameraSpacer* cameraSpacer = nullptr);
   ~CameraConfigView();
 
-  void SetCameraSpacer(CameraSpacer* cameraSpacer);
+  void SetCameraSpacer(s21::CameraSpacer* cameraSpacer);
  signals:
   void UpdateRequest();
  private slots:
@@ -36,11 +36,13 @@ class CameraConfigView : public QWidget {
   void SetBoxRight(double);
   void SetBoxBottom(double);
   void SetBoxTop(double);
+  void SetLineWidth(double);
 
  private:
   void SetupConnects();
-  CameraSpacer* cameraSpacer_{};
+  s21::CameraSpacer* cameraSpacer_{};
   Ui::CameraConfigView* ui;
 };
+
 
 #endif  // CAMERACONFIGVIEW_H

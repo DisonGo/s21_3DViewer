@@ -1,17 +1,16 @@
-#ifndef OBJIMPORTWIREFRAMESTRATEGY_H
-#define OBJIMPORTWIREFRAMESTRATEGY_H
+#ifndef OBJIMPORTVERTEXONLYSTRATEGY_H
+#define OBJIMPORTVERTEXONLYSTRATEGY_H
 #include "Strategies/Import/OBJImportStrategy.h"
 namespace s21 {
-class OBJImportWireframeStrategy : public OBJImportStrategy {
+class OBJImportVertexOnlyStrategy : public OBJImportStrategy {
  public:
   virtual OBJImportStrategyType GetType() const override { return type_; };
   virtual VAO Import(const OBJ& obj) const override;
 
  protected:
-  OBJImportStrategyType type_ = kWireframeImport;
+  OBJImportStrategyType type_ = kVertexOnlyImport;
   virtual std::vector<VertexData> GetVertexDataArray(
       const OBJ& obj) const override;
-  static std::vector<Face> GetWireFrameIndexArray(const OBJ& obj);
 };
 }  // namespace s21
-#endif  // OBJIMPORTWIREFRAMESTRATEGY_H
+#endif  // OBJIMPORTVERTEXONLYSTRATEGY_H

@@ -133,7 +133,7 @@ void MainWindow::on_pushButton_saveFile_clicked() {
 
 void MainWindow::saveGif(std::vector<QImage> gifData) {
   QGifImage gif(QSize(640, 480));
-  gif.setDefaultDelay(1000 / 10);
+  gif.setDefaultDelay(1000 / 60);
   for (auto& frame : gifData) {
     gif.addFrame(frame);
   }
@@ -144,12 +144,12 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
   gif.save(savePath);
 }
 
-void MainWindow::ShowObjectWidget(EObject* object) {
+void MainWindow::ShowObjectWidget(s21::EObject* object) {
   clearLayout(ui->ObjectWidgetHolder);
-  if (object->GetType() != kCamera) ui->openGLWidget->cameraSpacer = nullptr;
+  if (object->GetType() != s21::kCamera) ui->openGLWidget->cameraSpacer = nullptr;
   switch (object->GetType()) {
-    case kCamera: {
-      auto spacer = new CameraSpacer(this, *static_cast<Camera*>(object));
+    case s21::kCamera: {
+      auto spacer = new s21::CameraSpacer(this, *static_cast<s21::Camera*>(object));
       auto ptr = new CameraConfigView(this, spacer);
       ptr->setAttribute(Qt::WA_DeleteOnClose);
       connect(ptr, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
@@ -157,10 +157,18 @@ void MainWindow::ShowObjectWidget(EObject* object) {
       ui->openGLWidget->cameraSpacer = spacer;
       break;
     }
-    case kTransform: {
-      auto obj_ptr = static_cast<Transform*>(object);
-      auto spacer = new TransformSpacer(*obj_ptr, this);
+    case s21::kTransform: {
+      auto obj_ptr = static_cast<s21::Transform*>(object);
+      auto spacer = new s21::TransformSpacer(*obj_ptr, this);
       auto view = new TransformConfigView(spacer, this);
+      view->setAttribute(Qt::WA_DeleteOnClose);
+      connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
+      ui->ObjectWidgetHolder->addWidget(view);
+    } break;
+    case s21::kMesh: {
+      auto obj_ptr = static_cast<s21::Mesh*>(object);
+      auto spacer = new s21::MeshSpacer(*obj_ptr, this);
+      auto view = new MeshConfigView(spacer, this);
       view->setAttribute(Qt::WA_DeleteOnClose);
       connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
       ui->ObjectWidgetHolder->addWidget(view);
@@ -170,12 +178,12 @@ void MainWindow::ShowObjectWidget(EObject* object) {
 
 void MainWindow::SetupEObjectTreeView() {
   //  ui->camWid->SetCameraSpacer(ui->openGLWidget->cameraSpacer);
-  eObjectModel = &Engine::Instance()->GetEObjectItemModel();
+  eObjectModel = &s21::Engine::Instance()->GetEObjectItemModel();
 
   connect(ui->Tree, &QAbstractItemView::clicked, eObjectModel,
-          &EObjectItemModel::FindAndSelectIndex);
+          &s21::EObjectItemModel::FindAndSelectIndex);
 
-  connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
+  connect(eObjectModel, &s21::EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
   ui->Tree->setModel(eObjectModel);
 }
@@ -188,7 +196,7 @@ void MainWindow::endCapture() {
 }
 void MainWindow::on_pushButton_screencast_clicked() {
   if (timerStarted) return;
-  ui->openGLWidget->startScreenCapture(10);
+  ui->openGLWidget->startScreenCapture(60);
   QTimer::singleShot(5000, this, &MainWindow::endCapture);
   timerStarted = true;
 }

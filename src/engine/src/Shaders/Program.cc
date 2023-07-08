@@ -3,14 +3,12 @@
 #include <QFile>
 
 #include "QDebug"
+namespace s21 {
+Program::Program() { initializeOpenGLFunctions(); }
 
-Program::Program() {
-  initializeOpenGLFunctions();
-}
-
-Program::Program(const std::string& vertexFile,
-                 const std::string& fragmentFile) : Program(){
-  SetProgram(vertexFile, fragmentFile);
+Program::Program(const std::string& vertexFile, const std::string& fragmentFile)
+    : Program() {
+  SetProgram(vertexFile, fragmentFile, ":/Shaders/gshader.glsl");
 }
 bool Program::LinkSuccessful() {
   int status;
@@ -43,15 +41,19 @@ Program& Program::operator=(Program&& obj) {
 }
 
 void Program::SetProgram(const std::string& vertexFile,
-                         const std::string& fragmentFile) {
+                         const std::string& fragmentFile,
+                         const std::string& geometryFile) {
   ID_ = glCreateProgram();
-  s21::VertexShader vertexShader(vertexFile);
-  s21::FragmentShader fragmentShader(fragmentFile);
+  VertexShader vertexShader(vertexFile);
+  FragmentShader fragmentShader(fragmentFile);
+  //  GeometryShader geometryShader(geometryFile);
   vertexShader.LinkToProgram(ID_);
   fragmentShader.LinkToProgram(ID_);
+  //  geometryShader.LinkToProgram(ID_);
   glLinkProgram(ID_);
   if (!LinkSuccessful()) {
     qDebug() << "Program linking failed";
     PrintProgramError();
   }
 }
+}  // namespace s21

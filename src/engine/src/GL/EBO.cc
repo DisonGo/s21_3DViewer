@@ -1,5 +1,6 @@
 #include "GL/EBO.h"
 #include <QDebug>
+namespace s21 {
 EBO::EBO(std::vector<Face> indices) { BindIndices(indices); }
 
 GLsizei EBO::GetSize() { return size_; }
@@ -19,4 +20,5 @@ void EBO::BindIndices(std::vector<Face> indices) {
   qDebug() << "Alloc: "<< allocated_;
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, allocated_, ind.data(),
                GL_STATIC_DRAW);
+}
 }

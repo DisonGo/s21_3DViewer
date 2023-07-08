@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MeshConfigView</class>
+ <widget class="QWidget" name="MeshConfigView">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>157</width>
+    <height>99</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="standartBufferLabel">
+       <property name="text">
+        <string>Standart buffer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QCheckBox" name="standartBufferCheckBox"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="wireframeBufferLabel">
+       <property name="text">
+        <string>Wireframe buffer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QCheckBox" name="wireframeBufferCheckBox"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="triangleBufferLabel">
+       <property name="text">
+        <string>Triangle buffer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QCheckBox" name="triangleBufferCheckBox"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="vertexOnlyBufferLabel">
+       <property name="text">
+        <string>Vertex only buffer</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QCheckBox" name="vertexOnlyBufferCheckBox"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

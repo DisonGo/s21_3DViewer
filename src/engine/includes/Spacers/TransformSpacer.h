@@ -4,7 +4,7 @@
 #include <QVector3D>
 
 #include "E/Transform.h"
-
+namespace s21 {
 class TransformSpacer : public QObject {
   Q_OBJECT
  public:
@@ -23,4 +23,5 @@ class TransformSpacer : public QObject {
  private:
   Transform &transform_;
 };
+}  // namespace s21
 #endif  // TRANSFORMSPACER_H

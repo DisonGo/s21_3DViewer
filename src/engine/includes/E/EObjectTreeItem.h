@@ -5,7 +5,7 @@
 #include "E/Transform.h"
 #include "Spacers/CameraSpacer.h"
 #include "Spacers/TransformSpacer.h"
-
+namespace s21 {
 class EObjectTreeItem {
  public:
   explicit EObjectTreeItem(const QList<QVariant> &data, EObject *object,
@@ -32,5 +32,6 @@ class EObjectTreeItem {
   EObjectType type_ = kNone;
   EObjectTreeItem *m_parent_item_;
 };
+}  // namespace s21
 
 #endif  // EOBJECTTREEITEM_H

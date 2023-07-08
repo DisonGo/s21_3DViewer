@@ -1,4 +1,5 @@
 #include "E/Transform.h"
+namespace s21 {
 bool Transform::operator==(const Transform &a) const {
   return (translate_ == a.translate_ && rotation_ == a.rotation_ &&
           scale_ == a.scale_);
@@ -56,3 +57,4 @@ void Transform::LoadModelMatrix(Program *program) {
                      (modelTranslate_ * modelRot_ * modelScale_).data());
   awaitingLoadInProgram_ = false;
 }
+}  // namespace s21

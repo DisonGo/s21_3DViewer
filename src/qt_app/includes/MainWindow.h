@@ -3,6 +3,7 @@
 
 #include <CameraConfig/CameraConfigView.h>
 #include <TransformConfig/TransformConfigView.h>
+#include <MeshConfig/MeshConfigView.h>
 
 #include <QAbstractButton>
 #include <QMainWindow>
@@ -40,14 +41,14 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
   std::vector<QImage> gifBuffer;
   bool timerStarted = false;
-  EObjectItemModel *eObjectModel;
+  s21::EObjectItemModel *eObjectModel;
   QVector3D cameraPos = QVector3D(0, 0, 0);
   QVector3D cameraOrient = QVector3D(0, 0, 1);
 
   void saveSettings();
   void saveGif(std::vector<QImage> gifData);
  private slots:
-  void ShowObjectWidget(EObject *object);
+  void ShowObjectWidget(s21::EObject *object);
   void SetupEObjectTreeView();
   void UpdateGL();
   void TranslationTest(QVector3D values);

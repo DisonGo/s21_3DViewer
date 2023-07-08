@@ -10,33 +10,37 @@
 #include "GL/EBO.h"
 #include "GL/VAO.h"
 #include "Shaders/Program.h"
-#include "Strategies/Import/OBJImportStandartStrategy.h"
 #include "Strategies/Import/OBJImportStrategy.h"
+#include "Strategies/Import/OBJImportStandartStrategy.h"
 #include "Strategies/Import/OBJImportTriangleStrategy.h"
 #include "Strategies/Import/OBJImportWireframeStrategy.h"
+#include "Strategies/Import/OBJImportVertexOnlyStrategy.h"
 using std::map;
+namespace s21 {
 class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();
-  Mesh(const s21::OBJ& obj);
   ~Mesh();
+  Mesh(const OBJ& obj);
   void Draw(GLenum type);
-  void Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer);
-
+  void Import(const OBJ& obj, OBJImportStrategy* importer);
+  void SetBufferToggle(OBJImportStrategyType type, bool value);
+  bool GetBufferToggle(OBJImportStrategyType type);
   virtual EObjectType GetType() const override { return type_; };
 
  protected:
   EObjectType type_ = EObjectType::kMesh;
 
  private:
-//  struct VAOmap_ {
-
-//  };
-  map<s21::OBJImportStrategyType, VAO*> VAOmap_;
-  int indicesN_ = 0;
+  map<OBJImportStrategyType, bool> buffer_toggle_{
+    {kStandartImport, false},
+    {kWireframeImport, true},
+    {kTriangleImport, false},
+    {kVertexOnlyImport, false}
+                                                 };
+  map<OBJImportStrategyType, VAO*> VAO_map_;
   DrawConfig* draw_config_;
-  VAO vertex_only_VAO_;
-  VAO mix_VAO_;
 };
+}  // namespace s21
 
 #endif  // MESH_H

@@ -5,6 +5,7 @@
 
 #include "E/EObject.h"
 #include "Shaders/Program.h"
+namespace s21 {
 class Transform : public EObject, protected QOpenGLFunctions {
   friend class TransformSpacer;
 
@@ -44,5 +45,6 @@ class Transform : public EObject, protected QOpenGLFunctions {
   QMatrix4x4 modelTranslate_;
   bool awaitingLoadInProgram_ = false;
 };
+}  // namespace s21
 
 #endif  // TRANSFORM_H

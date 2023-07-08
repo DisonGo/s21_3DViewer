@@ -1,5 +1,5 @@
 #include "E/Object3D.h"
-
+namespace s21 {
 void Object3D::Draw(GLenum type, Camera* camera) {
   if (!program_ || !camera) return;
   program_->Activate();
@@ -8,10 +8,9 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   mesh_.Draw(type);
 }
 
-void Object3D::UploadMesh(const s21::OBJ& obj) {
-  auto importer = new s21::OBJImportWireframeStrategy;
+void Object3D::UploadMesh(const OBJ& obj, OBJImportStrategy* importer) {
+  if (!importer) return;
   mesh_.Import(obj, importer);
-  delete importer;
 }
 void Object3D::SetTransform(const Transform& transform) {
   if (transform_ == transform) return;
@@ -21,3 +20,4 @@ void Object3D::SetTransform(const Transform& transform) {
 void Object3D::SetProgram(Program& program) { program_ = &program; }
 
 void Object3D::SetMesh(const Mesh& mesh) { mesh_ = std::move(mesh); }
+}  // namespace s21

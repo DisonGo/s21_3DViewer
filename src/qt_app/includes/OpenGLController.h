@@ -27,7 +27,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
     bool roundCircle = false;
     bool dashedLines = false;
   };
-  CameraSpacer *cameraSpacer = nullptr;
+  s21::CameraSpacer *cameraSpacer = nullptr;
   QColor FragmentColor = QColor(255, 255, 255);
   QColor LineColor = QColor(255, 255, 255);
   QColor DotColor = QColor(255, 255, 255);
@@ -35,8 +35,6 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   glDrawArraysConfig drawArrConf;
   void startScreenCapture(int FPS);
   std::vector<QImage> stopScreenCapture();
-  std::vector<Transform *> GetMeshTransforms();
-  std::vector<Mesh *> GetMeshes();
  public slots:
   void setDrawArrConfig(struct glDrawArraysConfig config);
   void importObjFile(QString filename);
@@ -82,8 +80,8 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   int gifFps = 10;
   int gifLength = 5;
 
-  Program *program = nullptr;
-  Engine *engine;
+  s21::Program *program = nullptr;
+  s21::Engine *engine;
 };
 
 #endif  // OPENGLCONTROLLER_H

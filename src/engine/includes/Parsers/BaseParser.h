@@ -1,5 +1,5 @@
-#ifndef SRC_INCLUDES_PARSER_OBJPARSER_BASE_H
-#define SRC_INCLUDES_PARSER_OBJPARSER_BASE_H
+#ifndef BASEPARSER_H
+#define BASEPARSER_H
 
 #include <cstdio>
 #include <cstdlib>
@@ -37,5 +37,4 @@ class BaseParser {
   virtual ~BaseParser() = default;
 };
 }  // namespace s21
-
-#endif  //   SRC_INCLUDES_PARSER_OBJPARSER_BASE_H
+#endif  // BASEPARSER_H

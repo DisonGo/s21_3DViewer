@@ -14,13 +14,13 @@ endif
 all: install open
 build:
 	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
-	@cmake -G Xcode -DCMAKE_BUILD_TYPE="Release" -B ${BUILD_PATH} .
+	@cmake -DCMAKE_BUILD_TYPE="Release" -B ${BUILD_PATH} .
 	@cd ${BUILD_PATH}; make
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
 build_debug:
 	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
-	@cmake -G Xcode -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
+	@cmake -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
 	@cd ${BUILD_PATH}; make
 install: build
 

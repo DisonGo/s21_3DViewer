@@ -3,6 +3,7 @@
 #define GL_SILENCE_DEPRECATION
 #include <QOpenGLExtraFunctions>
 #include <QOpenGLFunctions>
+namespace s21 {
 class GLObject : public QOpenGLExtraFunctions {
  public:
   explicit GLObject() { initializeOpenGLFunctions(); };
@@ -15,5 +16,6 @@ class GLObject : public QOpenGLExtraFunctions {
   virtual void Delete() = 0;
   virtual ~GLObject() = default;
 };
+}  // namespace s21
 
 #endif  // GLOBJECT_H

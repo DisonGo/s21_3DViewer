@@ -1,5 +1,5 @@
 #include "E/EObjectTreeItem.h"
-
+namespace s21 {
 EObjectTreeItem::EObjectTreeItem(const QList<QVariant> &data, EObject *object,
                                  EObjectTreeItem *parent)
     : m_item_data_(data), object_ptr_(object), m_parent_item_(parent) {
@@ -46,3 +46,4 @@ void EObjectTreeItem::RemoveChild(EObjectTreeItem *child) {
 }
 
 EObjectTreeItem *EObjectTreeItem::parentItem() { return m_parent_item_; }
+}  // namespace s21

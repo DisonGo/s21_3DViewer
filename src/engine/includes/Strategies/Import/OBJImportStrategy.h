@@ -8,14 +8,19 @@
 #include "Types/VertexData.h"
 namespace s21 {
 enum OBJImportStrategyType {
-  kNone, kStandart, kTriangle, kWireframe
+  kImportNone,
+  kStandartImport,
+  kTriangleImport,
+  kVertexOnlyImport,
+  kWireframeImport
 };
 class OBJImportStrategy : public ImportStrategy {
-public:
+ public:
   virtual OBJImportStrategyType GetType() const { return type_; };
   virtual VAO Import(const OBJ& obj) const = 0;
-protected:
-  OBJImportStrategyType type_ = kNone;
+
+ protected:
+  OBJImportStrategyType type_ = kImportNone;
   virtual std::vector<VertexData> GetVertexDataArray(const OBJ& obj) const = 0;
 };
 }  // namespace s21

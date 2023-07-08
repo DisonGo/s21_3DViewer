@@ -19,7 +19,7 @@ class DrawConfigView : public QWidget {
   void DrawConfigUpdated();
 
  private:
-  DrawConfigSpacer drawConfigSpacer_;
+  s21::DrawConfigSpacer drawConfigSpacer_;
   Ui::DrawConfigView *ui;
 };
 

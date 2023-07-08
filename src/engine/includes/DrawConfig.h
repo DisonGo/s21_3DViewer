@@ -2,6 +2,7 @@
 #define DRAWCONFIG_H
 #include <QColor>
 #include <QDebug>
+namespace s21 {
 class DrawConfig {
  public:
   static DrawConfig& Instance() {
@@ -12,7 +13,7 @@ class DrawConfig {
   float line_width = 1;
   bool points = true;
   bool lines = true;
-  bool triangles = true;
+  bool triangles = false;
   bool triangles_strip = false;
   bool round_circle = false;
   bool dashed_lines = false;
@@ -27,4 +28,5 @@ class DrawConfig {
   const DrawConfig& operator=(const DrawConfig&);
   ~DrawConfig(){};
 };
+}  // namespace s21
 #endif  // DRAWCONFIG_H

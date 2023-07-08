@@ -4,7 +4,7 @@
 #include <QObject>
 
 #include "E/Camera.h"
-
+namespace s21 {
 class CameraSpacer : public QObject {
   Q_OBJECT
  public:
@@ -21,6 +21,7 @@ class CameraSpacer : public QObject {
   void SetMoveSpeed(float newMoveSpeed);
   void SetRotationSpeed(float newRotationSpeed);
   void SetBox(const Camera::ParallelBox &newBox);
+  void SetLineWidth(double newLineWidth);
 
   Camera::CameraMode GetMode() const;
   Camera::ViewMode GetViewMode() const;
@@ -34,6 +35,7 @@ class CameraSpacer : public QObject {
   float GetMoveSpeed() const;
   float GetRotationSpeed() const;
   const Camera::ParallelBox &GetBox() const;
+  double GetLineWidth();
 
  public slots:
   void keyPressSlot(QKeyEvent *e);
@@ -47,5 +49,6 @@ class CameraSpacer : public QObject {
  private:
   Camera &camera_;
 };
+}  // namespace s21
 
 #endif  // CAMERASPACER_H

@@ -8,6 +8,7 @@
 #include "EObjectTreeItem.h"
 using std::string;
 using std::vector;
+namespace s21 {
 class EObjectItemModel : public QAbstractItemModel {
   Q_OBJECT
   friend class Engine;
@@ -30,12 +31,12 @@ class EObjectItemModel : public QAbstractItemModel {
                 int role = Qt::DisplayRole) const override;
   ~EObjectItemModel() { delete root_item_; };
  signals:
-  void ObjectSelected(EObject *);
+  void ObjectSelected(s21::EObject *);
  public slots:
   void FindAndSelectIndex(const QModelIndex &index);
   void PrintIndexObject(const QModelIndex &index);
-  void AddItem(EObject *item, EObjectTreeItem *parent = nullptr);
-  void PushObjectInVectors(EObject *item);
+  void AddItem(s21::EObject *item, s21::EObjectTreeItem *parent = nullptr, std::string title = "");
+  void PushObjectInVectors(s21::EObject *item);
 
  private:
   EObjectTreeItem *root_item_;
@@ -47,5 +48,6 @@ class EObjectItemModel : public QAbstractItemModel {
 
   std::string GetTitle(EObjectType type);
 };
+}  // namespace s21
 
 #endif  // EOBJECTITEMMODEL_H

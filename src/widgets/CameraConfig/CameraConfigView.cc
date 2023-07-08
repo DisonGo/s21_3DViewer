@@ -1,7 +1,7 @@
 #include "CameraConfig/CameraConfigView.h"
 
 #include "ui_CameraConfigView.h"
-CameraConfigView::CameraConfigView(QWidget *parent, CameraSpacer *cameraSpacer)
+CameraConfigView::CameraConfigView(QWidget *parent, s21::CameraSpacer *cameraSpacer)
     : QWidget(parent), ui(new Ui::CameraConfigView) {
   ui->setupUi(this);
   SetCameraSpacer(cameraSpacer);
@@ -19,7 +19,7 @@ CameraConfigView::~CameraConfigView() {
   delete ui;
 }
 
-void CameraConfigView::SetCameraSpacer(CameraSpacer *cameraSpacer) {
+void CameraConfigView::SetCameraSpacer(s21::CameraSpacer *cameraSpacer) {
   cameraSpacer_ = cameraSpacer;
   if (!cameraSpacer) return;
   connect(cameraSpacer_, SIGNAL(ConfigUpdated()), this,
@@ -39,19 +39,19 @@ void CameraConfigView::SetValuesFromConfig() {
   ui->zRangeYV->setValue(zRange.y());
 
   switch (cameraSpacer_->GetMode()) {
-    case Camera::kFree:
+    case s21::Camera::kFree:
       ui->CameraModeFree->setChecked(true);
       break;
-    case Camera::kFocus:
+    case s21::Camera::kFocus:
       ui->CameraModeFocus->setChecked(true);
       break;
   }
 
   switch (cameraSpacer_->GetViewMode()) {
-    case Camera::kPerspective:
+    case s21::Camera::kPerspective:
       ui->ViewModePerspective->setChecked(true);
       break;
-    case Camera::kOrthographic:
+    case s21::Camera::kOrthographic:
       ui->ViewModeParallel->setChecked(true);
       break;
   }
@@ -61,6 +61,7 @@ void CameraConfigView::SetValuesFromConfig() {
   ui->RightV->setValue(box.right_);
   ui->BottomV->setValue(box.bottom_);
   ui->LeftV->setValue(box.left_);
+  ui->LineWidthV->setValue(cameraSpacer_->GetLineWidth());
   emit UpdateRequest();
 }
 
@@ -84,24 +85,23 @@ void CameraConfigView::SetFocusPoint(const QVector3D &focusPoint) {
 
 void CameraConfigView::SetCameraMode(QAbstractButton *but) {
   if (!cameraSpacer_) return;
-  if (but == ui->CameraModeFocus) cameraSpacer_->SetMode(Camera::kFocus);
-  if (but == ui->CameraModeFree) cameraSpacer_->SetMode(Camera::kFree);
+  if (but == ui->CameraModeFocus) cameraSpacer_->SetMode(s21::Camera::kFocus);
+  if (but == ui->CameraModeFree) cameraSpacer_->SetMode(s21::Camera::kFree);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetViewMode(QAbstractButton *but) {
   if (!cameraSpacer_) return;
   if (but == ui->ViewModePerspective)
-    cameraSpacer_->SetViewMode(Camera::kPerspective);
+    cameraSpacer_->SetViewMode(s21::Camera::kPerspective);
   if (but == ui->ViewModeParallel)
-    cameraSpacer_->SetViewMode(Camera::kOrthographic);
+    cameraSpacer_->SetViewMode(s21::Camera::kOrthographic);
   emit UpdateRequest();
 }
 
-void CameraConfigView::SetFOV(int)
-{
+void CameraConfigView::SetFOV(int val) {
   if (!cameraSpacer_) return;
-  cameraSpacer_->SetFOV(ui->FOV_V->value());
+  cameraSpacer_->SetFOV(val);
   emit UpdateRequest();
 }
 
@@ -152,6 +152,11 @@ void CameraConfigView::SetBoxTop(double val) {
   cameraSpacer_->SetBox(box);
   emit UpdateRequest();
 }
+void CameraConfigView::SetLineWidth(double val) {
+  if (!cameraSpacer_) return;
+  cameraSpacer_->SetLineWidth(val);
+  emit UpdateRequest();
+}
 
 void CameraConfigView::SetupConnects() {
   connect(ui->PositionTriplet, SIGNAL(InputsChanged(QVector3D)), this,
@@ -177,6 +182,8 @@ void CameraConfigView::SetupConnects() {
   connect(ui->TopV, SIGNAL(valueChanged(double)), this,
           SLOT(SetBoxTop(double)));
   connect(ui->FOV_V, SIGNAL(valueChanged(int)), this, SLOT(SetFOV(int)));
+  connect(ui->LineWidthV, SIGNAL(valueChanged(double)), this,
+          SLOT(SetLineWidth(double)));
 }
 
 // void CameraConfigView::on_ResetBut_clicked() {

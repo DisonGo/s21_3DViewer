@@ -8,12 +8,13 @@
 #include <QOpenGLFunctions>
 
 #include "Shaders/FragmentShader.h"
+#include "Shaders/GeometryShader.h"
 #include "Shaders/VertexShader.h"
+namespace s21 {
 class Program : protected QOpenGLFunctions {
  public:
   Program();
-  Program(const std::string& vertexFile,
-          const std::string& fragmentFile);
+  Program(const std::string& vertexFile, const std::string& fragmentFile);
   void Activate();
   void Delete();
   int GetUniform(const std::string& name);
@@ -23,9 +24,11 @@ class Program : protected QOpenGLFunctions {
  private:
   GLuint ID_ = 0;
   void SetProgram(const std::string& vertexFile,
-                  const std::string& fragmentFile);
+                  const std::string& fragmentFile,
+                  const std::string& geometryFile);
   bool LinkSuccessful();
   void PrintProgramError();
 };
+}  // namespace s21
 
 #endif  // PROGRAM_H

@@ -3,10 +3,11 @@
 #include <QMatrix4x4>
 
 #include "QtMath"
+namespace s21 {
 Camera::Camera() {
   SetVh(0);
   SetVw(0);
-  SetPosition(QVector3D(0, 0, 0));
+  SetPosition(QVector3D(0, 1, 0));
   initializeOpenGLFunctions();
 }
 Camera::Camera(int width, int height) {
@@ -33,10 +34,17 @@ void Camera::Matrix(Program &program, const char *uniform) {
     projection.perspective(FOV_, (float)vw_ / vh_, z_range_.x(), z_range_.y());
   glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
                      (projection * view).constData());
+  glUniformMatrix4fv(program.GetUniform("m_CameraView"), 1, GL_FALSE,
+                     (view).constData());
+  glUniformMatrix4fv(program.GetUniform("m_CameraProjection"), 1, GL_FALSE,
+                     (projection).constData());
+
+  glUniform3f(program.GetUniform("u_CameraPos"), position_.x(), position_.y(),
+              position_.z());
   glUniform2f(program.GetUniform("u_resolution"), vw_, vh_);
   glUniform1f(program.GetUniform("u_dashSize"), 1);
   glUniform1f(program.GetUniform("u_gapSize"), 1);
-  glLineWidth(20);
+  glUniform1f(program.GetUniform("u_lineWidth"), lineWidth_);
 }
 
 void Camera::ProcessFreeMode(QPoint ePos) {
@@ -86,8 +94,6 @@ void Camera::SetRotationSpeed(float newRotationSpeed) {
   rotation_speed_ = newRotationSpeed;
 }
 
-void Camera::SetBox(const ParallelBox &newBox) { box_ = newBox; }
-
 void Camera::SetOrientation(const QVector3D &newOrientation) {
   orientation_ = newOrientation;
 }
@@ -103,6 +109,8 @@ void Camera::SetPosition(const QVector3D &newPosition) {
 }
 
 void Camera::SetMode(CameraMode newMode) { mode_ = newMode; }
+void Camera::SetBox(const ParallelBox &newBox) { box_ = newBox; }
+void Camera::SetLineWidth(double newLineWidth) { lineWidth_ = newLineWidth; }
 
 Camera::CameraMode Camera::GetMode() const { return mode_; };
 Camera::ViewMode Camera::GetViewMode() const { return view_mode_; };
@@ -115,4 +123,6 @@ int Camera::GetVw() const { return vw_; };
 int Camera::GetVh() const { return vh_; };
 float Camera::GetMoveSpeed() const { return move_speed_; };
 float Camera::GetRotationSpeed() const { return rotation_speed_; };
-const Camera::ParallelBox &Camera::GetBox() const { return box_; };
+const Camera::ParallelBox &Camera::GetBox() const { return box_; }
+double Camera::GetLineWidth() const { return lineWidth_; };
+}  // namespace s21

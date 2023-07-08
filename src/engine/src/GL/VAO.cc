@@ -1,5 +1,5 @@
 #include "GL/VAO.h"
-
+namespace s21 {
 void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
                      GLsizeiptr stride, void* offset) {
   if (ID_ == (GLuint)-1) return;
@@ -8,3 +8,4 @@ void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
   glEnableVertexAttribArray(layout);
   VBO.Unbind();
 }
+}  // namespace s21

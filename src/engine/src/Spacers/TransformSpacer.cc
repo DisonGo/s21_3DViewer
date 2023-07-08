@@ -1,5 +1,5 @@
 #include "Spacers/TransformSpacer.h"
-
+namespace s21 {
 const QVector3D &TransformSpacer::GetScale() const {
   return transform_.GetScale();
 }
@@ -27,3 +27,4 @@ void TransformSpacer::SetTranslate(const QVector3D &newTranslate) {
   transform_.SetTranslate(newTranslate);
   emit ConfigUpdated();
 }
+}  // namespace s21

@@ -1,9 +1,10 @@
 #include "Parsers/BaseParser.h"
-
+#include "stdio.h"
 using std::isspace;
 using std::string;
 using std::vector;
-size_t s21::BaseParser::CountFaceVertices(const char* line) {
+namespace s21 {
+size_t BaseParser::CountFaceVertices(const char* line) {
   size_t count = 0;
   for (; *line; ++line) {
     if (*line && !isspace(*line)) {
@@ -14,7 +15,7 @@ size_t s21::BaseParser::CountFaceVertices(const char* line) {
   return count;
 }
 
-double s21::BaseParser::ParseDigits(char** p) {
+double BaseParser::ParseDigits(char** p) {
   double value = 0;
   while (**p >= '0' && **p <= '9') {
     value = (value * 10.0) + (**p - '0');
@@ -23,7 +24,7 @@ double s21::BaseParser::ParseDigits(char** p) {
   return value;
 }
 
-double s21::BaseParser::ParseDigits(char** p, int& count) {
+double BaseParser::ParseDigits(char** p, int& count) {
   double value = 0;
   while (**p >= '0' && **p <= '9') {
     value = (value * 10.0) + (**p - '0');
@@ -33,7 +34,7 @@ double s21::BaseParser::ParseDigits(char** p, int& count) {
   return value;
 }
 
-double s21::BaseParser::Stod(const char* s) {
+double BaseParser::Stod(const char* s) {
   double r = 0.0;
   char* p = (char*)s;
   while (*p && std::isspace(*p)) ++p;
@@ -53,20 +54,21 @@ double s21::BaseParser::Stod(const char* s) {
   return r;
 }
 
-Vertex s21::BaseParser::ParseVertex(const string& line) {
+Vertex BaseParser::ParseVertex(const string& line) {
   Vertex vert;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  vert.x = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  while (*str && isspace(*str)) ++str;
-  vert.y = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  vert.z = Stod(str);
+//  vert.x = Stod(str);
+//  while (*str && !isspace(*str)) ++str;
+//  while (*str && isspace(*str)) ++str;
+//  vert.y = Stod(str);
+//  while (*str && !isspace(*str)) ++str;
+//  vert.z = Stod(str);
+  sscanf(str, "%f %f %f", &vert.x, &vert.y, &vert.z);
   return vert;
 }
 
-TextureCoord s21::BaseParser::ParseTextureCoord(const string& line) {
+TextureCoord BaseParser::ParseTextureCoord(const string& line) {
   TextureCoord textureCoord;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
@@ -76,7 +78,7 @@ TextureCoord s21::BaseParser::ParseTextureCoord(const string& line) {
   return textureCoord;
 }
 
-Normal s21::BaseParser::ParseNormal(const string& line) {
+Normal BaseParser::ParseNormal(const string& line) {
   Normal normal;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
@@ -89,7 +91,7 @@ Normal s21::BaseParser::ParseNormal(const string& line) {
   return normal;
 }
 
-FaceVertex* s21::BaseParser::ParsePolygon(const string values, size_t& size) {
+FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size) {
   const char* str = values.c_str();
   size = CountFaceVertices(str);
   FaceVertex* vertices = new FaceVertex[size];
@@ -125,3 +127,4 @@ FaceVertex* s21::BaseParser::ParsePolygon(const string values, size_t& size) {
   }
   return vertices;
 }
+}  // namespace s21

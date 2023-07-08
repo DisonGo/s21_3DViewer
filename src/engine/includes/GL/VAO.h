@@ -1,9 +1,11 @@
 #ifndef VAO_H
 #define VAO_H
-#include "GL/GLArray.h"
-#include "GL/EBO.h"
-#include "GL/VBO.h"
 #include <string_view>
+
+#include "GL/EBO.h"
+#include "GL/GLArray.h"
+#include "GL/VBO.h"
+namespace s21 {
 class VAO : public GLArray {
  public:
   using GLArray::GLArray;
@@ -27,15 +29,20 @@ class VAO : public GLArray {
     indicesN_ = other.indicesN_;
     return *this;
   };
-  void LinkAttrib(VBO &VBO, GLuint layout, GLuint nComponents, GLenum type,
-                  GLsizeiptr stride, void *offset);
+  void LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
+                  GLsizeiptr stride, void* offset);
 
-  void SetIndicesN(size_t new_indicesN) {indicesN_ = new_indicesN;};
-  void SetVerticesN(size_t new_verticesN) {verticesN_ = new_verticesN;};
-  size_t GetIndicesN() {return indicesN_;};
-  size_t GetVerticesN() {return verticesN_;};
-private:
+  void SetIndicesN(size_t new_indicesN) { indicesN_ = new_indicesN; };
+  void SetVerticesN(size_t new_verticesN) { verticesN_ = new_verticesN; };
+  void SetDrawArrays(bool new_draw_arrays_) { draw_arrays_ = new_draw_arrays_; };
+  size_t GetIndicesN() { return indicesN_; };
+  size_t GetVerticesN() { return verticesN_; };
+  size_t GetDrawArrays() { return draw_arrays_; };
+
+ private:
+  bool draw_arrays_ = false;
   size_t indicesN_;
   size_t verticesN_;
 };
+}  // namespace s21
 #endif  // VAO_H

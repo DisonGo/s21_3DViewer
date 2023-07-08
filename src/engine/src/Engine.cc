@@ -6,24 +6,26 @@
 #include <QVector2D>
 #include <QVector3D>
 #include <functional>
+#include <QFileInfo>
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
-// VertexColor getRandRGB() {
-//   VertexColor color;
-//   color.r = QRandomGenerator::global()->generateDouble();
-//   color.g = QRandomGenerator::global()->generateDouble();
-//   color.b = QRandomGenerator::global()->generateDouble();
-//   return color;
-// }
-
+namespace s21 {
 Engine::Engine() {
   initializeOpenGLFunctions();
   drawConfig_ = &DrawConfig::Instance();
   Camera* default_camera = new Camera();
-  SetParser(new s21::OBJParser);
+  SetParser(new OBJParser);
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
-  eObjectModel_.AddItem(default_camera);
+  eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
+  auto program = Program::Default();
+  auto plane = static_cast<Object3D*>(new Plane(100, 100, 100, 100));
+  plane->SetProgram(*program);
+  plane->GetTrasform().SetRotation({90, 0, 0});
+  engine_objects_.push_back(plane);
+  eObjectModel_.AddItem(plane,nullptr, "Plane");
+  objects_3d_.push_back(plane);
+  programs_.push_back(program);
 }
 
 Engine::~Engine() {
@@ -32,9 +34,18 @@ Engine::~Engine() {
 }
 
 Object3D* Engine::GenerateObject(QString fileName) {
+  static OBJImportWireframeStrategy wireframeImporter;
+  static OBJImportStandartStrategy standartImporter;
+  static OBJImportTriangleStrategy triangleImporter;
+  static OBJImportVertexOnlyStrategy vertexOnlyImporter;
+
   auto object_3d = new Object3D();
-  auto obj = s21::OBJParser().Parse(fileName.toStdString());
-  object_3d->UploadMesh(*obj);
+  auto obj = OBJParser().Parse(fileName.toStdString());
+
+  object_3d->UploadMesh(*obj, &standartImporter);
+  object_3d->UploadMesh(*obj, &wireframeImporter);
+  object_3d->UploadMesh(*obj, &triangleImporter);
+  object_3d->UploadMesh(*obj, &vertexOnlyImporter);
 
   delete obj;
   return object_3d;
@@ -43,10 +54,12 @@ Object3D* Engine::GenerateObject(QString fileName) {
 void Engine::importObj(QString fileName) {
   Object3D* object_3d = GenerateObject(fileName);
   if (!object_3d) return;
+  QFileInfo fileInfo(fileName);
+
   auto program = Program::Default();
   object_3d->SetProgram(*program);
   objects_3d_.push_back(object_3d);
-  eObjectModel_.AddItem(object_3d);
+  eObjectModel_.AddItem(object_3d, nullptr, fileInfo.baseName().toStdString());
   engine_objects_.push_back(object_3d);
   programs_.push_back(program);
 }
@@ -64,7 +77,7 @@ void Engine::Cycle() {
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
-void Engine::SetParser(s21::BaseParser* parser) {
+void Engine::SetParser(BaseParser* parser) {
   if (OBJParser_) delete OBJParser_;
   OBJParser_ = parser;
 }
@@ -75,6 +88,8 @@ Engine* Engine::Instance() {
 }
 
 void Engine::DrawGeometry(GLenum type) {
+  // p.Draw(type, current_camera_);
   for (auto object : objects_3d_)
     if (object) object->Draw(type, current_camera_);
 }
+}  // namespace s21

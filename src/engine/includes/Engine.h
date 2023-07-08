@@ -7,8 +7,10 @@
 #include "E/Camera.h"
 #include "E/EObjectItemModel.h"
 #include "E/Object3D.h"
+#include "E/Plane.h"
 #include "Parsers/OBJParser.h"
 #include "Shaders/Program.h"
+namespace s21 {
 class Engine : protected QOpenGLFunctions {
  public:
   void DrawGeometry(GLenum type);
@@ -36,5 +38,6 @@ class Engine : protected QOpenGLFunctions {
   std::vector<Object3D*> objects_3d_;
   std::vector<Program*> programs_;
 };
+}  // namespace s21
 
 #endif  // ENGINE_H
