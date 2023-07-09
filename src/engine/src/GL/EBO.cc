@@ -6,7 +6,7 @@ EBO::EBO(std::vector<Face> indices) { BindIndices(indices); }
 GLsizei EBO::GetSize() { return size_; }
 
 void EBO::BindIndices(std::vector<Face> indices) {
-  if (ID_ == (GLuint) -1) return;
+  if (ID_ == 0) return;
   Bind();
   std::vector<FaceVertex> new_indices;
   for (auto& face : indices)
@@ -17,7 +17,6 @@ void EBO::BindIndices(std::vector<Face> indices) {
      ind.push_back(faceVert.v_index);
   size_ = ind.size();
   allocated_ = size_ * sizeof(GLuint);
-  qDebug() << "Alloc: "<< allocated_;
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, allocated_, ind.data(),
                GL_STATIC_DRAW);
 }

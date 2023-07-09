@@ -58,6 +58,15 @@ void OBJParser::ElevateVerticesToGround(std::vector<Vertex> &vertices)
     vertex.y += min;
 }
 
+void OBJParser::CalculateNegativeIndices(std::vector<Face> &faces, size_t vertices_max_size)
+{
+  if (faces.empty()) return;
+  for (auto& face : faces)
+    for (auto& index : face.indices)
+      if (index.v_index < 0)
+        index.v_index = vertices_max_size - index.v_index;
+}
+
 OBJ* OBJParser::Parse(string filePath) {
   FILE* obj_file = NULL;
   obj_file = fopen(filePath.c_str(), "r");
@@ -123,6 +132,7 @@ OBJ* OBJParser::Parse(string filePath) {
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
 
   ElevateVerticesToGround(obj.vertices);
+  CalculateNegativeIndices(obj.faces, obj.vertices.size() - 1);
   // Cleaning
 
   delete[] vertices;

@@ -44,7 +44,7 @@ std::vector<Face> Plane::GenerateIndices() {
   }
   Face f;
   for (int i = 0; i < offset; ++i)
-    f.indices.push_back({heightMapIndexData[i], (unsigned)-1, (unsigned)-1});
+    f.indices.push_back({(int)heightMapIndexData[i], -1, -1});
   delete[] heightMapIndexData;
   indices.push_back(f);
   return indices;

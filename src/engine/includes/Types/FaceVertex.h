@@ -3,7 +3,7 @@
 #include <QOpenGLFunctions>
 namespace s21 {
 struct FaceVertex {
-  GLuint v_index, t_index, n_index;
+  GLint v_index, t_index, n_index;
 };
 }  // namespace s21
 #endif  // FACEVERTEX_H
