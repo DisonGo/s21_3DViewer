@@ -17,10 +17,10 @@ Mesh::Mesh(const s21::OBJ& obj) : Mesh() {
 
 Mesh::~Mesh() {
   qDebug() << "Destroying mesh:";
-  for (auto const& [key, val] : VAO_map_) {
-    if (!val) continue;
-    qDebug() << "Vertex Array: " << val->ID_ << " destroyed";
-    delete val;
+  for (auto const& [key, vao] : VAO_map_) {
+    if (!vao) continue;
+    qDebug() << "Vertex Array: " << vao->ID_ << " destroyed";
+    delete vao;
   }
 }
 
@@ -55,8 +55,7 @@ void Mesh::SetBufferToggle(OBJImportStrategyType type, bool value)
 
 bool Mesh::GetBufferToggle(OBJImportStrategyType type)
 {
-  auto it = buffer_toggle_.find(type);
-  if (it == buffer_toggle_.end()) return false;
-  return it->second;
+  if (!MAP_CONTAINS(buffer_toggle_, type)) return false;
+  return buffer_toggle_.find(type)->second;
 }
 }  // namespace s21

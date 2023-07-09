@@ -8,7 +8,7 @@ VAO OBJImportVertexOnlyStrategy::Import(const OBJ& obj) const {
   auto vertices = GetVertexDataArray(obj);
   VBO vbo(vertices);
   vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
-  vao.SetVerticesN(vertices.size() * 3);
+  vao.SetVerticesN(vbo.GetSize());
   vao.Unbind();
   vbo.Unbind();
   return vao;

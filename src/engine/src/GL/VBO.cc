@@ -5,7 +5,8 @@ VBO::VBO(std::vector<VertexData> vertices) { BindVertices(vertices); }
 void VBO::BindVertices(std::vector<VertexData> vertices) {
   if (ID_ == (GLuint)-1) return;
   Bind();
-  glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(VertexData),
-               vertices.data(), GL_STATIC_DRAW);
+  size_ = vertices.size() * 3;
+  allocated_ = vertices.size() * sizeof(VertexData);
+  glBufferData(GL_ARRAY_BUFFER, allocated_, vertices.data(), GL_STATIC_DRAW);
 }
 }  // namespace s21

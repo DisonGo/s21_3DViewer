@@ -8,6 +8,7 @@ VAO OBJImportTriangleStrategy::Import(const OBJ& obj) const {
   EBO ebo(GetTriangleIndexArray(obj));
   vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
   vao.SetIndicesN(ebo.GetSize());
+  vao.SetVerticesN(vbo.GetSize());
   vao.Unbind();
   vbo.Unbind();
   ebo.Unbind();
@@ -26,7 +27,8 @@ std::vector<Face> OBJImportTriangleStrategy::GetTriangleIndexArray(
     auto size = face.indices.size();
     const auto& first = face.indices.front();
     for (size_t i = 1; i < size - 1; ++i)
-      triangle_indices.push_back({{first, face.indices.at(i), face.indices.at(i + 1)}});
+      triangle_indices.push_back(
+          {{first, face.indices.at(i), face.indices.at(i + 1)}});
   }
   return triangle_indices;
 };

@@ -46,6 +46,18 @@ void OBJParser::ParseFace(const string values, Face* faces, size_t& index) {
   delete[] vertices;
 }
 
+void OBJParser::ElevateVerticesToGround(std::vector<Vertex> &vertices)
+{
+  if (vertices.empty()) return;
+  float min = vertices.front().y;
+  for (auto& vertex : vertices)
+    min = std::min(min, vertex.y);
+  if (min >= 0) return;
+  min = fabs(min);
+  for (auto& vertex : vertices)
+    vertex.y += min;
+}
+
 OBJ* OBJParser::Parse(string filePath) {
   FILE* obj_file = NULL;
   obj_file = fopen(filePath.c_str(), "r");
@@ -108,8 +120,9 @@ OBJ* OBJParser::Parse(string filePath) {
   obj.normals.insert(obj.normals.end(), normals, normals + tags.vnC);
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
-
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
+
+  ElevateVerticesToGround(obj.vertices);
   // Cleaning
 
   delete[] vertices;

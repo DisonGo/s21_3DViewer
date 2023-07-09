@@ -6,8 +6,9 @@ VAO OBJImportStandartStrategy::Import(const OBJ& obj) const {
   vao.Bind();
   VBO vbo(GetVertexDataArray(obj));
   EBO ebo(obj.faces);
-  vao.LinkAttrib(vbo,0, 3, GL_FLOAT, sizeof(VertexData), NULL);
+  vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
   vao.SetIndicesN(ebo.GetSize());
+  vao.SetVerticesN(vbo.GetSize());
   vao.Unbind();
   vbo.Unbind();
   ebo.Unbind();

@@ -11,6 +11,7 @@ class OBJParser : public BaseParser {
 
  private:
   void ParseFace(const string values, Face *faces, size_t &index);
+  void ElevateVerticesToGround(vector<Vertex>& vertices);
   TagCounters CountTags(const string filePath);
 };
 }  // namespace s21
