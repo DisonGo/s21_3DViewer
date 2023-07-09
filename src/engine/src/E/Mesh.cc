@@ -1,7 +1,7 @@
 #include "E/Mesh.h"
 
 #include <iostream>
-
+#define MAP_CONTAINS(map,val) (map.find(val) != map.end())
 #include "GL/VBO.h"
 namespace s21 {
 Mesh::Mesh() {
@@ -25,18 +25,10 @@ Mesh::~Mesh() {
 }
 
 void Mesh::Draw(GLenum type) {
-  for (auto const& x : VAO_map_) {
-    auto key = x.first;
-    auto vao = x.second;
-    if (buffer_toggle_.find(key) == buffer_toggle_.end()) continue;
-    if (buffer_toggle_.at(key)) {
-      vao->Bind();
-      if (vao->GetDrawArrays())
-        glDrawArrays(type, 0, vao->GetVerticesN());
-      else
-        glDrawElements(type, vao->GetIndicesN(), GL_UNSIGNED_INT, 0);
-      vao->Unbind();
-    }
+  for (auto const& [import_type, vao]: VAO_map_) {
+    if (!MAP_CONTAINS(buffer_toggle_, import_type)) continue;
+    if (buffer_toggle_.at(import_type) && vao)
+      vao->Draw(type);
   }
 }
 
@@ -45,14 +37,20 @@ void Mesh::Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer) {
     qDebug() << "Importer is null";
     return;
   }
-  VAO_map_.insert({importer->GetType(), new VAO(importer->Import(obj))});
+  auto import_type = importer->GetType();
+  auto vao = new VAO(importer->Import(obj));
+  if (VAO_map_.count(import_type)) {
+     delete VAO_map_[import_type];
+     VAO_map_[import_type] = vao;
+  } else {
+    VAO_map_.insert({import_type, vao});
+  }
 }
 
 void Mesh::SetBufferToggle(OBJImportStrategyType type, bool value)
 {
-  auto it = buffer_toggle_.find(type);
-  if (it == buffer_toggle_.end()) return;
-  it->second = value;
+  if (!MAP_CONTAINS(buffer_toggle_, type)) return;
+  buffer_toggle_.find(type)->second = value;
 }
 
 bool Mesh::GetBufferToggle(OBJImportStrategyType type)

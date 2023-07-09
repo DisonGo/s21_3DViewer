@@ -31,6 +31,7 @@ class VAO : public GLArray {
   };
   void LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
                   GLsizeiptr stride, void* offset);
+  void Draw(GLenum type);
 
   void SetIndicesN(size_t new_indicesN) { indicesN_ = new_indicesN; };
   void SetVerticesN(size_t new_verticesN) { verticesN_ = new_verticesN; };

@@ -81,13 +81,9 @@ void Camera::ProcessFreeMode(QPoint ePos) {
 }
 
 void Camera::SetZRange(const QVector2D &newZRange) { z_range_ = newZRange; }
-
 void Camera::SetFOV(float newFOV) { FOV_ = newFOV; }
-
 void Camera::SetVw(int newVw) { vw_ = newVw; }
-
 void Camera::SetVh(int newVh) { vh_ = newVh; }
-
 void Camera::SetMoveSpeed(float newMoveSpeed) { move_speed_ = newMoveSpeed; }
 
 void Camera::SetRotationSpeed(float newRotationSpeed) {

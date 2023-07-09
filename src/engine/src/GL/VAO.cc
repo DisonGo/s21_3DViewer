@@ -8,4 +8,14 @@ void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
   glEnableVertexAttribArray(layout);
   VBO.Unbind();
 }
+
+void VAO::Draw(GLenum type)
+{
+  Bind();
+  if (draw_arrays_)
+    glDrawArrays(type, 0, verticesN_);
+  else
+    glDrawElements(type, indicesN_, GL_UNSIGNED_INT, 0);
+  Unbind();
+}
 }  // namespace s21

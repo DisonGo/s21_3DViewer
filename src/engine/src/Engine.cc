@@ -43,6 +43,7 @@ Object3D* Engine::GenerateObject(QString fileName) {
   auto obj = OBJParser().Parse(fileName.toStdString());
 
   object_3d->UploadMesh(*obj, &standartImporter);
+  object_3d->UploadMesh(*obj, &standartImporter);
   object_3d->UploadMesh(*obj, &wireframeImporter);
   object_3d->UploadMesh(*obj, &triangleImporter);
   object_3d->UploadMesh(*obj, &vertexOnlyImporter);
