@@ -12,6 +12,18 @@ struct Vertex {
     os << v.x << " " << v.y << " " << v.z;
     return os;
   }
+  Vertex& operator+=(const Vertex& v) {
+    x += v.x;
+    y += v.y;
+    z += v.z;
+    return *this;
+  };
+  Vertex& operator-=(const Vertex& v) {
+    x -= v.x;
+    y -= v.y;
+    z -= v.z;
+    return *this;
+  };
 };
 }  // namespace s21
 

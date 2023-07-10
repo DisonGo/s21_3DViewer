@@ -46,6 +46,17 @@ void OBJParser::ParseFace(const string values, Face* faces, size_t& index) {
   delete[] vertices;
 }
 
+void OBJParser::CenterVertices(std::vector<Vertex> &vertices, Vertex center)
+{
+  for (auto& vertex : vertices)
+      center += vertex;
+  QVector3D mean(center.x, center.y, center.z);
+  mean /= vertices.size();
+  center = Vertex(mean.x(), mean.y(), mean.z());
+  for (auto& vertex : vertices)
+      vertex -= center;
+}
+
 void OBJParser::ElevateVerticesToGround(std::vector<Vertex> &vertices)
 {
   if (vertices.empty()) return;
@@ -130,8 +141,9 @@ OBJ* OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-
+  CenterVertices(obj.vertices, {0,0,0});
   ElevateVerticesToGround(obj.vertices);
+
   CalculateNegativeIndices(obj.faces, obj.vertices.size() - 1);
   // Cleaning
 

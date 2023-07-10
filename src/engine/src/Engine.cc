@@ -42,10 +42,10 @@ Object3D* Engine::GenerateObject(QString fileName) {
   auto object_3d = new Object3D();
   auto obj = OBJParser().Parse(fileName.toStdString());
 
-  object_3d->UploadMesh(*obj, &standartImporter);
+//  object_3d->UploadMesh(*obj, &standartImporter);
   object_3d->UploadMesh(*obj, &wireframeImporter);
   object_3d->UploadMesh(*obj, &triangleImporter);
-  object_3d->UploadMesh(*obj, &vertexOnlyImporter);
+//  object_3d->UploadMesh(*obj, &vertexOnlyImporter);
 
   delete obj;
   return object_3d;
