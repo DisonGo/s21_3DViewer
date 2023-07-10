@@ -6,8 +6,8 @@
 #include "E/Transform.h"
 #include "Shaders/Program.h"
 namespace s21 {
-enum class DisplayMethod { kNone = 0, kCircle, kSquare };
-enum UIType { kSolid = 0, kDashed };
+enum class PointDisplayType { kNone = 0, kCircle, kSquare };
+enum LineDisplayType { kSolid = 0, kDashed };
 class Object3D : public EObject {
  public:
   Object3D() = default;
@@ -30,31 +30,31 @@ class Object3D : public EObject {
   void SetEdgesColor(QColor new_color);
   void SetEdgesThickness(double new_thickness);
   void SetVerticesColor(QColor new_color);
-  void SetVerticesSize(size_t new_size);
-  void SetDisplayMethod(int new_method);
-  void SetUIType(int new_type);
+  void SetVerticesSize(double new_size);
+  void SetDisplayMethod(PointDisplayType new_method);
+  void SetLineDisplayType(LineDisplayType new_type);
   Mesh& GetMesh() { return mesh_; };
   Transform& GetTrasform() { return transform_; };
-  DisplayMethod GetDisplayMethod() { return display_method_; };
-  UIType GetUIType() { return ui_type_; };
+  PointDisplayType GetPointDisplayMethod() { return point_display_method_; };
+  LineDisplayType GetLineDisplayType() { return line_display_type_; };
   QColor GetEdgesColor() { return edges_color_; };
   double GetEdgesThickness() { return edges_thickness_; };
   QColor GetVerticesColor() { return vertices_color_; };
-  size_t GetVerticesSize() { return vertices_size_; };
+  double GetVerticesSize() { return vertices_size_; };
 
- protected:
+protected:
   EObjectType type_ = kObject3D;
 
  private:
   Mesh mesh_;
   Program* program_{};
   Transform transform_;
-  QColor edges_color_;
-  double edges_thickness_;
-  QColor vertices_color_;
-  size_t vertices_size_;
-  DisplayMethod display_method_ = DisplayMethod::kNone;
-  UIType ui_type_ = kSolid;
+  QColor edges_color_ {255,255,255};
+  double edges_thickness_ {1};
+  QColor vertices_color_ {125,125,125};
+  double vertices_size_{1};
+  PointDisplayType point_display_method_ = PointDisplayType::kNone;
+  LineDisplayType line_display_type_ = kSolid;
 };
 
 }  // namespace s21

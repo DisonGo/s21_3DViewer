@@ -688,8 +688,10 @@
               "content": "UI for type (solid, dashed), color and thickness of the edges, display method (none, circle, square), color and size of the vertices",
               "id": 1688986079440,
               "level": "default",
-              "done": false,
-              "start": 1688986079440
+              "done": true,
+              "start": 1688986079440,
+              "focus": false,
+              "end": 1688999686155
             }
           },
           {
@@ -779,6 +781,28 @@
               "done": false,
               "start": 1688986285805
             }
+          },
+          {
+            "key": 1688993779137,
+            "children": [],
+            "todo": {
+              "content": "Start using shared_ptr for MVC",
+              "id": 1688993779137,
+              "level": "default",
+              "done": false,
+              "start": 1688993779137
+            }
+          },
+          {
+            "key": 1688999716460,
+            "children": [],
+            "todo": {
+              "content": "Disable non Wireframe buffers.",
+              "id": 1688999716460,
+              "level": "default",
+              "done": false,
+              "start": 1688999716460
+            }
           }
         ],
         "todo": {
@@ -815,6 +839,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1688990972601"
+    "version": "1688999735980"
   }
 }

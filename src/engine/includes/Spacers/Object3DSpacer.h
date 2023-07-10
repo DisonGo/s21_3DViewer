@@ -10,19 +10,19 @@ class Object3DSpacer : public QObject {
  public:
   Object3DSpacer(Object3D& object, QObject* parent = nullptr)
       : QObject(parent), object_(object){};
-  DisplayMethod GetDisplayMethodValue() { return object_.GetDisplayMethod(); };
-  UIType GetUITypeValue() { return object_.GetUIType(); };
+  PointDisplayType GetDisplayMethodValue() { return object_.GetPointDisplayMethod(); };
+  LineDisplayType GetUITypeValue() { return object_.GetLineDisplayType(); };
   QColor GetEdgesColorValue() { return object_.GetEdgesColor(); };
   double GetEdgesThicknessValue() { return object_.GetEdgesThickness(); };
   QColor GetVerticesColorValue() { return object_.GetVerticesColor(); };
-  size_t GetVerticesSizeValue() { return object_.GetVerticesSize(); };
+  double GetVerticesSizeValue() { return object_.GetVerticesSize(); };
 
   void SetEdgesColorValue(QColor new_color);
   void SetEdgesThicknessValue(double new_thickness);
   void SetVerticesColorValue(QColor new_color);
-  void SetVerticesSizeValue(size_t new_size);
-  void SetDisplayMethodValue(int new_method);
-  void SetUITypeValue(int new_type);
+  void SetVerticesSizeValue(double new_size);
+  void SetDisplayMethodValue(PointDisplayType new_method);
+  void SetUITypeValue(LineDisplayType new_type);
  signals:
   void ConfigUpdated();
 

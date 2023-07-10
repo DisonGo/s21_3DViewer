@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>266</width>
-    <height>324</height>
+    <height>157</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,6 +36,9 @@
      </item>
      <item row="1" column="0">
       <widget class="QCheckBox" name="PointsCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Points</string>
        </property>
@@ -43,6 +46,9 @@
      </item>
      <item row="2" column="0">
       <widget class="QCheckBox" name="LinesCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Lines</string>
        </property>
@@ -50,6 +56,9 @@
      </item>
      <item row="3" column="0">
       <widget class="QCheckBox" name="TrianglesCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Triangles</string>
        </property>
@@ -57,94 +66,11 @@
      </item>
      <item row="4" column="0">
       <widget class="QCheckBox" name="TrianglesStripCheckBox">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Triangles Strip</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QCheckBox" name="RoundCircleCheckBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Round Circle</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QCheckBox" name="DashedLinesCheckBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Dashed Lines</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <widget class="QDoubleSpinBox" name="PointsSizeDoubleSpinBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="1">
-      <widget class="QLabel" name="PointsSizeLabel">
-       <property name="text">
-        <string>Points size</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
-      <widget class="QDoubleSpinBox" name="LinesWidthDoubleSpinBox">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>100</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QLabel" name="LinesWidthLabel">
-       <property name="text">
-        <string>Lines width</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QCheckBox" name="IndexDrawCheckBox">
-       <property name="text">
-        <string>Index Draw</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QCheckBox" name="VertexOnlyDrawCheckBox">
-       <property name="text">
-        <string>Vertex Only Draw</string>
        </property>
       </widget>
      </item>

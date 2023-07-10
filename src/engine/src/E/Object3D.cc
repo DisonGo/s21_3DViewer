@@ -5,7 +5,20 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   if (!program_ || !camera) return;
   program_->Activate();
   transform_.LoadModelMatrix(program_);
-  camera->Matrix(*program_, "camMatrix");
+  camera->Matrix(*program_, "u_camMatrix");
+  if (type == GL_POINTS) {
+    if (point_display_method_ == PointDisplayType::kNone) return;
+    auto is_circle = point_display_method_ == PointDisplayType::kCircle;
+    glUniform1i(program_->GetUniform("u_circlePoint"), is_circle);
+    glUniform1f(program_->GetUniform("u_pointSize"), vertices_size_);
+    glUniform3f(program_->GetUniform("u_prototype_color"),vertices_color_.redF(), vertices_color_.greenF(), vertices_color_.blueF());
+  }
+  if (type == GL_LINES) {
+    auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
+    glUniform1i(program_->GetUniform("u_dashed"), is_dashed);
+    glUniform1f(program_->GetUniform("u_lineWidth"), edges_thickness_);
+    glUniform3f(program_->GetUniform("u_prototype_color"),edges_color_.redF(), edges_color_.greenF(), edges_color_.blueF());
+  }
   mesh_.Draw(type);
 }
 
@@ -28,14 +41,14 @@ void Object3D::SetVerticesColor(QColor new_color) {
   vertices_color_ = new_color;
 }
 
-void Object3D::SetVerticesSize(size_t new_size) { vertices_size_ = new_size; }
+void Object3D::SetVerticesSize(double new_size) { vertices_size_ = new_size; }
 
-void Object3D::SetDisplayMethod(int new_method) {
-  display_method_ = static_cast<DisplayMethod>(new_method);
+void Object3D::SetDisplayMethod(PointDisplayType new_method) {
+  point_display_method_ = new_method;
 }
 
-void Object3D::SetUIType(int new_type) {
-  ui_type_ = static_cast<UIType>(new_type);
+void Object3D::SetLineDisplayType(LineDisplayType new_type) {
+  line_display_type_ = new_type;
 }
 
 void Object3D::SetProgram(Program& program) { program_ = &program; }

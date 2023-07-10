@@ -32,7 +32,7 @@ void Transform::UpdateModel() {
 void Transform::LoadModelMatrix(Program *program) {
   if (!awaitingLoadInProgram_) return;
   if (!program) return;
-  int modelLoc = program->GetUniform("model");
+  int modelLoc = program->GetUniform("u_modelMatrix");
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE,
                      (modelTranslate_ * modelRot_ * modelScale_).data());
   awaitingLoadInProgram_ = false;

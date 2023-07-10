@@ -4,6 +4,7 @@
 #include <CameraConfig/CameraConfigView.h>
 #include <TransformConfig/TransformConfigView.h>
 #include <MeshConfig/MeshConfigView.h>
+#include <Object3DConfig/Object3DConfigView.h>
 
 #include <QAbstractButton>
 #include <QMainWindow>

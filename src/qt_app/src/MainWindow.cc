@@ -165,7 +165,8 @@ void MainWindow::ShowObjectWidget(s21::EObject* object) {
       view->setAttribute(Qt::WA_DeleteOnClose);
       connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
       ui->ObjectWidgetHolder->addWidget(view);
-    } break;
+      break;
+    }
     case s21::kMesh: {
       auto obj_ptr = static_cast<s21::Mesh*>(object);
       auto spacer = new s21::MeshSpacer(*obj_ptr, this);
@@ -173,7 +174,17 @@ void MainWindow::ShowObjectWidget(s21::EObject* object) {
       view->setAttribute(Qt::WA_DeleteOnClose);
       connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
       ui->ObjectWidgetHolder->addWidget(view);
-    } break;
+      break;
+    }
+    case s21::kObject3D: {
+      auto obj_ptr = static_cast<s21::Object3D*>(object);
+      auto spacer = new s21::Object3DSpacer(*obj_ptr, this);
+      auto view = new Object3DConfigView(spacer, this);
+      view->setAttribute(Qt::WA_DeleteOnClose);
+      connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
+      ui->ObjectWidgetHolder->addWidget(view);
+      break;
+    }
   }
 }
 

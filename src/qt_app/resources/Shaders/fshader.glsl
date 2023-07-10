@@ -1,23 +1,17 @@
 #version 330 core
-in vec4 f_color;
-
-// flat in vec3 f_startPos;
-// in vec3 f_vertPos;
-
-in vec4 f_vClipPos;
-// in float pattern_value;
-
 out vec4 FragColor;
-uniform bool roundCircle;
-uniform bool dashed;
+uniform bool u_circlePoint;
+uniform bool u_dashed;
 
-uniform vec2 u_resolution;
 uniform float u_dashSize;
 uniform float u_gapSize;
 
+uniform vec2 u_resolution;
+uniform vec3 u_prototype_color;
+
 void main() {
-  // FragColor = mix(vClipPos, f_color, 0.5);
-  FragColor = mix(vec4(0, 0, 0, 1), f_color, 0.75);
+  // FragColor = mix(vec4(0, 0, 0, 1), f_color, 0.75);
+  FragColor = vec4(u_prototype_color, 1);
   // vec2 circCoord = 2.0 * gl_PointCoord - 1.0;
   // if (roundCircle && dot(circCoord, circCoord) > 1.0) {
   //   discard;
