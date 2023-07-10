@@ -14,8 +14,10 @@
                   "content": "Make it as less coupled as possible if it's not costing us a lot of code readability and time.",
                   "id": 1687723672439,
                   "level": "default",
-                  "done": false,
-                  "start": 1687723672439
+                  "done": true,
+                  "start": 1687723672439,
+                  "focus": false,
+                  "end": 1688984686415
                 }
               },
               {
@@ -36,8 +38,10 @@
               "content": "Code Refactoring",
               "id": 1687723069763,
               "level": "default",
-              "done": false,
-              "start": 1687723069763
+              "done": true,
+              "start": 1687723069763,
+              "focus": false,
+              "end": 1688984687751
             }
           },
           {
@@ -61,19 +65,10 @@
                   "content": "Facade (summarize any logic in engine subproject)?",
                   "id": 1687723144810,
                   "level": "default",
-                  "done": false,
-                  "start": 1687723144810
-                }
-              },
-              {
-                "key": 1687723278987,
-                "children": [],
-                "todo": {
-                  "content": "Decorators (Maybe use it for Items Object View Tree)?",
-                  "id": 1687723278987,
-                  "level": "default",
-                  "done": false,
-                  "start": 1687723278987
+                  "done": true,
+                  "start": 1687723144810,
+                  "focus": false,
+                  "end": 1688985411136
                 }
               },
               {
@@ -308,7 +303,7 @@
             "todo": {
               "content": "Parsers",
               "id": 1681302651442,
-              "level": "default",
+              "level": "secondary",
               "done": false,
               "start": 1681302651442
             }
@@ -323,8 +318,10 @@
                   "content": "Intuitive control",
                   "id": 1681563466078,
                   "level": "default",
-                  "done": false,
-                  "start": 1681563466078
+                  "done": true,
+                  "start": 1681563466078,
+                  "focus": false,
+                  "end": 1688984767736
                 }
               },
               {
@@ -337,8 +334,10 @@
                       "content": "On wheel distance change",
                       "id": 1681563538476,
                       "level": "default",
-                      "done": false,
-                      "start": 1681563538476
+                      "done": true,
+                      "start": 1681563538476,
+                      "focus": false,
+                      "end": 1688984766225
                     }
                   }
                 ],
@@ -346,8 +345,10 @@
                   "content": "Focus on point mode",
                   "id": 1681563500912,
                   "level": "default",
-                  "done": false,
-                  "start": 1681563500912
+                  "done": true,
+                  "start": 1681563500912,
+                  "focus": false,
+                  "end": 1688984767145
                 }
               }
             ],
@@ -355,31 +356,10 @@
               "content": "Rework camera",
               "id": 1681563450464,
               "level": "default",
-              "done": false,
-              "start": 1681563450464
-            }
-          },
-          {
-            "key": 1681302781429,
-            "children": [
-              {
-                "key": 1681302789214,
-                "children": [],
-                "todo": {
-                  "content": "Save parsed and transformed obj in binary files for loading optimization",
-                  "id": 1681302789214,
-                  "level": "secondary",
-                  "done": false,
-                  "start": 1681302789214
-                }
-              }
-            ],
-            "todo": {
-              "content": "Optimization",
-              "id": 1681302781429,
-              "level": "secondary",
-              "done": false,
-              "start": 1681302781429
+              "done": true,
+              "start": 1681563450464,
+              "focus": false,
+              "end": 1688984768961
             }
           },
           {
@@ -403,8 +383,10 @@
                   "content": "World axis/planes/grid",
                   "id": 1681726468969,
                   "level": "default",
-                  "done": false,
-                  "start": 1681726468969
+                  "done": true,
+                  "start": 1681726468969,
+                  "focus": false,
+                  "end": 1688984881764
                 }
               },
               {
@@ -413,7 +395,7 @@
                 "todo": {
                   "content": "Reimplementing Transform to Transform2D/Transform3D",
                   "id": 1688339882278,
-                  "level": "default",
+                  "level": "secondary",
                   "done": false,
                   "start": 1688339882278
                 }
@@ -695,6 +677,117 @@
           "done": false,
           "start": 1681563615593
         }
+      },
+      {
+        "key": 1688985445512,
+        "children": [
+          {
+            "key": 1688985617269,
+            "children": [],
+            "todo": {
+              "content": "Remove plane",
+              "id": 1688985617269,
+              "level": "default",
+              "done": false,
+              "start": 1688985617269
+            }
+          },
+          {
+            "key": 1688985747623,
+            "children": [],
+            "todo": {
+              "content": "Restrict n of loaded objects to 1",
+              "id": 1688985747623,
+              "level": "default",
+              "done": false,
+              "start": 1688985747623
+            }
+          },
+          {
+            "key": 1688985866795,
+            "children": [],
+            "todo": {
+              "content": "Information about the uploaded model - file name, number of vertices and edges.",
+              "id": 1688985866795,
+              "level": "default",
+              "done": false,
+              "start": 1688985866795
+            }
+          },
+          {
+            "key": 1688985886491,
+            "children": [],
+            "todo": {
+              "content": "Main UI rework to MVC",
+              "id": 1688985886491,
+              "level": "default",
+              "done": false,
+              "start": 1688985886491
+            }
+          },
+          {
+            "key": 1688985918140,
+            "children": [],
+            "todo": {
+              "content": "Wrap UI classes in namespace s21",
+              "id": 1688985918140,
+              "level": "default",
+              "done": false,
+              "start": 1688985918140
+            }
+          },
+          {
+            "key": 1688986079440,
+            "children": [],
+            "todo": {
+              "content": "UI for type (solid, dashed), color and thickness of the edges, display method (none, circle, square), color and size of the vertices",
+              "id": 1688986079440,
+              "level": "default",
+              "done": false,
+              "start": 1688986079440
+            }
+          },
+          {
+            "key": 1688986255276,
+            "children": [],
+            "todo": {
+              "content": "UI for background color",
+              "id": 1688986255276,
+              "level": "default",
+              "done": false,
+              "start": 1688986255276
+            }
+          },
+          {
+            "key": 1688986266629,
+            "children": [],
+            "todo": {
+              "content": "Settings must be saved between program restarts",
+              "id": 1688986266629,
+              "level": "default",
+              "done": false,
+              "start": 1688986266629
+            }
+          },
+          {
+            "key": 1688986285805,
+            "children": [],
+            "todo": {
+              "content": "Fix image saving formats",
+              "id": 1688986285805,
+              "level": "default",
+              "done": false,
+              "start": 1688986285805
+            }
+          }
+        ],
+        "todo": {
+          "content": "3DViewer_2.0 baseline tasks",
+          "id": 1688985445512,
+          "level": "warning",
+          "done": false,
+          "start": 1688985445512
+        }
       }
     ],
     "expandKeys": [
@@ -704,16 +797,13 @@
       1681725904206,
       1681725872236,
       1681302658110,
-      1681303220509,
-      1687723069763,
       1687723105337,
-      1681563615593,
       1681302896900,
-      1681302585820,
-      1681563450464,
-      1681302651442,
-      1681302460149,
-      1687723053618
+      1687723672439,
+      1681563500912,
+      1681302781429,
+      1681563621079,
+      1688985445512
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -724,6 +814,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1688846151139"
+    "version": "1688986299919"
   }
 }
