@@ -106,6 +106,7 @@ void EObjectItemModel::FindAndSelectIndex(const QModelIndex &index) {
   if (camera_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
   if (transform_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
   if (mesh_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
+  if (object3D_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
 }
 
 void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
