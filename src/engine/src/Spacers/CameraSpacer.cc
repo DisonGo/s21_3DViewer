@@ -5,6 +5,7 @@ CameraSpacer::CameraSpacer(QObject *parent, Camera &camera)
 
 void CameraSpacer::SetMode(Camera::CameraMode newMode) {
   camera_.SetMode(newMode);
+  SetOrientation(-GetOrientation());
   emit ConfigUpdated();
 }
 

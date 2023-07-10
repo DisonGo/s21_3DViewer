@@ -34,6 +34,12 @@ void OpenGLController::keyReleaseEvent(QKeyEvent *e) {
   if (cameraSpacer) cameraSpacer->keyReleaseSlot(e);
   update();
 }
+
+void OpenGLController::wheelEvent(QWheelEvent *e)
+{
+  if (cameraSpacer) cameraSpacer->wheelEventSlot(e);
+  update();
+}
 void OpenGLController::initializeGL() {
   initializeOpenGLFunctions();
   QSize winSize = this->size();

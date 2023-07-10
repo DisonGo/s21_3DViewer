@@ -24,47 +24,6 @@ void CameraSpacer::keyPressSlot(QKeyEvent *e) {
       camera_.position_ += camera_.move_speed_ * -camera_.up_;
     if (Buf != camera_.position_) emit ConfigUpdated();
   }
-
-  //  if (mode == kFocus) {
-  //    if (!( key == Qt::Key_W
-  //        || key == Qt::Key_A
-  //        || key == Qt::Key_S
-  //        || key == Qt::Key_D)) return;        // Rotate left around the
-  //        center of rotation
-  //    QMatrix4x4 RotateMat;
-  //    RotateMat.setToIdentity();
-  //    QVector3D C = QVector3D::crossProduct(FocusPoint, Position);
-
-  //    // Calculate the vector representing the x-axis of the plane
-  //    QVector3D AxisX = QVector3D::crossProduct(Position, C).normalized();
-
-  //    // Calculate the vector representing the y-axis of the plane
-  //    QVector3D AxisY = QVector3D::crossProduct(C, AxisX);
-  ////    AxisX.normalize();
-  ////    AxisY.normalize();
-  ////    if (FocusPoint != QVector3D(0,0,0)) {
-  //////      AxisY = QVector3D::normal(Position, FocusPoint);
-  //////      AxisX =
-  //      qDebug() << AxisX;
-  //      qDebug() << AxisY;
-  ////    }
-  ////    RotateMat.translate(Position);
-  ////    RotateMat.translate(FocusPoint);
-  //    if (key == Qt::Key_W) {
-  //      RotateMat.rotate(rotationSpeed, AxisX);
-  //    }
-  //    if (key == Qt::Key_S) {
-  //      RotateMat.rotate(-rotationSpeed, AxisX);
-  //    }
-  //    if (key == Qt::Key_A) {
-  //      RotateMat.rotate(rotationSpeed, AxisY);
-  //    }
-  //    if (key == Qt::Key_D) {
-  //      RotateMat.rotate(-rotationSpeed, AxisY);
-  //    }
-  //    Position = RotateMat.map(Position);
-
-  //  }
   emit ConfigUpdated();
 }
 
@@ -82,7 +41,14 @@ void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
 }
 
 void CameraSpacer::mouseMoveSlot(QMouseEvent *e) {
-  camera_.ProcessFreeMode(e->pos());
+  if (camera_.mode_ == Camera::kFree) camera_.ProcessFreeMode(e->pos());
+  if (camera_.mode_ == Camera::kFocus) camera_.ProcessFocusMode(e->pos());
   emit ConfigUpdated();
+}
+
+void CameraSpacer::wheelEventSlot(QWheelEvent *e)
+{
+  int delta = -1 * e->angleDelta().ry();
+  camera_.SetZoomFactor((delta > 0) ? 1.1f : 0.9f);
 }
 }  // namespace s21

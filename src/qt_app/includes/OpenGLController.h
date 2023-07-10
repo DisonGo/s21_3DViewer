@@ -1,4 +1,4 @@
-#ifndef OPENGLCONTROLLER_H
+﻿#ifndef OPENGLCONTROLLER_H
 #define OPENGLCONTROLLER_H
 #include <QMatrix4x4>
 #include <QObject>
@@ -52,6 +52,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   void mouseReleaseEvent(QMouseEvent *e) override;
   void keyPressEvent(QKeyEvent *e) override;
   void keyReleaseEvent(QKeyEvent *e) override;
+  void wheelEvent(QWheelEvent *e) override;
 
   void initializeGL() override;
   void resizeGL(int w, int h) override;

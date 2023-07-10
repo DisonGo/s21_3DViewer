@@ -61,25 +61,30 @@ class Camera : public EObject, protected QOpenGLFunctions {
   const Camera::ParallelBox &GetBox() const;
   double GetLineWidth() const;
 
- protected:
+  double GetZoomFactor() const;
+  void SetZoomFactor(double newZoomFactor);
+
+protected:
   EObjectType type_ = EObjectType::kCamera;
 
  private:  // Methods
   void ProcessFreeMode(QPoint ePos);
-  void ProcessFocusMode(QPoint focusPoint);
+  void ProcessFocusMode(QPoint ePos);
+  void CalcFocusPosition();
 
  private:  // vars
-  CameraMode mode_ = kFree;
+  CameraMode mode_ = kFocus;
   ViewMode view_mode_ = kPerspective;
-  QVector3D focus_point_ = QVector3D(0, 0, 0);
-  QVector3D position_ = QVector3D(0, 1, 0);
+  QVector3D focus_point_ = QVector3D(0, 1, 0);
+  QVector3D position_ = QVector3D(1, 1, 1);
   QVector3D orientation_ = QVector3D(0, 0, 1);
   QVector2D z_range_ = QVector2D(0.001, 100);
-
+  QVector3D focus_rotation_ = QVector3D(0, 0, 0);
   QVector3D up_ = QVector3D(0.0f, 1.0f, 0.0f);
   float FOV_ = 130;
   double lineWidth_ = 1;
-
+  double sensitivity_ = 0.001;
+  double zoom_factor = 1;
   bool LMBPressed_ = false;
   int vw_ = 1;
   int vh_ = 1;
