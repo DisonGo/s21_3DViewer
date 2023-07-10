@@ -24,17 +24,6 @@ TagCounters OBJParser::CountTags(const string filePath) {
   fclose(obj_file);
   return counter;
 }
-//FaceVertex* OBJParser::ParsePolygon(FaceVertex* vertices, size_t& size) {
-//  size_t edge_count = size * 2;
-//  FaceVertex* edges = new FaceVertex[edge_count];
-//  edges[0] = vertices[0];
-//  for (size_t i = 1, j = 1; i < size; ++i) {
-//    edges[j++] = vertices[i];
-//    edges[j++] = vertices[i];
-//  }
-//  edges[edge_count - 1] = vertices[0];
-//  return edges;
-//}
 
 void OBJParser::ParseFace(const string values, Face* faces, size_t& index) {
   FaceVertex* vertices = nullptr;
@@ -46,36 +35,29 @@ void OBJParser::ParseFace(const string values, Face* faces, size_t& index) {
   delete[] vertices;
 }
 
-void OBJParser::CenterVertices(std::vector<Vertex> &vertices, Vertex center)
-{
-  for (auto& vertex : vertices)
-      center += vertex;
+void OBJParser::CenterVertices(std::vector<Vertex>& vertices, Vertex center) {
+  for (auto& vertex : vertices) center += vertex;
   QVector3D mean(center.x, center.y, center.z);
   mean /= vertices.size();
   center = Vertex(mean.x(), mean.y(), mean.z());
-  for (auto& vertex : vertices)
-      vertex -= center;
+  for (auto& vertex : vertices) vertex -= center;
 }
 
-void OBJParser::ElevateVerticesToGround(std::vector<Vertex> &vertices)
-{
+void OBJParser::ElevateVerticesToGround(std::vector<Vertex>& vertices) {
   if (vertices.empty()) return;
   float min = vertices.front().y;
-  for (auto& vertex : vertices)
-    min = std::min(min, vertex.y);
+  for (auto& vertex : vertices) min = std::min(min, vertex.y);
   if (min >= 0) return;
   min = fabs(min);
-  for (auto& vertex : vertices)
-    vertex.y += min;
+  for (auto& vertex : vertices) vertex.y += min;
 }
 
-void OBJParser::CalculateNegativeIndices(std::vector<Face> &faces, size_t vertices_max_size)
-{
+void OBJParser::CalculateNegativeIndices(std::vector<Face>& faces,
+                                         size_t vertices_max_size) {
   if (faces.empty()) return;
   for (auto& face : faces)
     for (auto& index : face.indices)
-      if (index.v_index < 0)
-        index.v_index = vertices_max_size - index.v_index;
+      if (index.v_index < 0) index.v_index += vertices_max_size + 1;
 }
 
 OBJ* OBJParser::Parse(string filePath) {
@@ -141,10 +123,10 @@ OBJ* OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-  CenterVertices(obj.vertices, {0,0,0});
+  CenterVertices(obj.vertices, {0, 0, 0});
   ElevateVerticesToGround(obj.vertices);
 
-  CalculateNegativeIndices(obj.faces, obj.vertices.size() - 1);
+  CalculateNegativeIndices(obj.faces, obj.vertices.size());
   // Cleaning
 
   delete[] vertices;
