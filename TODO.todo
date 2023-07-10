@@ -682,6 +682,17 @@
         "key": 1688985445512,
         "children": [
           {
+            "key": 1688986079440,
+            "children": [],
+            "todo": {
+              "content": "UI for type (solid, dashed), color and thickness of the edges, display method (none, circle, square), color and size of the vertices",
+              "id": 1688986079440,
+              "level": "default",
+              "done": false,
+              "start": 1688986079440
+            }
+          },
+          {
             "key": 1688985617269,
             "children": [],
             "todo": {
@@ -734,17 +745,6 @@
               "level": "default",
               "done": false,
               "start": 1688985918140
-            }
-          },
-          {
-            "key": 1688986079440,
-            "children": [],
-            "todo": {
-              "content": "UI for type (solid, dashed), color and thickness of the edges, display method (none, circle, square), color and size of the vertices",
-              "id": 1688986079440,
-              "level": "default",
-              "done": false,
-              "start": 1688986079440
             }
           },
           {
@@ -803,7 +803,8 @@
       1681563500912,
       1681302781429,
       1681563621079,
-      1688985445512
+      1688985445512,
+      1688985918140
     ],
     "schema": "https://github.com/Saber2pr/vsc-ext-todolist/blob/master/src/api/type.ts#L3",
     "add_mode": "bottom",
@@ -814,6 +815,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1688986299919"
+    "version": "1688990972601"
   }
 }

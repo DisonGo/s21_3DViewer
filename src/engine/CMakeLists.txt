@@ -37,6 +37,7 @@ set(ENGINE_HEADER
     includes/Spacers/DrawConfigSpacer.h
     includes/Spacers/MeshSpacer.h
     includes/Spacers/TransformSpacer.h
+    includes/Spacers/Object3DSpacer.h
 
     includes/Shaders/Program.h
     includes/Shaders/Shader.h
