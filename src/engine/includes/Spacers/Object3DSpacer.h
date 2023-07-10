@@ -23,6 +23,8 @@ class Object3DSpacer : public QObject {
   void SetVerticesSizeValue(size_t new_size);
   void SetDisplayMethodValue(int new_method);
   void SetUITypeValue(int new_type);
+ signals:
+  void ConfigUpdated();
 
  private:
   Object3D& object_;
