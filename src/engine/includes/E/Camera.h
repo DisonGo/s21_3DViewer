@@ -4,6 +4,7 @@
 #include <QVector3D>
 
 #include "E/EObject.h"
+
 #include "Shaders/Program.h"
 namespace s21 {
 class Camera : public EObject, protected QOpenGLFunctions {
@@ -73,6 +74,7 @@ protected:
   void CalcFocusPosition();
 
  private:  // vars
+
   CameraMode mode_ = kFocus;
   ViewMode view_mode_ = kPerspective;
   QVector3D focus_point_ = QVector3D(0, 1, 0);
@@ -81,6 +83,9 @@ protected:
   QVector2D z_range_ = QVector2D(0.001, 100);
   QVector3D focus_rotation_ = QVector3D(0, 0, 0);
   QVector3D up_ = QVector3D(0.0f, 1.0f, 0.0f);
+
+
+
   float FOV_ = 130;
   double lineWidth_ = 1;
   double sensitivity_ = 0.001;

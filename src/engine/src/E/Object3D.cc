@@ -6,19 +6,27 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   program_->Activate();
   transform_.LoadModelMatrix(program_);
   camera->Matrix(*program_, "u_camMatrix");
+  float red = 1, green = 1, blue = 1;
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     auto is_circle = point_display_method_ == PointDisplayType::kCircle;
+    red = vertices_color_.redF();
+    green = vertices_color_.greenF();
+    blue = vertices_color_.blueF();
     glUniform1i(program_->GetUniform("u_circlePoint"), is_circle);
     glUniform1f(program_->GetUniform("u_pointSize"), vertices_size_);
-    glUniform3f(program_->GetUniform("u_prototype_color"),vertices_color_.redF(), vertices_color_.greenF(), vertices_color_.blueF());
   }
   if (type == GL_LINES) {
     auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
+    red = edges_color_.redF();
+    green = edges_color_.greenF();
+    blue = edges_color_.blueF();
     glUniform1i(program_->GetUniform("u_dashed"), is_dashed);
     glUniform1f(program_->GetUniform("u_lineWidth"), edges_thickness_);
-    glUniform3f(program_->GetUniform("u_prototype_color"),edges_color_.redF(), edges_color_.greenF(), edges_color_.blueF());
   }
+  if (type == GL_TRIANGLES)
+    red = green = blue = 0.8;
+  glUniform3f(program_->GetUniform("u_prototype_color"), red, green, blue);
   mesh_.Draw(type);
 }
 

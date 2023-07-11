@@ -2,11 +2,11 @@
 
 #include <memory.h>
 
+#include <QFileInfo>
 #include <QRandomGenerator>
 #include <QVector2D>
 #include <QVector3D>
 #include <functional>
-#include <QFileInfo>
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
 namespace s21 {
 Engine::Engine() {
@@ -18,14 +18,7 @@ Engine::Engine() {
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
   eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
-  auto program = Program::Default();
-  auto plane = static_cast<Object3D*>(new Plane(100, 100, 100, 100));
-  plane->SetProgram(*program);
-  plane->GetTrasform().SetRotation({90, 0, 0});
-  engine_objects_.push_back(plane);
-  eObjectModel_.AddItem(plane,nullptr, "Plane");
-  objects_3d_.push_back(plane);
-  programs_.push_back(program);
+  SetupFocusPoint();
 }
 
 Engine::~Engine() {
@@ -33,21 +26,26 @@ Engine::~Engine() {
   for (auto program : programs_) delete program;
 }
 
+void Engine::SetupFocusPoint()
+{
+  auto object_3d = static_cast<Object3D*>(&focus_point_);
+  auto program = Program::Default();
+  object_3d->SetProgram(*program);
+  objects_3d_.push_back(object_3d);
+  eObjectModel_.AddItem(object_3d, nullptr, "Focus point");
+  programs_.push_back(program);
+}
+
 Object3D* Engine::GenerateObject(QString fileName) {
   static OBJImportWireframeStrategy wireframeImporter;
-  static OBJImportStandartStrategy standartImporter;
   static OBJImportTriangleStrategy triangleImporter;
-  static OBJImportVertexOnlyStrategy vertexOnlyImporter;
 
   auto object_3d = new Object3D();
   auto obj = OBJParser().Parse(fileName.toStdString());
 
-//  object_3d->UploadMesh(*obj, &standartImporter);
-  object_3d->UploadMesh(*obj, &wireframeImporter);
-  object_3d->UploadMesh(*obj, &triangleImporter);
-//  object_3d->UploadMesh(*obj, &vertexOnlyImporter);
+  object_3d->UploadMesh(obj, &wireframeImporter);
+  object_3d->UploadMesh(obj, &triangleImporter);
 
-  delete obj;
   return object_3d;
 }
 
@@ -88,7 +86,8 @@ Engine* Engine::Instance() {
 }
 
 void Engine::DrawGeometry(GLenum type) {
-  // p.Draw(type, current_camera_);
+  if (!current_camera_) return;
+  focus_point_.GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
   for (auto object : objects_3d_)
     if (object) object->Draw(type, current_camera_);
 }

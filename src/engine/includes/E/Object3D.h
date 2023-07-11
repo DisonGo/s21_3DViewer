@@ -1,5 +1,8 @@
 #ifndef OBJECT3D_H
 #define OBJECT3D_H
+
+#define GL_SILENCE_DEPRECATION
+
 #include "E/Camera.h"
 #include "E/EObject.h"
 #include "E/Mesh.h"
@@ -20,7 +23,7 @@ class Object3D : public EObject {
     SetProgram(program);
   };
   virtual EObjectType GetType() const override { return type_; };
-  void Draw(GLenum type, Camera* camera);
+  virtual void Draw(GLenum type, Camera* camera);
 
   void UploadMesh(const OBJ& obj, OBJImportStrategy* importer);
 
@@ -44,8 +47,6 @@ class Object3D : public EObject {
 
 protected:
   EObjectType type_ = kObject3D;
-
- private:
   Mesh mesh_;
   Program* program_{};
   Transform transform_;

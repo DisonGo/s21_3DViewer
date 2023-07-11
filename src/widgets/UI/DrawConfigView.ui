@@ -37,7 +37,7 @@
      <item row="1" column="0">
       <widget class="QCheckBox" name="PointsCheckBox">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Points</string>
@@ -47,7 +47,7 @@
      <item row="2" column="0">
       <widget class="QCheckBox" name="LinesCheckBox">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Lines</string>
@@ -57,7 +57,7 @@
      <item row="3" column="0">
       <widget class="QCheckBox" name="TrianglesCheckBox">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Triangles</string>
@@ -67,7 +67,7 @@
      <item row="4" column="0">
       <widget class="QCheckBox" name="TrianglesStripCheckBox">
        <property name="enabled">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
        <property name="text">
         <string>Triangles Strip</string>

@@ -2,6 +2,7 @@
 
 #include <QMatrix4x4>
 
+#include "E/Point.h"
 #include "QtMath"
 namespace s21 {
 Camera::Camera() {
@@ -21,10 +22,8 @@ void Camera::Matrix(Program &program, const char *uniform) {
   rotation_speed_ = 10;
 
   if (mode_ == kFocus) CalcFocusPosition();
-  if (mode_ == kFree)
-    view.lookAt(position_, orientation_ + position_, up_);
-  if (mode_ == kFocus)
-    view.lookAt(position_, focus_point_, up_);
+  if (mode_ == kFree) view.lookAt(position_, orientation_ + position_, up_);
+  if (mode_ == kFocus) view.lookAt(position_, focus_point_, up_);
 
   if (view_mode_ == kOrthographic)
     projection.ortho(box_.left_, box_.right_, box_.bottom_, box_.top_,
@@ -51,8 +50,8 @@ void Camera::ProcessFreeMode(QPoint ePos) {
 
   QVector2D dif(ePos - m_center_pos_);
   dif.normalize();
-  float rotX = dif.y() * rotation_speed_/ 2;
-  float rotY = dif.x() * rotation_speed_/ 2;
+  float rotX = dif.y() * rotation_speed_ / 2;
+  float rotY = dif.x() * rotation_speed_ / 2;
   m_center_pos_ = ePos;
   // Calculates upcoming vertical change in the Orientation
 
@@ -74,8 +73,7 @@ void Camera::ProcessFreeMode(QPoint ePos) {
   orientation_ = rotationMatrix.map(orientation_);
 }
 
-void Camera::ProcessFocusMode(QPoint ePos)
-{
+void Camera::ProcessFocusMode(QPoint ePos) {
   QVector2D dif(ePos - m_center_pos_);
   dif.normalize();
 
@@ -88,32 +86,31 @@ void Camera::ProcessFocusMode(QPoint ePos)
   m_center_pos_ = ePos;
 }
 
-void Camera::CalcFocusPosition()
-{
-//  static const QVector3D yAxis(0.0f, 1.0f, 0.0f);
+void Camera::CalcFocusPosition() {
+  //  static const QVector3D yAxis(0.0f, 1.0f, 0.0f);
   constexpr double MIN_DIST = 0.1;
   float distance = (position_ - focus_point_).length();
-  if (distance * zoom_factor > MIN_DIST)
-    distance *= zoom_factor;
+  if (distance * zoom_factor > MIN_DIST) distance *= zoom_factor;
   zoom_factor = 1;
   orientation_ = (position_ - focus_point_).normalized();
   if (orientation_.y() > 0.95) orientation_.setY(0.95);
   if (orientation_.y() < -0.95) orientation_.setY(-0.95);
-//  Recalculating basic axis;
-//  QVector3D cameraSide = QVector3D::crossProduct(yAxis, orientation_).normalized();
-//  up_ = QVector3D::crossProduct(orientation_, cameraSide);
+  //  Recalculating basic axis;
+  //  QVector3D cameraSide = QVector3D::crossProduct(yAxis,
+  //  orientation_).normalized(); up_ = QVector3D::crossProduct(orientation_,
+  //  cameraSide);
 
   float pitchAngle = asin(orientation_.y());
   float yawAngle = atan2(orientation_.x(), orientation_.z());
 
-  pitchAngle -= focus_rotation_.z(); // elevation
-  yawAngle -= focus_rotation_.x(); // azimuth
+  pitchAngle -= focus_rotation_.z();  // elevation
+  yawAngle -= focus_rotation_.x();    // azimuth
   focus_rotation_ = QVector3D();
   yawAngle = fmod(yawAngle, 2 * M_PI);
 
-  QVector3D newDir(cos(pitchAngle) * sin(yawAngle), sin(pitchAngle), cos(pitchAngle) * cos(yawAngle));
+  QVector3D newDir(cos(pitchAngle) * sin(yawAngle), sin(pitchAngle),
+                   cos(pitchAngle) * cos(yawAngle));
   position_ = focus_point_ + distance * newDir;
 }
-
 
 }  // namespace s21

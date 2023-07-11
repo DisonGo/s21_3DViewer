@@ -60,7 +60,7 @@ void OBJParser::CalculateNegativeIndices(std::vector<Face>& faces,
       if (index.v_index < 0) index.v_index += vertices_max_size + 1;
 }
 
-OBJ* OBJParser::Parse(string filePath) {
+OBJ OBJParser::Parse(string filePath) {
   FILE* obj_file = NULL;
   obj_file = fopen(filePath.c_str(), "r");
   if (!obj_file) throw std::invalid_argument("Can't open file");
@@ -136,6 +136,6 @@ OBJ* OBJParser::Parse(string filePath) {
 
   if (str) free(str);
   fclose(obj_file);
-  return new OBJ(obj);
+  return obj;
 }
 }  // namespace s21

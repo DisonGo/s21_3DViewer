@@ -12,6 +12,7 @@ set(ENGINE_HEADER
     includes/DrawConfig.h
     includes/E/Mesh.h
     includes/E/Plane.h
+    includes/E/Point.h
     includes/E/Camera.h
     includes/E/EObject.h
     includes/E/Transform.h

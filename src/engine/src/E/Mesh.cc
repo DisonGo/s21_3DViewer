@@ -16,10 +16,10 @@ Mesh::Mesh(const s21::OBJ& obj) : Mesh() {
 }
 
 Mesh::~Mesh() {
-  qDebug() << "Destroying mesh:";
+//  qDebug() << "Destroying mesh:";
   for (auto const& [key, vao] : VAO_map_) {
     if (!vao) continue;
-    qDebug() << "Vertex Array: " << vao->ID_ << " destroyed";
+//    qDebug() << "Vertex Array: " << vao->ID_ << " destroyed";
     delete vao;
   }
 }
