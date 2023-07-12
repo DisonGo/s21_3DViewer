@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #include <CameraConfig/CameraConfigView.h>
-#include <TransformConfig/TransformConfigView.h>
 #include <MeshConfig/MeshConfigView.h>
 #include <Object3DConfig/Object3DConfigView.h>
+#include <TransformConfig/TransformConfigView.h>
 
 #include <QAbstractButton>
 #include <QMainWindow>

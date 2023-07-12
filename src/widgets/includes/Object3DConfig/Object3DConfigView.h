@@ -1,8 +1,10 @@
 #ifndef OBJECT3DCONFIGVIEW_H
 #define OBJECT3DCONFIGVIEW_H
 
-#include <QWidget>
 #include <TripletWidget.h>
+
+#include <QWidget>
+
 #include "Spacers/Object3DSpacer.h"
 namespace Ui {
 class Object3DConfigView;
@@ -12,13 +14,15 @@ class Object3DConfigView : public QWidget {
   Q_OBJECT
 
  public:
-  explicit Object3DConfigView(QWidget *parent = nullptr);
-  explicit Object3DConfigView(s21::Object3DSpacer* object_spacer, QWidget *parent = nullptr);
+  explicit Object3DConfigView(QWidget* parent = nullptr);
+  explicit Object3DConfigView(s21::Object3DSpacer* object_spacer,
+                              QWidget* parent = nullptr);
   ~Object3DConfigView();
  signals:
   void UpdateRequest();
+
  private:
-  Ui::Object3DConfigView *ui;
+  Ui::Object3DConfigView* ui;
   s21::Object3DSpacer* object_spacer_ = nullptr;
   void Setup();
   void SetupSpacer(s21::Object3DSpacer* object_spacer);

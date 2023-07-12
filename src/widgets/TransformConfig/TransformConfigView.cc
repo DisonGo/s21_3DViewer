@@ -9,7 +9,7 @@ TransformConfigView::TransformConfigView(QWidget *parent)
 
 TransformConfigView::TransformConfigView(s21::TransformSpacer *transform,
                                          QWidget *parent)
-    : TransformConfigView(parent){
+    : TransformConfigView(parent) {
   SetTranformSpacer(transform);
 }
 void TransformConfigView::Setup() {
@@ -44,7 +44,8 @@ void TransformConfigView::SetValuesFromConfig() {
   ui->ScaleTriplet->SetValues(transformSpacer_->GetScale());
 }
 
-void TransformConfigView::SetTranformSpacer(s21::TransformSpacer *transformSpacer) {
+void TransformConfigView::SetTranformSpacer(
+    s21::TransformSpacer *transformSpacer) {
   transformSpacer_ = transformSpacer;
   if (!transformSpacer_) return;
   connect(transformSpacer_, &s21::TransformSpacer::ConfigUpdated, this,

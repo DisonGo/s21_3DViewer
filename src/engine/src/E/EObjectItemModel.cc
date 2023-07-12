@@ -130,7 +130,8 @@ void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
   } catch (...) {
   }
 }
-void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent, std::string title) {
+void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent,
+                               std::string title) {
   if (!item || item->GetType() == kNone) return;
   if (!parent) parent = root_item_;
   auto type = item->GetType();
@@ -167,4 +168,4 @@ void EObjectItemModel::PushObjectInVectors(EObject *item) {
       break;
   }
 }
-}
+}  // namespace s21

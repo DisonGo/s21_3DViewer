@@ -26,8 +26,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
     glUniform1i(program_->GetUniform("u_gapSize"), 3);
     glUniform1f(program_->GetUniform("u_lineWidth"), edges_thickness_);
   }
-  if (type == GL_TRIANGLES)
-    red = green = blue = 0.8;
+  if (type == GL_TRIANGLES) red = green = blue = 0.8;
   glUniform3f(program_->GetUniform("u_prototype_color"), red, green, blue);
   mesh_.Draw(type);
   glUniform1i(program_->GetUniform("u_dashed"), false);

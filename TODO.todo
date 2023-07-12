@@ -701,8 +701,10 @@
               "content": "Remove plane",
               "id": 1688985617269,
               "level": "default",
-              "done": false,
-              "start": 1688985617269
+              "done": true,
+              "start": 1688985617269,
+              "focus": false,
+              "end": 1689170993600
             }
           },
           {
@@ -800,8 +802,10 @@
               "content": "Disable non Wireframe buffers.",
               "id": 1688999716460,
               "level": "default",
-              "done": false,
-              "start": 1688999716460
+              "done": true,
+              "start": 1688999716460,
+              "focus": false,
+              "end": 1689171013185
             }
           }
         ],
@@ -839,6 +843,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1688999735980"
+    "version": "1689171013283"
   }
 }

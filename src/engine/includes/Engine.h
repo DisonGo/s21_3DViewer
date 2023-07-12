@@ -7,8 +7,8 @@
 #include "E/Camera.h"
 #include "E/EObjectItemModel.h"
 #include "E/Object3D.h"
-#include "E/Point.h"
 #include "E/Plane.h"
+#include "E/Point.h"
 #include "Parsers/OBJParser.h"
 #include "Shaders/Program.h"
 namespace s21 {

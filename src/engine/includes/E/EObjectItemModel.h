@@ -35,7 +35,8 @@ class EObjectItemModel : public QAbstractItemModel {
  public slots:
   void FindAndSelectIndex(const QModelIndex &index);
   void PrintIndexObject(const QModelIndex &index);
-  void AddItem(s21::EObject *item, s21::EObjectTreeItem *parent = nullptr, std::string title = "");
+  void AddItem(s21::EObject *item, s21::EObjectTreeItem *parent = nullptr,
+               std::string title = "");
   void PushObjectInVectors(s21::EObject *item);
 
  private:

@@ -1,7 +1,8 @@
 #include "CameraConfig/CameraConfigView.h"
 
 #include "ui_CameraConfigView.h"
-CameraConfigView::CameraConfigView(QWidget *parent, s21::CameraSpacer *cameraSpacer)
+CameraConfigView::CameraConfigView(QWidget *parent,
+                                   s21::CameraSpacer *cameraSpacer)
     : QWidget(parent), ui(new Ui::CameraConfigView) {
   ui->setupUi(this);
   ui->PositionTriplet->SetRange(-10000, 10000);

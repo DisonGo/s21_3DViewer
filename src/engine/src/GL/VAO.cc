@@ -9,8 +9,7 @@ void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
   VBO.Unbind();
 }
 
-void VAO::Draw(GLenum type)
-{
+void VAO::Draw(GLenum type) {
   Bind();
   if (draw_arrays_)
     glDrawArrays(type, 0, verticesN_);

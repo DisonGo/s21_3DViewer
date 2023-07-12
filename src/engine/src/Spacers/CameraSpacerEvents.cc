@@ -46,8 +46,7 @@ void CameraSpacer::mouseMoveSlot(QMouseEvent *e) {
   emit ConfigUpdated();
 }
 
-void CameraSpacer::wheelEventSlot(QWheelEvent *e)
-{
+void CameraSpacer::wheelEventSlot(QWheelEvent *e) {
   int delta = -1 * e->angleDelta().ry();
   camera_.SetZoomFactor((delta > 0) ? 1.1f : 0.9f);
 }

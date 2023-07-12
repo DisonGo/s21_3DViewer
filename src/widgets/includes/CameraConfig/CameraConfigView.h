@@ -43,5 +43,4 @@ class CameraConfigView : public QWidget {
   Ui::CameraConfigView* ui;
 };
 
-
 #endif  // CAMERACONFIGVIEW_H

@@ -1,4 +1,5 @@
 #include "Parsers/BaseParser.h"
+
 #include "stdio.h"
 using std::isspace;
 using std::string;
@@ -58,12 +59,12 @@ Vertex BaseParser::ParseVertex(const string& line) {
   Vertex vert;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-//  vert.x = Stod(str);
-//  while (*str && !isspace(*str)) ++str;
-//  while (*str && isspace(*str)) ++str;
-//  vert.y = Stod(str);
-//  while (*str && !isspace(*str)) ++str;
-//  vert.z = Stod(str);
+  //  vert.x = Stod(str);
+  //  while (*str && !isspace(*str)) ++str;
+  //  while (*str && isspace(*str)) ++str;
+  //  vert.y = Stod(str);
+  //  while (*str && !isspace(*str)) ++str;
+  //  vert.z = Stod(str);
   sscanf(str, "%f %f %f", &vert.x, &vert.y, &vert.z);
   return vert;
 }

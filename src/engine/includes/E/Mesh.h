@@ -10,11 +10,11 @@
 #include "GL/EBO.h"
 #include "GL/VAO.h"
 #include "Shaders/Program.h"
-#include "Strategies/Import/OBJImportStrategy.h"
 #include "Strategies/Import/OBJImportStandartStrategy.h"
+#include "Strategies/Import/OBJImportStrategy.h"
 #include "Strategies/Import/OBJImportTriangleStrategy.h"
-#include "Strategies/Import/OBJImportWireframeStrategy.h"
 #include "Strategies/Import/OBJImportVertexOnlyStrategy.h"
+#include "Strategies/Import/OBJImportWireframeStrategy.h"
 using std::map;
 namespace s21 {
 class Mesh : public EObject, protected QOpenGLFunctions {
@@ -32,12 +32,10 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   EObjectType type_ = EObjectType::kMesh;
 
  private:
-  map<OBJImportStrategyType, bool> buffer_toggle_{
-    {kStandartImport, false},
-    {kWireframeImport, true},
-    {kTriangleImport, false},
-    {kVertexOnlyImport, false}
-                                                 };
+  map<OBJImportStrategyType, bool> buffer_toggle_{{kStandartImport, false},
+                                                  {kWireframeImport, true},
+                                                  {kTriangleImport, false},
+                                                  {kVertexOnlyImport, false}};
   map<OBJImportStrategyType, VAO*> VAO_map_;
   DrawConfig* draw_config_;
 };

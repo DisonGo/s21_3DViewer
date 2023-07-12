@@ -146,11 +146,15 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
 
 void MainWindow::ShowObjectWidget(s21::EObject* object) {
   clearLayout(ui->ObjectWidgetHolder);
-  if (object->GetType() != s21::kCamera) ui->openGLWidget->cameraSpacer = nullptr;
+  if (object->GetType() != s21::kCamera)
+    ui->openGLWidget->cameraSpacer = nullptr;
   switch (object->GetType()) {
-    case s21::kNone: {break;}
+    case s21::kNone: {
+      break;
+    }
     case s21::kCamera: {
-      auto spacer = new s21::CameraSpacer(this, *static_cast<s21::Camera*>(object));
+      auto spacer =
+          new s21::CameraSpacer(this, *static_cast<s21::Camera*>(object));
       auto ptr = new CameraConfigView(this, spacer);
       ptr->setAttribute(Qt::WA_DeleteOnClose);
       connect(ptr, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));

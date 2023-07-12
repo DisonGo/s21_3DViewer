@@ -21,11 +21,10 @@ void Camera::SetFocusPoint(const QVector3D &newFocusPoint) {
 void Camera::SetPosition(const QVector3D &newPosition) {
   position_ = newPosition;
 }
-void Camera::SetMode(CameraMode newMode) { mode_ = newMode;}
+void Camera::SetMode(CameraMode newMode) { mode_ = newMode; }
 void Camera::SetBox(const ParallelBox &newBox) { box_ = newBox; }
 void Camera::SetLineWidth(double newLineWidth) { lineWidth_ = newLineWidth; }
-void Camera::SetZoomFactor(double newZoomFactor)
-{
+void Camera::SetZoomFactor(double newZoomFactor) {
   zoom_factor = newZoomFactor;
 }
 // Getters
@@ -43,8 +42,5 @@ float Camera::GetMoveSpeed() const { return move_speed_; };
 float Camera::GetRotationSpeed() const { return rotation_speed_; };
 const Camera::ParallelBox &Camera::GetBox() const { return box_; }
 double Camera::GetLineWidth() const { return lineWidth_; };
-double Camera::GetZoomFactor() const
-{
-  return zoom_factor;
-}
+double Camera::GetZoomFactor() const { return zoom_factor; }
 }  // namespace s21

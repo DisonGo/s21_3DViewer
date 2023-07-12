@@ -1,17 +1,13 @@
 
 #include "E/Point.h"
 namespace s21 {
-Point::Point(float x, float y, float z) : Point(QVector3D(x,y,z)){
+Point::Point(float x, float y, float z) : Point(QVector3D(x, y, z)) {
   vertices_size_ = 10;
 }
 
-Point::Point(const QVector3D &position)
-{
-  CreateMesh(position);
-}
+Point::Point(const QVector3D &position) { CreateMesh(position); }
 
-void Point::Draw(GLenum type, Camera* camera)
-{
+void Point::Draw(GLenum type, Camera *camera) {
   Q_UNUSED(type);
   if (!camera) return;
   program_->Activate();
@@ -26,12 +22,11 @@ void Point::Draw(GLenum type, Camera* camera)
   mesh_.Draw(GL_POINTS);
 }
 
-void Point::CreateMesh(const QVector3D &position)
-{
+void Point::CreateMesh(const QVector3D &position) {
   OBJ obj;
   float x = position.x(), y = position.y(), z = position.z();
-  obj.vertices.push_back({x,y,z});
-  obj.faces.push_back({{{0,0,0}}});
+  obj.vertices.push_back({x, y, z});
+  obj.faces.push_back({{{0, 0, 0}}});
   auto importer = new OBJImportVertexOnlyStrategy;
   UploadMesh(obj, importer);
   mesh_.SetBufferToggle(s21::kVertexOnlyImport, true);

@@ -4,7 +4,7 @@
 #include "Shaders/Shader.h"
 namespace s21 {
 class GeometryShader : public Shader {
-public:
+ public:
   void Compile();
   using Shader::Shader;
   GeometryShader(const std::string& filePath) : Shader() {

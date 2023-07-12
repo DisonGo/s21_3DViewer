@@ -45,14 +45,14 @@ class Object3D : public EObject {
   QColor GetVerticesColor() { return vertices_color_; };
   double GetVerticesSize() { return vertices_size_; };
 
-protected:
+ protected:
   EObjectType type_ = kObject3D;
   Mesh mesh_;
   Program* program_{};
   Transform transform_;
-  QColor edges_color_ {255,255,255};
-  double edges_thickness_ {1};
-  QColor vertices_color_ {255,125,125};
+  QColor edges_color_{255, 255, 255};
+  double edges_thickness_{1};
+  QColor vertices_color_{255, 125, 125};
   double vertices_size_{1};
   PointDisplayType point_display_method_ = PointDisplayType::kNone;
   LineDisplayType line_display_type_ = kSolid;

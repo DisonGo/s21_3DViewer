@@ -32,7 +32,7 @@ void MeshConfigView::SetValuesFromConfig() {
   ui->wireframeBufferCheckBox->setChecked(
       mesh_spacer_->GetBufferToogleValue(s21::kWireframeImport));
   ui->vertexOnlyBufferCheckBox->setChecked(
-        mesh_spacer_->GetBufferToogleValue(s21::kVertexOnlyImport));
+      mesh_spacer_->GetBufferToogleValue(s21::kVertexOnlyImport));
 }
 
 void MeshConfigView::SetBufferToggle(int value) {

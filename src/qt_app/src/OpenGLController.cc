@@ -35,8 +35,7 @@ void OpenGLController::keyReleaseEvent(QKeyEvent *e) {
   update();
 }
 
-void OpenGLController::wheelEvent(QWheelEvent *e)
-{
+void OpenGLController::wheelEvent(QWheelEvent *e) {
   if (cameraSpacer) cameraSpacer->wheelEventSlot(e);
   update();
 }

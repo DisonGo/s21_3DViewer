@@ -35,7 +35,9 @@ class VAO : public GLArray {
 
   void SetIndicesN(size_t new_indicesN) { indicesN_ = new_indicesN; };
   void SetVerticesN(size_t new_verticesN) { verticesN_ = new_verticesN; };
-  void SetDrawArrays(bool new_draw_arrays_) { draw_arrays_ = new_draw_arrays_; };
+  void SetDrawArrays(bool new_draw_arrays_) {
+    draw_arrays_ = new_draw_arrays_;
+  };
   size_t GetIndicesN() { return indicesN_; };
   size_t GetVerticesN() { return verticesN_; };
   size_t GetDrawArrays() { return draw_arrays_; };

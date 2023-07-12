@@ -21,9 +21,10 @@ class Shader : protected QOpenGLFunctions {
     glDeleteShader(ID_);
     ID_ = 0;
   };
+
  protected:
   Shader() { initializeOpenGLFunctions(); };
-  ~Shader() {Delete();};
+  ~Shader() { Delete(); };
   bool CompileSuccessful();
   void SetFileName(const std::string& fileName);
   void CheckCompilation();

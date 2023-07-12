@@ -26,8 +26,7 @@ Engine::~Engine() {
   for (auto program : programs_) delete program;
 }
 
-void Engine::SetupFocusPoint()
-{
+void Engine::SetupFocusPoint() {
   auto object_3d = static_cast<Object3D*>(&focus_point_);
   auto program = Program::Default();
   object_3d->SetProgram(*program);

@@ -21,7 +21,7 @@ std::vector<Face> Plane::GenerateIndices() {
   int numStripsRequired = yLength - 1;
   int numDegensRequired = 2 * (numStripsRequired - 1);
   int verticesPerStrip = 2 * xLength;
-  unsigned *heightMapIndexData =
+  unsigned* heightMapIndexData =
       new unsigned[(verticesPerStrip * numStripsRequired) + numDegensRequired];
   int offset = 0;
 
