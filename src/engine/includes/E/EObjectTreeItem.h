@@ -16,6 +16,7 @@ class EObjectTreeItem {
 
   EObjectTreeItem *child(int row);
   int childCount() const;
+  static int RecursiveChildCount(EObjectTreeItem* item);
   int columnCount() const;
   QVariant data(int column) const;
   void SetParent(EObjectTreeItem *parent = nullptr);

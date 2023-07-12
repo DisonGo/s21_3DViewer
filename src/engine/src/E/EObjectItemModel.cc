@@ -116,19 +116,7 @@ void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
   if (!item) return;
   qDebug() << "Type:" << item->GetType();
   auto obj_ptr = item->GetObjectPtr();
-  try {
-    if (mesh_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer" << mesh_ptrs_.at(mesh_ptrs_.indexOf(obj_ptr));
-    if (camera_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer" << camera_ptrs_.at(camera_ptrs_.indexOf(obj_ptr));
-    if (object3D_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer"
-               << object3D_ptrs_.at(object3D_ptrs_.indexOf(obj_ptr));
-    if (transform_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer"
-               << transform_ptrs_.at(transform_ptrs_.indexOf(obj_ptr));
-  } catch (...) {
-  }
+  if (all_objects_.contains(obj_ptr)) qDebug() << " Pointer" << obj_ptr;
 }
 void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent,
                                std::string title) {
@@ -148,8 +136,31 @@ void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent,
   }
 }
 
+void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
+  if (!item) return;
+  if (item == root_item_) return;
+  auto ptr = item->GetObjectPtr();
+  if (!ptr) return;
+
+  auto row = item->row();
+  auto parent_ptr = item->parentItem();
+  auto obj_ptr = item->GetObjectPtr();
+  auto parent_index = FindParentIndex(item);
+
+  int delete_count = EObjectTreeItem::RecursiveChildCount(item);
+
+  beginRemoveRows(parent_index, row, row + delete_count);
+  parent_ptr->RemoveChild(item);
+  if (all_objects_.contains(obj_ptr)) all_objects_.removeAll(obj_ptr);
+  if (camera_ptrs_.contains(obj_ptr)) camera_ptrs_.removeAll(obj_ptr);
+  if (object3D_ptrs_.contains(obj_ptr)) object3D_ptrs_.removeAll(obj_ptr);
+  if (transform_ptrs_.contains(obj_ptr)) transform_ptrs_.removeAll(obj_ptr);
+  delete item;
+  endRemoveRows();
+}
 void EObjectItemModel::PushObjectInVectors(EObject *item) {
   if (!item) return;
+  all_objects_ << item;
   switch (item->GetType()) {
     case kNone:
       return;
@@ -162,9 +173,6 @@ void EObjectItemModel::PushObjectInVectors(EObject *item) {
       break;
     case kTransform:
       transform_ptrs_ << static_cast<Transform *>(item);
-      break;
-    case kMesh:
-      mesh_ptrs_ << static_cast<Mesh *>(item);
       break;
   }
 }

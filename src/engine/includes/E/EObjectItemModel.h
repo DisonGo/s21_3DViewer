@@ -15,8 +15,6 @@ class EObjectItemModel : public QAbstractItemModel {
 
  public:
   explicit EObjectItemModel(QObject *parent = nullptr);
-  // Hold arrays of EObject* Camera* Object3D* and search for currently selected
-  // ptr from EObjectTreeItem
   QModelIndex index(int row, int column,
                     const QModelIndex &parent = QModelIndex()) const override;
   QModelIndex parent(const QModelIndex &index) const override;
@@ -29,7 +27,9 @@ class EObjectItemModel : public QAbstractItemModel {
                       int role = Qt::DisplayRole) const override;
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
-  ~EObjectItemModel() { delete root_item_; };
+  ~EObjectItemModel() {
+    if (root_item_) delete root_item_;
+  };
  signals:
   void ObjectSelected(s21::EObject *);
  public slots:
@@ -38,10 +38,13 @@ class EObjectItemModel : public QAbstractItemModel {
   void AddItem(s21::EObject *item, s21::EObjectTreeItem *parent = nullptr,
                std::string title = "");
   void PushObjectInVectors(s21::EObject *item);
+  bool setData(const QModelIndex &index, const QVariant &value,
+               int role = Qt::EditRole) override;
 
  private:
+  QModelIndex FindParentIndex(EObjectTreeItem *item);
   EObjectTreeItem *root_item_;
-  //  QVector<EObject*> all_objects;
+  QVector<EObject *> all_objects_;
   QVector<Camera *> camera_ptrs_;
   QVector<Object3D *> object3D_ptrs_;
   QVector<Transform *> transform_ptrs_;
