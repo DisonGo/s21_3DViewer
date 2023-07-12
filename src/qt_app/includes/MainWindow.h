@@ -49,6 +49,9 @@ class MainWindow : public QMainWindow {
  private slots:
   void ShowObjectWidget(EObject *object);
   void SetupEObjectTreeView();
+  void DeleteRow(const QModelIndex& index);
+  void InsertDeleteBtn(const QModelIndex& index);
+  void InsertDeleteOnRowsInserted(const QModelIndex& parent, int first, int last);
   void UpdateGL();
   void TranslationTest(QVector3D values);
   void choose_file();

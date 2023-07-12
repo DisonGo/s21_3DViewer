@@ -15,6 +15,7 @@ class EObjectTreeItem {
   void AppendChild(EObjectTreeItem *child);
 
   int childCount() const;
+  static int RecursiveChildCount(EObjectTreeItem* item);
   int columnCount() const;
   int row() const;
   void SetParent(EObjectTreeItem *parent = nullptr);

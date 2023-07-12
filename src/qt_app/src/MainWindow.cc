@@ -8,7 +8,7 @@
 #include <QImageWriter>
 #include <QMessageBox>
 #include <QVariantAnimation>
-
+#include "Buttons/DeleteButton.h"
 #include "./ui_mainwindow.h"
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -100,14 +100,6 @@ void MainWindow::on_pushButton_loadFile_clicked() {
   QString filePath = ui->comboBox_tab1->currentText();
   if (filePath.isEmpty()) return;
   ui->openGLWidget->importObjFile(filePath);
-  // std::vector<Mesh*> meshes = ui->openGLWidget->GetMeshes();
-  // clearLayout(ui->Transforms);
-  // for (auto mesh : meshes) {
-  //   TransformConfigView* wid = new TransformConfigView(this);
-  //   ui->Transforms->addWidget(wid);
-  //   wid->LinkMesh(mesh);
-  //   connect(wid, SIGNAL(TransformUpdated()), this, SLOT(UpdateGL()));
-  // }
 }
 
 void MainWindow::updateInfoLabels(long int vertN, long int edgesN,
@@ -178,8 +170,33 @@ void MainWindow::SetupEObjectTreeView() {
   connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
   auto delegate = new ComboBoxDelegate (this);
+  connect(eObjectModel, &EObjectItemModel::IndexCreated, this, &MainWindow::InsertDeleteBtn);
   ui->Tree->setModel(eObjectModel);
   ui->Tree->setItemDelegate(delegate);
+}
+
+void MainWindow::DeleteRow(const QModelIndex &index)
+{
+  auto ptr = static_cast<EObjectTreeItem*>(index.internalPointer());
+  eObjectModel->DeleteItem(ptr);
+}
+
+void MainWindow::InsertDeleteBtn(const QModelIndex &index)
+{
+  bool valid = index.isValid();
+  qDebug() << "Inserting delete button";
+  auto but = new DeleteButton(index, ui->Tree);
+  connect(but, &DeleteButton::ClickedIndex, this, &MainWindow::DeleteRow);
+  ui->Tree->setIndexWidget(index, but);
+}
+
+void MainWindow::InsertDeleteOnRowsInserted(const QModelIndex &parent, int first, int last)
+{
+  for (;first <= last; ++first){
+    auto child = eObjectModel->index(first, 1, parent);
+    auto ptr = static_cast<EObjectTreeItem*>(child.internalPointer());
+    InsertDeleteBtn(child);
+  }
 }
 
 void MainWindow::UpdateGL() { ui->openGLWidget->update(); }

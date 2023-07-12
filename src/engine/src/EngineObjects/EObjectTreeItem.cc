@@ -20,6 +20,15 @@ EObjectTreeItem *EObjectTreeItem::child(int row) {
 
 int EObjectTreeItem::childCount() const { return m_child_items_.count(); }
 
+int EObjectTreeItem::RecursiveChildCount(EObjectTreeItem *item) {
+  if (!item) return 0;
+  if (item->m_child_items_.empty()) return 0;
+  int count = 0;
+  for (auto child : item->m_child_items_)
+    count += RecursiveChildCount(child) + 1;
+  return count;
+}
+
 int EObjectTreeItem::row() const {
   if (m_parent_item_)
     return m_parent_item_->m_child_items_.indexOf(
@@ -47,7 +56,4 @@ void EObjectTreeItem::RemoveChild(EObjectTreeItem *child) {
 
 EObjectTreeItem *EObjectTreeItem::parentItem() { return m_parent_item_; }
 
-void EObjectTreeItem::SetData(QList<QVariant> &data)
-{
-  m_item_data_ = data;
-}
+void EObjectTreeItem::SetData(QList<QVariant> &data) { m_item_data_ = data; }

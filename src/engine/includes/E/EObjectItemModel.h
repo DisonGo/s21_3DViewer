@@ -28,19 +28,23 @@ class EObjectItemModel : public QAbstractItemModel {
                       int role = Qt::DisplayRole) const override;
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
-  bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
-  ~EObjectItemModel() { delete root_item_; };
+  bool setData(const QModelIndex &index, const QVariant &value,
+               int role = Qt::EditRole) override;
+  ~EObjectItemModel() { if (root_item_) delete root_item_; };
  signals:
   void ObjectSelected(EObject *);
+  void IndexCreated(const QModelIndex&);
  public slots:
   void FindAndSelectIndex(const QModelIndex &index);
   void PrintIndexObject(const QModelIndex &index);
   void AddItem(EObject *item, EObjectTreeItem *parent = nullptr);
+  void DeleteItem(EObjectTreeItem *item);
   void PushObjectInVectors(EObject *item);
 
  private:
+  QModelIndex FindParentIndex(EObjectTreeItem *item);
   EObjectTreeItem *root_item_;
-  //  QVector<EObject*> all_objects;
+  QVector<EObject *> all_objects_;
   QVector<Camera *> camera_ptrs_;
   QVector<Object3D *> object3D_ptrs_;
   QVector<Transform *> transform_ptrs_;
