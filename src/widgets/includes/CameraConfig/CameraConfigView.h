@@ -36,7 +36,6 @@ class CameraConfigView : public QWidget {
   void SetBoxRight(double);
   void SetBoxBottom(double);
   void SetBoxTop(double);
-  void SetLineWidth(double);
 
  private:
   void SetupConnects();

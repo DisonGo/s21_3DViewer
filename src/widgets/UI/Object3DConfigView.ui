@@ -120,13 +120,16 @@
        <item>
         <widget class="QDoubleSpinBox" name="LineWidthSB">
          <property name="minimum">
-          <double>0.100000000000000</double>
+          <double>0.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>3.000000000000000</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>0.010000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -219,7 +222,7 @@
           <double>0.100000000000000</double>
          </property>
          <property name="maximum">
-          <double>5.000000000000000</double>
+          <double>10.000000000000000</double>
          </property>
          <property name="singleStep">
           <double>0.100000000000000</double>

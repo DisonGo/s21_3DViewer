@@ -32,7 +32,6 @@ void Engine::SetupFocusPoint()
   auto program = Program::Default();
   object_3d->SetProgram(*program);
   objects_3d_.push_back(object_3d);
-  eObjectModel_.AddItem(object_3d, nullptr, "Focus point");
   programs_.push_back(program);
 }
 

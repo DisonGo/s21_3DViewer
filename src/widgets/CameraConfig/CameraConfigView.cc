@@ -60,7 +60,6 @@ void CameraConfigView::SetValuesFromConfig() {
   ui->RightV->setValue(box.right_);
   ui->BottomV->setValue(box.bottom_);
   ui->LeftV->setValue(box.left_);
-  ui->LineWidthV->setValue(cameraSpacer_->GetLineWidth());
   emit UpdateRequest();
 }
 
@@ -151,11 +150,6 @@ void CameraConfigView::SetBoxTop(double val) {
   cameraSpacer_->SetBox(box);
   emit UpdateRequest();
 }
-void CameraConfigView::SetLineWidth(double val) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetLineWidth(val);
-  emit UpdateRequest();
-}
 
 void CameraConfigView::SetupConnects() {
   connect(ui->PositionTriplet, SIGNAL(InputsChanged(QVector3D)), this,
@@ -181,8 +175,6 @@ void CameraConfigView::SetupConnects() {
   connect(ui->TopV, SIGNAL(valueChanged(double)), this,
           SLOT(SetBoxTop(double)));
   connect(ui->FOV_V, SIGNAL(valueChanged(int)), this, SLOT(SetFOV(int)));
-  connect(ui->LineWidthV, SIGNAL(valueChanged(double)), this,
-          SLOT(SetLineWidth(double)));
 }
 
 // void CameraConfigView::on_ResetBut_clicked() {

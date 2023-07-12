@@ -1,5 +1,7 @@
-#version 330 core
+#version 410 core
 layout(location = 0) in vec3 aPos;
+flat out vec4 f_startPos;
+out vec4 f_vertPos;
 
 uniform mat4 u_camMatrix;
 uniform mat4 u_modelMatrix;
@@ -13,5 +15,5 @@ void main() {
   vec4 mvp_vec = u_camMatrix * u_modelMatrix * vec4(aPos, 1);
   gl_Position = mvp_vec;
   gl_PointSize = u_pointSize;
-  // f_vertPos = vec4(aPos, 1).xyz / vec4(aPos, 1).w;
+  f_startPos = f_vertPos = mvp_vec;
 }

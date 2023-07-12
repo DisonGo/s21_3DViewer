@@ -8,6 +8,5 @@
         <file>style/icons/tuner.svg</file>
         <file>style/Nunito/Nunito-Italic-VariableFont_wght.ttf</file>
         <file>style/Nunito/Nunito-VariableFont_wght.ttf</file>
-        <file>Shaders/gshader.glsl</file>
     </qresource>
 </RCC>

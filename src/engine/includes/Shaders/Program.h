@@ -8,7 +8,6 @@
 #include <QOpenGLFunctions>
 
 #include "Shaders/FragmentShader.h"
-#include "Shaders/GeometryShader.h"
 #include "Shaders/VertexShader.h"
 namespace s21 {
 class Program : protected QOpenGLFunctions {
@@ -24,8 +23,7 @@ class Program : protected QOpenGLFunctions {
  private:
   GLuint ID_ = 0;
   void SetProgram(const std::string& vertexFile,
-                  const std::string& fragmentFile,
-                  const std::string& geometryFile);
+                  const std::string& fragmentFile);
   bool LinkSuccessful();
   void PrintProgramError();
 };

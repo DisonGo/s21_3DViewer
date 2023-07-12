@@ -1,7 +1,9 @@
 
 #include "E/Point.h"
 namespace s21 {
-Point::Point(float x, float y, float z) : Point(QVector3D(x,y,z)){}
+Point::Point(float x, float y, float z) : Point(QVector3D(x,y,z)){
+  vertices_size_ = 10;
+}
 
 Point::Point(const QVector3D &position)
 {
@@ -20,6 +22,7 @@ void Point::Draw(GLenum type, Camera* camera)
   camera->Matrix(*program_, "u_camMatrix");
   glUniform3f(program_->GetUniform("u_prototype_color"), red, green, blue);
   glUniform1f(program_->GetUniform("u_pointSize"), vertices_size_);
+  glUniform1i(program_->GetUniform("u_circlePoint"), true);
   mesh_.Draw(GL_POINTS);
 }
 

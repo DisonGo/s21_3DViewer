@@ -8,7 +8,7 @@ Program::Program() { initializeOpenGLFunctions(); }
 
 Program::Program(const std::string& vertexFile, const std::string& fragmentFile)
     : Program() {
-  SetProgram(vertexFile, fragmentFile, ":/Shaders/gshader.glsl");
+  SetProgram(vertexFile, fragmentFile);
 }
 bool Program::LinkSuccessful() {
   int status;
@@ -41,15 +41,12 @@ Program& Program::operator=(Program&& obj) {
 }
 
 void Program::SetProgram(const std::string& vertexFile,
-                         const std::string& fragmentFile,
-                         const std::string& geometryFile) {
+                         const std::string& fragmentFile) {
   ID_ = glCreateProgram();
   VertexShader vertexShader(vertexFile);
   FragmentShader fragmentShader(fragmentFile);
-  //  GeometryShader geometryShader(geometryFile);
   vertexShader.LinkToProgram(ID_);
   fragmentShader.LinkToProgram(ID_);
-  //  geometryShader.LinkToProgram(ID_);
   glLinkProgram(ID_);
   if (!LinkSuccessful()) {
     qDebug() << "Program linking failed";
