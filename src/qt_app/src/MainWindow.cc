@@ -8,6 +8,7 @@
 #include <QImageWriter>
 #include <QMessageBox>
 #include <QVariantAnimation>
+
 #include "./ui_mainwindow.h"
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -99,6 +100,8 @@ void MainWindow::on_pushButton_loadFile_clicked() {
   QString filePath = ui->comboBox_tab1->currentText();
   if (filePath.isEmpty()) return;
   ui->openGLWidget->importObjFile(filePath);
+  clearLayout(ui->ObjectWidgetHolder);
+  ui->openGLWidget->cameraSpacer = nullptr;
 }
 
 void MainWindow::updateInfoLabels(long int vertN, long int edgesN,

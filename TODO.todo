@@ -714,8 +714,10 @@
               "content": "Restrict n of loaded objects to 1",
               "id": 1688985747623,
               "level": "default",
-              "done": false,
-              "start": 1688985747623
+              "done": true,
+              "start": 1688985747623,
+              "focus": false,
+              "end": 1689179757791
             }
           },
           {
@@ -807,6 +809,17 @@
               "focus": false,
               "end": 1689171013185
             }
+          },
+          {
+            "key": 1689179713327,
+            "children": [],
+            "todo": {
+              "content": "CRASH: if file doesn't exists when being parsed.",
+              "id": 1689179713327,
+              "level": "warning",
+              "done": false,
+              "start": 1689179713327
+            }
           }
         ],
         "todo": {
@@ -843,6 +856,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1689171013283"
+    "version": "1689179757884"
   }
 }
