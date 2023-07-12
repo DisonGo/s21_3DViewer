@@ -36,6 +36,7 @@ void OBJParser::ParseFace(const string values, Face* faces, size_t& index) {
 }
 
 void OBJParser::CenterVertices(std::vector<Vertex>& vertices, Vertex center) {
+  if (vertices.empty()) return;
   for (auto& vertex : vertices) center += vertex;
   QVector3D mean(center.x, center.y, center.z);
   mean /= vertices.size();
