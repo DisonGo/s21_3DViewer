@@ -145,7 +145,7 @@ void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
   auto row = item->row();
   auto parent_ptr = item->parentItem();
   auto obj_ptr = item->GetObjectPtr();
-  auto parent_index = FindParentIndex(item);
+  auto parent_index = QModelIndex();
 
   int delete_count = EObjectTreeItem::RecursiveChildCount(item);
 
@@ -157,6 +157,12 @@ void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
   if (transform_ptrs_.contains(obj_ptr)) transform_ptrs_.removeAll(obj_ptr);
   delete item;
   endRemoveRows();
+}
+
+EObjectTreeItem *EObjectItemModel::FindItem(EObject *object)
+{
+  if (!root_item_) return nullptr;
+  return root_item_->RecursiveFindChildByPtr(object);
 }
 void EObjectItemModel::PushObjectInVectors(EObject *item) {
   if (!item) return;
@@ -173,6 +179,9 @@ void EObjectItemModel::PushObjectInVectors(EObject *item) {
       break;
     case kTransform:
       transform_ptrs_ << static_cast<Transform *>(item);
+      break;
+    case kMesh:
+      mesh_ptrs_ << static_cast<Mesh *>(item);
       break;
   }
 }

@@ -29,12 +29,17 @@ class Engine : protected QOpenGLFunctions {
   Engine(const Engine& old);                   // disallow copy constructor
   const Engine& operator=(const Engine& old);  // disallow assignment operator
   ~Engine();
+
   void SetupFocusPoint();
-  DrawConfig* drawConfig_{};
-  Object3D* GenerateObject(QString fileName);
-  Camera* current_camera_ = nullptr;
-  EObjectItemModel eObjectModel_;
+  void RemoveObject(EObject* object);
+  void Wipe3DObjects();
+
+  bool single_object_mode = true;
   Point focus_point_;
+  Camera* current_camera_ = nullptr;
+  Object3D* GenerateObject(QString fileName);
+  DrawConfig* drawConfig_{};
+  EObjectItemModel eObjectModel_;
   s21::BaseParser* OBJParser_ = nullptr;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;

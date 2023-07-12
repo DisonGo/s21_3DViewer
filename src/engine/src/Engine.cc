@@ -8,6 +8,7 @@
 #include <QVector3D>
 #include <functional>
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
+#define ERASE_FROM_VECTOR(vec, x) vec.erase(std::remove(vec.begin(), vec.end(), x), vec.end())
 namespace s21 {
 Engine::Engine() {
   initializeOpenGLFunctions();
@@ -34,6 +35,30 @@ void Engine::SetupFocusPoint() {
   programs_.push_back(program);
 }
 
+void Engine::RemoveObject(EObject *object)
+{
+  if (!object) return;
+  if (object == &focus_point_) return;
+  auto type = object->GetType();
+  if (type == s21::kObject3D)
+    ERASE_FROM_VECTOR(objects_3d_, object);
+  if (type == s21::kCamera)
+    ERASE_FROM_VECTOR(cameras_, object);
+  ERASE_FROM_VECTOR(engine_objects_, object);
+  auto tree_item = eObjectModel_.FindItem(object);
+  if (!tree_item) return;
+  eObjectModel_.DeleteItem(tree_item);
+  delete object;
+}
+
+void Engine::Wipe3DObjects()
+{
+  if (objects_3d_.empty()) return;
+  auto copy(objects_3d_);
+  for (auto& object : copy)
+    RemoveObject(object);
+}
+
 Object3D* Engine::GenerateObject(QString fileName) {
   static OBJImportWireframeStrategy wireframeImporter;
   static OBJImportTriangleStrategy triangleImporter;
@@ -54,6 +79,8 @@ void Engine::importObj(QString fileName) {
 
   auto program = Program::Default();
   object_3d->SetProgram(*program);
+  if (single_object_mode)
+    Wipe3DObjects();
   objects_3d_.push_back(object_3d);
   eObjectModel_.AddItem(object_3d, nullptr, fileInfo.baseName().toStdString());
   engine_objects_.push_back(object_3d);

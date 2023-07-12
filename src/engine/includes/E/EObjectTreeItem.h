@@ -22,6 +22,7 @@ class EObjectTreeItem {
   void SetParent(EObjectTreeItem *parent = nullptr);
   void RemoveChild(EObjectTreeItem *child);
   EObject *GetObjectPtr() { return object_ptr_; };
+  EObjectTreeItem *RecursiveFindChildByPtr(EObject* object);
   int row() const;
   EObjectTreeItem *parentItem();
   EObjectType GetType() { return type_; };

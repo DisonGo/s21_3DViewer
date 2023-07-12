@@ -54,7 +54,17 @@ void EObjectTreeItem::RemoveChild(EObjectTreeItem *child) {
   if (m_child_items_.contains(child)) m_child_items_.removeAll(child);
 }
 
+EObjectTreeItem *EObjectTreeItem::RecursiveFindChildByPtr(EObject *object)
+{
+  EObjectTreeItem *item = nullptr;
+  for (auto& child : m_child_items_){
+    if (child->object_ptr_ == object) return child;
+    if (child->childCount()) item = child->RecursiveFindChildByPtr(object);
+    if (item) return item;
+  }
+  return item;
+}
+
 EObjectTreeItem *EObjectTreeItem::parentItem() { return m_parent_item_; }
-void EObjectTreeItem::SetData(QList<QVariant> &data) { m_item_data_ = data; }
 }  // namespace s21
 

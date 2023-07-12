@@ -37,11 +37,11 @@ class EObjectItemModel : public QAbstractItemModel {
   void PrintIndexObject(const QModelIndex &index);
   void AddItem(s21::EObject *item, s21::EObjectTreeItem *parent = nullptr,
                std::string title = "");
+  void DeleteItem(s21::EObjectTreeItem *item);
+  EObjectTreeItem *FindItem(s21::EObject* object);
   void PushObjectInVectors(s21::EObject *item);
-  bool setData(const QModelIndex &index, const QVariant &value,
-               int role = Qt::EditRole) override;
 
- private:
+private:
   QModelIndex FindParentIndex(EObjectTreeItem *item);
   EObjectTreeItem *root_item_;
   QVector<EObject *> all_objects_;
