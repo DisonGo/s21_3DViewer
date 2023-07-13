@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget* parent)
   connect(ui->DrawConfigWid, SIGNAL(DrawConfigUpdated()), this,
           SLOT(UpdateGL()));
 }
-void MainWindow::TranslationTest(QVector3D values) { qDebug() << values; }
 MainWindow::~MainWindow() { delete ui; }
 void MainWindow::closeEvent(QCloseEvent* event) {
   Q_UNUSED(event)
@@ -139,57 +138,23 @@ void MainWindow::saveGif(std::vector<QImage> gifData) {
 }
 
 void MainWindow::ShowObjectWidget(s21::EObject* object) {
+  static ConfigWidgetFactory widget_factory;
   clearLayout(ui->ObjectWidgetHolder);
+  ConfigWidget* widget = widget_factory.CreateWidget(object, this);
+  if (!widget) return;
   if (object->GetType() != s21::kCamera)
     ui->openGLWidget->cameraSpacer = nullptr;
-  switch (object->GetType()) {
-    case s21::kNone: {
-      break;
-    }
-    case s21::kCamera: {
-      auto spacer =
-          new s21::CameraSpacer(this, *static_cast<s21::Camera*>(object));
-      auto ptr = new CameraConfigView(this, spacer);
-      ptr->setAttribute(Qt::WA_DeleteOnClose);
-      connect(ptr, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
-      ui->ObjectWidgetHolder->addWidget(ptr);
-      ui->openGLWidget->cameraSpacer = spacer;
-      break;
-    }
-    case s21::kTransform: {
-      auto obj_ptr = static_cast<s21::Transform*>(object);
-      auto spacer = new s21::TransformSpacer(*obj_ptr, this);
-      auto view = new TransformConfigView(spacer, this);
-      view->setAttribute(Qt::WA_DeleteOnClose);
-      connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
-      ui->ObjectWidgetHolder->addWidget(view);
-      break;
-    }
-    case s21::kMesh: {
-      auto obj_ptr = static_cast<s21::Mesh*>(object);
-      auto spacer = new s21::MeshSpacer(*obj_ptr, this);
-      auto view = new MeshConfigView(spacer, this);
-      view->setAttribute(Qt::WA_DeleteOnClose);
-      connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
-      ui->ObjectWidgetHolder->addWidget(view);
-      break;
-    }
-    case s21::kObject3D: {
-      auto obj_ptr = static_cast<s21::Object3D*>(object);
-      auto spacer = new s21::Object3DSpacer(*obj_ptr, this);
-      auto view = new Object3DConfigView(spacer, this);
-      view->setAttribute(Qt::WA_DeleteOnClose);
-      connect(view, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
-      ui->ObjectWidgetHolder->addWidget(view);
-      break;
-    }
+  else {
+    ui->openGLWidget->cameraSpacer =
+        static_cast<CameraConfigView*>(widget)->GetCameraSpacer();
   }
+
+  connect(widget, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
+  ui->ObjectWidgetHolder->addWidget(widget);
 }
 
 void MainWindow::SetupEObjectTreeView() {
-  //  ui->camWid->SetCameraSpacer(ui->openGLWidget->cameraSpacer);
-  eObjectModel = &s21::Engine::Instance()->GetEObjectItemModel();
-
+  eObjectModel = &s21::Engine::Instance().GetEObjectItemModel();
   connect(ui->Tree, &QAbstractItemView::clicked, eObjectModel,
           &s21::EObjectItemModel::FindAndSelectIndex);
 

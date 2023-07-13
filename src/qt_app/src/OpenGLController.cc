@@ -47,7 +47,7 @@ void OpenGLController::initializeGL() {
   glEnable(GL_PROGRAM_POINT_SIZE);
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
-  engine = s21::Engine::Instance();
+  engine = &s21::Engine::Instance();
   GLfloat lineWidthRange[2] = {0.0f, 0.0f};
   glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
   qDebug() << "Max width: " << lineWidthRange[1];
