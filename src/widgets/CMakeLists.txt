@@ -13,6 +13,7 @@ set(WIDGETS_HEADER
     includes/Object3DConfig/Object3DConfigView.h
     includes/TransformConfig/TransformConfigView.h
     includes/TripletWidget.h
+    includes/ConfigWidget.h
 )
 set(WIDGETS_UIS
     UI/TripletWidget.ui

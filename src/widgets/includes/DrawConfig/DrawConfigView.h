@@ -1,15 +1,14 @@
 #ifndef DRAWCONFIGVIEW_H
 #define DRAWCONFIGVIEW_H
 
-#include <QWidget>
-
+#include "ConfigWidget.h"
 #include "DrawConfig.h"
 #include "Spacers/DrawConfigSpacer.h"
 namespace Ui {
 class DrawConfigView;
 }
 
-class DrawConfigView : public QWidget {
+class DrawConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:

@@ -3,7 +3,7 @@
 #include "ui_Object3DConfigView.h"
 
 Object3DConfigView::Object3DConfigView(QWidget *parent)
-    : QWidget(parent), ui(new Ui::Object3DConfigView) {
+    : ConfigWidget(parent), ui(new Ui::Object3DConfigView) {
   Setup();
 }
 

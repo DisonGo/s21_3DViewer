@@ -2,14 +2,14 @@
 #define TRANSFORMCONFIGVIEW_H
 
 #include <QVector3D>
-#include <QWidget>
 
+#include "ConfigWidget.h"
 #include "Spacers/TransformSpacer.h"
 namespace Ui {
 class TransformConfigView;
 }
 
-class TransformConfigView : public QWidget {
+class TransformConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
@@ -26,7 +26,6 @@ class TransformConfigView : public QWidget {
   void SetRotation(const QVector3D);
   void SetScale(const QVector3D);
  signals:
-  void UpdateRequest();
   void TransformUpdated();
 
  private:

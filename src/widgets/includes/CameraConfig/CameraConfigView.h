@@ -2,27 +2,23 @@
 #define CAMERACONFIGVIEW_H
 
 #include <QAbstractButton>
-#include <QWidget>
 
+#include "ConfigWidget.h"
 #include "Spacers/CameraSpacer.h"
 
 namespace Ui {
 class CameraConfigView;
 }
 
-class CameraConfigView : public QWidget {
+class CameraConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
-  explicit CameraConfigView(QWidget* parent = nullptr,
-                            s21::CameraSpacer* cameraSpacer = nullptr);
+  explicit CameraConfigView(s21::CameraSpacer* cameraSpacer, QWidget* parent = nullptr);
   ~CameraConfigView();
-
+  s21::CameraSpacer *GetCameraSpacer();
   void SetCameraSpacer(s21::CameraSpacer* cameraSpacer);
- signals:
-  void UpdateRequest();
  private slots:
-  //  void on_ResetBut_clicked();
   void SetValuesFromConfig();
   void SetPosition(const QVector3D&);
   void SetOrientation(const QVector3D&);
