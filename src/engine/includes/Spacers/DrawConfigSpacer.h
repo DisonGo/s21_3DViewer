@@ -10,7 +10,6 @@ class DrawConfigSpacer : public QObject {
  public:
   DrawConfigSpacer(QObject* parent = nullptr) : QObject(parent) {
     config_ = &DrawConfig::Instance();
-    qDebug() << "Spacer config:" << config_;
   };
   float GetPointSize() const { return config_->point_size; };
   float GetLineWidth() const { return config_->line_width; };

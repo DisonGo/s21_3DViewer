@@ -14,7 +14,6 @@ namespace s21 {
 Engine::Engine() {
   initializeOpenGLFunctions();
   drawConfig_ = &DrawConfig::Instance();
-  qDebug() << "Engine config:" << drawConfig_;
   Camera* default_camera = new Camera();
   SetParser(new OBJParser);
   cameras_.push_back(default_camera);

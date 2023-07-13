@@ -14,7 +14,8 @@ endif
 # @cd ${BUILD_PATH}; make
 all: install open
 build:
-	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -B ${BUILD_PATH} .
+	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
+	@cmake -DCMAKE_BUILD_TYPE="Release" -B ${BUILD_PATH} .
 	@cmake --build ${BUILD_PATH} --target all --parallel 8
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}

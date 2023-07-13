@@ -1,19 +1,18 @@
 #include "Parsers/OBJParser.h"
-#include "fstream"
+
 namespace s21 {
 TagCounters OBJParser::CountTags(const string filePath) {
-  // FILE* obj_file = NULL;
-  // obj_file = fopen(filePath.c_str(), "r");
-  // if (!obj_file) throw std::invalid_argument("Can't open file");
-  std::ifstream file(filePath, std::ios_base::in);
+  FILE* obj_file = NULL;
+  obj_file = fopen(filePath.c_str(), "r");
+  if (!obj_file) throw std::invalid_argument("Can't open file");
   size_t linesz = 0;
   char* str = nullptr;
   string line;
   string tag;
   string values;
   TagCounters counter;
-  for (; file.good();) {
-    std::getline(file, line);
+  for (; getline(&str, &linesz, obj_file) > 0;) {
+    line.assign(str);
     size_t pos = line.find(' ');
     tag.assign(line.substr(0, pos));
     if (tag == "v") counter.vC++;
@@ -21,10 +20,8 @@ TagCounters OBJParser::CountTags(const string filePath) {
     if (tag == "vt") counter.vtC++;
     if (tag == "f") counter.fC++;
   }
-  file.close();
-
-  // free(str);
-  // fclose(obj_file);
+  free(str);
+  fclose(obj_file);
   return counter;
 }
 
@@ -65,12 +62,9 @@ void OBJParser::CalculateNegativeIndices(std::vector<Face>& faces,
 }
 
 OBJ OBJParser::Parse(string filePath) {
-  // FILE* obj_file = NULL;
-  // obj_file = fopen(filePath.c_str(), "r");
-  // if (!obj_file) throw std::invalid_argument("Can't open file");
-
-  std::ifstream file(filePath, std::ios_base::in);
-
+  FILE* obj_file = NULL;
+  obj_file = fopen(filePath.c_str(), "r");
+  if (!obj_file) throw std::invalid_argument("Can't open file");
   OBJ obj;
 
   // Count total amount of tags in file for memory allocation
@@ -98,13 +92,14 @@ OBJ OBJParser::Parse(string filePath) {
   string tag;
   string values;
 
-  for (; file.good();) {
+  for (; getline(&str, &linesz, obj_file) > 0;) {
+    line.assign(str);
+
     // Find sub strings of tag and it's values
-    std::getline(file, line);
+
     size_t pos = line.find(' ');
     tag.assign(line.substr(0, pos));
     values.assign(line.substr(pos + 1, line.size() - 1));
-//    qDebug() << QString(values.c_str());
 
     // Parse and save values depending on tag
 
@@ -129,25 +124,19 @@ OBJ OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-//  for (auto& face : obj.faces) {
-//    QString str;
-//    for (auto& index : face.indices)
-//      str += QString().number(index.v_index) + " ";
-//    qDebug() << str;
-//  }
-
   CenterVertices(obj.vertices, {0, 0, 0});
   ElevateVerticesToGround(obj.vertices);
 
   CalculateNegativeIndices(obj.faces, obj.vertices.size());
   // Cleaning
+
   delete[] vertices;
   delete[] normals;
   delete[] textureCoords;
   delete[] faces;
-  file.close();
-  // if (str) free(str);
-  // fclose(obj_file);
+
+  if (str) free(str);
+  fclose(obj_file);
   return obj;
 }
 }  // namespace s21

@@ -14,23 +14,23 @@ void Object3D::Draw(GLenum type, Camera* camera) {
     red = vertices_color_.redF();
     green = vertices_color_.greenF();
     blue = vertices_color_.blueF();
-    program_->Uniform1i("u_circlePoint", is_circle);
-    program_->Uniform1f("u_pointSize", vertices_size_);
+    glUniform1i(program_->GetUniform("u_circlePoint"), is_circle);
+    glUniform1f(program_->GetUniform("u_pointSize"), vertices_size_);
   }
   if (type == GL_LINES) {
     red = edges_color_.redF();
     green = edges_color_.greenF();
     blue = edges_color_.blueF();
-    program_->Uniform1i("u_dashed", is_dashed);
-    program_->Uniform1i("u_dashSize", 3);
-    program_->Uniform1i("u_gapSize", 3);
-    program_->Uniform1f("u_lineWidth", edges_thickness_);
+    glUniform1i(program_->GetUniform("u_dashed"), is_dashed);
+    glUniform1i(program_->GetUniform("u_dashSize"), 3);
+    glUniform1i(program_->GetUniform("u_gapSize"), 3);
+    glUniform1f(program_->GetUniform("u_lineWidth"), edges_thickness_);
   }
   if (type == GL_TRIANGLES) red = green = blue = 0.8;
-  program_->Uniform3f("u_prototype_color", red, green, blue);
+  glUniform3f(program_->GetUniform("u_prototype_color"), red, green, blue);
   mesh_.Draw(type);
-  program_->Uniform1i("u_dashed", false);
-  program_->Uniform1i("u_circlePoint", false);
+  glUniform1i(program_->GetUniform("u_dashed"), false);
+  glUniform1i(program_->GetUniform("u_circlePoint"), false);
 }
 
 void Object3D::UploadMesh(const OBJ& obj, OBJImportStrategy* importer) {

@@ -6,9 +6,9 @@ namespace s21 {
 class DrawConfig {
  public:
   static DrawConfig& Instance() {
-    static DrawConfig instance;
-    return instance;
-  }
+    static DrawConfig instance_;
+    return instance_;
+  };
   float point_size = 1;
   float line_width = 1;
   bool points = true;
@@ -23,10 +23,10 @@ class DrawConfig {
   QColor back_color = QColor(0, 0, 0);
 
  private:
-  DrawConfig() = default;
-  DrawConfig(const DrawConfig& old) = delete;
-  const DrawConfig& operator=(const DrawConfig& old) = delete;
-  ~DrawConfig() = default;
+  DrawConfig(){};
+  DrawConfig(const DrawConfig&);
+  const DrawConfig& operator=(const DrawConfig&);
+  ~DrawConfig(){};
 };
 }  // namespace s21
 #endif  // DRAWCONFIG_H

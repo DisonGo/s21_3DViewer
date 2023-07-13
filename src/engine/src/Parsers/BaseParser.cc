@@ -7,14 +7,10 @@ using std::vector;
 namespace s21 {
 size_t BaseParser::CountFaceVertices(const char* line) {
   size_t count = 0;
-  size_t size = strlen(line);
-  for (size_t i = 0; *line && i < size; ++line, ++i) {
+  for (; *line; ++line) {
     if (*line && !isspace(*line)) {
       count++;
-      while (*line && !isspace(*line)) {
-        ++line;
-        ++i;
-      }
+      while (*line && !isspace(*line)) ++line;
     }
   }
   return count;
