@@ -40,6 +40,21 @@ Program& Program::operator=(Program&& obj) {
   return *this;
 }
 
+void Program::Uniform1i(const char* name, int a) {
+  glUniform1i(GetUniform(name), a);
+}
+
+void Program::Uniform1f(const char* name, float a) {
+  glUniform1f(GetUniform(name), a);
+}
+
+void Program::Uniform2f(const char* name, float a, float b) {
+  glUniform2f(GetUniform(name), a, b);
+}
+
+void Program::Uniform3f(const char* name, float a, float b, float c) {
+  glUniform3f(GetUniform(name), a, b, c);
+}
 void Program::SetProgram(const std::string& vertexFile,
                          const std::string& fragmentFile) {
   ID_ = glCreateProgram();
