@@ -3,7 +3,7 @@
 #include "ui_MeshConfigView.h"
 
 MeshConfigView::MeshConfigView(QWidget *parent)
-    : QWidget(parent), ui(new Ui::MeshConfigView) {
+    : ConfigWidget(parent), ui(new Ui::MeshConfigView) {
   Setup();
 }
 

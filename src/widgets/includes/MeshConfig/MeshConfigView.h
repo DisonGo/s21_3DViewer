@@ -1,14 +1,14 @@
 #ifndef MESHCONFIGVIEW_H
 #define MESHCONFIGVIEW_H
 
-#include <QWidget>
+#include "ConfigWidget.h"
 
 #include "Spacers/MeshSpacer.h"
 namespace Ui {
 class MeshConfigView;
 }
 
-class MeshConfigView : public QWidget {
+class MeshConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
@@ -20,8 +20,6 @@ class MeshConfigView : public QWidget {
   void SetMeshSpacer(s21::MeshSpacer* mesh_spacer);
   void SetValuesFromConfig();
   void SetBufferToggle(int value);
- signals:
-  void UpdateRequest();
 
  private:
   void Setup();

@@ -3,7 +3,7 @@
 #include "ui_TransformConfigView.h"
 
 TransformConfigView::TransformConfigView(QWidget *parent)
-    : QWidget(parent), ui(new Ui::TransformConfigView) {
+    : ConfigWidget(parent), ui(new Ui::TransformConfigView) {
   Setup();
 }
 

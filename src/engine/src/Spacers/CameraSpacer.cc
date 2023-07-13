@@ -1,6 +1,6 @@
 #include "Spacers/CameraSpacer.h"
 namespace s21 {
-CameraSpacer::CameraSpacer(QObject *parent, Camera &camera)
+CameraSpacer::CameraSpacer(Camera &camera, QObject *parent)
     : QObject(parent), camera_(camera) {}
 
 void CameraSpacer::SetMode(Camera::CameraMode newMode) {

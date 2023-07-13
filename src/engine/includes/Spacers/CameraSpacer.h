@@ -8,7 +8,7 @@ namespace s21 {
 class CameraSpacer : public QObject {
   Q_OBJECT
  public:
-  CameraSpacer(QObject *parent, Camera &camera_);
+  CameraSpacer(Camera &camera_, QObject *parent = nullptr);
   void SetMode(Camera::CameraMode newMode);
   void SetViewMode(Camera::ViewMode newViewMode);
   void SetFocusPoint(const QVector3D &newFocusPoint);

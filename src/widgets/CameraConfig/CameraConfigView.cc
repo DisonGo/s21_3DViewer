@@ -1,9 +1,8 @@
 #include "CameraConfig/CameraConfigView.h"
 
 #include "ui_CameraConfigView.h"
-CameraConfigView::CameraConfigView(QWidget *parent,
-                                   s21::CameraSpacer *cameraSpacer)
-    : QWidget(parent), ui(new Ui::CameraConfigView) {
+CameraConfigView::CameraConfigView(s21::CameraSpacer *cameraSpacer, QWidget *parent)
+    : ConfigWidget(parent), ui(new Ui::CameraConfigView) {
   ui->setupUi(this);
   ui->PositionTriplet->SetRange(-10000, 10000);
   ui->FocusPointTriplet->SetRange(-10000, 10000);
@@ -17,6 +16,11 @@ CameraConfigView::CameraConfigView(QWidget *parent,
 CameraConfigView::~CameraConfigView() {
   if (cameraSpacer_) delete cameraSpacer_;
   delete ui;
+}
+
+s21::CameraSpacer *CameraConfigView::GetCameraSpacer()
+{
+  return cameraSpacer_;
 }
 
 void CameraConfigView::SetCameraSpacer(s21::CameraSpacer *cameraSpacer) {

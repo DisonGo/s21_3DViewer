@@ -6,7 +6,6 @@
 void OpenGLController::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
-    mPos = e->pos();
     if (!cameraSpacer) return;
     cameraSpacer->mousePressSlot(e);
   }
@@ -21,7 +20,6 @@ void OpenGLController::mouseMoveEvent(QMouseEvent *e) {
 void OpenGLController::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = false;
-    mPos = e->pos();
     if (cameraSpacer) cameraSpacer->mouseReleaseSlot(e);
   }
 }
@@ -47,7 +45,7 @@ void OpenGLController::initializeGL() {
   glEnable(GL_PROGRAM_POINT_SIZE);
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
-  engine = s21::Engine::Instance();
+  engine = &s21::Engine::Instance();
   GLfloat lineWidthRange[2] = {0.0f, 0.0f};
   glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
   qDebug() << "Max width: " << lineWidthRange[1];
@@ -70,30 +68,6 @@ void OpenGLController::calcSizes(int w, int h) {
   vw = w;
   vh = h;
   ratio = vw / vh;
-}
-
-void OpenGLController::setDrawArrConfig(struct glDrawArraysConfig config) {
-  drawArrConf = config;
-  update();
-}
-std::vector<QImage> OpenGLController::getScreencast() {
-  std::vector<QImage> gifFrames;
-  int totalFrames = gifFps * gifLength;
-
-  float animationAnglePerSecond = 360 / totalFrames;
-  float animationCurentAngle = rotationVec.y();
-  float rememberAngle = animationCurentAngle;
-  for (int currentFrame = 0; currentFrame < totalFrames; currentFrame++) {
-    QImage frame = grabFramebuffer();
-    frame = frame.scaled(gifResolution);
-    gifFrames.push_back(frame);
-    animationCurentAngle += animationAnglePerSecond;
-    rotationVec.setY(animationCurentAngle);
-    update();
-  }
-  rotationVec.setY(rememberAngle);
-  update();
-  return gifFrames;
 }
 void OpenGLController::capture() {
   QImage frame = grabFramebuffer();
@@ -118,6 +92,5 @@ void OpenGLController::importObjFile(QString filename) {
                       fileInfo.fileName());
 }
 OpenGLController::~OpenGLController() {
-  delete program;
-  //  delete cameraSpacer;
+
 }
