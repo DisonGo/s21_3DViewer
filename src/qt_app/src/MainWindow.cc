@@ -33,19 +33,6 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 void MainWindow::saveSettings() {
   QSettings settings("settings.ini", QSettings::IniFormat);
   settings.beginGroup("Settings");
-  settings.setValue("lineColor", lineColor);
-  settings.setValue("pointColor", pointColor);
-  settings.setValue("backColor", backColor);
-  settings.setValue("lineWidth", lineWidth);
-  settings.setValue("pointWidth", pointWidth);
-  settings.setValue("pointTypeIndex", pointTypeIndex);
-  settings.setValue("viewTypeIndex", viewTypeIndex);
-  settings.setValue("fileFieldIndex", fileFieldIndex);
-  settings.setValue("scale", scale);
-
-  //  settings.setValue("cameraPos", ui->openGLWidget->camera->getPosition());
-  //  settings.setValue("cameraOrient",
-  //  ui->openGLWidget->camera->getOrientation());
 
   settings.beginWriteArray("filePaths");
   int i = 0;
@@ -72,8 +59,8 @@ void MainWindow::loadSettings() {
 }
 void MainWindow::applySettings() {
   for (auto& filePath : filePaths) ui->comboBox_tab1->addItem(filePath);
-  if (fileFieldIndex != -1) ui->comboBox_tab1->setCurrentIndex(fileFieldIndex);
-  loading_setting_done = true;
+//  if (fileFieldIndex != -1) ui->comboBox_tab1->setCurrentIndex(fileFieldIndex);
+//  loading_setting_done = true;
 }
 void MainWindow::choose_file() {
   QString name = qgetenv("USER");
@@ -111,8 +98,8 @@ void MainWindow::updateInfoLabels(long int vertN, long int edgesN,
 }
 
 void MainWindow::on_comboBox_tab1_currentIndexChanged(int index) {
-  if (!loading_setting_done) return;
-  fileFieldIndex = index;
+//  if (!loading_setting_done) return;
+//  fileFieldIndex = index;
 }
 
 void MainWindow::on_pushButton_saveFile_clicked() {
@@ -176,6 +163,4 @@ void MainWindow::on_pushButton_screencast_clicked() {
   timerStarted = true;
 }
 void MainWindow::on_pushButton_screencast_auto_clicked() {
-  std::vector<QImage> gifData = ui->openGLWidget->getScreencast();
-  saveGif(gifData);
 }

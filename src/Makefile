@@ -11,11 +11,12 @@ endif
 ifeq ($(UNAME_S),Darwin)
 	OPEN_CMD = open
 endif
+# @cd ${BUILD_PATH}; make
 all: install open
 build:
 	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
 	@cmake -DCMAKE_BUILD_TYPE="Release" -B ${BUILD_PATH} .
-	@cd ${BUILD_PATH}; make
+	@cmake --build ${BUILD_PATH} --target all --parallel 8
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
 build_debug:

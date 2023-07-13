@@ -23,24 +23,11 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 
  private:
-  QColor lineColor = QColor(255, 255, 255);
-  QColor pointColor = QColor(255, 0, 0);
-  QColor backColor = QColor(0, 0, 0);
-
-  float lineWidth = 1;
-  float pointWidth = 1;
-  int pointTypeIndex = -1;
-  int viewTypeIndex = -1;
-  int fileFieldIndex = -1;
-  bool loading_setting_done = false;
   std::vector<QString> filePaths;
-  float scale = 1;
   Ui::MainWindow *ui;
   std::vector<QImage> gifBuffer;
   bool timerStarted = false;
   s21::EObjectItemModel *eObjectModel;
-  QVector3D cameraPos = QVector3D(0, 0, 0);
-  QVector3D cameraOrient = QVector3D(0, 0, 1);
 
   void saveSettings();
   void saveGif(std::vector<QImage> gifData);
