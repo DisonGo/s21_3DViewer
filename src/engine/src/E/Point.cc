@@ -16,9 +16,9 @@ void Point::Draw(GLenum type, Camera *camera) {
   float blue = vertices_color_.blueF();
   transform_.LoadModelMatrix(program_);
   camera->Matrix(*program_, "u_camMatrix");
-  glUniform3f(program_->GetUniform("u_prototype_color"), red, green, blue);
-  glUniform1f(program_->GetUniform("u_pointSize"), vertices_size_);
-  glUniform1i(program_->GetUniform("u_circlePoint"), true);
+  program_->Uniform3f("u_prototype_color", red, green, blue);
+  program_->Uniform1f("u_pointSize", vertices_size_);
+  program_->Uniform1i("u_circlePoint", true);
   mesh_.Draw(GL_POINTS);
 }
 
