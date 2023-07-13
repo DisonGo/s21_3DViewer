@@ -105,9 +105,9 @@ void Engine::SetParser(BaseParser* parser) {
   OBJParser_ = parser;
 }
 
-Engine* Engine::Instance() {
+Engine& Engine::Instance() {
   static Engine instance;
-  return &instance;
+  return instance;
 }
 
 void Engine::DrawGeometry(GLenum type) {

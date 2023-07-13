@@ -2,48 +2,160 @@
   "todotree": {
     "tree": [
       {
-        "key": 1687723053618,
+        "key": 1688985445512,
         "children": [
           {
-            "key": 1687723069763,
-            "children": [
-              {
-                "key": 1687723672439,
-                "children": [],
-                "todo": {
-                  "content": "Make it as less coupled as possible if it's not costing us a lot of code readability and time.",
-                  "id": 1687723672439,
-                  "level": "default",
-                  "done": true,
-                  "start": 1687723672439,
-                  "focus": false,
-                  "end": 1688984686415
-                }
-              },
-              {
-                "key": 1687723776961,
-                "children": [],
-                "todo": {
-                  "content": "Standartize coding style (naming \\ logic patterns)",
-                  "id": 1687723776961,
-                  "level": "default",
-                  "done": true,
-                  "start": 1687723776961,
-                  "focus": false,
-                  "end": 1688480637362
-                }
-              }
-            ],
+            "key": 1689179713327,
+            "children": [],
             "todo": {
-              "content": "Code Refactoring",
-              "id": 1687723069763,
-              "level": "default",
-              "done": true,
-              "start": 1687723069763,
-              "focus": false,
-              "end": 1688984687751
+              "content": "CRASH: if file doesn't exists when being parsed.",
+              "id": 1689179713327,
+              "level": "warning",
+              "done": false,
+              "start": 1689179713327
             }
           },
+          {
+            "key": 1688985866795,
+            "children": [],
+            "todo": {
+              "content": "Information about the uploaded model - file name, number of vertices and edges.",
+              "id": 1688985866795,
+              "level": "default",
+              "done": false,
+              "start": 1688985866795
+            }
+          },
+          {
+            "key": 1688985886491,
+            "children": [],
+            "todo": {
+              "content": "Main UI rework to MVC",
+              "id": 1688985886491,
+              "level": "success",
+              "done": false,
+              "start": 1688985886491
+            }
+          },
+          {
+            "key": 1688985918140,
+            "children": [],
+            "todo": {
+              "content": "Wrap UI classes in namespace s21",
+              "id": 1688985918140,
+              "level": "default",
+              "done": false,
+              "start": 1688985918140
+            }
+          },
+          {
+            "key": 1688986255276,
+            "children": [],
+            "todo": {
+              "content": "UI for background color",
+              "id": 1688986255276,
+              "level": "success",
+              "done": false,
+              "start": 1688986255276
+            }
+          },
+          {
+            "key": 1688986266629,
+            "children": [],
+            "todo": {
+              "content": "Settings must be saved between program restarts",
+              "id": 1688986266629,
+              "level": "success",
+              "done": false,
+              "start": 1688986266629
+            }
+          },
+          {
+            "key": 1688986285805,
+            "children": [],
+            "todo": {
+              "content": "Fix image saving formats (PNG -> BMP/JPEG)",
+              "id": 1688986285805,
+              "level": "success",
+              "done": false,
+              "start": 1688986285805
+            }
+          },
+          {
+            "key": 1688993779137,
+            "children": [],
+            "todo": {
+              "content": "Start using shared_ptr for MVC",
+              "id": 1688993779137,
+              "level": "default",
+              "done": false,
+              "start": 1688993779137
+            }
+          },
+          {
+            "key": 1688986079440,
+            "children": [],
+            "todo": {
+              "content": "UI for type (solid, dashed), color and thickness of the edges, display method (none, circle, square), color and size of the vertices",
+              "id": 1688986079440,
+              "level": "default",
+              "done": true,
+              "start": 1688986079440,
+              "focus": false,
+              "end": 1688999686155
+            }
+          },
+          {
+            "key": 1688985617269,
+            "children": [],
+            "todo": {
+              "content": "Remove plane",
+              "id": 1688985617269,
+              "level": "default",
+              "done": true,
+              "start": 1688985617269,
+              "focus": false,
+              "end": 1689170993600
+            }
+          },
+          {
+            "key": 1688985747623,
+            "children": [],
+            "todo": {
+              "content": "Restrict n of loaded objects to 1",
+              "id": 1688985747623,
+              "level": "default",
+              "done": true,
+              "start": 1688985747623,
+              "focus": false,
+              "end": 1689179757791
+            }
+          },
+          {
+            "key": 1688999716460,
+            "children": [],
+            "todo": {
+              "content": "Disable non Wireframe buffers.",
+              "id": 1688999716460,
+              "level": "default",
+              "done": true,
+              "start": 1688999716460,
+              "focus": false,
+              "end": 1689171013185
+            }
+          }
+        ],
+        "todo": {
+          "content": "3DViewer_2.0 baseline tasks",
+          "id": 1688985445512,
+          "level": "warning",
+          "done": false,
+          "start": 1688985445512
+        }
+      },
+      {
+        "key": 1687723053618,
+        "children": [
           {
             "key": 1687723105337,
             "children": [
@@ -91,6 +203,46 @@
               "level": "default",
               "done": false,
               "start": 1687723105337
+            }
+          },
+          {
+            "key": 1687723069763,
+            "children": [
+              {
+                "key": 1687723672439,
+                "children": [],
+                "todo": {
+                  "content": "Make it as less coupled as possible if it's not costing us a lot of code readability and time.",
+                  "id": 1687723672439,
+                  "level": "default",
+                  "done": true,
+                  "start": 1687723672439,
+                  "focus": false,
+                  "end": 1688984686415
+                }
+              },
+              {
+                "key": 1687723776961,
+                "children": [],
+                "todo": {
+                  "content": "Standartize coding style (naming \\ logic patterns)",
+                  "id": 1687723776961,
+                  "level": "default",
+                  "done": true,
+                  "start": 1687723776961,
+                  "focus": false,
+                  "end": 1688480637362
+                }
+              }
+            ],
+            "todo": {
+              "content": "Code Refactoring",
+              "id": 1687723069763,
+              "level": "default",
+              "done": true,
+              "start": 1687723069763,
+              "focus": false,
+              "end": 1688984687751
             }
           }
         ],
@@ -309,6 +461,64 @@
             }
           },
           {
+            "key": 1688300934509,
+            "children": [],
+            "todo": {
+              "content": "Move from using QT classes (QVector , QMatrix etc.)",
+              "id": 1688300934509,
+              "level": "secondary",
+              "done": false,
+              "start": 1688300934509
+            }
+          },
+          {
+            "key": 1688339853710,
+            "children": [
+              {
+                "key": 1688339882278,
+                "children": [],
+                "todo": {
+                  "content": "Reimplementing Transform to Transform2D/Transform3D",
+                  "id": 1688339882278,
+                  "level": "secondary",
+                  "done": false,
+                  "start": 1688339882278
+                }
+              },
+              {
+                "key": 1681726468969,
+                "children": [],
+                "todo": {
+                  "content": "World axis/planes/grid",
+                  "id": 1681726468969,
+                  "level": "default",
+                  "done": true,
+                  "start": 1681726468969,
+                  "focus": false,
+                  "end": 1688984881764
+                }
+              }
+            ],
+            "todo": {
+              "content": "Implement Object2D",
+              "id": 1688339853710,
+              "level": "secondary",
+              "done": false,
+              "start": 1688339853710
+            }
+          },
+          {
+            "key": 1688340015664,
+            "children": [],
+            "todo": {
+              "content": "Decrease inheritence of QOpenGLFunctions class.",
+              "id": 1688340015664,
+              "level": "secondary",
+              "done": false,
+              "start": 1688340015664
+            }
+          },
+          {
             "key": 1681563450464,
             "children": [
               {
@@ -360,64 +570,6 @@
               "start": 1681563450464,
               "focus": false,
               "end": 1688984768961
-            }
-          },
-          {
-            "key": 1688300934509,
-            "children": [],
-            "todo": {
-              "content": "Move from using QT classes (QVector , QMatrix etc.)",
-              "id": 1688300934509,
-              "level": "secondary",
-              "done": false,
-              "start": 1688300934509
-            }
-          },
-          {
-            "key": 1688339853710,
-            "children": [
-              {
-                "key": 1681726468969,
-                "children": [],
-                "todo": {
-                  "content": "World axis/planes/grid",
-                  "id": 1681726468969,
-                  "level": "default",
-                  "done": true,
-                  "start": 1681726468969,
-                  "focus": false,
-                  "end": 1688984881764
-                }
-              },
-              {
-                "key": 1688339882278,
-                "children": [],
-                "todo": {
-                  "content": "Reimplementing Transform to Transform2D/Transform3D",
-                  "id": 1688339882278,
-                  "level": "secondary",
-                  "done": false,
-                  "start": 1688339882278
-                }
-              }
-            ],
-            "todo": {
-              "content": "Implement Object2D",
-              "id": 1688339853710,
-              "level": "secondary",
-              "done": false,
-              "start": 1688339853710
-            }
-          },
-          {
-            "key": 1688340015664,
-            "children": [],
-            "todo": {
-              "content": "Decrease inheritence of QOpenGLFunctions class.",
-              "id": 1688340015664,
-              "level": "secondary",
-              "done": false,
-              "start": 1688340015664
             }
           }
         ],
@@ -677,158 +829,6 @@
           "done": false,
           "start": 1681563615593
         }
-      },
-      {
-        "key": 1688985445512,
-        "children": [
-          {
-            "key": 1688986079440,
-            "children": [],
-            "todo": {
-              "content": "UI for type (solid, dashed), color and thickness of the edges, display method (none, circle, square), color and size of the vertices",
-              "id": 1688986079440,
-              "level": "default",
-              "done": true,
-              "start": 1688986079440,
-              "focus": false,
-              "end": 1688999686155
-            }
-          },
-          {
-            "key": 1688985617269,
-            "children": [],
-            "todo": {
-              "content": "Remove plane",
-              "id": 1688985617269,
-              "level": "default",
-              "done": true,
-              "start": 1688985617269,
-              "focus": false,
-              "end": 1689170993600
-            }
-          },
-          {
-            "key": 1688985747623,
-            "children": [],
-            "todo": {
-              "content": "Restrict n of loaded objects to 1",
-              "id": 1688985747623,
-              "level": "default",
-              "done": true,
-              "start": 1688985747623,
-              "focus": false,
-              "end": 1689179757791
-            }
-          },
-          {
-            "key": 1688985866795,
-            "children": [],
-            "todo": {
-              "content": "Information about the uploaded model - file name, number of vertices and edges.",
-              "id": 1688985866795,
-              "level": "default",
-              "done": false,
-              "start": 1688985866795
-            }
-          },
-          {
-            "key": 1688985886491,
-            "children": [],
-            "todo": {
-              "content": "Main UI rework to MVC",
-              "id": 1688985886491,
-              "level": "default",
-              "done": false,
-              "start": 1688985886491
-            }
-          },
-          {
-            "key": 1688985918140,
-            "children": [],
-            "todo": {
-              "content": "Wrap UI classes in namespace s21",
-              "id": 1688985918140,
-              "level": "default",
-              "done": false,
-              "start": 1688985918140
-            }
-          },
-          {
-            "key": 1688986255276,
-            "children": [],
-            "todo": {
-              "content": "UI for background color",
-              "id": 1688986255276,
-              "level": "default",
-              "done": false,
-              "start": 1688986255276
-            }
-          },
-          {
-            "key": 1688986266629,
-            "children": [],
-            "todo": {
-              "content": "Settings must be saved between program restarts",
-              "id": 1688986266629,
-              "level": "default",
-              "done": false,
-              "start": 1688986266629
-            }
-          },
-          {
-            "key": 1688986285805,
-            "children": [],
-            "todo": {
-              "content": "Fix image saving formats",
-              "id": 1688986285805,
-              "level": "default",
-              "done": false,
-              "start": 1688986285805
-            }
-          },
-          {
-            "key": 1688993779137,
-            "children": [],
-            "todo": {
-              "content": "Start using shared_ptr for MVC",
-              "id": 1688993779137,
-              "level": "default",
-              "done": false,
-              "start": 1688993779137
-            }
-          },
-          {
-            "key": 1688999716460,
-            "children": [],
-            "todo": {
-              "content": "Disable non Wireframe buffers.",
-              "id": 1688999716460,
-              "level": "default",
-              "done": true,
-              "start": 1688999716460,
-              "focus": false,
-              "end": 1689171013185
-            }
-          },
-          {
-            "key": 1689179713327,
-            "children": [],
-            "todo": {
-              "content": "CRASH: if file doesn't exists when being parsed.",
-              "id": 1689179713327,
-              "level": "warning",
-              "done": false,
-              "start": 1689179713327
-            }
-          }
-        ],
-        "todo": {
-          "content": "3DViewer_2.0 baseline tasks",
-          "id": 1688985445512,
-          "level": "warning",
-          "done": false,
-          "start": 1688985445512
-        }
       }
     ],
     "expandKeys": [
@@ -856,6 +856,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1689179757884"
+    "version": "1689255446034"
   }
 }

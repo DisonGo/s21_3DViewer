@@ -3,7 +3,7 @@ namespace s21 {
 VBO::VBO(std::vector<VertexData> vertices) { BindVertices(vertices); }
 
 void VBO::BindVertices(std::vector<VertexData> vertices) {
-  if (ID_ == (GLuint)-1) return;
+  if (ID_ == 0) return;
   Bind();
   size_ = vertices.size() * 3;
   allocated_ = vertices.size() * sizeof(VertexData);

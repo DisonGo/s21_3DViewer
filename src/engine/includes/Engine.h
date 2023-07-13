@@ -22,7 +22,7 @@ class Engine : protected QOpenGLFunctions {
   EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();
   void SetParser(s21::BaseParser* parser);
-  static Engine* Instance();
+  static Engine& Instance();
 
  private:
   Engine();
