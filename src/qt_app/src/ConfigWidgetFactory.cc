@@ -17,7 +17,6 @@ ConfigWidget *ConfigWidgetFactory::CreateWidget(s21::EObject *object,
 ConfigWidget *ConfigWidgetFactory::CreatekNone(QWidget *parent) {
   return new ConfigWidget(parent);
 }
-
 ConfigWidget *ConfigWidgetFactory::CreatekCamera(s21::EObject *object,
                                                  QWidget *parent) {
   auto obj_ptr = static_cast<s21::Camera *>(object);

@@ -34,7 +34,7 @@ class Engine : protected QOpenGLFunctions {
   void RemoveObject(EObject* object);
   void Wipe3DObjects();
 
-  bool single_object_mode = true;
+  bool single_object_mode = false;
   Point focus_point_;
   Camera* current_camera_ = nullptr;
   Object3D* GenerateObject(QString fileName);

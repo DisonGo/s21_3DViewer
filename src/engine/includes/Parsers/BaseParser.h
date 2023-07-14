@@ -18,7 +18,7 @@ namespace s21 {
 struct TagCounters {
   size_t vC = 0, vnC = 0, vtC = 0, fC = 0;
 };
-enum OBJParserTypes { kBaseParser, kOBJParser, kEdgeParser, kTriangleParser };
+enum OBJParserTypes { kBaseParser, kOBJParser };
 class BaseParser {
  public:
   OBJParserTypes type = kBaseParser;

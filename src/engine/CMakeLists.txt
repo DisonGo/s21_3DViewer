@@ -64,6 +64,7 @@ add_library(${LIB_NAME} STATIC
     ${ENGINE_HEADER}
 )
 target_link_libraries(${LIB_NAME} PRIVATE
+    godison
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::OpenGL
     Qt${QT_VERSION_MAJOR}::OpenGLWidgets

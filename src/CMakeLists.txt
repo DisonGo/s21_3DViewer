@@ -6,8 +6,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../exe)
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -27,5 +26,6 @@ add_subdirectory(qt_app)
 add_subdirectory(engine)
 add_subdirectory(gifImage)
 add_subdirectory(widgets)
+add_subdirectory(godison)
 
 
