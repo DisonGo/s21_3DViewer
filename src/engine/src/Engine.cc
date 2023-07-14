@@ -23,7 +23,7 @@ Engine::Engine() {
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
   eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
-  Polygon p(40, 0, 0, 1);
+  class Polygon p(40, 0, 0, 1);
   OBJ obj;
   auto verts = p.GenerateVertices();
   auto indis = p.GenerateIndices();
@@ -31,7 +31,10 @@ Engine::Engine() {
     obj.vertices.push_back({verts[i], verts[i + 1], verts[i + 2]});
   }
   obj.faces.push_back({});
-  for (auto& index : indis) obj.faces[0].indices.push_back({(int)index, 0, 0});
+  for (auto& index : indis) {
+    FaceVertex fv{(int)index, 0, 0};
+    obj.faces[0].indices.push_back(fv);
+  }
 
   auto polygon = new Object3D();
   static OBJImportWireframeStrategy standratImporter;
