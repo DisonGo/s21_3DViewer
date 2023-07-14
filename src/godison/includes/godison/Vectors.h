@@ -2,14 +2,13 @@
 #define VECTORS_H
 #include <godison/Types.h>
 
-#include <initializer_list>
 #include <array>
 #include <cmath>
+#include <initializer_list>
 namespace godison {
 namespace vectors {
 template <typename type, size_t size>
 class Vector {
-
  public:
   Vector() : data_{} {
     static_assert(std::is_default_constructible<type>::value,
@@ -17,15 +16,10 @@ class Vector {
   };
   Vector(std::initializer_list<type> vals) : Vector() {
     size_t min_size = std::min(vals.size(), size);
-    for (size_t i = 0; i < min_size; ++i)
-      data_[i] = vals.begin()[i];
+    for (size_t i = 0; i < min_size; ++i) data_[i] = vals.begin()[i];
   }
-  Vector(const Vector& other) {
-    *this = other;
-  }
-  Vector(Vector&& other) {
-    *this = std::move(other);
-  }
+  Vector(const Vector& other) { *this = other; }
+  Vector(Vector&& other) { *this = std::move(other); }
   ~Vector() = default;
   Vector& operator=(const Vector& other) {
     if (this == &other) return *this;
@@ -100,21 +94,15 @@ class Vector {
     return true;
   }
   type& operator[](size_t index) {
-    if (index >= size)
-        throw "Out of bounds";
+    if (index >= size) throw "Out of bounds";
     return data_[index];
   };
-  const type& operator[](size_t index) const{
-      if (index >= size)
-          throw "Out of bounds";
-      return data_[index];
+  const type& operator[](size_t index) const {
+    if (index >= size) throw "Out of bounds";
+    return data_[index];
   };
-  std::array<type, size>& Data() {
-      return data_;
-  };
-  const std::array<type, size>& Data() const{
-      return data_;
-  }
+  std::array<type, size>& Data() { return data_; };
+  const std::array<type, size>& Data() const { return data_; }
   friend std::ostream& operator<<(std::ostream& os, const Vector& v) {
     for (const auto val : v.data_) os << val << " ";
     return os;
@@ -123,14 +111,12 @@ class Vector {
   Vector<T, S> ToVector() {
     Vector<T, S> v;
     size_t min_size = std::min(S, size);
-    for (size_t i = 0; i < min_size; ++i)
-      v[i] = data_[i];
+    for (size_t i = 0; i < min_size; ++i) v[i] = data_[i];
     return v;
   }
   double Length() const {
     vector_type sum{};
-    for (const auto& val : data_)
-      sum+=val * val;
+    for (const auto& val : data_) sum += val * val;
     return std::sqrt(sum);
   }
   void Normalize() {
@@ -152,15 +138,13 @@ class Vector {
   std::array<type, size> data_;
 };
 class Vector2D : public Vector<double, 2> {
-public:
+ public:
   Vector2D(double x = 0, double y = 0) : Vector() {
     SetX(x);
     SetY(y);
   };
-  Vector2D(const Vector& other) {
-    *this = other;
-  };
-  Vector2D& operator= (const Vector& other) {
+  Vector2D(const Vector& other) { *this = other; };
+  Vector2D& operator=(const Vector& other) {
     if (this == &other) return *this;
     data_ = other.Data();
     return *this;
@@ -170,7 +154,7 @@ public:
   inline void SetX(double value) { data_[0] = value; }
   inline void SetY(double value) { data_[1] = value; }
 };
-class Vector3D : public Vector<double, 3>{
+class Vector3D : public Vector<double, 3> {
  public:
   Vector3D(double x = 0, double y = 0, double z = 0) : Vector() {
     SetX(x);
@@ -181,7 +165,7 @@ class Vector3D : public Vector<double, 3>{
     if (this == &other) return;
     *this = other;
   }
-  Vector3D& operator= (const Vector& other) {
+  Vector3D& operator=(const Vector& other) {
     if (this == &other) return *this;
     data_ = other.Data();
     return *this;
@@ -194,9 +178,9 @@ class Vector3D : public Vector<double, 3>{
   inline void SetY(double value) { data_[1] = value; }
   inline void SetZ(double value) { data_[2] = value; }
 };
-class Vector4D : public Vector<double, 4>{
+class Vector4D : public Vector<double, 4> {
  public:
-  Vector4D(double x = 0, double y = 0, double z = 0, double w = 0): Vector() {
+  Vector4D(double x = 0, double y = 0, double z = 0, double w = 0) : Vector() {
     SetX(x);
     SetY(y);
     SetZ(z);
@@ -207,7 +191,7 @@ class Vector4D : public Vector<double, 4>{
     if (this == &other) return;
     *this = other;
   }
-  Vector4D& operator= (const Vector& other) {
+  Vector4D& operator=(const Vector& other) {
     if (this == &other) return *this;
     data_ = other.Data();
     return *this;
@@ -218,10 +202,10 @@ class Vector4D : public Vector<double, 4>{
   inline double Z() const { return data_[2]; }
   inline double W() const { return data_[3]; }
 
-  inline void SetX(double value) { data_[3] = value; }
-  inline void SetY(double value) { data_[2] = value; }
-  inline void SetZ(double value) { data_[1] = value; }
-  inline void SetW(double value) { data_[0] = value; }
+  inline void SetX(double value) { data_[0] = value; }
+  inline void SetY(double value) { data_[1] = value; }
+  inline void SetZ(double value) { data_[2] = value; }
+  inline void SetW(double value) { data_[3] = value; }
 };
 }  // namespace vectors
 }  // namespace godison
