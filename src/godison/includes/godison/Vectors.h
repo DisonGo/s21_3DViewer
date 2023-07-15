@@ -31,40 +31,40 @@ class Vector {
     data_ = std::move(other.data_);
     return *this;
   }
-  const Vector& operator+(const Vector& other) const {
+  Vector operator+(const Vector& other) const {
     Vector tmp(*this);
     return tmp += other;
   };
-  const Vector& operator+(type value) const {
+  Vector operator+(type value) const {
     Vector tmp(*this);
     return tmp += value;
   };
-  const Vector& operator+() const { return *this; }
-  const Vector& operator-(const Vector& other) const {
+  Vector operator+() const { return *this; }
+  Vector operator-(const Vector& other) const {
     Vector tmp(*this);
     return tmp -= other;
   };
-  const Vector& operator-(type value) const {
+  Vector operator-(type value) const {
     Vector tmp(*this);
     return tmp -= value;
   };
-  const Vector& operator-() const {
+  Vector operator-() const {
     Vector tmp(*this);
     for (auto& val : tmp.data_) val *= -1;
     return tmp;
   }
-  const Vector& operator*(const Vector& other) const {
+  Vector operator*(const Vector& other) const {
     Vector tmp(*this);
     return tmp *= other;
   };
-  const Vector& operator*(type value) const {
+  Vector operator*(type value) const {
     Vector tmp(*this);
     return tmp *= value;
   };
   friend const Vector& operator*(type value, const Vector& vector) {
     return vector * value;
   }
-  const Vector& operator/(type value) const {
+  Vector operator/(type value) const {
     Vector tmp(*this);
     return tmp /= value;
   };
@@ -110,7 +110,7 @@ class Vector {
   };
   const type& operator[](size_t index) const {
     // assert(index < size);
-   if (index >= size) throw "Out of bounds";
+    if (index >= size) throw "Out of bounds";
     return data_[index];
   };
   std::array<type, size>& Data() { return data_; };

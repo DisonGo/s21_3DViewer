@@ -1,6 +1,5 @@
 #ifndef MESH_H
 #define MESH_H
-#include <QMatrix4x4>
 #include <QOpenGLFunctions>
 
 #include "DrawConfig.h"
