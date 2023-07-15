@@ -15,7 +15,7 @@ TripletWidget::TripletWidget(QWidget* parent)
 
 TripletWidget::~TripletWidget() { delete ui; }
 
-void TripletWidget::SetValues(const QVector3D& values) {
+void TripletWidget::SetValues(const Vector3D& values) {
   if (values == this->values) return;
   this->values = values;
   UpdateInputs();
@@ -29,15 +29,15 @@ void TripletWidget::SetStep(double step) {
   ui->thirdV->setSingleStep(step);
 }
 
-QVector3D TripletWidget::GetValues() const { return values; }
+Vector3D TripletWidget::GetValues() const { return values; }
 
 void TripletWidget::ResetValues() {
   ui->firstV->setRange(-10000, 10000);
   ui->secondV->setRange(-10000, 10000);
   ui->thirdV->setRange(-10000, 10000);
-  values.setX(0);
-  values.setY(0);
-  values.setZ(0);
+  values.SetX(0);
+  values.SetY(0);
+  values.SetZ(0);
   UpdateInputs();
 }
 
@@ -72,17 +72,17 @@ void TripletWidget::SetRange(double min, double max) {
 }
 
 void TripletWidget::UpdateInputs() {
-  ui->firstV->setValue(values.x());
-  ui->secondV->setValue(values.y());
-  ui->thirdV->setValue(values.z());
+  ui->firstV->setValue(values.X());
+  ui->secondV->setValue(values.Y());
+  ui->thirdV->setValue(values.Z());
   emit InputsChanged(values);
 }
 
 void TripletWidget::ReadInput(double val) {
   QDoubleSpinBox* wid = (QDoubleSpinBox*)sender();
   if (!wid) return;
-  if (wid == ui->firstV) values.setX(val);
-  if (wid == ui->secondV) values.setY(val);
-  if (wid == ui->thirdV) values.setZ(val);
+  if (wid == ui->firstV) values.SetX(val);
+  if (wid == ui->secondV) values.SetY(val);
+  if (wid == ui->thirdV) values.SetZ(val);
   emit InputsChanged(values);
 }

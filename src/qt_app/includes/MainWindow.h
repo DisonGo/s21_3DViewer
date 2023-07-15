@@ -1,10 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <godison/Vectors.h>
+using godison::vectors::Vector3D;
 #include <QAbstractButton>
 #include <QMainWindow>
 #include <QSettings>
-#include <QVector3D>
 
 #include "ConfigWidgetFactory.h"
 #include "E/Camera.h"

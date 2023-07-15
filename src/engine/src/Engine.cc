@@ -1,13 +1,14 @@
 #include "Engine.h"
 
 #include <godison/Shapes.h>
+#include <godison/Vectors.h>
 #include <memory.h>
 
 #include <QFileInfo>
 #include <QRandomGenerator>
-#include <QVector2D>
-#include <QVector3D>
 #include <functional>
+
+using godison::vectors::Vector3D;
 using godison::shapes::Polygon;
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
 #define ERASE_FROM_VECTOR(vec, x) \

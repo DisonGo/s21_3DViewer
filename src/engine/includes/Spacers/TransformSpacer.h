@@ -1,7 +1,8 @@
 #ifndef TRANSFORMSPACER_H
 #define TRANSFORMSPACER_H
+#include <godison/Vectors.h>
+using godison::vectors::Vector3D;
 #include <QObject>
-#include <QVector3D>
 
 #include "E/Transform.h"
 namespace s21 {
@@ -10,13 +11,13 @@ class TransformSpacer : public QObject {
  public:
   TransformSpacer(Transform &transform, QObject *parent = nullptr)
       : QObject(parent), transform_(transform){};
-  const QVector3D &GetScale() const;
-  const QVector3D &GetRotation() const;
-  const QVector3D &GetTranslate() const;
+  const Vector3D &GetScale() const;
+  const Vector3D &GetRotation() const;
+  const Vector3D &GetTranslate() const;
  public slots:
-  void SetScale(const QVector3D &newScale);
-  void SetRotation(const QVector3D &newRotation);
-  void SetTranslate(const QVector3D &newTranslate);
+  void SetScale(const Vector3D &newScale);
+  void SetRotation(const Vector3D &newRotation);
+  void SetTranslate(const Vector3D &newTranslate);
  signals:
   void ConfigUpdated();
 

@@ -1,7 +1,6 @@
 #ifndef OBJPARSER_H
 #define OBJPARSER_H
 #include "Parsers/BaseParser.h"
-#include "QVector3D"
 namespace s21 {
 class OBJParser : public BaseParser {
  public:

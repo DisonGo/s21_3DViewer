@@ -40,6 +40,7 @@ endif()
 
 target_link_libraries(3D_Viewer PRIVATE
     engine
+    godison
     widgets
     QtGifImage_
     Qt${QT_VERSION_MAJOR}::Widgets

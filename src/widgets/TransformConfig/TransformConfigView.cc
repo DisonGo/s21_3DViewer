@@ -14,12 +14,12 @@ TransformConfigView::TransformConfigView(s21::TransformSpacer *transform,
 }
 void TransformConfigView::Setup() {
   ui->setupUi(this);
-  connect(ui->TranslationTriplet, SIGNAL(InputsChanged(QVector3D)), this,
-          SLOT(SetTranslation(QVector3D)));
-  connect(ui->RotationTriplet, SIGNAL(InputsChanged(QVector3D)), this,
-          SLOT(SetRotation(QVector3D)));
-  connect(ui->ScaleTriplet, SIGNAL(InputsChanged(QVector3D)), this,
-          SLOT(SetScale(QVector3D)));
+  connect(ui->TranslationTriplet, SIGNAL(InputsChanged(Vector3D)), this,
+          SLOT(SetTranslation(Vector3D)));
+  connect(ui->RotationTriplet, SIGNAL(InputsChanged(Vector3D)), this,
+          SLOT(SetRotation(Vector3D)));
+  connect(ui->ScaleTriplet, SIGNAL(InputsChanged(Vector3D)), this,
+          SLOT(SetScale(Vector3D)));
   ui->TranslationTriplet->SetRange(-10000, 10000);
   ui->ScaleTriplet->SetRange(-10000, 10000);
   ui->ScaleTriplet->SetStep(0.1);
@@ -53,19 +53,19 @@ void TransformConfigView::SetTranformSpacer(
   SetValuesFromConfig();
 }
 
-void TransformConfigView::SetTranslation(const QVector3D translate) {
+void TransformConfigView::SetTranslation(const Vector3D translate) {
   if (!transformSpacer_) return;
   transformSpacer_->SetTranslate(translate);
   emit UpdateRequest();
 }
 
-void TransformConfigView::SetRotation(const QVector3D rotation) {
+void TransformConfigView::SetRotation(const Vector3D rotation) {
   if (!transformSpacer_) return;
   transformSpacer_->SetRotation(rotation);
   emit UpdateRequest();
 }
 
-void TransformConfigView::SetScale(const QVector3D scale) {
+void TransformConfigView::SetScale(const Vector3D scale) {
   if (!transformSpacer_) return;
   transformSpacer_->SetScale(scale);
   emit UpdateRequest();

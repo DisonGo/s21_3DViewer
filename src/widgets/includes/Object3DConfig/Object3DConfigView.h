@@ -26,7 +26,7 @@ class Object3DConfigView : public ConfigWidget {
   void SetupConnects();
  private slots:
   void SetValuesFromConfig();
-  void SetColor(const QVector3D& color);
+  void SetColor(const Vector3D& color);
   void SetLineType(bool checked);
   void SetPointType(bool checked);
   void SetLineWidth(double width);

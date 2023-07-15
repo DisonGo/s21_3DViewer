@@ -1,4 +1,5 @@
 #include "Parsers/OBJParser.h"
+
 #include "fstream"
 namespace s21 {
 TagCounters OBJParser::CountTags(const string filePath) {
@@ -41,9 +42,9 @@ void OBJParser::ParseFace(const string values, Face* faces, size_t& index) {
 void OBJParser::CenterVertices(std::vector<Vertex>& vertices, Vertex center) {
   if (vertices.empty()) return;
   for (auto& vertex : vertices) center += vertex;
-  QVector3D mean(center.x, center.y, center.z);
+  Vector3D mean(center.x, center.y, center.z);
   mean /= vertices.size();
-  center = Vertex(mean.x(), mean.y(), mean.z());
+  center = Vertex(mean.X(), mean.Y(), mean.Z());
   for (auto& vertex : vertices) vertex -= center;
 }
 
@@ -104,7 +105,7 @@ OBJ OBJParser::Parse(string filePath) {
     size_t pos = line.find(' ');
     tag.assign(line.substr(0, pos));
     values.assign(line.substr(pos + 1, line.size() - 1));
-//    qDebug() << QString(values.c_str());
+    //    qDebug() << QString(values.c_str());
 
     // Parse and save values depending on tag
 
@@ -129,12 +130,12 @@ OBJ OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-//  for (auto& face : obj.faces) {
-//    QString str;
-//    for (auto& index : face.indices)
-//      str += QString().number(index.v_index) + " ";
-//    qDebug() << str;
-//  }
+  //  for (auto& face : obj.faces) {
+  //    QString str;
+  //    for (auto& index : face.indices)
+  //      str += QString().number(index.v_index) + " ";
+  //    qDebug() << str;
+  //  }
 
   CenterVertices(obj.vertices, {0, 0, 0});
   ElevateVerticesToGround(obj.vertices);

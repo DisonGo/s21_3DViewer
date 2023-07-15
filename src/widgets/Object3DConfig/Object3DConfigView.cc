@@ -70,19 +70,19 @@ void Object3DConfigView::SetValuesFromConfig() {
   ui->LineTypeDashedB->setChecked(line_type == s21::kDashed);
 
   auto line_color = object_spacer_->GetEdgesColorValue();
-  QVector3D line_color_vec(line_color.red(), line_color.green(),
-                           line_color.blue());
+  Vector3D line_color_vec(line_color.red(), line_color.green(),
+                          line_color.blue());
   ui->LineColorTriplet->SetValues(line_color_vec);
 
   auto point_color = object_spacer_->GetVerticesColorValue();
-  QVector3D point_color_vec(point_color.red(), point_color.green(),
-                            point_color.blue());
+  Vector3D point_color_vec(point_color.red(), point_color.green(),
+                           point_color.blue());
   ui->PointColorTriplet->SetValues(point_color_vec);
 }
 
-void Object3DConfigView::SetColor(const QVector3D &color) {
+void Object3DConfigView::SetColor(const Vector3D &color) {
   if (!object_spacer_) return;
-  auto new_color = QColor(color.x(), color.y(), color.z());
+  auto new_color = QColor(color.X(), color.Y(), color.Z());
   auto widget_ptr = static_cast<TripletWidget *>(sender());
   if (widget_ptr == ui->LineColorTriplet)
     object_spacer_->SetEdgesColorValue(new_color);

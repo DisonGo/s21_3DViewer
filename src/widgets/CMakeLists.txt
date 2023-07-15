@@ -29,6 +29,7 @@ add_library(${LIB_NAME} SHARED
     ${WIDGETS_HEADER}
 )
 target_link_libraries(${LIB_NAME} PRIVATE
+    godison
     engine
     Qt${QT_VERSION_MAJOR}::Widgets
 )

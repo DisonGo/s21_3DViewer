@@ -1,7 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
+#include <godison/Point.h>
+#include <godison/Vectors.h>
+using godison::vectors::Vector2D;
+using godison::vectors::Vector3D;
 #include <QOpenGLFunctions>
-#include <QVector3D>
 
 #include "E/EObject.h"
 #include "Shaders/Program.h"
@@ -35,10 +38,10 @@ class Camera : public EObject, protected QOpenGLFunctions {
  public:  // Setters / Getters
   void SetMode(CameraMode newMode);
   void SetViewMode(ViewMode newViewMode);
-  void SetFocusPoint(const QVector3D &newFocusPoint);
-  void SetPosition(const QVector3D &newPosition);
-  void SetOrientation(const QVector3D &newOrientation);
-  void SetZRange(const QVector2D &newZRange);
+  void SetFocusPoint(const Vector3D &newFocusPoint);
+  void SetPosition(const Vector3D &newPosition);
+  void SetOrientation(const Vector3D &newOrientation);
+  void SetZRange(const Vector2D &newZRange);
   void SetFOV(float newFOV);
   void SetVw(int newVw);
   void SetVh(int newVh);
@@ -49,10 +52,10 @@ class Camera : public EObject, protected QOpenGLFunctions {
 
   Camera::CameraMode GetMode() const;
   Camera::ViewMode GetViewMode() const;
-  const QVector3D &GetFocusPoint() const;
-  const QVector3D &GetPosition() const;
-  const QVector3D &GetOrientation() const;
-  const QVector2D &GetZRange() const;
+  const Vector3D &GetFocusPoint() const;
+  const Vector3D &GetPosition() const;
+  const Vector3D &GetOrientation() const;
+  const Vector2D &GetZRange() const;
   float GetFOV() const;
   int GetVw() const;
   int GetVh() const;
@@ -68,19 +71,19 @@ class Camera : public EObject, protected QOpenGLFunctions {
   EObjectType type_ = EObjectType::kCamera;
 
  private:  // Methods
-  void ProcessFreeMode(QPoint ePos);
-  void ProcessFocusMode(QPoint ePos);
+  void ProcessFreeMode(godison::Point ePos);
+  void ProcessFocusMode(godison::Point ePos);
   void CalcFocusPosition();
 
  private:  // vars
   CameraMode mode_ = kFocus;
   ViewMode view_mode_ = kPerspective;
-  QVector3D focus_point_ = QVector3D(0, 1, 0);
-  QVector3D position_ = QVector3D(1, 1, 1);
-  QVector3D orientation_ = QVector3D(0, 0, 1);
-  QVector2D z_range_ = QVector2D(0.001, 100);
-  QVector3D focus_rotation_ = QVector3D(0, 0, 0);
-  QVector3D up_ = QVector3D(0.0f, 1.0f, 0.0f);
+  Vector3D focus_point_ = Vector3D(0, 1, 0);
+  Vector3D position_ = Vector3D(1, 1, 1);
+  Vector3D orientation_ = Vector3D(0, 0, 1);
+  Vector2D z_range_ = Vector2D(0.001, 100);
+  Vector3D focus_rotation_ = Vector3D(0, 0, 0);
+  Vector3D up_ = Vector3D(0.0f, 1.0f, 0.0f);
 
   float FOV_ = 130;
   double lineWidth_ = 1;
@@ -89,7 +92,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   bool LMBPressed_ = false;
   int vw_ = 1;
   int vh_ = 1;
-  QPoint m_center_pos_ = QPoint(0, 0);
+  godison::Point m_center_pos_ = godison::Point(0, 0);
   float move_speed_ = 0.1f;
   float rotation_speed_ = 0.1f;
   ParallelBox box_{};

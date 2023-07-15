@@ -31,39 +31,48 @@ class Vector {
     data_ = std::move(other.data_);
     return *this;
   }
-  const Vector& operator+(const Vector& other) {
+  const Vector& operator+(const Vector& other) const {
     Vector tmp(*this);
     return tmp += other;
   };
-  const Vector& operator+(double value) {
+  const Vector& operator+(type value) const {
     Vector tmp(*this);
     return tmp += value;
   };
-  const Vector& operator-(const Vector& other) {
+  const Vector& operator+() const { return *this; }
+  const Vector& operator-(const Vector& other) const {
     Vector tmp(*this);
-    return tmp += other;
+    return tmp -= other;
   };
-  const Vector& operator-(double value) {
+  const Vector& operator-(type value) const {
     Vector tmp(*this);
-    return tmp += value;
+    return tmp -= value;
   };
-  const Vector& operator*(const Vector& other) {
+  const Vector& operator-() const {
     Vector tmp(*this);
-    return tmp += other;
+    for (auto& val : tmp.data_) val *= -1;
+    return tmp;
+  }
+  const Vector& operator*(const Vector& other) const {
+    Vector tmp(*this);
+    return tmp *= other;
   };
-  const Vector& operator*(double value) {
+  const Vector& operator*(type value) const {
     Vector tmp(*this);
-    return tmp += value;
+    return tmp *= value;
   };
-  const Vector& operator/(double value) {
+  friend const Vector& operator*(type value, const Vector& vector) {
+    return vector * value;
+  }
+  const Vector& operator/(type value) const {
     Vector tmp(*this);
-    return tmp += value;
+    return tmp /= value;
   };
   const Vector& operator+=(const Vector& other) {
     for (size_t i = 0; i < size; ++i) data_[i] += other.data_[i];
     return *this;
   };
-  const Vector& operator+=(double value) {
+  const Vector& operator+=(type value) {
     for (size_t i = 0; i < size; ++i) data_[i] += value;
     return *this;
   };
@@ -71,7 +80,7 @@ class Vector {
     for (size_t i = 0; i < size; ++i) data_[i] -= other.data_[i];
     return *this;
   };
-  const Vector& operator-=(double value) {
+  const Vector& operator-=(type value) {
     for (size_t i = 0; i < size; ++i) data_[i] -= value;
     return *this;
   };
@@ -79,11 +88,11 @@ class Vector {
     for (size_t i = 0; i < size; ++i) data_[i] *= other.data_[i];
     return *this;
   };
-  const Vector& operator*=(double value) {
+  const Vector& operator*=(type value) {
     for (size_t i = 0; i < size; ++i) data_[i] *= value;
     return *this;
   };
-  const Vector& operator/=(double value) {
+  const Vector& operator/=(type value) {
     for (size_t i = 0; i < size; ++i) data_[i] /= value;
     return *this;
   };
@@ -93,15 +102,15 @@ class Vector {
       if (std::abs(data_[i] - other.data_[i]) > EPS) return false;
     return true;
   }
-  bool operator!=(const Vector& other) const {
-    return !(*this == other);
-  }
+  bool operator!=(const Vector& other) const { return !(*this == other); }
   type& operator[](size_t index) {
+    // assert(index < size);
     if (index >= size) throw "Out of bounds";
     return data_[index];
   };
   const type& operator[](size_t index) const {
-    if (index >= size) throw "Out of bounds";
+    // assert(index < size);
+   if (index >= size) throw "Out of bounds";
     return data_[index];
   };
   std::array<type, size>& Data() { return data_; };
@@ -111,7 +120,7 @@ class Vector {
     return os;
   }
   template <size_t S, typename T = type>
-  Vector<T, S> ToVector() const{
+  Vector<T, S> ToVector() const {
     Vector<T, S> v;
     size_t min_size = std::min(S, size);
     for (size_t i = 0; i < min_size; ++i) v[i] = data_[i];
@@ -129,26 +138,24 @@ class Vector {
       *this = Vector();
     }
   }
-  Vector Normalized() const{
+  Vector Normalized() const {
     Vector tmp(*this);
     tmp.Normalize();
     return tmp;
   }
-  type Dot(const Vector& v1) const{
-    return Dot(*this, v1);
-  }
+  type Dot(const Vector& v1) const { return Dot(*this, v1); }
   static type Dot(const Vector& v1, const Vector& v2) {
     vector_type result{};
-    for (size_t i = 0; i < size; ++i)
-      result += v1[i] * v2[i];
+    for (size_t i = 0; i < size; ++i) result += v1[i] * v2[i];
     return result;
   }
+
  protected:
   using vector_type = type;
   const size_t size_ = size;
   std::array<type, size> data_;
 };
-class Vector2D : public Vector<double, 2> {
+class Vector2D : public Vector<float, 2> {
  public:
   Vector2D(vector_type x = 0, vector_type y = 0) : Vector() {
     SetX(x);
@@ -160,18 +167,18 @@ class Vector2D : public Vector<double, 2> {
     data_ = other.Data();
     return *this;
   }
-  vector_type CrossProduct(const Vector2D& v1) const{
+  vector_type CrossProduct(const Vector2D& v1) const {
     return CrossProduct(*this, v1);
   };
   static vector_type CrossProduct(const Vector2D& v1, const Vector2D& v2) {
     return v1[0] * v2[1] - v1[1] * v2[0];
   };
-  inline vector_type X() { return data_[0]; }
-  inline vector_type Y() { return data_[1]; }
+  inline vector_type X() const { return data_[0]; }
+  inline vector_type Y() const { return data_[1]; }
   inline void SetX(vector_type value) { data_[0] = value; }
   inline void SetY(vector_type value) { data_[1] = value; }
 };
-class Vector3D : public Vector<double, 3> {
+class Vector3D : public Vector<float, 3> {
  public:
   Vector3D(vector_type x = 0, vector_type y = 0, vector_type z = 0) : Vector() {
     SetX(x);
@@ -187,7 +194,7 @@ class Vector3D : public Vector<double, 3> {
     data_ = other.Data();
     return *this;
   }
-  Vector3D CrossProduct(const Vector3D& v1) const{
+  Vector3D CrossProduct(const Vector3D& v1) const {
     return CrossProduct(*this, v1);
   };
   static Vector3D CrossProduct(const Vector3D& v1, const Vector3D& v2) {
@@ -198,21 +205,19 @@ class Vector3D : public Vector<double, 3> {
     return result;
   };
   // Unit normal vector
-  Vector3D Normal(const Vector3D& v1) const{
-    return Normal(*this, v1);
-  };
+  Vector3D Normal(const Vector3D& v1) const { return Normal(*this, v1); };
   static Vector3D Normal(const Vector3D& v1, const Vector3D& v2) {
     return CrossProduct(v1, v2).Normalized();
   };
 
-  inline vector_type X() { return data_[0]; }
-  inline vector_type Y() { return data_[1]; }
-  inline vector_type Z() { return data_[2]; }
+  inline vector_type X() const { return data_[0]; }
+  inline vector_type Y() const { return data_[1]; }
+  inline vector_type Z() const { return data_[2]; }
   inline void SetX(vector_type value) { data_[0] = value; }
   inline void SetY(vector_type value) { data_[1] = value; }
   inline void SetZ(vector_type value) { data_[2] = value; }
 };
-class Vector4D : public Vector<double, 4> {
+class Vector4D : public Vector<float, 4> {
  public:
   Vector4D(double x = 0, double y = 0, double z = 0, double w = 0) : Vector() {
     SetX(x);

@@ -5,23 +5,17 @@ void CameraSpacer::keyPressSlot(QKeyEvent *e) {
 
   if (key == Qt::Key_Shift) camera_.SetMoveSpeed(camera_.move_speed_);
   if (camera_.mode_ == Camera::kFree) {
-    QVector3D Buf = camera_.position_;
-    if (key == Qt::Key_W)
-      camera_.position_ += camera_.move_speed_ * camera_.orientation_;
-    if (key == Qt::Key_A)
-      camera_.position_ +=
-          camera_.move_speed_ *
-          -QVector3D::normal(camera_.orientation_, camera_.up_) * 0.1;
-    if (key == Qt::Key_S)
-      camera_.position_ += camera_.move_speed_ * -camera_.orientation_;
-    if (key == Qt::Key_D)
-      camera_.position_ +=
-          camera_.move_speed_ *
-          QVector3D::normal(camera_.orientation_, camera_.up_) * 0.1;
-    if (key == Qt::Key_Space)
-      camera_.position_ += camera_.move_speed_ * camera_.up_;
-    if (key == Qt::Key_Control)
-      camera_.position_ += camera_.move_speed_ * -camera_.up_;
+    Vector3D Buf = camera_.position_;
+    Vector3D distance;
+    Vector3D Rigth = Vector3D::Normal(camera_.orientation_, camera_.up_);
+    if (key == Qt::Key_W) distance = camera_.orientation_;
+    if (key == Qt::Key_A) distance = -Rigth * 0.1;
+    if (key == Qt::Key_S) distance = -camera_.orientation_;
+    if (key == Qt::Key_D) distance = Rigth * 0.1;
+    if (key == Qt::Key_Space) distance = camera_.up_;
+    if (key == Qt::Key_Control) distance = -camera_.up_;
+    distance *= camera_.move_speed_;
+    camera_.position_ += distance;
     if (Buf != camera_.position_) emit ConfigUpdated();
   }
   emit ConfigUpdated();
@@ -32,7 +26,7 @@ void CameraSpacer::keyReleaseSlot(QKeyEvent *e) { Q_UNUSED(e) }
 void CameraSpacer::mousePressSlot(QMouseEvent *e) {
   Q_UNUSED(e)
   camera_.LMBPressed_ = true;
-  camera_.m_center_pos_ = e->pos();
+  camera_.m_center_pos_ = godison::Point(e->pos().x(), e->pos().y());
 }
 
 void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
@@ -41,8 +35,11 @@ void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
 }
 
 void CameraSpacer::mouseMoveSlot(QMouseEvent *e) {
-  if (camera_.mode_ == Camera::kFree) camera_.ProcessFreeMode(e->pos());
-  if (camera_.mode_ == Camera::kFocus) camera_.ProcessFocusMode(e->pos());
+  Vector2D a;
+  auto b = a * .1;
+  auto p = godison::Point(e->pos().x(), e->pos().y());
+  if (camera_.mode_ == Camera::kFree) camera_.ProcessFreeMode(p);
+  if (camera_.mode_ == Camera::kFocus) camera_.ProcessFocusMode(p);
   emit ConfigUpdated();
 }
 

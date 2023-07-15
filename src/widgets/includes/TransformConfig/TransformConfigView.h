@@ -1,8 +1,8 @@
 #ifndef TRANSFORMCONFIGVIEW_H
 #define TRANSFORMCONFIGVIEW_H
 
-#include <QVector3D>
-
+#include <godison/Vectors.h>
+using godison::vectors::Vector3D;
 #include "ConfigWidget.h"
 #include "Spacers/TransformSpacer.h"
 namespace Ui {
@@ -22,9 +22,9 @@ class TransformConfigView : public ConfigWidget {
   void ResetValues();
   void SetValuesFromConfig();
   void SetTranformSpacer(s21::TransformSpacer* transform);
-  void SetTranslation(const QVector3D);
-  void SetRotation(const QVector3D);
-  void SetScale(const QVector3D);
+  void SetTranslation(const Vector3D);
+  void SetRotation(const Vector3D);
+  void SetScale(const Vector3D);
  signals:
   void TransformUpdated();
 

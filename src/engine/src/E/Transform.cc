@@ -12,9 +12,9 @@ void Transform::UpdateScale() {
 
 void Transform::UpdateRotation() {
   modelRot_.setToIdentity();
-  modelRot_.rotate(rotation_.x(), 1, 0, 0);
-  modelRot_.rotate(rotation_.y(), 0, 1, 0);
-  modelRot_.rotate(rotation_.z(), 0, 0, 1);
+  modelRot_.rotate(rotation_.X(), 1, 0, 0);
+  modelRot_.rotate(rotation_.Y(), 0, 1, 0);
+  modelRot_.rotate(rotation_.Z(), 0, 0, 1);
   awaitingLoadInProgram_ = true;
 }
 
