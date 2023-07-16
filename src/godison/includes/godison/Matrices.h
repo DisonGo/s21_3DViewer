@@ -3,15 +3,9 @@
 #include <godison/Vectors.h>
 
 #include <algorithm>
-// TODO Determinant (test)
-// TODO Complements
-// TODO Inverse
-// TODO Transpose
 // TODO Translate
 // TODO Rotate
 // TODO Scale
-// TODO SetToIdentity
-// TODO Square matrix prototype
 // TODO Preset square matrices
 // TODO LookAt
 // TODO Ortho
@@ -163,7 +157,14 @@ class SquareMatrix : public Matrix<size, size, values_type> {
   using MatProto = Matrix<size, size, values_type>;
 
  public:
+  SquareMatrix() : MatProto(){};
+  SquareMatrix(const MatProto& other) : MatProto(other){};
+  SquareMatrix(MatProto&& other) : MatProto(other){};
   SquareMatrix(std::initializer_list<values_type> vals) : MatProto(vals) {}
+  void SetToIdentity() {
+    (*this).Data().fill(0);
+    for (size_t i = 0; i < size; ++i) (*this)(i, i) = 1;
+  }
   double Determinant() {
     Matrix A = *this;
     double det = 1;
@@ -172,7 +173,7 @@ class SquareMatrix : public Matrix<size, size, values_type> {
     for (int i = 0; i < size; ++i) {
       double pivot = A(i, i);
       int pivotRow = i;
-      for (int row = i + 1; row < size; ++row) {
+      for (size_t row = i + 1; row < size; ++row) {
         if (std::abs(A(row, i)) > std::abs(pivot)) {
           pivot = A(row, i);
           pivotRow = row;
@@ -187,8 +188,8 @@ class SquareMatrix : public Matrix<size, size, values_type> {
       }
       det *= pivot;
 
-      for (int row = i + 1; row < size; ++row) {
-        for (int col = i + 1; col < size; ++col) {
+      for (size_t row = i + 1; row < size; ++row) {
+        for (size_t col = i + 1; col < size; ++col) {
           A(row, col) -= A(row, i) * A(i, col) / pivot;
         }
       }
@@ -196,6 +197,49 @@ class SquareMatrix : public Matrix<size, size, values_type> {
     if (det < EPS) det = 0;
     return det;
   }
+  SquareMatrix Invert() {
+    auto n = size;
+
+    // Initialize the inverse matrix with the identity matrix
+    SquareMatrix A = *this;
+    SquareMatrix A_inv = *this;
+    A_inv.SetToIdentity();
+    for (size_t j = 0; j < n; ++j) {
+      // Find pivot row
+      values_type pivot = std::abs(A(j, j));
+      size_t pivotRow = j;
+      for (size_t row = j + 1; row < size; ++row) {
+        const auto val = std::abs(A(row, j));
+        if (val > pivot) {
+          pivot = val;
+          pivotRow = row;
+        }
+      }
+      // Swap rows if necessary
+      if (pivotRow != j) {
+        A.SwapRows(j, pivotRow);
+        A_inv.SwapRows(j, pivotRow);
+      }
+
+      // Divide pivot row by pivot element
+      pivot = A(j, j);
+      for (size_t col = 0; col < size; ++col) {
+        A(j, col) /= pivot;
+        A_inv(j, col) /= pivot;
+      }
+
+      // Eliminate all other elements in column j
+      for (size_t i = 0; i < size; ++i) {
+        if (i == j) continue;
+        const auto factor = A(i, j);
+        for (size_t col = 0; col < size; ++col) {
+          A(i, col) -= (factor * A(j, col));
+          A_inv(i, col) -= (factor * A_inv(j, col));
+        }
+      }
+    }
+    return A_inv;
+  };
 };
 }  // namespace matrices
 }  // namespace godison

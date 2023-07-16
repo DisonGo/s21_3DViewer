@@ -4,6 +4,9 @@
 using namespace godison::matrices;
 using std::cout;
 int main() {
-  SquareMatrix<4> test{1, 2, 3, 4, 5, 6, 7, 9, 9, 0, 1, 2, 3, 4, 5, 6};
-  cout << test.Determinant();
+  Matrix<3, 3> regular{1, 1, 2, 4, 4, 20, -12, 3, 0};
+  SquareMatrix<3> test(regular);
+  SquareMatrix<3> test2 = std::move(test);
+  cout << test2.Invert() << "\n";
+  cout << test.Invert();
 }
