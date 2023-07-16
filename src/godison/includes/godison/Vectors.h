@@ -7,6 +7,7 @@
 #include <initializer_list>
 namespace godison {
 namespace vectors {
+// TODO Add Type cast Normalized functions for VectorXD
 template <typename type, size_t size>
 class Vector {
  public:

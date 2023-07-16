@@ -6,10 +6,10 @@
 // TODO Translate
 // TODO Rotate
 // TODO Scale
+
 // TODO LookAt
 // TODO Ortho
 // TODO Perpective
-// TODO LookAt
 namespace godison {
 namespace matrices {
 using vectors::Vector;
@@ -123,7 +123,12 @@ class Matrix {
   std::array<values_type, w * h>& Data() { return data_.Data(); };
   const std::array<values_type, w * h>& Data() const { return data_.Data(); }
   friend std::ostream& operator<<(std::ostream& os, const Matrix& v) {
-    os << v.data_;
+    for (size_t i = 0; i < h; ++i) {
+      for (size_t j = 0; j < w; ++j) {
+        os << v(i, j) << " ";
+      }
+      os << "\n";
+    }
     return os;
   }
   void SwapRows(size_t r1, size_t r2) {
@@ -249,8 +254,23 @@ class Matrix3x3 : public SquareMatrix<3> {
   using SquareMatrix::SquareMatrix;
 };
 class Matrix4x4 : public SquareMatrix<4> {
+  // zaxis = normal(At - Eye)
+  // xaxis = normal(cross(Up, zaxis))
+  // yaxis = cross(zaxis, xaxis)
+
  public:
   using SquareMatrix::SquareMatrix;
+  void LookAt(vectors::Vector3D eye, vectors::Vector3D at,
+              vectors::Vector3D up) {
+    auto z_axis = (vectors::Vector3D)(at - eye).Normalized();
+    auto x_axis = (vectors::Vector3D)up.CrossProduct(z_axis).Normalized();
+    auto y_axis = z_axis.CrossProduct(x_axis);
+    *this =
+        (Matrix4x4){x_axis.X(),       y_axis.X(),       z_axis.X(),       0,
+                    x_axis.Y(),       y_axis.Y(),       z_axis.Y(),       0,
+                    x_axis.Z(),       y_axis.Z(),       z_axis.Z(),       0,
+                    -x_axis.Dot(eye), -y_axis.Dot(eye), -z_axis.Dot(eye), 1};
+  };
 };
 }  // namespace matrices
 }  // namespace godison
