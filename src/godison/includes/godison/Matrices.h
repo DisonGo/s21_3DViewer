@@ -6,7 +6,6 @@
 // TODO Translate
 // TODO Rotate
 // TODO Scale
-// TODO Preset square matrices
 // TODO LookAt
 // TODO Ortho
 // TODO Perpective
@@ -240,6 +239,18 @@ class SquareMatrix : public Matrix<size, size, values_type> {
     }
     return A_inv;
   };
+};
+class Matrix2x2 : public SquareMatrix<2> {
+ public:
+  using SquareMatrix::SquareMatrix;
+};
+class Matrix3x3 : public SquareMatrix<3> {
+ public:
+  using SquareMatrix::SquareMatrix;
+};
+class Matrix4x4 : public SquareMatrix<4> {
+ public:
+  using SquareMatrix::SquareMatrix;
 };
 }  // namespace matrices
 }  // namespace godison
