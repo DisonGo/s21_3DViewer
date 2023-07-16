@@ -15,7 +15,7 @@ endif
 all: install open
 build:
 	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -B ${BUILD_PATH} .
-	@cmake --build ${BUILD_PATH} --target all --parallel 8
+	@cmake --build ${BUILD_PATH} --target 3D_Viewer --parallel 8
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
 build_debug:
@@ -23,7 +23,9 @@ build_debug:
 	@cmake -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
 	@cd ${BUILD_PATH}; make
 install: build
-
+run_t:
+	@cmake --build ./build  --target TESTING -j 8 -- -s
+	@./${BUILD_PATH}/exe/TESTING
 uninstall:
 	rm -rf ${BUILD_PATH}
 open:

@@ -27,5 +27,5 @@ add_subdirectory(engine)
 add_subdirectory(gifImage)
 add_subdirectory(widgets)
 add_subdirectory(godison)
-
+add_subdirectory(testing)
 

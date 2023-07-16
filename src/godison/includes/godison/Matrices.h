@@ -1,7 +1,6 @@
 #ifndef MATRICES_H
 #define MATRICES_H
 #include <godison/Vectors.h>
-
 #include <algorithm>
 // TODO Determinant (test)
 // TODO Complements
@@ -130,13 +129,16 @@ class Matrix {
   std::array<values_type, w * h>& Data() { return data_.Data(); };
   const std::array<values_type, w * h>& Data() const { return data_.Data(); }
   friend std::ostream& operator<<(std::ostream& os, const Matrix& v) {
-    for (const auto val : v.data_) os << val << " ";
+    os << v.data_;
     return os;
   }
   void SwapRows(size_t r1, size_t r2) {
+    if (r1 == r2) return;
     if (r1 >= rows_ || r2 >= rows_) throw "Out of bounds";
-    auto row1_beg = data_.Data().begin() + r1 * cols_;
-    auto row2_beg = data_.Data().begin() + r2 * cols_;
+    auto n_r1 = std::min(r1, r2);
+    auto n_r2 = std::max(r1, r2);
+    auto row1_beg = data_.Data().begin() + (n_r1 + 1)* cols_;
+    auto row2_beg = data_.Data().begin() + (n_r2) * cols_;
     std::swap_ranges(data_.Data().begin(), row1_beg, row2_beg);
   }
   // void SwapCols(size_t c1, size_t c2) {
@@ -162,6 +164,7 @@ template <size_t size , typename values_type = float>
 class SquareMatrix : public Matrix<size, size, values_type> {
   using MatProto = Matrix<size, size, values_type>;
  public:
+  SquareMatrix(std::initializer_list<values_type> vals) : MatProto(vals) {}
   double Determinant() {
     const double eps = 1e-6;
     Matrix A = *this;
@@ -181,12 +184,13 @@ class SquareMatrix : public Matrix<size, size, values_type> {
 
       if (i != k) {
         det *= -1;
-        A.SwapCols(i, k);
+        A.SwapRows(i, k);
       }
 
       det *= A(i, i);
-
+      std::cout << A << "\n";
       for (size_t j = i + 1; j < size; ++j) {
+        std::cout << A(i, i) << '\n';
         values_type coeff = A(j, i) / A(i, i);
         for (size_t l = i; l < size; ++l) {
           A(j, l) -= A(i, l) * coeff;
