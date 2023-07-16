@@ -1,6 +1,7 @@
 #ifndef MATRICES_H
 #define MATRICES_H
 #include <godison/Vectors.h>
+
 #include <algorithm>
 // TODO Determinant (test)
 // TODO Complements
@@ -135,11 +136,8 @@ class Matrix {
   void SwapRows(size_t r1, size_t r2) {
     if (r1 == r2) return;
     if (r1 >= rows_ || r2 >= rows_) throw "Out of bounds";
-    auto n_r1 = std::min(r1, r2);
-    auto n_r2 = std::max(r1, r2);
-    auto row1_beg = data_.Data().begin() + (n_r1 + 1)* cols_;
-    auto row2_beg = data_.Data().begin() + (n_r2) * cols_;
-    std::swap_ranges(data_.Data().begin(), row1_beg, row2_beg);
+    for (size_t j = 0; j < cols_; j++)
+      std::swap((*this)(r1, j), (*this)(r2, j));
   }
   // void SwapCols(size_t c1, size_t c2) {
   //   if (c1 >= cols_ || c2 >= cols_) throw "Out of bounds";
@@ -160,44 +158,42 @@ class Matrix {
   size_t rows_ = h;
   size_t cols_ = w;
 };
-template <size_t size , typename values_type = float>
+template <size_t size, typename values_type = float>
 class SquareMatrix : public Matrix<size, size, values_type> {
   using MatProto = Matrix<size, size, values_type>;
+
  public:
   SquareMatrix(std::initializer_list<values_type> vals) : MatProto(vals) {}
   double Determinant() {
-    const double eps = 1e-6;
     Matrix A = *this;
     double det = 1;
+    constexpr double EPS = 1e-6;
 
-    for (size_t i = 0; i < size; ++i) {
-      size_t k = i;
-      for (size_t j = i + 1; j < size; ++j) {
-        if (std::abs(A(j, i)) > std::abs(A(k, i))) {
-          k = j;
+    for (int i = 0; i < size; ++i) {
+      double pivot = A(i, i);
+      int pivotRow = i;
+      for (int row = i + 1; row < size; ++row) {
+        if (std::abs(A(row, i)) > std::abs(pivot)) {
+          pivot = A(row, i);
+          pivotRow = row;
         }
       }
-
-      if (std::abs(A(k, i)) < eps) {
-        return 0;
+      if (std::abs(pivot) < EPS) {
+        return 0.0;
       }
-
-      if (i != k) {
-        det *= -1;
-        A.SwapRows(i, k);
+      if (pivotRow != i) {
+        A.SwapRows(i, pivotRow);
+        det *= -1.0;
       }
+      det *= pivot;
 
-      det *= A(i, i);
-      std::cout << A << "\n";
-      for (size_t j = i + 1; j < size; ++j) {
-        std::cout << A(i, i) << '\n';
-        values_type coeff = A(j, i) / A(i, i);
-        for (size_t l = i; l < size; ++l) {
-          A(j, l) -= A(i, l) * coeff;
+      for (int row = i + 1; row < size; ++row) {
+        for (int col = i + 1; col < size; ++col) {
+          A(row, col) -= A(row, i) * A(i, col) / pivot;
         }
       }
     }
-
+    if (det < EPS) det = 0;
     return det;
   }
 };

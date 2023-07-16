@@ -1,9 +1,9 @@
 #include <godison/Matrices.h>
+
 #include <iostream>
 using namespace godison::matrices;
 using std::cout;
 int main() {
-  SquareMatrix<3> test{1,2,3,4,5,6,7,8,9};
-  // test.SwapRows(0, 1);
+  SquareMatrix<4> test{1, 2, 3, 4, 5, 6, 7, 9, 9, 0, 1, 2, 3, 4, 5, 6};
   cout << test.Determinant();
 }

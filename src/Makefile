@@ -19,9 +19,7 @@ build:
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
 build_debug:
-	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
-	@cmake -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
-	@cd ${BUILD_PATH}; make
+	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
 install: build
 run_t:
 	@cmake --build ./build  --target TESTING -j 8 -- -s
