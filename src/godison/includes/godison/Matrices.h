@@ -1,5 +1,5 @@
-#ifndef MATRICES_H
-#define MATRICES_H
+#ifndef GMATRICES_H
+#define GMATRICES_H
 #include <godison/GUtility.h>
 #include <godison/Vectors.h>
 
@@ -343,4 +343,4 @@ class Matrix4x4 : public SquareMatrix<4> {
 }  // namespace matrices
 }  // namespace godison
 
-#endif  // MATRICES_H
+#endif  // GMATRICES_H

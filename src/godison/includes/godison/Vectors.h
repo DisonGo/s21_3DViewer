@@ -62,7 +62,7 @@ class Vector {
     Vector tmp(*this);
     return tmp *= value;
   };
-  friend const Vector& operator*(type value, const Vector& vector) {
+  friend Vector operator*(type value, const Vector& vector) {
     return vector * value;
   }
   Vector operator/(type value) const {

@@ -90,7 +90,6 @@ void Camera::ProcessFocusMode(godison::GPoint ePos) {
 }
 
 void Camera::CalcFocusPosition() {
-  //  static const Vector3D yAxis(0.0f, 1.0f, 0.0f);
   constexpr double MIN_DIST = 0.1;
   float distance = (position_ - focus_point_).Length();
   if (distance * zoom_factor > MIN_DIST) distance *= zoom_factor;
@@ -98,10 +97,6 @@ void Camera::CalcFocusPosition() {
   orientation_ = (position_ - focus_point_).Normalized();
   if (orientation_.Y() > 0.95) orientation_.SetY(0.95);
   if (orientation_.Y() < -0.95) orientation_.SetY(-0.95);
-  //  Recalculating basic axis;
-  //  Vector3D cameraSide = Vector3D::CrossProduct(yAxis,
-  //  orientation_).normalized(); up_ = Vector3D::CrossProduct(orientation_,
-  //  cameraSide);
 
   float pitchAngle = asin(orientation_.Y());
   float yawAngle = atan2(orientation_.X(), orientation_.Z());
