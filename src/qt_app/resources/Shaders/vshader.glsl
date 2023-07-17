@@ -5,6 +5,8 @@ out vec4 f_vertPos;
 
 uniform mat4 u_camMatrix;
 uniform mat4 u_modelMatrix;
+uniform mat4 m_CameraView;
+uniform mat4 m_CameraProjection;
 
 uniform vec2 u_dash_pattern;
 

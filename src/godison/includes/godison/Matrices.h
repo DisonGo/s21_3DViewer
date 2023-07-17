@@ -271,11 +271,17 @@ class Matrix4x4 : public SquareMatrix<4> {
     auto x_axis = (vectors::Vector3D)z_axis.CrossProduct(up).Normalized();
     auto y_axis = x_axis.CrossProduct(z_axis);
     z_axis.Negate();
+    auto dot_x = -x_axis.Dot(eye);
+    auto dot_y = -y_axis.Dot(eye);
+    auto dot_z = -z_axis.Dot(eye);
+    if (dot_x == -0.0) dot_x = 0.0;
+    if (dot_y == -0.0) dot_y = 0.0;
+    if (dot_z == -0.0) dot_z = 0.0;
     *this =
         (Matrix4x4){x_axis.X(),       y_axis.X(),       z_axis.X(),       0,
                     x_axis.Y(),       y_axis.Y(),       z_axis.Y(),       0,
                     x_axis.Z(),       y_axis.Z(),       z_axis.Z(),       0,
-                    -x_axis.Dot(eye), -y_axis.Dot(eye), -z_axis.Dot(eye), 1};
+                    dot_x,            dot_y,            dot_z, 1};
   };
   void Translate(vectors::Vector3D translate) {
     data_[0 + 3 * 4] = translate.X();

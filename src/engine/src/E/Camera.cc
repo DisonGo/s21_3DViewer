@@ -45,13 +45,13 @@ void Camera::Matrix(Program &program, const char *uniform) {
   }
   qDebug() << (projQT * viewQT);
   glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
-                     (projection * view).RawConstData());
+                     (view).RawConstData());
 //  glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
 //                     (projQT * viewQT).data());
   glUniformMatrix4fv(program.GetUniform("m_CameraView"), 1, GL_FALSE,
                      (view).RawConstData());
   glUniformMatrix4fv(program.GetUniform("m_CameraProjection"), 1, GL_FALSE,
-                     (projection).RawConstData());
+                     (projection.Transpose()).RawConstData());
 
   glUniform3f(program.GetUniform("u_CameraPos"), position_.X(), position_.Y(),
               position_.Z());

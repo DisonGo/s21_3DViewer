@@ -11,10 +11,14 @@ void Transform::UpdateScale() {
 }
 
 void Transform::UpdateRotation() {
-  modelRot_.SetToIdentity();
-  modelRot_.Rotate(rotation_.X(), {1, 0, 0});
-  modelRot_.Rotate(rotation_.Y(), {0, 1, 0});
-  modelRot_.Rotate(rotation_.Z(), {0, 0, 1});
+  godison::matrices::Matrix4x4 rot_x, rot_y, rot_z;
+  rot_x.SetToIdentity();
+  rot_y.SetToIdentity();
+  rot_z.SetToIdentity();
+  rot_x.Rotate(rotation_.X(), {1, 0, 0});
+  rot_y.Rotate(rotation_.Y(), {0, 1, 0});
+  rot_z.Rotate(rotation_.Z(), {0, 0, 1});
+  modelRot_ = rot_x * rot_y * rot_z;
   awaitingLoadInProgram_ = true;
 }
 
@@ -33,8 +37,9 @@ void Transform::LoadModelMatrix(Program *program) {
   if (!awaitingLoadInProgram_) return;
   if (!program) return;
   int modelLoc = program->GetUniform("u_modelMatrix");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE,
-                     (modelTranslate_ * modelRot_ * modelScale_).RawConstData());
+  glUniformMatrix4fv(
+      modelLoc, 1, GL_FALSE,
+      (modelTranslate_ * modelRot_ * modelScale_).RawConstData());
   awaitingLoadInProgram_ = false;
 }
 }  // namespace s21
