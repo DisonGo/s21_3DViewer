@@ -312,6 +312,7 @@ class Matrix4x4 : public SquareMatrix<4> {
   }
   void Perspective(float left, float right, float bottom, float top,
                    float nearPlane, float farPlane) {
+    data_.Data().fill(0);
     data_[0 + 0 * 4] = (2 * nearPlane / (right - left));
     data_[1 + 1 * 4] = (2 * nearPlane / (top - bottom));
     data_[2 + 0 * 4] = ((right + left) / (right - left));
@@ -322,6 +323,7 @@ class Matrix4x4 : public SquareMatrix<4> {
   }
   void Perspective(float fov, float aspectRatio, float nearPlane,
                    float farPlane) {
+    data_.Data().fill(0);
     float e = 1.0f / tan(godison::utility::GToRadians(0.5f * fov));
     data_[0 + 0 * 4] = (e / aspectRatio);
     data_[1 + 1 * 4] = (e);
@@ -331,6 +333,7 @@ class Matrix4x4 : public SquareMatrix<4> {
   }
   void Orthographic(float left, float right, float bottom, float top,
                     float nearPlane, float farPlane) {
+    SetToIdentity();
     data_[0 + 0 * 4] = (2.0f / (right - left));
     data_[1 + 1 * 4] = (2.0f / (top - bottom));
     data_[2 + 2 * 4] = (2.0f / (nearPlane - farPlane));

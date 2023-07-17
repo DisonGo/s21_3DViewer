@@ -134,11 +134,12 @@ class Vector {
     return std::sqrt(sum);
   }
   void Normalize() {
-    try {
-      *this /= Length();
-    } catch (...) {
+    constexpr double EPS = 1e-6;
+    auto length = Length();
+    if (std::abs(length) < EPS)
       *this = Vector();
-    }
+    else
+      *this /= length;
   }
   Vector Normalized() const {
     Vector tmp(*this);

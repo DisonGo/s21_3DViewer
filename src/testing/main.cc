@@ -96,16 +96,22 @@ void MultiTest() {
   // QMatrix2x2 b1(3, 20, -2, 0);
   // qDebug() << a1 * b1;
 }
+void ViewTest() {
+  Matrix4x4 persp;
+  persp.SetToIdentity();
+  QMatrix4x4 perspQT;
+  persp.Perspective(45, 1024.f / 720.f, 0.0001, 1000);
+  perspQT.perspective(45, 1024.f / 720.f, 0.0001, 1000);
+  qDebug() << perspQT;
+  cout << persp;
+
+}
 int main() {
-  godison::Point point;
-  Matrix4x4 a;
-  a.SetToIdentity();
-  a.Perspective(45, 1024.f / 720.f, 0.0001, 1000);
-  cout << a;
   // TranslateXViewTest();
   // RotateTest();
   // ModelMatTest();
   // MultiTest();
+  ViewTest();
 }
 // {{1, 3, 5}, {7, 2, 1}, {1, -2, 3}}
 // {{3, 20, -2}, {0, 5, 10}, {-30, 90, 222}}
