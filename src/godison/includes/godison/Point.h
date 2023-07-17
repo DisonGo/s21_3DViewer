@@ -1,15 +1,15 @@
-#ifndef POINT_H
-#define POINT_H
+#ifndef GPOINT_H
+#define GPOINT_H
 #include <godison/Vectors.h>
 namespace godison {
-class Point : public vectors::Vector<float, 2> {
+class GPoint : public vectors::Vector<float, 2> {
 public:
-  Point(vector_type x = 0, vector_type y = 0) : Vector() {
+  GPoint(vector_type x = 0, vector_type y = 0) : Vector() {
     SetX(x);
     SetY(y);
   };
-  Point(const Vector& other) { *this = other; };
-  Point& operator=(const Vector& other) {
+  GPoint(const Vector& other) { *this = other; };
+  GPoint& operator=(const Vector& other) {
     if (this == &other) return *this;
     data_ = other.Data();
     return *this;
@@ -20,4 +20,4 @@ public:
   inline void SetY(vector_type value) { data_[1] = value; }
 };
 }  // namespace godison
-#endif  // POINT_H
+#endif  // GPOINT_H

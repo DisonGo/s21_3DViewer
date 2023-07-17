@@ -121,9 +121,10 @@ class Vector {
     return os;
   }
   template <size_t S, typename T = type>
-  Vector<T, S> ToVector() const {
+  Vector<T, S> ToVector(T fill_value = 0) const {
     Vector<T, S> v;
     size_t min_size = std::min(S, size);
+    v.Data().fill(fill_value);
     for (size_t i = 0; i < min_size; ++i) v[i] = data_[i];
     return v;
   }
@@ -149,6 +150,10 @@ class Vector {
     vector_type result{};
     for (size_t i = 0; i < size; ++i) result += v1[i] * v2[i];
     return result;
+  }
+  void Negate() {
+    for (auto& val : data_)
+      if (val < 0) val *= -1;
   }
 
  protected:

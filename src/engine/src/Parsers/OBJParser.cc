@@ -1,5 +1,5 @@
 #include "Parsers/OBJParser.h"
-
+#include <godison/Vectors.h>
 #include "fstream"
 namespace s21 {
 TagCounters OBJParser::CountTags(const string filePath) {
@@ -42,7 +42,7 @@ void OBJParser::ParseFace(const string values, Face* faces, size_t& index) {
 void OBJParser::CenterVertices(std::vector<Vertex>& vertices, Vertex center) {
   if (vertices.empty()) return;
   for (auto& vertex : vertices) center += vertex;
-  Vector3D mean(center.x, center.y, center.z);
+  godison::vectors::Vector3D mean(center.x, center.y, center.z);
   mean /= vertices.size();
   center = Vertex(mean.X(), mean.Y(), mean.Z());
   for (auto& vertex : vertices) vertex -= center;

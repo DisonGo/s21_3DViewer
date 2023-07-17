@@ -26,14 +26,14 @@ class Shape {
 };
 class Polygon : public Shape {
  public:
-  Polygon(int n, double cx, double cy, double r,
+  Polygon(size_t n, double cx, double cy, double r,
           vectors::Vector4D offset = {0, 0, 0, 0})
       : Shape(offset), n_(n), cx_(cx), cy_(cy), r_(r){};
   vector<float> GenerateVertices() override;
   vector<unsigned> GenerateIndices() override;
 
  protected:
-  int n_;
+  size_t n_;
   double cx_, cy_, r_;
 };
 class Rectangle : public Shape {

@@ -1,15 +1,11 @@
 #ifndef MATRICES_H
 #define MATRICES_H
+#include <godison/GUtility.h>
 #include <godison/Vectors.h>
 
 #include <algorithm>
-// TODO Translate
-// TODO Rotate
-// TODO Scale
+#include <iomanip>
 
-// TODO LookAt
-// TODO Ortho
-// TODO Perpective
 namespace godison {
 namespace matrices {
 using vectors::Vector;
@@ -17,7 +13,8 @@ template <size_t w, size_t h, typename values_type = float>
 class Matrix {
  public:
   using MatData = Vector<values_type, w * h>;
-  Matrix(){};
+  Matrix() {}
+  Matrix(values_type fill_value) { Fill(fill_value); }
   Matrix(std::initializer_list<values_type> vals) : data_(vals) {}
   Matrix(const Matrix& other) { *this = other; }
   Matrix(Matrix&& other) { *this = std::move(other); }
@@ -122,10 +119,13 @@ class Matrix {
   };
   std::array<values_type, w * h>& Data() { return data_.Data(); };
   const std::array<values_type, w * h>& Data() const { return data_.Data(); }
+  values_type* RawData() { return data_.Data().data(); }
+  const values_type* RawConstData() const { return data_.Data().data(); }
+
   friend std::ostream& operator<<(std::ostream& os, const Matrix& v) {
     for (size_t i = 0; i < h; ++i) {
       for (size_t j = 0; j < w; ++j) {
-        os << v(i, j) << " ";
+        os << std::setw(9) << v(i, j) << '\t';
       }
       os << "\n";
     }
@@ -137,12 +137,14 @@ class Matrix {
     for (size_t j = 0; j < cols_; j++)
       std::swap((*this)(r1, j), (*this)(r2, j));
   }
+
   // void SwapCols(size_t c1, size_t c2) {
   //   if (c1 >= cols_ || c2 >= cols_) throw "Out of bounds";
   //   auto col1_beg = data_.Data().begin() + c1 * rows_;
   //   auto col2_beg = data_.Data().begin() + c2 * rows_;
   //   std::swap_ranges(data_.Data().begin(), col1_beg, col2_beg);
   // }
+
   Matrix<h, w> Transpose() {
     Matrix<h, w> result;
     for (size_t col = 0; col < cols_; col++)
@@ -150,6 +152,7 @@ class Matrix {
         result(col, row) = (*this)(row, col);
     return result;
   }
+  void Fill(values_type value) { Data().fill(value); }
 
  protected:
   MatData data_;
@@ -254,23 +257,88 @@ class Matrix3x3 : public SquareMatrix<3> {
   using SquareMatrix::SquareMatrix;
 };
 class Matrix4x4 : public SquareMatrix<4> {
-  // zaxis = normal(At - Eye)
-  // xaxis = normal(cross(Up, zaxis))
-  // yaxis = cross(zaxis, xaxis)
-
+  // scale(const QVector3D &vector)
+  // rotate(float angle, const QVector3D &vector)
+  // ortho(float left, float right, float bottom, float top, float nearPlane,
+  // float farPlane) perspective(float verticalAngle, float aspectRatio, float
+  // nearPlane, float farPlane)
  public:
   using SquareMatrix::SquareMatrix;
   void LookAt(vectors::Vector3D eye, vectors::Vector3D at,
               vectors::Vector3D up) {
+    // TODO Think about -0 values.
     auto z_axis = (vectors::Vector3D)(at - eye).Normalized();
-    auto x_axis = (vectors::Vector3D)up.CrossProduct(z_axis).Normalized();
-    auto y_axis = z_axis.CrossProduct(x_axis);
+    auto x_axis = (vectors::Vector3D)z_axis.CrossProduct(up).Normalized();
+    auto y_axis = x_axis.CrossProduct(z_axis);
+    z_axis.Negate();
     *this =
         (Matrix4x4){x_axis.X(),       y_axis.X(),       z_axis.X(),       0,
                     x_axis.Y(),       y_axis.Y(),       z_axis.Y(),       0,
                     x_axis.Z(),       y_axis.Z(),       z_axis.Z(),       0,
                     -x_axis.Dot(eye), -y_axis.Dot(eye), -z_axis.Dot(eye), 1};
   };
+  void Translate(vectors::Vector3D translate) {
+    data_[0 + 3 * 4] = translate.X();
+    data_[1 + 3 * 4] = translate.Y();
+    data_[2 + 3 * 4] = translate.Z();
+  };
+  void Rotate(const float angle, const vectors::Vector3D& axis) {
+    auto radian = godison::utility::GToRadians(angle);
+    auto cosine = cos(radian);
+    auto sine = sin(radian);
+    /* one munis cosine */
+    auto omcosine = 1 - cosine;
+
+    auto x = axis.X();
+    auto y = axis.Y();
+    auto z = axis.Z();
+
+    data_[0 + 0 * 4] = (x * x * omcosine + cosine);
+    data_[1 + 0 * 4] = (x * y * omcosine + z * sine);
+    data_[2 + 0 * 4] = (x * z * omcosine - y * sine);
+
+    data_[0 + 1 * 4] = (y * x * omcosine - z * sine);
+    data_[1 + 1 * 4] = (y * y * omcosine + cosine);
+    data_[2 + 1 * 4] = (y * z * omcosine + x * sine);
+
+    data_[0 + 2 * 4] = (z * x * omcosine + y * sine);
+    data_[1 + 2 * 4] = (z * y * omcosine - x * sine);
+    data_[2 + 2 * 4] = (z * z * omcosine + cosine);
+  }
+  void Scale(const vectors::Vector3D& scale) {
+    data_[0 + 0 * 4] = scale.X();
+    data_[1 + 1 * 4] = scale.Y();
+    data_[2 + 2 * 4] = scale.Z();
+  }
+  void Perspective(float left, float right, float bottom, float top,
+                   float nearPlane, float farPlane) {
+    data_[0 + 0 * 4] = (2 * nearPlane / (right - left));
+    data_[1 + 1 * 4] = (2 * nearPlane / (top - bottom));
+    data_[2 + 0 * 4] = ((right + left) / (right - left));
+    data_[2 + 1 * 4] = ((top + bottom) / (top - bottom));
+    data_[2 + 2 * 4] = ((nearPlane + farPlane) / (nearPlane - farPlane));
+    data_[2 + 3 * 4] = (-1.0f);
+    data_[3 + 2 * 4] = ((2.0f * nearPlane * farPlane) / (nearPlane - farPlane));
+  }
+  void Perspective(float fov, float aspectRatio, float nearPlane,
+                   float farPlane) {
+    float e = 1.0f / tan(godison::utility::GToRadians(0.5f * fov));
+    data_[0 + 0 * 4] = (e / aspectRatio);
+    data_[1 + 1 * 4] = (e);
+    data_[2 + 2 * 4] = ((nearPlane + farPlane) / (nearPlane - farPlane));
+    data_[2 + 3 * 4] = (-1.0f);
+    data_[3 + 2 * 4] = ((2.0f * nearPlane * farPlane) / (nearPlane - farPlane));
+  }
+  void Orthographic(float left, float right, float bottom, float top,
+                    float nearPlane, float farPlane) {
+    data_[0 + 0 * 4] = (2.0f / (right - left));
+    data_[1 + 1 * 4] = (2.0f / (top - bottom));
+    data_[2 + 2 * 4] = (2.0f / (nearPlane - farPlane));
+
+    data_[0 + 3 * 4] = ((left + right) / (left - right));
+    data_[1 + 3 * 4] = ((bottom + top) / (bottom - top));
+    data_[2 + 3 * 4] = ((nearPlane + farPlane) / (nearPlane - farPlane));
+  }
 };
 }  // namespace matrices
 }  // namespace godison

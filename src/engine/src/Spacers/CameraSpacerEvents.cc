@@ -26,7 +26,7 @@ void CameraSpacer::keyReleaseSlot(QKeyEvent *e) { Q_UNUSED(e) }
 void CameraSpacer::mousePressSlot(QMouseEvent *e) {
   Q_UNUSED(e)
   camera_.LMBPressed_ = true;
-  camera_.m_center_pos_ = godison::Point(e->pos().x(), e->pos().y());
+  camera_.m_center_pos_ = godison::GPoint(e->pos().x(), e->pos().y());
 }
 
 void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
@@ -37,7 +37,7 @@ void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
 void CameraSpacer::mouseMoveSlot(QMouseEvent *e) {
   Vector2D a;
   auto b = a * .1;
-  auto p = godison::Point(e->pos().x(), e->pos().y());
+  auto p = godison::GPoint(e->pos().x(), e->pos().y());
   if (camera_.mode_ == Camera::kFree) camera_.ProcessFreeMode(p);
   if (camera_.mode_ == Camera::kFocus) camera_.ProcessFocusMode(p);
   emit ConfigUpdated();

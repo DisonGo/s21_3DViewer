@@ -1,9 +1,10 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 #include <godison/Point.h>
-#include <godison/Vectors.h>
+#include <godison/Matrices.h>
 using godison::vectors::Vector2D;
 using godison::vectors::Vector3D;
+using godison::GPoint;
 #include <QOpenGLFunctions>
 
 #include "E/EObject.h"
@@ -71,8 +72,8 @@ class Camera : public EObject, protected QOpenGLFunctions {
   EObjectType type_ = EObjectType::kCamera;
 
  private:  // Methods
-  void ProcessFreeMode(godison::Point ePos);
-  void ProcessFocusMode(godison::Point ePos);
+  void ProcessFreeMode(GPoint ePos);
+  void ProcessFocusMode(GPoint ePos);
   void CalcFocusPosition();
 
  private:  // vars
@@ -92,7 +93,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   bool LMBPressed_ = false;
   int vw_ = 1;
   int vh_ = 1;
-  godison::Point m_center_pos_ = godison::Point(0, 0);
+  GPoint m_center_pos_ = GPoint(0, 0);
   float move_speed_ = 0.1f;
   float rotation_speed_ = 0.1f;
   ParallelBox box_{};

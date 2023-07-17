@@ -1,8 +1,8 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
-#include <godison/Vectors.h>
+#include <godison/Matrices.h>
+
 using godison::vectors::Vector3D;
-#include <QMatrix4x4>
 
 #include "E/EObject.h"
 #include "Shaders/Program.h"
@@ -41,9 +41,9 @@ class Transform : public EObject, protected QOpenGLFunctions {
   Vector3D rotation_ = Vector3D(0, 0, 0);
   Vector3D translate_ = Vector3D(0, 0, 0);
 
-  QMatrix4x4 modelScale_;
-  QMatrix4x4 modelRot_;
-  QMatrix4x4 modelTranslate_;
+  godison::matrices::Matrix4x4 modelScale_;
+  godison::matrices::Matrix4x4 modelRot_;
+  godison::matrices::Matrix4x4 modelTranslate_;
   bool awaitingLoadInProgram_ = false;
 };
 }  // namespace s21
