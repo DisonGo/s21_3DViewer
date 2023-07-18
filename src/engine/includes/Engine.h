@@ -6,6 +6,7 @@
 #include "DrawConfig.h"
 #include "E/Camera.h"
 #include "E/EObjectItemModel.h"
+#include "E/Object3DFactory.h"
 #include "E/Object3D.h"
 #include "E/Plane.h"
 #include "E/Point.h"
@@ -21,7 +22,6 @@ class Engine : protected QOpenGLFunctions {
   void Cycle();
   EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();
-  void SetParser(s21::BaseParser* parser);
   static Engine& Instance();
 
  private:
@@ -32,6 +32,7 @@ class Engine : protected QOpenGLFunctions {
 
   void SetupFocusPoint();
   void SetupDefaultCamera();
+  void SetupObject3DFactory();
   void RemoveObject(EObject* object);
   void Wipe3DObjects();
 
@@ -41,7 +42,7 @@ class Engine : protected QOpenGLFunctions {
   Object3D* GenerateObject(QString fileName);
   DrawConfig* drawConfig_{};
   EObjectItemModel eObjectModel_;
-  s21::BaseParser* OBJParser_ = nullptr;
+  Object3DFactory object3d_factory_;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;
   std::vector<Object3D*> objects_3d_;

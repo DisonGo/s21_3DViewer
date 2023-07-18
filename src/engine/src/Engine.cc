@@ -18,7 +18,7 @@ Engine::Engine() {
   initializeOpenGLFunctions();
   drawConfig_ = &DrawConfig::Instance();
   qDebug() << "Engine config:" << drawConfig_;
-  SetParser(new OBJParser);
+  SetupObject3DFactory();
   SetupDefaultCamera();
   SetupFocusPoint();
 }
@@ -44,6 +44,13 @@ void Engine::SetupDefaultCamera() {
   eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
 }
 
+void Engine::SetupObject3DFactory()
+{
+  object3d_factory_.SetParser(new OBJParser);
+  object3d_factory_.InstallImporter(new OBJImportWireframeStrategy);
+  object3d_factory_.InstallImporter(new OBJImportTriangleStrategy);
+}
+
 void Engine::RemoveObject(EObject* object) {
   if (!object) return;
   if (object == &focus_point_) return;
@@ -64,18 +71,7 @@ void Engine::Wipe3DObjects() {
 }
 
 Object3D* Engine::GenerateObject(QString fileName) {
-  static OBJImportWireframeStrategy wireframeImporter;
-  static OBJImportTriangleStrategy triangleImporter;
-
-  auto object_3d = new Object3D();
-  try {
-    auto obj = OBJParser().Parse(fileName.toStdString());
-    object_3d->UploadMesh(obj, &wireframeImporter);
-    object_3d->UploadMesh(obj, &triangleImporter);
-  } catch (...) {
-    std::cout << "no file";
-  }
-  return object_3d;
+  return new Object3D(object3d_factory_.GetObject(fileName.toStdString().c_str()));
 }
 
 void Engine::importObj(QString fileName) {
@@ -104,11 +100,6 @@ void Engine::Cycle() {
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
-
-void Engine::SetParser(BaseParser* parser) {
-  if (OBJParser_) delete OBJParser_;
-  OBJParser_ = parser;
-}
 
 Engine& Engine::Instance() {
   static Engine instance;
