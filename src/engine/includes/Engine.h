@@ -6,8 +6,8 @@
 #include "DrawConfig.h"
 #include "E/Camera.h"
 #include "E/EObjectItemModel.h"
-#include "E/Object3DFactory.h"
 #include "E/Object3D.h"
+#include "E/Object3DFactory.h"
 #include "E/Plane.h"
 #include "E/Point.h"
 #include "Parsers/OBJParser.h"
@@ -33,6 +33,7 @@ class Engine : protected QOpenGLFunctions {
   void SetupFocusPoint();
   void SetupDefaultCamera();
   void SetupObject3DFactory();
+  void DefaultObject3DImport(Object3D* object, bool add_to_delete_queue = true);
   void RemoveObject(EObject* object);
   void Wipe3DObjects();
 

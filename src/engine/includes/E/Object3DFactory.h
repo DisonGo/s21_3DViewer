@@ -12,7 +12,7 @@
 #include "Strategies/Import/OBJImportWireframeStrategy.h"
 namespace s21 {
 class Object3DFactory {
-  using ImporterBundle = struct Bundle{
+  using ImporterBundle = struct Bundle {
     OBJImportStrategy* importer_ptr = nullptr;
     bool on = false;
   };

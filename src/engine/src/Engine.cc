@@ -30,10 +30,7 @@ Engine::~Engine() {
 
 void Engine::SetupFocusPoint() {
   auto object_3d = static_cast<Object3D*>(&focus_point_);
-  auto program = Program::Default();
-  object_3d->SetProgram(*program);
-  objects_3d_.push_back(object_3d);
-  programs_.push_back(program);
+  DefaultObject3DImport(object_3d, false);
 }
 
 void Engine::SetupDefaultCamera() {
@@ -44,11 +41,19 @@ void Engine::SetupDefaultCamera() {
   eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
 }
 
-void Engine::SetupObject3DFactory()
-{
+void Engine::SetupObject3DFactory() {
   object3d_factory_.SetParser(new OBJParser);
   object3d_factory_.InstallImporter(new OBJImportWireframeStrategy);
   object3d_factory_.InstallImporter(new OBJImportTriangleStrategy);
+}
+
+void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
+  if (!object) return;
+  auto program = Program::Default();
+  object->SetProgram(*program);
+  objects_3d_.push_back(object);
+  programs_.push_back(program);
+  if (add_to_delete_queue) engine_objects_.push_back(object);
 }
 
 void Engine::RemoveObject(EObject* object) {
@@ -71,21 +76,17 @@ void Engine::Wipe3DObjects() {
 }
 
 Object3D* Engine::GenerateObject(QString fileName) {
-  return new Object3D(object3d_factory_.GetObject(fileName.toStdString().c_str()));
+  return new Object3D(
+      object3d_factory_.GetObject(fileName.toStdString().c_str()));
 }
 
 void Engine::importObj(QString fileName) {
   Object3D* object_3d = GenerateObject(fileName);
   if (!object_3d) return;
   QFileInfo fileInfo(fileName);
-
-  auto program = Program::Default();
-  object_3d->SetProgram(*program);
   if (single_object_mode) Wipe3DObjects();
-  objects_3d_.push_back(object_3d);
+  DefaultObject3DImport(object_3d);
   eObjectModel_.AddItem(object_3d, nullptr, fileInfo.baseName().toStdString());
-  engine_objects_.push_back(object_3d);
-  programs_.push_back(program);
 }
 
 void Engine::Cycle() {
