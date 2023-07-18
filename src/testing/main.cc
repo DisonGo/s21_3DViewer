@@ -33,9 +33,8 @@ void VectorsTesting() {
   cout << a.dotProduct(a, a1) << "\n";
   cout << b.Dot(b1) << "\n";
 }
-
 int main() {
-  VectorsTesting();
+//  VectorsTesting();
    TranslateXViewTest();
   // RotateTest();
   // ModelMatTest();
@@ -66,33 +65,28 @@ void TranslateXViewTest() {
   translateMat.Translate({1, 2, 4});
   translateMatQT.translate({1, 2, 4});
 //  qDebug() << translateMatQT;
-  auto data = (viewQT * translateMatQT).data();
+
+  Matrix4x4 persp;
+  QMatrix4x4 perspQT;
+
+  persp.Perspective(45, 1920.f/1080.f, 0.001, 2000);
+  perspQT.perspective(45, 1920.f/1080.f, 0.001, 2000);
+
+  auto data = (viewQT * perspQT * translateMatQT).data();
   for (int i = 0; i < 16; ++i) cout << std::setprecision(6) << data[i] << " ";
   cout << "\n";
-  auto my_data = (view).Data();
-//  for (int i = 0; i < 16; ++i)
-//    cout << std::setprecision(6) << my_data[i] << " ";
-//  cout << "\n";
-//  my_data = (translateMat).Data();
-//  for (int i = 0; i < 16; ++i)
-//    cout << std::setprecision(6) << my_data[i] << " ";
-//  cout << "\n";
-  my_data = (translateMat * view).Data();
+  auto my_data = (translateMat * persp * view).Data();
   for (int i = 0; i < 16; ++i)
     cout << std::setprecision(6) << my_data[i] << " ";
 
 
 cout << "\n";
 cout << "\n";
-  Matrix4x4 persp;
-  QMatrix4x4 perspQT;
 
-  persp.Perspective(45, 1920.f/1080.f, 0.001, 2000);
-  perspQT.perspective(45, 1920.f/1080.f, 0.001, 2000);
   data = (perspQT).data();
   for (int i = 0; i < 16; ++i) cout << std::setprecision(6) << data[i] << " ";
   cout << "\n";
-  my_data = (persp.Transpose()).Data();
+  my_data = (persp).Data();
   for (int i = 0; i < 16; ++i)
     cout << std::setprecision(6) << my_data[i] << " ";
 

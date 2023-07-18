@@ -83,7 +83,22 @@ class Matrix {
     return *this;
   };
   const Matrix& operator*=(const Matrix& other) {
+    //    Col multiply
+    if (rows_ != other.cols_)
+      throw "Bad size. Can multiple only square matrices.";
     Matrix result;
+//    vectors::Vector<values_type, h> temp;
+//    for (size_t j = 0; j < other.cols_; j++) {
+//      for (size_t k = 0; k < rows_; k++) {
+//        temp[k] = other(k, j);
+//      }
+//      for (size_t i = 0; i < rows_; i++) {
+//        float sum = 0.0;
+//        for (size_t k = 0; k < rows_; k++) sum += (*this)(i, k) * temp[k];
+//        result(i, j) = sum;
+//      }
+//    }
+    //    Row multiply
     for (size_t row = 0; row < rows_; row++)
       for (size_t col = 0; col < other.cols_; col++)
         for (size_t k = 0; k < cols_; k++)
@@ -156,8 +171,8 @@ class Matrix {
 
  protected:
   MatData data_;
-  size_t rows_ = h;
-  size_t cols_ = w;
+  const size_t rows_ = h;
+  const size_t cols_ = w;
 };
 template <size_t size, typename values_type = float>
 class SquareMatrix : public Matrix<size, size, values_type> {
@@ -266,22 +281,29 @@ class Matrix4x4 : public SquareMatrix<4> {
   using SquareMatrix::SquareMatrix;
   void LookAt(vectors::Vector3D eye, vectors::Vector3D at,
               vectors::Vector3D up) {
-    // TODO Think about -0 values.
-    auto z_axis = (vectors::Vector3D)(at - eye).Normalized();
-    auto x_axis = (vectors::Vector3D)z_axis.CrossProduct(up).Normalized();
-    auto y_axis = x_axis.CrossProduct(z_axis);
-    z_axis.Negate();
-    auto dot_x = -x_axis.Dot(eye);
-    auto dot_y = -y_axis.Dot(eye);
-    auto dot_z = -z_axis.Dot(eye);
+    vectors::Vector3D X, Y, Z;
+
+    Z = eye - at;
+    Z.Normalize();
+    Y = up;
+    X = Y.CrossProduct(Z);
+    Y = Z.CrossProduct(X);
+    X.Normalize();
+    Y.Normalize();
+//    auto z_axis = (vectors::Vector3D)(at - eye).Normalized();
+//    auto x_axis = (vectors::Vector3D)z_axis.CrossProduct(up).Normalized();
+//    auto y_axis = x_axis.CrossProduct(z_axis);
+//    z_axis.Negate();
+    auto dot_x = -X.Dot(eye);
+    auto dot_y = -Y.Dot(eye);
+    auto dot_z = -Z.Dot(eye);
     if (dot_x == -0.0) dot_x = 0.0;
     if (dot_y == -0.0) dot_y = 0.0;
     if (dot_z == -0.0) dot_z = 0.0;
-    *this =
-        (Matrix4x4){x_axis.X(),       y_axis.X(),       z_axis.X(),       0,
-                    x_axis.Y(),       y_axis.Y(),       z_axis.Y(),       0,
-                    x_axis.Z(),       y_axis.Z(),       z_axis.Z(),       0,
-                    dot_x,            dot_y,            dot_z, 1};
+    *this = (Matrix4x4){X.X(),  Y.X(),  Z.X(), 0,
+                        X.Y(),  Y.Y(),  Z.Y(), 0,
+                        X.Z(),  Y.Z(),  Z.Z(), 0,
+                        dot_x,  dot_y,  dot_z, 1};
   };
   void Translate(vectors::Vector3D translate) {
     data_[0 + 3 * 4] = translate.X();
@@ -326,6 +348,7 @@ class Matrix4x4 : public SquareMatrix<4> {
     data_[2 + 2 * 4] = ((nearPlane + farPlane) / (nearPlane - farPlane));
     data_[2 + 3 * 4] = (-1.0f);
     data_[3 + 2 * 4] = ((2.0f * nearPlane * farPlane) / (nearPlane - farPlane));
+    (*this) = Transpose();
   }
   void Perspective(float fov, float aspectRatio, float nearPlane,
                    float farPlane) {
@@ -336,6 +359,7 @@ class Matrix4x4 : public SquareMatrix<4> {
     data_[2 + 2 * 4] = ((nearPlane + farPlane) / (nearPlane - farPlane));
     data_[2 + 3 * 4] = (-1.0f);
     data_[3 + 2 * 4] = ((2.0f * nearPlane * farPlane) / (nearPlane - farPlane));
+    (*this) = Transpose();
   }
   void Orthographic(float left, float right, float bottom, float top,
                     float nearPlane, float farPlane) {

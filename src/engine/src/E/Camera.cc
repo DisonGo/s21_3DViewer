@@ -45,13 +45,14 @@ void Camera::Matrix(Program &program, const char *uniform) {
   }
   qDebug() << (projQT * viewQT);
   glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
-                     (view).RawConstData());
+                     (view * projection).RawConstData());
+
 //  glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
 //                     (projQT * viewQT).data());
-  glUniformMatrix4fv(program.GetUniform("m_CameraView"), 1, GL_FALSE,
+  glUniformMatrix4fv(program.GetUniform("u_CameraView"), 1, GL_FALSE,
                      (view).RawConstData());
-  glUniformMatrix4fv(program.GetUniform("m_CameraProjection"), 1, GL_FALSE,
-                     (projection.Transpose()).RawConstData());
+  glUniformMatrix4fv(program.GetUniform("u_CameraProjection"), 1, GL_FALSE,
+                     (projection).RawConstData());
 
   glUniform3f(program.GetUniform("u_CameraPos"), position_.X(), position_.Y(),
               position_.Z());
@@ -108,7 +109,7 @@ void Camera::CalcFocusPosition() {
   float distance = (focus_point_ - position_).Length();
   if (distance * zoom_factor > MIN_DIST) distance *= zoom_factor;
   zoom_factor = 1;
-  orientation_ = -1 * (focus_point_ - position_).Normalized();
+  orientation_ = (focus_point_ - position_).Normalized();
   if (orientation_.Y() > 0.95) orientation_.SetY(0.95);
   if (orientation_.Y() < -0.95) orientation_.SetY(-0.95);
 
@@ -122,7 +123,7 @@ void Camera::CalcFocusPosition() {
 
   Vector3D newDir(cos(pitchAngle) * sin(yawAngle), sin(pitchAngle),
                   cos(pitchAngle) * cos(yawAngle));
-  position_ = focus_point_ + distance * -newDir;
+  position_ = focus_point_ + distance * newDir;
 }
 
 }  // namespace s21
