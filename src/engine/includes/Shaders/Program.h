@@ -25,6 +25,9 @@ class Program : protected QOpenGLFunctions {
   void Uniform1f(const char* name, float a);
   void Uniform2f(const char* name, float a, float b);
   void Uniform3f(const char* name, float a, float b, float c);
+  void UniformMatrix4fv(const char* name, int count, bool normalize, const float* data);
+
+
  private:
   GLuint ID_ = 0;
   void SetProgram(const std::string& vertexFile,

@@ -38,7 +38,6 @@ void CameraSpacer::mouseReleaseSlot(QMouseEvent *e) {
 
 void CameraSpacer::mouseMoveSlot(QMouseEvent *e) {
   Vector2D a;
-  auto b = a * .1;
   auto p = godison::GPoint(e->pos().x(), e->pos().y());
   if (camera_.mode_ == Camera::kFree) camera_.ProcessFreeMode(p);
   if (camera_.mode_ == Camera::kFocus) camera_.ProcessFocusMode(p);

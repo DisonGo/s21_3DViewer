@@ -1,4 +1,5 @@
 #include "E/Camera.h"
+
 #include "E/Point.h"
 #include "QtMath"
 namespace s21 {
@@ -27,17 +28,15 @@ void Camera::Matrix(Program &program) {
                             z_range_.X(), z_range_.Y());
   if (view_mode_ == kPerspective)
     projection.Perspective(FOV_, (float)vw_ / vh_, z_range_.X(), z_range_.Y());
-  glUniformMatrix4fv(program.GetUniform("u_CameraView"), 1, GL_FALSE,
-                     (view).RawConstData());
-  glUniformMatrix4fv(program.GetUniform("u_CameraProjection"), 1, GL_FALSE,
-                     (projection).RawConstData());
+  program.UniformMatrix4fv("u_CameraView", 1, GL_FALSE, (view).RawConstData());
+  program.UniformMatrix4fv("u_CameraProjection", 1, GL_FALSE,
+                           (projection).RawConstData());
 
-  glUniform3f(program.GetUniform("u_CameraPos"), position_.X(), position_.Y(),
-              position_.Z());
-  glUniform2f(program.GetUniform("u_resolution"), vw_, vh_);
-  glUniform1f(program.GetUniform("u_dashSize"), 1);
-  glUniform1f(program.GetUniform("u_gapSize"), 1);
-  glUniform1f(program.GetUniform("u_lineWidth"), lineWidth_);
+  program.Uniform3f("u_CameraPos", position_.X(), position_.Y(), position_.Z());
+  program.Uniform2f("u_resolution", vw_, vh_);
+  program.Uniform1f("u_dashSize", 1);
+  program.Uniform1f("u_gapSize", 1);
+  program.Uniform1f("u_lineWidth", lineWidth_);
 }
 
 void Camera::ProcessFreeMode(godison::GPoint ePos) {
@@ -52,21 +51,20 @@ void Camera::ProcessFreeMode(godison::GPoint ePos) {
   godison::matrices::Matrix4x4 rotationMatrix;
   rotationMatrix.Rotate(-rotX, Vector3D::Normal(orientation_, up_));
 
-    Vector3D newOrientation = rotationMatrix.map(orientation_);
+  Vector3D newOrientation = rotationMatrix.map(orientation_);
 
-//   Decides whether or not the next vertical Orientation is legal or not
+  //   Decides whether or not the next vertical Orientation is legal or not
 
-    float dotProd = godison::vectors::Vector3D::Dot(newOrientation, up_);
-    float angle =
-        qAcos(dotProd / (newOrientation.Length() * up_.Length())) * 180 /
-        M_PI;
-    if (abs(angle - 90.0f) <= 85.0f) orientation_ = newOrientation;
-    rotationMatrix.SetToIdentity();
-    rotationMatrix.Rotate(-rotY, up_);
+  float dotProd = godison::vectors::Vector3D::Dot(newOrientation, up_);
+  float angle =
+      qAcos(dotProd / (newOrientation.Length() * up_.Length())) * 180 / M_PI;
+  if (abs(angle - 90.0f) <= 85.0f) orientation_ = newOrientation;
+  rotationMatrix.SetToIdentity();
+  rotationMatrix.Rotate(-rotY, up_);
 
-//   Rotates the Orientation left and right
+  //   Rotates the Orientation left and right
 
-   orientation_ = rotationMatrix.map(orientation_);
+  orientation_ = rotationMatrix.map(orientation_);
 }
 
 void Camera::ProcessFocusMode(godison::GPoint ePos) {

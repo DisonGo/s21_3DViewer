@@ -31,6 +31,7 @@ class Engine : protected QOpenGLFunctions {
   ~Engine();
 
   void SetupFocusPoint();
+  void SetupDefaultCamera();
   void RemoveObject(EObject* object);
   void Wipe3DObjects();
 

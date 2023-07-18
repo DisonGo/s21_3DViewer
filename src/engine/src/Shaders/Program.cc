@@ -55,6 +55,13 @@ void Program::Uniform2f(const char* name, float a, float b) {
 void Program::Uniform3f(const char* name, float a, float b, float c) {
   glUniform3f(GetUniform(name), a, b, c);
 }
+
+void Program::UniformMatrix4fv(const char *name, int count, bool normalize, const float *data)
+{
+  glUniformMatrix4fv(GetUniform(name), count, normalize, data);
+}
+
+
 void Program::SetProgram(const std::string& vertexFile,
                          const std::string& fragmentFile) {
   ID_ = glCreateProgram();

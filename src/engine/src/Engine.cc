@@ -8,8 +8,8 @@
 #include <QRandomGenerator>
 #include <functional>
 
-using godison::vectors::Vector3D;
 using godison::shapes::Polygon;
+using godison::vectors::Vector3D;
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
 #define ERASE_FROM_VECTOR(vec, x) \
   vec.erase(std::remove(vec.begin(), vec.end(), x), vec.end())
@@ -18,34 +18,8 @@ Engine::Engine() {
   initializeOpenGLFunctions();
   drawConfig_ = &DrawConfig::Instance();
   qDebug() << "Engine config:" << drawConfig_;
-  Camera* default_camera = new Camera();
   SetParser(new OBJParser);
-  cameras_.push_back(default_camera);
-  engine_objects_.push_back(default_camera);
-  current_camera_ = default_camera;
-  eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
-  class Polygon p(40, 0, 0, 1);
-  OBJ obj;
-  auto verts = p.GenerateVertices();
-  auto indis = p.GenerateIndices();
-  for (size_t i = 0; i < verts.size(); i += 3) {
-    obj.vertices.push_back({verts[i], verts[i + 1], verts[i + 2]});
-  }
-  obj.faces.push_back({});
-  for (auto& index : indis) {
-    FaceVertex fv{(int)index, 0, 0};
-    obj.faces[0].indices.push_back(fv);
-  }
-
-  auto polygon = new Object3D();
-  static OBJImportWireframeStrategy standratImporter;
-  polygon->UploadMesh(obj, &standratImporter);
-  polygon->GetMesh().SetBufferToggle(kStandartImport, true);
-  auto program = Program::Default();
-  polygon->SetProgram(*program);
-  objects_3d_.push_back(polygon);
-  programs_.push_back(program);
-  eObjectModel_.AddItem(polygon, nullptr, "Polygon");
+  SetupDefaultCamera();
   SetupFocusPoint();
 }
 
@@ -60,6 +34,15 @@ void Engine::SetupFocusPoint() {
   object_3d->SetProgram(*program);
   objects_3d_.push_back(object_3d);
   programs_.push_back(program);
+}
+
+void Engine::SetupDefaultCamera()
+{
+  Camera* default_camera = new Camera();
+  cameras_.push_back(default_camera);
+  engine_objects_.push_back(default_camera);
+  current_camera_ = default_camera;
+  eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
 }
 
 void Engine::RemoveObject(EObject* object) {

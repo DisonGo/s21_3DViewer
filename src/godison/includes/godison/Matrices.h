@@ -153,13 +153,12 @@ class Matrix {
       std::swap((*this)(r1, j), (*this)(r2, j));
   }
 
-  // void SwapCols(size_t c1, size_t c2) {
-  //   if (c1 >= cols_ || c2 >= cols_) throw "Out of bounds";
-  //   auto col1_beg = data_.Data().begin() + c1 * rows_;
-  //   auto col2_beg = data_.Data().begin() + c2 * rows_;
-  //   std::swap_ranges(data_.Data().begin(), col1_beg, col2_beg);
-  // }
-
+  void SwapCols(size_t c1, size_t c2) {
+    if (c1 == c2) return;
+    if (c1 >= cols_ || c2 >= cols_) throw "Out of bounds";
+    for (size_t i = 0; i < rows_; i++)
+      std::swap((*this)(i, c1), (*this)(i, c2));
+  }
   Matrix<h, w> Transpose() {
     Matrix<h, w> result;
     for (size_t col = 0; col < cols_; col++)
