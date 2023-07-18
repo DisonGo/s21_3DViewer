@@ -91,6 +91,4 @@ void OpenGLController::importObjFile(QString filename) {
   emit importComleted(engine->verticesN, engine->verticesN / 3 * 2,
                       fileInfo.fileName());
 }
-OpenGLController::~OpenGLController() {
-
-}
+OpenGLController::~OpenGLController() {}

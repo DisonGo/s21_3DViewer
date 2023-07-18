@@ -87,17 +87,17 @@ class Matrix {
     if (rows_ != other.cols_)
       throw "Bad size. Can multiple only square matrices.";
     Matrix result;
-//    vectors::Vector<values_type, h> temp;
-//    for (size_t j = 0; j < other.cols_; j++) {
-//      for (size_t k = 0; k < rows_; k++) {
-//        temp[k] = other(k, j);
-//      }
-//      for (size_t i = 0; i < rows_; i++) {
-//        float sum = 0.0;
-//        for (size_t k = 0; k < rows_; k++) sum += (*this)(i, k) * temp[k];
-//        result(i, j) = sum;
-//      }
-//    }
+    //    vectors::Vector<values_type, h> temp;
+    //    for (size_t j = 0; j < other.cols_; j++) {
+    //      for (size_t k = 0; k < rows_; k++) {
+    //        temp[k] = other(k, j);
+    //      }
+    //      for (size_t i = 0; i < rows_; i++) {
+    //        float sum = 0.0;
+    //        for (size_t k = 0; k < rows_; k++) sum += (*this)(i, k) * temp[k];
+    //        result(i, j) = sum;
+    //      }
+    //    }
     //    Row multiply
     for (size_t row = 0; row < rows_; row++)
       for (size_t col = 0; col < other.cols_; col++)
@@ -290,10 +290,8 @@ class Matrix4x4 : public SquareMatrix<4> {
     if (dot_x == -0.0) dot_x = 0.0;
     if (dot_y == -0.0) dot_y = 0.0;
     if (dot_z == -0.0) dot_z = 0.0;
-    *this = (Matrix4x4){X.X(),  Y.X(),  Z.X(), 0,
-                        X.Y(),  Y.Y(),  Z.Y(), 0,
-                        X.Z(),  Y.Z(),  Z.Z(), 0,
-                        dot_x,  dot_y,  dot_z, 1};
+    *this = (Matrix4x4){X.X(), Y.X(), Z.X(), 0, X.Y(), Y.Y(), Z.Y(), 0,
+                        X.Z(), Y.Z(), Z.Z(), 0, dot_x, dot_y, dot_z, 1};
   };
   void Translate(vectors::Vector3D translate) {
     data_[0 + 3 * 4] = translate.X();
@@ -366,8 +364,7 @@ class Matrix4x4 : public SquareMatrix<4> {
     vectors::Vector4D res;
     for (size_t i = 0; i < 3; ++i) {
       float sum = 0;
-      for (size_t j = 0; j < 4; ++j)
-        sum += (*this)(i, j) * vec[j];
+      for (size_t j = 0; j < 4; ++j) sum += (*this)(i, j) * vec[j];
       res[i] = sum;
     }
     return res;
@@ -390,11 +387,11 @@ class Matrix4x4 : public SquareMatrix<4> {
     return *this;
   };
   vectors::Vector3D map(const vectors::Vector<float, 3>& vec) {
-    auto res = (*this) * vec.ToVector<4,float>(1);
+    auto res = (*this) * vec.ToVector<4, float>(1);
     return res.ToVector<3>();
   }
 };
-  
+
 }  // namespace matrices
 }  // namespace godison
 

@@ -1,6 +1,6 @@
 #include "Spacers/CameraSpacer.h"
-using godison::vectors::Vector3D;
 using godison::vectors::Vector2D;
+using godison::vectors::Vector3D;
 namespace s21 {
 CameraSpacer::CameraSpacer(Camera &camera, QObject *parent)
     : QObject(parent), camera_(camera) {}

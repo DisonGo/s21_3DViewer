@@ -1,7 +1,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
-#include <godison/Point.h>
 #include <godison/Matrices.h>
+#include <godison/Point.h>
 
 #include <QOpenGLFunctions>
 

@@ -16,11 +16,10 @@ vector<float> Polygon::GenerateVertices() {
   }
   return vertices;
 };
-vector<unsigned> Polygon::GenerateIndices(){
+vector<unsigned> Polygon::GenerateIndices() {
   vector<unsigned> indices;
   indices.reserve(n_);
-  for (size_t i = 0; i < n_; ++i)
-    indices.push_back(i);
+  for (size_t i = 0; i < n_; ++i) indices.push_back(i);
   return indices;
 };
 }  // namespace shapes

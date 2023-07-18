@@ -54,10 +54,9 @@ void EObjectTreeItem::RemoveChild(EObjectTreeItem *child) {
   if (m_child_items_.contains(child)) m_child_items_.removeAll(child);
 }
 
-EObjectTreeItem *EObjectTreeItem::RecursiveFindChildByPtr(EObject *object)
-{
+EObjectTreeItem *EObjectTreeItem::RecursiveFindChildByPtr(EObject *object) {
   EObjectTreeItem *item = nullptr;
-  for (auto& child : m_child_items_){
+  for (auto &child : m_child_items_) {
     if (child->object_ptr_ == object) return child;
     if (child->childCount()) item = child->RecursiveFindChildByPtr(object);
     if (item) return item;
@@ -67,4 +66,3 @@ EObjectTreeItem *EObjectTreeItem::RecursiveFindChildByPtr(EObject *object)
 
 EObjectTreeItem *EObjectTreeItem::parentItem() { return m_parent_item_; }
 }  // namespace s21
-

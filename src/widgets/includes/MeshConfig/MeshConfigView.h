@@ -2,7 +2,6 @@
 #define MESHCONFIGVIEW_H
 
 #include "ConfigWidget.h"
-
 #include "Spacers/MeshSpacer.h"
 namespace Ui {
 class MeshConfigView;

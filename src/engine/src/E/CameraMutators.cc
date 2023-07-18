@@ -1,6 +1,6 @@
 #include "E/Camera.h"
-using godison::vectors::Vector3D;
 using godison::vectors::Vector2D;
+using godison::vectors::Vector3D;
 namespace s21 {
 // Setters
 

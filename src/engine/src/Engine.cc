@@ -36,8 +36,7 @@ void Engine::SetupFocusPoint() {
   programs_.push_back(program);
 }
 
-void Engine::SetupDefaultCamera()
-{
+void Engine::SetupDefaultCamera() {
   Camera* default_camera = new Camera();
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);

@@ -3,9 +3,9 @@
 #include <QApplication>
 #include <QSurfaceFormat>
 
-#include "MainWindow.h"
-#include "Engine.h"
 #include "DrawConfig.h"
+#include "Engine.h"
+#include "MainWindow.h"
 
 int main(int argc, char *argv[]) {
   QSurfaceFormat format;

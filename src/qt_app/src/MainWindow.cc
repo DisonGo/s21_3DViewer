@@ -59,8 +59,9 @@ void MainWindow::loadSettings() {
 }
 void MainWindow::applySettings() {
   for (auto& filePath : filePaths) ui->comboBox_tab1->addItem(filePath);
-//  if (fileFieldIndex != -1) ui->comboBox_tab1->setCurrentIndex(fileFieldIndex);
-//  loading_setting_done = true;
+  //  if (fileFieldIndex != -1)
+  //  ui->comboBox_tab1->setCurrentIndex(fileFieldIndex); loading_setting_done =
+  //  true;
 }
 void MainWindow::choose_file() {
   QString name = qgetenv("USER");
@@ -98,8 +99,8 @@ void MainWindow::updateInfoLabels(long int vertN, long int edgesN,
 }
 
 void MainWindow::on_comboBox_tab1_currentIndexChanged(int index) {
-//  if (!loading_setting_done) return;
-//  fileFieldIndex = index;
+  //  if (!loading_setting_done) return;
+  //  fileFieldIndex = index;
 }
 
 void MainWindow::on_pushButton_saveFile_clicked() {
@@ -162,5 +163,4 @@ void MainWindow::on_pushButton_screencast_clicked() {
   QTimer::singleShot(5000, this, &MainWindow::endCapture);
   timerStarted = true;
 }
-void MainWindow::on_pushButton_screencast_auto_clicked() {
-}
+void MainWindow::on_pushButton_screencast_auto_clicked() {}

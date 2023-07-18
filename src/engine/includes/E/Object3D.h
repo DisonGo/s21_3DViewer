@@ -3,6 +3,7 @@
 
 #define GL_SILENCE_DEPRECATION
 #include <godison/Point.h>
+
 #include "E/Camera.h"
 #include "E/EObject.h"
 #include "E/Mesh.h"

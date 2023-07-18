@@ -3,7 +3,7 @@
 #include <godison/Vectors.h>
 namespace godison {
 class GPoint : public vectors::Vector<float, 2> {
-public:
+ public:
   GPoint(vector_type x = 0, vector_type y = 0) : Vector() {
     SetX(x);
     SetY(y);

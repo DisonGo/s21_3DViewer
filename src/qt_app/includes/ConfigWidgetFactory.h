@@ -15,7 +15,7 @@ class ConfigWidgetFactory {
                                     QWidget* parent = nullptr);
 
  private:
-  static ConfigWidget* CreatekNone(QWidget *parent);
+  static ConfigWidget* CreatekNone(QWidget* parent);
   static ConfigWidget* CreatekCamera(s21::EObject* object, QWidget* parent);
   static ConfigWidget* CreatekTransform(s21::EObject* object, QWidget* parent);
   static ConfigWidget* CreatekMesh(s21::EObject* object, QWidget* parent);

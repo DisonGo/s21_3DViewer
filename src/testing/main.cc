@@ -15,11 +15,11 @@ std::ostream& operator<<(std::ostream& os, const QVector3D& v) {
 void TranslateXViewTest();
 void VectorsTesting();
 void VectorsTesting() {
-  QVector3D a({1,2,3});
-  Vector3D b{1,2,3};
+  QVector3D a({1, 2, 3});
+  Vector3D b{1, 2, 3};
 
-  QVector3D a1({-1,-2,-3});
-  Vector3D b1{-1,-2,-3};
+  QVector3D a1({-1, -2, -3});
+  Vector3D b1{-1, -2, -3};
   cout << "Length:\n";
   cout << a.length() << "\n";
   cout << b.Length() << "\n";
@@ -27,15 +27,15 @@ void VectorsTesting() {
   cout << a.normalized() << "\n";
   cout << b.Normalized() << "\n";
   cout << "Cross:\n";
-  cout << a.crossProduct(a1, a)<< "\n";
-  cout << b1.CrossProduct(b)<< "\n";
+  cout << a.crossProduct(a1, a) << "\n";
+  cout << b1.CrossProduct(b) << "\n";
   cout << "Dot:\n";
   cout << a.dotProduct(a, a1) << "\n";
   cout << b.Dot(b1) << "\n";
 }
 int main() {
-//  VectorsTesting();
-   TranslateXViewTest();
+  //  VectorsTesting();
+  TranslateXViewTest();
   // RotateTest();
   // ModelMatTest();
   // MultiTest();
@@ -43,10 +43,6 @@ int main() {
 }
 // {{1, 3, 5}, {7, 2, 1}, {1, -2, 3}}
 // {{3, 20, -2}, {0, 5, 10}, {-30, 90, 222}}
-
-
-
-
 
 void TranslateXViewTest() {
   Vector3D at{0, 1, 0};
@@ -64,13 +60,13 @@ void TranslateXViewTest() {
   translateMat.SetToIdentity();
   translateMat.Translate({1, 2, 4});
   translateMatQT.translate({1, 2, 4});
-//  qDebug() << translateMatQT;
+  //  qDebug() << translateMatQT;
 
   Matrix4x4 persp;
   QMatrix4x4 perspQT;
 
-  persp.Perspective(45, 1920.f/1080.f, 0.001, 2000);
-  perspQT.perspective(45, 1920.f/1080.f, 0.001, 2000);
+  persp.Perspective(45, 1920.f / 1080.f, 0.001, 2000);
+  perspQT.perspective(45, 1920.f / 1080.f, 0.001, 2000);
 
   auto data = (viewQT * perspQT * translateMatQT).data();
   for (int i = 0; i < 16; ++i) cout << std::setprecision(6) << data[i] << " ";
@@ -79,9 +75,8 @@ void TranslateXViewTest() {
   for (int i = 0; i < 16; ++i)
     cout << std::setprecision(6) << my_data[i] << " ";
 
-
-cout << "\n";
-cout << "\n";
+  cout << "\n";
+  cout << "\n";
 
   data = (perspQT).data();
   for (int i = 0; i < 16; ++i) cout << std::setprecision(6) << data[i] << " ";
@@ -89,12 +84,11 @@ cout << "\n";
   my_data = (persp).Data();
   for (int i = 0; i < 16; ++i)
     cout << std::setprecision(6) << my_data[i] << " ";
-
 }
-//void RotateTest() {
-//  Matrix4x4 rotateMat;
-//  QMatrix4x4 rotateMatQT;
-//  rotateMat.SetToIdentity();
+// void RotateTest() {
+//   Matrix4x4 rotateMat;
+//   QMatrix4x4 rotateMatQT;
+//   rotateMat.SetToIdentity();
 
 //  rotateMat.Rotate(15, {1, 0, 0});
 //  rotateMatQT.rotate(15, {1, 0, 0});
@@ -105,7 +99,7 @@ cout << "\n";
 //  for (int i = 0; i < 16; ++i)
 //    cout << std::setprecision(6) << my_data[i] << " ";
 //}
-//void ModelMatTest() {
+// void ModelMatTest() {
 //  Vector3D scale_ = Vector3D(1, 1, 1);
 //  Vector3D rotation_ = Vector3D(16, 0, 0);
 //  Vector3D translate_ = Vector3D(0, 23, 1);
@@ -146,7 +140,7 @@ cout << "\n";
 //  for (int i = 0; i < 16; ++i)
 //    cout << std::setprecision(6) << my_data[i] << " ";
 //}
-//void MultiTest() {
+// void MultiTest() {
 //  Matrix3x3 a{1, 3, 5, 7, 2, 1, 1, -2, 3};
 //  Matrix3x3 b{3, 20, -2, 0, 5, 10, -30, 90, 222};
 //  cout << a * b << "\n";
@@ -154,7 +148,7 @@ cout << "\n";
 //  // QMatrix2x2 b1(3, 20, -2, 0);
 //  // qDebug() << a1 * b1;
 //}
-//void ViewTest() {
+// void ViewTest() {
 //  Matrix4x4 persp;
 //  persp.SetToIdentity();
 //  QMatrix4x4 perspQT;

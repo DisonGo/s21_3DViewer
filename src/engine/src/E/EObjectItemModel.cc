@@ -159,8 +159,7 @@ void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
   endRemoveRows();
 }
 
-EObjectTreeItem *EObjectItemModel::FindItem(EObject *object)
-{
+EObjectTreeItem *EObjectItemModel::FindItem(EObject *object) {
   if (!root_item_) return nullptr;
   return root_item_->RecursiveFindChildByPtr(object);
 }

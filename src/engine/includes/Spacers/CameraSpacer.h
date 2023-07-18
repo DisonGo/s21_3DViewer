@@ -9,6 +9,7 @@ class CameraSpacer : public QObject {
   Q_OBJECT
   using Vector3D = godison::vectors::Vector3D;
   using Vector2D = godison::vectors::Vector2D;
+
  public:
   CameraSpacer(Camera &camera_, QObject *parent = nullptr);
   void SetMode(Camera::CameraMode newMode);
