@@ -1,6 +1,4 @@
 #include "E/Camera.h"
-
-#include <QMatrix4x4>
 #include "E/Point.h"
 #include "QtMath"
 namespace s21 {
@@ -15,9 +13,8 @@ Camera::Camera(int width, int height) {
   initializeOpenGLFunctions();
 }
 
-void Camera::Matrix(Program &program, const char *uniform) {
+void Camera::Matrix(Program &program) {
   godison::matrices::Matrix4x4 view, projection;
-  QMatrix4x4 viewQT, projQT;
   view.SetToIdentity();
   move_speed_ = abs(z_range_.Y() - z_range_.X()) / 1000;
   rotation_speed_ = 10;
@@ -25,30 +22,11 @@ void Camera::Matrix(Program &program, const char *uniform) {
   if (mode_ == kFocus) CalcFocusPosition();
   if (mode_ == kFree) view.LookAt(position_, orientation_ + position_, up_);
   if (mode_ == kFocus) view.LookAt(position_, focus_point_, up_);
-  QVector3D pos(position_.X(), position_.Y(), position_.Z());
-  QVector3D orient(orientation_ .X(), orientation_ .Y(), orientation_ .Z());
-
-  viewQT.lookAt(pos, orient + pos, {0, 1, 0});
-  projQT.perspective(FOV_, (float)vw_ / vh_, z_range_.X(), z_range_.Y());
   if (view_mode_ == kOrthographic)
     projection.Orthographic(box_.left_, box_.right_, box_.bottom_, box_.top_,
                             z_range_.X(), z_range_.Y());
   if (view_mode_ == kPerspective)
     projection.Perspective(FOV_, (float)vw_ / vh_, z_range_.X(), z_range_.Y());
-  auto PVMat = (projection * view);
-  for (size_t i = 0; i < 4; ++i) {
-    QString str;
-    for (size_t j = 0; j < 4; ++j) {
-      str += QString().number(PVMat(i, j)) + " ";
-    }
-    qDebug() << str;
-  }
-  qDebug() << (projQT * viewQT);
-  glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
-                     (view * projection).RawConstData());
-
-//  glUniformMatrix4fv(program.GetUniform(uniform), 1, GL_FALSE,
-//                     (projQT * viewQT).data());
   glUniformMatrix4fv(program.GetUniform("u_CameraView"), 1, GL_FALSE,
                      (view).RawConstData());
   glUniformMatrix4fv(program.GetUniform("u_CameraProjection"), 1, GL_FALSE,
@@ -65,7 +43,7 @@ void Camera::Matrix(Program &program, const char *uniform) {
 void Camera::ProcessFreeMode(godison::GPoint ePos) {
   if (!LMBPressed_) return;
   Vector2D dif(ePos - m_center_pos_);
-  dif.Normalize();
+  dif = (-dif).Normalized();
   float rotX = dif.Y() * rotation_speed_ / 2;
   float rotY = dif.X() * rotation_speed_ / 2;
   m_center_pos_ = ePos;
@@ -74,21 +52,21 @@ void Camera::ProcessFreeMode(godison::GPoint ePos) {
   godison::matrices::Matrix4x4 rotationMatrix;
   rotationMatrix.Rotate(-rotX, Vector3D::Normal(orientation_, up_));
 
-  //  Vector3D newOrientation = rotationMatrix.map(orientation_);
+    Vector3D newOrientation = rotationMatrix.map(orientation_);
 
-  // Decides whether or not the next vertical Orientation is legal or not
+//   Decides whether or not the next vertical Orientation is legal or not
 
-  //  float dotProd = godison::vectors::Vector3D::Dot(newOrientation, up_);
-  //  float angle =
-  //      qAcos(dotProd / (newOrientation.Length() * up_.Length())) * 180 /
-  //      M_PI;
-  //  if (abs(angle - 90.0f) <= 85.0f) orientation_ = newOrientation;
-  //  rotationMatrix.SetToIdentity();
-  //  rotationMatrix.Rotate(-rotY, up_);
+    float dotProd = godison::vectors::Vector3D::Dot(newOrientation, up_);
+    float angle =
+        qAcos(dotProd / (newOrientation.Length() * up_.Length())) * 180 /
+        M_PI;
+    if (abs(angle - 90.0f) <= 85.0f) orientation_ = newOrientation;
+    rotationMatrix.SetToIdentity();
+    rotationMatrix.Rotate(-rotY, up_);
 
-  // Rotates the Orientation left and right
+//   Rotates the Orientation left and right
 
-  // orientation_ = rotationMatrix * orientation_.ToVector<4>(1);
+   orientation_ = rotationMatrix.map(orientation_);
 }
 
 void Camera::ProcessFocusMode(godison::GPoint ePos) {

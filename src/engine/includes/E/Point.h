@@ -3,6 +3,7 @@
 #include "E/Object3D.h"
 namespace s21 {
 class Point : public Object3D {
+  using Vector3D = godison::vectors::Vector3D;
  public:
   Point(float x = 0, float y = 0, float z = 0);
   Point(const Vector3D& position);

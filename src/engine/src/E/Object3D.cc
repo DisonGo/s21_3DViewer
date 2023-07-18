@@ -5,7 +5,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   if (!program_ || !camera) return;
   program_->Activate();
   transform_.LoadModelMatrix(program_);
-  camera->Matrix(*program_, "u_camMatrix");
+  camera->Matrix(*program_);
   float red = 1, green = 1, blue = 1;
   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;

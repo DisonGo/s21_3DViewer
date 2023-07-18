@@ -1,4 +1,5 @@
 #include "E/Transform.h"
+using godison::vectors::Vector3D;
 namespace s21 {
 void Transform::SetScale(const Vector3D &newScale) {
   scale_ = newScale;

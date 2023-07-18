@@ -272,11 +272,6 @@ class Matrix3x3 : public SquareMatrix<3> {
   using SquareMatrix::SquareMatrix;
 };
 class Matrix4x4 : public SquareMatrix<4> {
-  // scale(const QVector3D &vector)
-  // rotate(float angle, const QVector3D &vector)
-  // ortho(float left, float right, float bottom, float top, float nearPlane,
-  // float farPlane) perspective(float verticalAngle, float aspectRatio, float
-  // nearPlane, float farPlane)
  public:
   using SquareMatrix::SquareMatrix;
   void LookAt(vectors::Vector3D eye, vectors::Vector3D at,
@@ -290,10 +285,6 @@ class Matrix4x4 : public SquareMatrix<4> {
     Y = Z.CrossProduct(X);
     X.Normalize();
     Y.Normalize();
-//    auto z_axis = (vectors::Vector3D)(at - eye).Normalized();
-//    auto x_axis = (vectors::Vector3D)z_axis.CrossProduct(up).Normalized();
-//    auto y_axis = x_axis.CrossProduct(z_axis);
-//    z_axis.Negate();
     auto dot_x = -X.Dot(eye);
     auto dot_y = -Y.Dot(eye);
     auto dot_z = -Z.Dot(eye);
@@ -372,7 +363,39 @@ class Matrix4x4 : public SquareMatrix<4> {
     data_[1 + 3 * 4] = ((bottom + top) / (bottom - top));
     data_[2 + 3 * 4] = ((nearPlane + farPlane) / (nearPlane - farPlane));
   }
+  vectors::Vector4D operator*(const vectors::Vector<float, 4>& vec) {
+    vectors::Vector4D res;
+    for (size_t i = 0; i < 3; ++i) {
+      float sum = 0;
+      for (size_t j = 0; j < 4; ++j)
+        sum += (*this)(i, j) * vec[j];
+      res[i] = sum;
+    }
+    return res;
+  }
+
+  Matrix4x4 operator*(const Matrix4x4& other) const {
+    Matrix4x4 tmp(*this);
+    return tmp *= other;
+  };
+  const Matrix4x4& operator*=(const Matrix4x4& other) {
+    if (rows_ != other.cols_)
+      throw "Bad size. Can multiple only square matrices.";
+    Matrix4x4 result;
+    //    Row multiply
+    for (size_t row = 0; row < rows_; row++)
+      for (size_t col = 0; col < other.cols_; col++)
+        for (size_t k = 0; k < cols_; k++)
+          result(row, col) += (*this)(row, k) * other(k, col);
+    *this = std::move(result);
+    return *this;
+  };
+  vectors::Vector3D map(const vectors::Vector<float, 3>& vec) {
+    auto res = (*this) * vec.ToVector<4,float>(1);
+    return res.ToVector<3>();
+  }
 };
+  
 }  // namespace matrices
 }  // namespace godison
 

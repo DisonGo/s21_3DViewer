@@ -8,6 +8,9 @@ using godison::vectors::Vector3D;
 namespace s21 {
 class TransformSpacer : public QObject {
   Q_OBJECT
+  using Vector3D = godison::vectors::Vector3D;
+  using Vector2D = godison::vectors::Vector2D;
+
  public:
   TransformSpacer(Transform &transform, QObject *parent = nullptr)
       : QObject(parent), transform_(transform){};

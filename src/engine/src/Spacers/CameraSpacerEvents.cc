@@ -1,4 +1,6 @@
 #include "Spacers/CameraSpacer.h"
+using godison::vectors::Vector3D;
+using godison::vectors::Vector2D;
 namespace s21 {
 void CameraSpacer::keyPressSlot(QKeyEvent *e) {
   int key = e->key();

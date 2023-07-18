@@ -2,13 +2,12 @@
 #define TRANSFORM_H
 #include <godison/Matrices.h>
 
-using godison::vectors::Vector3D;
-
 #include "E/EObject.h"
 #include "Shaders/Program.h"
 namespace s21 {
 class Transform : public EObject, protected QOpenGLFunctions {
   friend class TransformSpacer;
+  using Vector3D = godison::vectors::Vector3D;
 
  public:
   Transform() {

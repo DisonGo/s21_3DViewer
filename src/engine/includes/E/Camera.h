@@ -2,9 +2,7 @@
 #define CAMERA_H
 #include <godison/Point.h>
 #include <godison/Matrices.h>
-using godison::vectors::Vector2D;
-using godison::vectors::Vector3D;
-using godison::GPoint;
+
 #include <QOpenGLFunctions>
 
 #include "E/EObject.h"
@@ -12,6 +10,9 @@ using godison::GPoint;
 namespace s21 {
 class Camera : public EObject, protected QOpenGLFunctions {
  public:
+  using Vector2D = godison::vectors::Vector2D;
+  using Vector3D = godison::vectors::Vector3D;
+  using GPoint = godison::GPoint;
   friend class CameraSpacer;
   explicit Camera();
   Camera(int width, int height);
@@ -33,7 +34,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
     float left_ = -1;
   };
 
-  void Matrix(Program &program, const char *uniform);
+  void Matrix(Program &program);
   virtual EObjectType GetType() const override { return type_; };
 
  public:  // Setters / Getters
@@ -81,7 +82,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   ViewMode view_mode_ = kPerspective;
   Vector3D focus_point_ = Vector3D(0, 1, 0);
   Vector3D position_ = Vector3D(1, 1, 1);
-  Vector3D orientation_ = Vector3D(0, 0, 1);
+  Vector3D orientation_ = Vector3D(0, 1);
   Vector2D z_range_ = Vector2D(0.001, 100);
   Vector3D focus_rotation_ = Vector3D(0, 0, 0);
   Vector3D up_ = Vector3D(0.0f, 1.0f, 0.0f);
