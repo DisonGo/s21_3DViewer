@@ -82,10 +82,10 @@ void Camera::ProcessFocusMode(godison::GPoint ePos) {
 
 void Camera::CalcFocusPosition() {
   constexpr double MIN_DIST = 0.1;
-  float distance = (focus_point_ - position_).Length();
+  float distance = (position_ - focus_point_).Length();
   if (distance * zoom_factor > MIN_DIST) distance *= zoom_factor;
   zoom_factor = 1;
-  orientation_ = (focus_point_ - position_).Normalized();
+  orientation_ = (position_ - focus_point_).Normalized();
   if (orientation_.Y() > 0.95) orientation_.SetY(0.95);
   if (orientation_.Y() < -0.95) orientation_.SetY(-0.95);
 
