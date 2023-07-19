@@ -38,7 +38,8 @@ class CameraSpacer : public QObject {
   float GetMoveSpeed() const;
   float GetRotationSpeed() const;
   const Camera::ParallelBox &GetBox() const;
-  double GetLineWidth();
+  double GetLineWidth() const;
+  Camera *GetCamera() const;
 
  public slots:
   void keyPressSlot(QKeyEvent *e);

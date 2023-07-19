@@ -19,14 +19,11 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   s21::CameraSpacer *cameraSpacer = nullptr;
   void startScreenCapture(int FPS);
   std::vector<QImage> stopScreenCapture();
+  void SetCameraSpacer(s21::CameraSpacer *spacer);
  public slots:
   void importObjFile(QString filename);
  signals:
   void initialized();
-  void importComleted(long int vertN, long int edgesN, QString filename);
-  void FOVChanged();
-  void zNearChanged();
-  void zFarChanged();
 
  protected:
   void mousePressEvent(QMouseEvent *e) override;

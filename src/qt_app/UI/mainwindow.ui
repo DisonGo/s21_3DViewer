@@ -57,7 +57,7 @@
      <enum>QTabWidget::Rounded</enum>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <property name="iconSize">
      <size>
@@ -84,110 +84,10 @@
        <number>300</number>
       </property>
       <item row="0" column="0">
-       <layout class="QGridLayout" name="gridLayout_2" rowstretch="2,0,3" columnstretch="0" rowminimumheight="0,0,0" columnminimumwidth="0">
+       <layout class="QGridLayout" name="gridLayout_2" rowstretch="2,0,0" columnstretch="0">
         <property name="spacing">
          <number>30</number>
         </property>
-        <item row="0" column="0">
-         <layout class="QVBoxLayout" name="verticalLayout" stretch="10,0,1,1,8">
-          <property name="spacing">
-           <number>5</number>
-          </property>
-          <property name="topMargin">
-           <number>15</number>
-          </property>
-          <item>
-           <layout class="QGridLayout" name="gridLayout_6" rowstretch="0" columnstretch="7,1">
-            <property name="spacing">
-             <number>0</number>
-            </property>
-            <item row="0" column="0">
-             <widget class="QComboBox" name="comboBox_tab1">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>300</width>
-                <height>59</height>
-               </size>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QToolButton" name="toolButton_tab1">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>16777215</width>
-                <height>59</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>...</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="filename_l">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="vetices_l">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="edges_l">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pushButton_loadFile">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>500</width>
-              <height>70</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
-            </property>
-            <property name="text">
-             <string>Загрузить</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
         <item row="1" column="0">
          <widget class="Line" name="line">
           <property name="sizePolicy">
@@ -259,8 +159,7 @@
              </font>
             </property>
             <property name="text">
-             <string>Сохранить в
-                            файл</string>
+             <string>Сохранить в файл</string>
             </property>
            </widget>
           </item>
@@ -283,6 +182,9 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="0" column="0">
+         <widget class="FileImportWidget" name="ImportWidget" native="true"/>
         </item>
        </layout>
       </item>
@@ -396,6 +298,12 @@
    <class>DrawConfigView</class>
    <extends>QWidget</extends>
    <header>DrawConfig/DrawConfigView.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>FileImportWidget</class>
+   <extends>QWidget</extends>
+   <header>FileImportWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

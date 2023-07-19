@@ -4,6 +4,7 @@ AUX_SOURCE_DIRECTORY(./TransformConfig WIDGETS_SRCS)
 AUX_SOURCE_DIRECTORY(./MeshConfig WIDGETS_SRCS)
 AUX_SOURCE_DIRECTORY(./Object3DConfig WIDGETS_SRCS)
 AUX_SOURCE_DIRECTORY(./ WIDGETS_SRCS)
+
 set(LIB_NAME widgets)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ./UI)
 set(WIDGETS_HEADER
@@ -14,6 +15,7 @@ set(WIDGETS_HEADER
     includes/TransformConfig/TransformConfigView.h
     includes/TripletWidget.h
     includes/ConfigWidget.h
+    includes/FileImportWidget.h
 )
 set(WIDGETS_UIS
     UI/TripletWidget.ui
@@ -22,6 +24,7 @@ set(WIDGETS_UIS
     UI/DrawConfigView.ui
     UI/CameraConfigView.ui
     UI/TransformConfigView.ui
+    UI/FileImportWidget.ui
 )
 add_library(${LIB_NAME} SHARED
     ${WIDGETS_UIS}

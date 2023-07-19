@@ -6,10 +6,10 @@ using godison::vectors::Vector3D;
 #include <QAbstractButton>
 #include <QMainWindow>
 #include <QSettings>
-
 #include "ConfigWidgetFactory.h"
 #include "E/Camera.h"
 #include "Engine.h"
+#include <FileImportWidget.h>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -36,15 +36,12 @@ class MainWindow : public QMainWindow {
   void ShowObjectWidget(s21::EObject *object);
   void SetupEObjectTreeView();
   void UpdateGL();
-  void choose_file();
 
-  void on_pushButton_loadFile_clicked();
+  void ImportFile(QString path);
 
-  void updateInfoLabels(long vertN, long edgesN, QString filename);
   void loadSettings();
   void applySettings();
   void closeEvent(QCloseEvent *event) override;
-  void on_comboBox_tab1_currentIndexChanged(int index);
   void on_pushButton_saveFile_clicked();
   void on_pushButton_screencast_clicked();
   void on_pushButton_screencast_auto_clicked();

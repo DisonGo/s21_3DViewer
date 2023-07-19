@@ -105,5 +105,10 @@ const Camera::ParallelBox &CameraSpacer::GetBox() const {
   return camera_.GetBox();
 }
 
-double CameraSpacer::GetLineWidth() { return camera_.GetLineWidth(); }
+double CameraSpacer::GetLineWidth() const { return camera_.GetLineWidth(); }
+
+Camera *CameraSpacer::GetCamera() const
+{
+  return &camera_;
+}
 }  // namespace s21

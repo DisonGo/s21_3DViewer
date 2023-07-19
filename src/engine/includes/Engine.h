@@ -22,6 +22,7 @@ class Engine : protected QOpenGLFunctions {
   void Cycle();
   EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();
+  void SetCurrentCamera(Camera* camera);
   static Engine& Instance();
 
  private:

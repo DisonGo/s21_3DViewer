@@ -8,7 +8,7 @@
 #include <QImageWriter>
 #include <QMessageBox>
 #include <QVariantAnimation>
-
+#include <FileImportWidget.h>
 #include "./ui_mainwindow.h"
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -16,12 +16,9 @@ MainWindow::MainWindow(QWidget* parent)
   setUnifiedTitleAndToolBarOnMac(true);
   loadSettings();
   applySettings();
-
+  connect(ui->ImportWidget, SIGNAL(FileImporting(QString)), this, SLOT(ImportFile(QString)));
   connect(ui->openGLWidget, SIGNAL(initialized()), this,
           SLOT(SetupEObjectTreeView()));
-  connect(ui->toolButton_tab1, SIGNAL(clicked()), this, SLOT(choose_file()));
-  connect(ui->openGLWidget, SIGNAL(importComleted(long, long, QString)), this,
-          SLOT(updateInfoLabels(long, long, QString)));
   connect(ui->DrawConfigWid, SIGNAL(DrawConfigUpdated()), this,
           SLOT(UpdateGL()));
 }
@@ -36,7 +33,7 @@ void MainWindow::saveSettings() {
 
   settings.beginWriteArray("filePaths");
   int i = 0;
-  for (auto& filePath : filePaths) {
+  for (auto& filePath : ui->ImportWidget->ExportPathsQ()) {
     settings.setArrayIndex(i++);
     settings.setValue("path", filePath);
   }
@@ -58,20 +55,7 @@ void MainWindow::loadSettings() {
   }
 }
 void MainWindow::applySettings() {
-  for (auto& filePath : filePaths) ui->comboBox_tab1->addItem(filePath);
-  //  if (fileFieldIndex != -1)
-  //  ui->comboBox_tab1->setCurrentIndex(fileFieldIndex); loading_setting_done =
-  //  true;
-}
-void MainWindow::choose_file() {
-  QString name = qgetenv("USER");
-  if (name.isEmpty()) name = qgetenv("USERNAME");
-  QString filename = QFileDialog::getOpenFileName(
-      this, tr("Open File"), "/Users/" + name, "Objects (*.obj)");
-  if (filename.isEmpty()) return;
-  filePaths.push_back(filename);
-  ui->comboBox_tab1->addItem(filename);
-  ui->comboBox_tab1->setCurrentIndex(ui->comboBox_tab1->findText(filename));
+  ui->ImportWidget->ImportPaths(filePaths);
 }
 void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   while (QLayoutItem* item = layout->takeAt(0)) {
@@ -83,24 +67,10 @@ void clearLayout(QLayout* layout, bool deleteWidgets = true) {
     delete item;
   }
 }
-void MainWindow::on_pushButton_loadFile_clicked() {
-  QString filePath = ui->comboBox_tab1->currentText();
-  if (filePath.isEmpty()) return;
-  ui->openGLWidget->importObjFile(filePath);
+void MainWindow::ImportFile(QString path) {
+  ui->openGLWidget->importObjFile(path);
   clearLayout(ui->ObjectWidgetHolder);
-  ui->openGLWidget->cameraSpacer = nullptr;
-}
-
-void MainWindow::updateInfoLabels(long int vertN, long int edgesN,
-                                  QString filename) {
-  ui->vetices_l->setText(QString("Total vertices:%1").arg(vertN));
-  ui->edges_l->setText(QString("Total edges:%1").arg(edgesN));
-  ui->filename_l->setText("File name:" + filename);
-}
-
-void MainWindow::on_comboBox_tab1_currentIndexChanged(int index) {
-  //  if (!loading_setting_done) return;
-  //  fileFieldIndex = index;
+  ui->openGLWidget->SetCameraSpacer(nullptr);
 }
 
 void MainWindow::on_pushButton_saveFile_clicked() {
@@ -129,13 +99,11 @@ void MainWindow::ShowObjectWidget(s21::EObject* object) {
   static ConfigWidgetFactory widget_factory;
   clearLayout(ui->ObjectWidgetHolder);
   ConfigWidget* widget = widget_factory.CreateWidget(object, this);
+  s21::CameraSpacer* cam_spacer = nullptr;
   if (!widget) return;
-  if (object->GetType() != s21::kCamera)
-    ui->openGLWidget->cameraSpacer = nullptr;
-  else {
-    ui->openGLWidget->cameraSpacer =
-        static_cast<CameraConfigView*>(widget)->GetCameraSpacer();
-  }
+  if (object->GetType() == s21::kCamera)
+    cam_spacer = static_cast<CameraConfigView*>(widget)->GetCameraSpacer();
+  ui->openGLWidget->SetCameraSpacer(cam_spacer);
 
   connect(widget, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
   ui->ObjectWidgetHolder->addWidget(widget);

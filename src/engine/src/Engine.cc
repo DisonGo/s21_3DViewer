@@ -21,6 +21,11 @@ Engine::Engine() {
   SetupObject3DFactory();
   SetupDefaultCamera();
   SetupFocusPoint();
+  Camera* second_camera = new Camera();
+  cameras_.push_back(second_camera);
+  engine_objects_.push_back(second_camera);
+  current_camera_ = second_camera;
+  eObjectModel_.AddItem(second_camera, nullptr, "Second camera");
 }
 
 Engine::~Engine() {
@@ -101,6 +106,11 @@ void Engine::Cycle() {
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
+
+void Engine::SetCurrentCamera(Camera *camera)
+{
+  current_camera_ = camera;
+}
 
 Engine& Engine::Instance() {
   static Engine instance;

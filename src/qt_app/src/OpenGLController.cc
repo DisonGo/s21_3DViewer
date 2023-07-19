@@ -53,7 +53,7 @@ void OpenGLController::initializeGL() {
   auto cam = engine->GetCurrentCamera();
   if (cam) {
     cam->SetVh(vh);
-    cam->SetVw(vh);
+    cam->SetVw(vw);
   }
   emit initialized();
 }
@@ -67,11 +67,12 @@ void OpenGLController::paintGL() { engine->Cycle(); }
 void OpenGLController::calcSizes(int w, int h) {
   vw = w;
   vh = h;
+  if (cameraSpacer) cameraSpacer->SetVh(vh);
+  if (cameraSpacer) cameraSpacer->SetVw(vw);
   ratio = vw / vh;
 }
 void OpenGLController::capture() {
-  QImage frame = grabFramebuffer();
-  frame = frame.scaled(gifResolution);
+  QImage frame = grabFramebuffer().scaled(gifResolution);
   captureBuffer.push_back(frame);
 }
 void OpenGLController::startScreenCapture(int FPS) {
@@ -82,13 +83,21 @@ std::vector<QImage> OpenGLController::stopScreenCapture() {
   captureTimer.stop();
   return captureBuffer;
 }
+
+void OpenGLController::SetCameraSpacer(s21::CameraSpacer *spacer)
+{
+  cameraSpacer = spacer;
+  if (!cameraSpacer) return;
+  engine->SetCurrentCamera(cameraSpacer->GetCamera());
+  cameraSpacer->SetVh(vh);
+  cameraSpacer->SetVw(vw);
+  update();
+}
 void OpenGLController::importObjFile(QString filename) {
   if (!engine) return;
   makeCurrent();
   engine->importObj(filename);
   QFileInfo fileInfo(filename);
   update();
-  emit importComleted(engine->verticesN, engine->verticesN / 3 * 2,
-                      fileInfo.fileName());
 }
 OpenGLController::~OpenGLController() {}
