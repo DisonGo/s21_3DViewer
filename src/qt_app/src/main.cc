@@ -10,8 +10,10 @@
 int main(int argc, char *argv[]) {
   QSurfaceFormat format;
   s21::DrawConfig::Instance();
-  format.setDepthBufferSize(24);
-  format.setStencilBufferSize(8);
+  format.setDepthBufferSize(16);
+  format.setStencilBufferSize(4);
+  format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
+  format.setSamples(4);
   format.setVersion(4, 1);
   format.setProfile(QSurfaceFormat::CoreProfile);
   QSurfaceFormat::setDefaultFormat(format);

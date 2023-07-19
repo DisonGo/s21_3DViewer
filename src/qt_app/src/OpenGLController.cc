@@ -2,18 +2,21 @@
 
 #include <QFileInfo>
 #include <QMouseEvent>
-
+#include <QTimer>
+#include <QThread>
 void OpenGLController::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
     if (!cameraSpacer) return;
     cameraSpacer->mousePressSlot(e);
+//    RequestUpdate();
   }
 }
 
 void OpenGLController::mouseMoveEvent(QMouseEvent *e) {
   if (!LMB_pressed || !cameraSpacer) return;
   cameraSpacer->mouseMoveSlot(e);
+//  RequestUpdate();
   update();
 }
 
@@ -21,23 +24,28 @@ void OpenGLController::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = false;
     if (cameraSpacer) cameraSpacer->mouseReleaseSlot(e);
+//    RequestUpdate();
   }
 }
 
 void OpenGLController::keyPressEvent(QKeyEvent *e) {
   if (cameraSpacer) cameraSpacer->keyPressSlot(e);
+//  RequestUpdate();
   update();
 }
 void OpenGLController::keyReleaseEvent(QKeyEvent *e) {
   if (cameraSpacer) cameraSpacer->keyReleaseSlot(e);
+//  RequestUpdate();
   update();
 }
 
 void OpenGLController::wheelEvent(QWheelEvent *e) {
   if (cameraSpacer) cameraSpacer->wheelEventSlot(e);
+//  RequestUpdate();
   update();
 }
 void OpenGLController::initializeGL() {
+  setAutoFillBackground(false);
   initializeOpenGLFunctions();
   QSize winSize = this->size();
   calcSizes(winSize.width(), winSize.height());
@@ -63,7 +71,9 @@ void OpenGLController::resizeGL(int w, int h) {
   calcSizes(w, h);
   update();
 }
-void OpenGLController::paintGL() { engine->Cycle(); }
+void OpenGLController::paintGL() {
+  engine->Cycle();
+}
 void OpenGLController::calcSizes(int w, int h) {
   vw = w;
   vh = h;
@@ -74,6 +84,13 @@ void OpenGLController::calcSizes(int w, int h) {
 void OpenGLController::capture() {
   QImage frame = grabFramebuffer().scaled(gifResolution);
   captureBuffer.push_back(frame);
+}
+
+void OpenGLController::PopUpdateSchedule()
+{
+  if (update_schedule_.empty()) return;
+  update_schedule_.pop_back();
+  update();
 }
 void OpenGLController::startScreenCapture(int FPS) {
   connect(&captureTimer, SIGNAL(timeout()), this, SLOT(capture()));
@@ -99,5 +116,10 @@ void OpenGLController::importObjFile(QString filename) {
   engine->importObj(filename);
   QFileInfo fileInfo(filename);
   update();
+}
+
+void OpenGLController::RequestUpdate()
+{
+  update_schedule_.push_back(1);
 }
 OpenGLController::~OpenGLController() {}

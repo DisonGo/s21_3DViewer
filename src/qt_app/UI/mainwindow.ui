@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1883</width>
-    <height>728</height>
+    <width>1280</width>
+    <height>720</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1000</width>
-    <height>510</height>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1280</width>
+    <height>720</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -44,212 +50,47 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QTabWidget" name="tabWidget">
+   <widget class="QTreeView" name="Tree">
     <property name="geometry">
      <rect>
-      <x>822</x>
-      <y>6</y>
-      <width>360</width>
-      <height>686</height>
+      <x>980</x>
+      <y>458</y>
+      <width>289</width>
+      <height>131</height>
      </rect>
     </property>
-    <property name="tabShape">
-     <enum>QTabWidget::Rounded</enum>
+    <property name="autoExpandDelay">
+     <number>1</number>
     </property>
-    <property name="currentIndex">
-     <number>0</number>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>977</x>
+      <y>0</y>
+      <width>304</width>
+      <height>459</height>
+     </rect>
     </property>
-    <property name="iconSize">
-     <size>
-      <width>32</width>
-      <height>32</height>
-     </size>
+    <layout class="QVBoxLayout" name="ObjectWidgetHolder"/>
+   </widget>
+   <widget class="FileImportWidget" name="FileImporter" native="true">
+    <property name="geometry">
+     <rect>
+      <x>978</x>
+      <y>589</y>
+      <width>302</width>
+      <height>130</height>
+     </rect>
     </property>
-    <property name="elideMode">
-     <enum>Qt::ElideLeft</enum>
-    </property>
-    <property name="usesScrollButtons">
-     <bool>false</bool>
-    </property>
-    <widget class="QWidget" name="tab_1">
-     <attribute name="icon">
-      <iconset resource="../resources/res.qrc">
-       <normaloff>:/style/icons/note.svg</normaloff>:/style/icons/note.svg</iconset>
-     </attribute>
-     <attribute name="title">
-      <string/>
-     </attribute>
-     <layout class="QGridLayout" name="gridLayout_5">
-      <property name="bottomMargin">
-       <number>300</number>
-      </property>
-      <item row="0" column="0">
-       <layout class="QGridLayout" name="gridLayout_2" rowstretch="2,0,0" columnstretch="0">
-        <property name="spacing">
-         <number>30</number>
-        </property>
-        <item row="1" column="0">
-         <widget class="Line" name="line">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="lineWidth">
-           <number>2</number>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <layout class="QGridLayout" name="gridLayout_4" rowstretch="7,7,7" columnstretch="5" rowminimumheight="5,5,5" columnminimumwidth="20">
-          <property name="horizontalSpacing">
-           <number>10</number>
-          </property>
-          <property name="verticalSpacing">
-           <number>15</number>
-          </property>
-          <item row="1" column="0">
-           <widget class="QPushButton" name="pushButton_screencast">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>350</width>
-              <height>105</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Захватить экран в течении 5 секунд</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QPushButton" name="pushButton_saveFile">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>350</width>
-              <height>105</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Сохранить в файл</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QPushButton" name="pushButton_screencast_auto">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>13</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>Захват экрана с автоматической анимацией</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="0">
-         <widget class="FileImportWidget" name="ImportWidget" native="true"/>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="tab_3">
-     <attribute name="icon">
-      <iconset resource="../resources/res.qrc">
-       <normaloff>:/style/icons/settings.svg</normaloff>:/style/icons/settings.svg</iconset>
-     </attribute>
-     <attribute name="title">
-      <string/>
-     </attribute>
-     <layout class="QGridLayout" name="gridLayout_9" rowstretch="3,0,0">
-      <property name="bottomMargin">
-       <number>3</number>
-      </property>
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <item row="2" column="0">
-       <widget class="QPushButton" name="pushButton_backgroungColor">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Цвет фона</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="pushButton_colorVersh">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Цвет вершин</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="DrawConfigView" name="DrawConfigWid" native="true"/>
-      </item>
-     </layout>
-    </widget>
    </widget>
    <widget class="OpenGLController" name="openGLWidget">
     <property name="geometry">
      <rect>
-      <x>12</x>
-      <y>12</y>
-      <width>794</width>
-      <height>696</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1280</width>
+      <height>720</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -265,27 +106,10 @@
      <string notr="true"/>
     </property>
    </widget>
-   <widget class="QTreeView" name="Tree">
-    <property name="geometry">
-     <rect>
-      <x>1200</x>
-      <y>28</y>
-      <width>326</width>
-      <height>663</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>1547</x>
-      <y>26</y>
-      <width>304</width>
-      <height>473</height>
-     </rect>
-    </property>
-    <layout class="QVBoxLayout" name="ObjectWidgetHolder"/>
-   </widget>
+   <zorder>openGLWidget</zorder>
+   <zorder>Tree</zorder>
+   <zorder>verticalLayoutWidget_2</zorder>
+   <zorder>FileImporter</zorder>
   </widget>
  </widget>
  <customwidgets>
@@ -295,20 +119,12 @@
    <header>OpenGLController.h</header>
   </customwidget>
   <customwidget>
-   <class>DrawConfigView</class>
-   <extends>QWidget</extends>
-   <header>DrawConfig/DrawConfigView.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>FileImportWidget</class>
    <extends>QWidget</extends>
    <header>FileImportWidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources>
-  <include location="../resources/res.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

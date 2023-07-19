@@ -6,7 +6,7 @@
 #include <QOpenGLWidget>
 #include <QSurfaceFormat>
 #include <QTimer>
-
+#include <QOpenGLFramebufferObjectFormat>
 #include "Engine.h"
 #include "Shaders/Program.h"
 #include "Spacers/CameraSpacer.h"
@@ -22,6 +22,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   void SetCameraSpacer(s21::CameraSpacer *spacer);
  public slots:
   void importObjFile(QString filename);
+  void RequestUpdate();
  signals:
   void initialized();
 
@@ -38,13 +39,14 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   void paintGL() override;
  private slots:
   void capture();
+  void PopUpdateSchedule();
 
  private:
   void calcSizes(int w, int h);
   QTimer captureTimer;
   bool LMB_pressed = false;
   int vw = 0, vh = 0, ratio = 0;
-
+  std::vector<int> update_schedule_;
   std::vector<QImage> captureBuffer;
   QSize gifResolution = QSize(640, 480);
   int gifFps = 10;

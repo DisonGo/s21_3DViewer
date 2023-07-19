@@ -89,14 +89,14 @@ class Camera : public EObject, protected QOpenGLFunctions {
 
   float FOV_ = 130;
   double lineWidth_ = 1;
-  double sensitivity_ = 0.001;
+  double sensitivity_ = 20;
   double zoom_factor = 1;
   bool LMBPressed_ = false;
   int vw_ = 1;
   int vh_ = 1;
   GPoint m_center_pos_ = GPoint(0, 0);
   float move_speed_ = 0.1f;
-  float rotation_speed_ = 0.1f;
+  float rotation_speed_ = 1.f;
   ParallelBox box_{};
 };
 }  // namespace s21

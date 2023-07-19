@@ -16,11 +16,10 @@ MainWindow::MainWindow(QWidget* parent)
   setUnifiedTitleAndToolBarOnMac(true);
   loadSettings();
   applySettings();
-  connect(ui->ImportWidget, SIGNAL(FileImporting(QString)), this, SLOT(ImportFile(QString)));
+  connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this, SLOT(ImportFile(QString)));
   connect(ui->openGLWidget, SIGNAL(initialized()), this,
           SLOT(SetupEObjectTreeView()));
-  connect(ui->DrawConfigWid, SIGNAL(DrawConfigUpdated()), this,
-          SLOT(UpdateGL()));
+  setAttribute(Qt::WA_NoSystemBackground);
 }
 MainWindow::~MainWindow() { delete ui; }
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -33,7 +32,7 @@ void MainWindow::saveSettings() {
 
   settings.beginWriteArray("filePaths");
   int i = 0;
-  for (auto& filePath : ui->ImportWidget->ExportPathsQ()) {
+  for (auto& filePath : ui->FileImporter->ExportPathsQ()) {
     settings.setArrayIndex(i++);
     settings.setValue("path", filePath);
   }
@@ -55,7 +54,7 @@ void MainWindow::loadSettings() {
   }
 }
 void MainWindow::applySettings() {
-  ui->ImportWidget->ImportPaths(filePaths);
+  ui->FileImporter->ImportPaths(filePaths);
 }
 void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   while (QLayoutItem* item = layout->takeAt(0)) {
