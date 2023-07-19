@@ -3,13 +3,15 @@
 
 #include <godison/Vectors.h>
 using godison::vectors::Vector3D;
+#include <FileImportWidget.h>
+
 #include <QAbstractButton>
 #include <QMainWindow>
 #include <QSettings>
+
 #include "ConfigWidgetFactory.h"
 #include "E/Camera.h"
 #include "Engine.h"
-#include <FileImportWidget.h>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -26,12 +28,9 @@ class MainWindow : public QMainWindow {
  private:
   std::vector<QString> filePaths;
   Ui::MainWindow *ui;
-  std::vector<QImage> gifBuffer;
-  bool timerStarted = false;
   s21::EObjectItemModel *eObjectModel;
 
   void saveSettings();
-  void saveGif(std::vector<QImage> gifData);
  private slots:
   void ShowObjectWidget(s21::EObject *object);
   void SetupEObjectTreeView();
@@ -42,9 +41,5 @@ class MainWindow : public QMainWindow {
   void loadSettings();
   void applySettings();
   void closeEvent(QCloseEvent *event) override;
-  void on_pushButton_saveFile_clicked();
-  void on_pushButton_screencast_clicked();
-  void on_pushButton_screencast_auto_clicked();
-  void endCapture();
 };
 #endif  // MAINWINDOW_H

@@ -72,28 +72,6 @@ void MainWindow::ImportFile(QString path) {
   ui->openGLWidget->SetCameraSpacer(nullptr);
 }
 
-void MainWindow::on_pushButton_saveFile_clicked() {
-  QImage screenshot = ui->openGLWidget->grabFramebuffer();
-  QString name = qgetenv("USER");
-  if (name.isEmpty()) name = qgetenv("USERNAME");
-  QString savePath = QFileDialog::getSaveFileName(
-      this, tr("Save screenshot"), "/Users/" + name, "Image (*.png)");
-  screenshot.save(savePath, "PNG");
-}
-
-void MainWindow::saveGif(std::vector<QImage> gifData) {
-  QGifImage gif(QSize(640, 480));
-  gif.setDefaultDelay(1000 / 60);
-  for (auto& frame : gifData) {
-    gif.addFrame(frame);
-  }
-  QString name = qgetenv("USER");
-  if (name.isEmpty()) name = qgetenv("USERNAME");
-  QString savePath = QFileDialog::getSaveFileName(
-      this, tr("Save gif"), "/Users/" + name, "Image (*.gif)");
-  gif.save(savePath);
-}
-
 void MainWindow::ShowObjectWidget(s21::EObject* object) {
   static ConfigWidgetFactory widget_factory;
   clearLayout(ui->ObjectWidgetHolder);
@@ -119,15 +97,3 @@ void MainWindow::SetupEObjectTreeView() {
 }
 
 void MainWindow::UpdateGL() { ui->openGLWidget->update(); }
-void MainWindow::endCapture() {
-  gifBuffer = ui->openGLWidget->stopScreenCapture();
-  timerStarted = false;
-  saveGif(gifBuffer);
-}
-void MainWindow::on_pushButton_screencast_clicked() {
-  if (timerStarted) return;
-  ui->openGLWidget->startScreenCapture(60);
-  QTimer::singleShot(5000, this, &MainWindow::endCapture);
-  timerStarted = true;
-}
-void MainWindow::on_pushButton_screencast_auto_clicked() {}
