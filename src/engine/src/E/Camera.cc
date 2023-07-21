@@ -15,22 +15,19 @@ Camera::Camera(int width, int height) {
 }
 
 void Camera::Matrix(Program &program) {
-  godison::matrices::Matrix4x4 view, projection;
-  view.SetToIdentity();
   move_speed_ = abs(z_range_.Y() - z_range_.X()) / 1000;
   rotation_speed_ = 10;
-
   if (mode_ == kFocus) CalcFocusPosition();
-  if (mode_ == kFree) view.LookAt(position_, orientation_ + position_, up_);
-  if (mode_ == kFocus) view.LookAt(position_, focus_point_, up_);
+  if (mode_ == kFree) view_.LookAt(position_, orientation_ + position_, up_);
+  if (mode_ == kFocus) view_.LookAt(position_, focus_point_, up_);
   if (view_mode_ == kOrthographic)
-    projection.Orthographic(box_.left_, box_.right_, box_.bottom_, box_.top_,
+    projection_.Orthographic(box_.left_, box_.right_, box_.bottom_, box_.top_,
                             z_range_.X(), z_range_.Y());
   if (view_mode_ == kPerspective)
-    projection.Perspective(FOV_, (float)vw_ / vh_, z_range_.X(), z_range_.Y());
-  program.UniformMatrix4fv("u_CameraView", 1, GL_FALSE, (view).RawConstData());
+    projection_.Perspective(FOV_, (float)vw_ / vh_, z_range_.X(), z_range_.Y());
+  program.UniformMatrix4fv("u_CameraView", 1, GL_FALSE, (view_).RawConstData());
   program.UniformMatrix4fv("u_CameraProjection", 1, GL_FALSE,
-                           (projection).RawConstData());
+                           (projection_).RawConstData());
 
   program.Uniform3f("u_CameraPos", position_.X(), position_.Y(), position_.Z());
   program.Uniform2f("u_resolution", vw_, vh_);

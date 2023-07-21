@@ -20,7 +20,7 @@ std::vector<VertexData> OBJImportVertexOnlyStrategy::GetVertexDataArray(
   for (auto& face : obj.faces) {
     for (auto& indices : face.indices) {
       GLuint index = indices.v_index;
-      if (index < size) new_arr.push_back({obj.vertices.at(index)});
+      if (index < size) new_arr.push_back({obj.vertices.at(index), 0});
     }
   }
   return new_arr;

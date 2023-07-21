@@ -32,7 +32,9 @@ int Program::GetUniform(const std::string& name) {
 }
 
 Program* Program::Default() {
-  return new Program(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl");
+  auto ptr = new Program(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl");
+  ptr->UniformBlockBinding("", 3);
+  return ptr;
 }
 
 Program& Program::operator=(Program&& obj) {
@@ -59,6 +61,16 @@ void Program::Uniform3f(const char* name, float a, float b, float c) {
 void Program::UniformMatrix4fv(const char* name, int count, bool normalize,
                                const float* data) {
   glUniformMatrix4fv(GetUniform(name), count, normalize, data);
+}
+
+void Program::UniformBlockBinding(const char *uniform_name, GLuint id)
+{
+   glUniformBlockBinding(ID_, GetUniformBlockIndex(uniform_name), id);
+}
+
+GLuint Program::GetUniformBlockIndex(const char *uniform_name)
+{
+  return glGetUniformBlockIndex(ID_, uniform_name);
 }
 
 void Program::SetProgram(const std::string& vertexFile,

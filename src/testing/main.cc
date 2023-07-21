@@ -18,11 +18,11 @@ std::vector<Vector3D>& operator<<(std::vector<Vector3D>& arr,
   arr.push_back(vec);
   return arr;
 }
+void print(unsigned a) {
+  cout << a << " ";
+}
 int main() {
-  std::vector<Vector3D> verices;
-  verices << (Vector3D){1, 2, 3} << (Vector3D){4, 3, 3};
-  const auto data = verices.data();
-  auto v = sizeof(data[0]);
-  auto b = sizeof(bre);
-  for (size_t i = 0; i < verices.size(); ++i) cout << data[i] << "\n";
+   unsigned offset = 10;
+   print(offset -= 2);
+
 }

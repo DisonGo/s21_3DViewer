@@ -1,6 +1,7 @@
 #include "E/Camera.h"
 using godison::vectors::Vector2D;
 using godison::vectors::Vector3D;
+using godison::vectors::Vector4D;
 namespace s21 {
 // Setters
 
@@ -27,6 +28,25 @@ void Camera::SetBox(const ParallelBox &newBox) { box_ = newBox; }
 void Camera::SetLineWidth(double newLineWidth) { lineWidth_ = newLineWidth; }
 void Camera::SetZoomFactor(double newZoomFactor) {
   zoom_factor = newZoomFactor;
+}
+
+void Camera::SetDefaultUBOData(UBO &ubo)
+{
+  // Mapping UBO data
+  unsigned offset = 0;
+  static const auto s_vec2 = sizeof(Vector2D().Data()); // 8
+  static const auto s_vec4 = sizeof(Vector4D().Data()); // 16
+  static const auto s_mat4 = sizeof(godison::matrices::Matrix4x4().Data()); // 64
+  // RESOLUTION
+  ubo.BufferSubData(offset, s_vec2, Vector2D(vw_, vh_).Data().data());
+  // POSITION
+  ubo.BufferSubData(offset += s_vec2, s_vec4, position_.ToVector<4>(1).Data().data());
+  // PROJECTION
+  ubo.BufferSubData(offset += s_vec4, s_mat4, projection_.Data().data());
+  // VIEW
+  ubo.BufferSubData(offset += s_mat4, s_mat4, view_.Data().data());
+  // PROJECTION X VIEW
+  ubo.BufferSubData(offset += s_mat4, s_mat4, (projection_ * view_).Data().data());
 }
 // Getters
 

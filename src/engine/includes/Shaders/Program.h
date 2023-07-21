@@ -26,6 +26,8 @@ class Program : protected QOpenGLFunctions {
   void Uniform3f(const char* name, float a, float b, float c);
   void UniformMatrix4fv(const char* name, int count, bool normalize,
                         const float* data);
+  void UniformBlockBinding(const char* uniform_name, GLuint id);
+  GLuint GetUniformBlockIndex(const char* uniform_name);
 
  private:
   GLuint ID_ = 0;

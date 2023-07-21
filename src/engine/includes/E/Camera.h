@@ -4,7 +4,7 @@
 #include <godison/Point.h>
 
 #include <QOpenGLFunctions>
-
+#include "GL/UBO.h"
 #include "E/EObject.h"
 #include "Shaders/Program.h"
 namespace s21 {
@@ -68,6 +68,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
 
   double GetZoomFactor() const;
   void SetZoomFactor(double newZoomFactor);
+  void SetDefaultUBOData(UBO& ubo);
 
  protected:
   EObjectType type_ = EObjectType::kCamera;
@@ -78,6 +79,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
   void CalcFocusPosition();
 
  private:  // vars
+  godison::matrices::Matrix4x4 view_, projection_;
   CameraMode mode_ = kFocus;
   ViewMode view_mode_ = kPerspective;
   Vector3D focus_point_ = Vector3D(0, 1, 0);

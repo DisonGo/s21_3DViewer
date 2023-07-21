@@ -25,6 +25,7 @@ set(ENGINE_HEADER
     includes/GL/GLArray.h
     includes/GL/GLBuffer.h
     includes/GL/EBO.h
+    includes/GL/UBO.h
     includes/GL/VBO.h
     includes/GL/VAO.h
 
