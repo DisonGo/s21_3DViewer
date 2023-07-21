@@ -1,16 +1,11 @@
 #include "Parsers/OBJParser.h"
 
 #include <godison/Vectors.h>
-
+using godison::vectors::Vector3D;
 #include "fstream"
 namespace s21 {
 TagCounters OBJParser::CountTags(const string filePath) {
-  // FILE* obj_file = NULL;
-  // obj_file = fopen(filePath.c_str(), "r");
-  // if (!obj_file) throw std::invalid_argument("Can't open file");
   std::ifstream file(filePath, std::ios_base::in);
-  size_t linesz = 0;
-  char* str = nullptr;
   string line;
   string tag;
   string values;
@@ -25,9 +20,6 @@ TagCounters OBJParser::CountTags(const string filePath) {
     if (tag == "f") counter.fC++;
   }
   file.close();
-
-  // free(str);
-  // fclose(obj_file);
   return counter;
 }
 
@@ -67,13 +59,37 @@ void OBJParser::CalculateNegativeIndices(std::vector<Face>& faces,
       if (index.v_index < 0) index.v_index += vertices_max_size + 1;
 }
 
+void OBJParser::GenerateNormals(OBJ& obj) {
+  if (obj.vertices.empty()) return;
+  if (obj.normals.size() == obj.vertices.size()) return;
+  obj.normals.clear();
+  obj.normals = vector<Normal>(obj.vertices.size());
+  for (const auto& face : obj.faces) {
+    auto indices_count = face.indices.size();
+    if (indices_count < 3) {
+      // either a point or a line -> no well-defined normal vector
+      for (size_t i = 0; i < indices_count; ++i)
+        obj.normals[face.indices[i].v_index] = Normal();
+      continue;
+    }
+
+    const Vertex& pV1_ = (obj.vertices[face.indices[0].v_index]);
+    const Vertex& pV2_ = (obj.vertices[face.indices[1].v_index]);
+    const Vertex& pV3_ = (obj.vertices[face.indices[face.indices.size() - 1].v_index]);
+
+    const Vector3D pV1(pV1_.x, pV1_.y, pV1_.z);
+    const Vector3D pV2(pV2_.x, pV2_.y, pV2_.z);
+    const Vector3D pV3(pV3_.x, pV3_.y, pV3_.z);
+
+    const Vector3D vNor = (((Vector3D)(pV2 - pV1)).CrossProduct(pV3 - pV1)).Normalized();
+
+    for (const auto& index_bundle : face.indices)
+      obj.normals[index_bundle.v_index] = {vNor.X(), vNor.Y(), vNor.Z()};
+  }
+}
+
 OBJ OBJParser::Parse(string filePath) {
-  // FILE* obj_file = NULL;
-  // obj_file = fopen(filePath.c_str(), "r");
-  // if (!obj_file) throw std::invalid_argument("Can't open file");
-
   std::ifstream file(filePath, std::ios_base::in);
-
   OBJ obj;
 
   // Count total amount of tags in file for memory allocation
@@ -95,8 +111,6 @@ OBJ OBJParser::Parse(string filePath) {
   Face* faces = new Face[tags.fC];
 
   TagCounters counter;  // Index counter for dynamic arrays
-  size_t linesz = 0;
-  char* str = nullptr;
   string line;
   string tag;
   string values;
@@ -132,25 +146,24 @@ OBJ OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-  //  for (auto& face : obj.faces) {
-  //    QString str;
-  //    for (auto& index : face.indices)
-  //      str += QString().number(index.v_index) + " ";
-  //    qDebug() << str;
-  //  }
-
   CenterVertices(obj.vertices, {0, 0, 0});
   ElevateVerticesToGround(obj.vertices);
 
   CalculateNegativeIndices(obj.faces, obj.vertices.size());
+  GenerateNormals(obj);
+
+//  for (auto& vert : obj.vertices)
+//    std::cout << vert << "\n";
+//  for (auto& norm : obj.normals)
+//    std::cout << norm.x << " " <<  norm.y << " " << norm.z << "\n";
+
   // Cleaning
   delete[] vertices;
   delete[] normals;
   delete[] textureCoords;
   delete[] faces;
   file.close();
-  // if (str) free(str);
-  // fclose(obj_file);
+
   return obj;
 }
 }  // namespace s21

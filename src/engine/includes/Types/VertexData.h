@@ -6,7 +6,7 @@
 namespace s21 {
 struct VertexData {
   Vertex vertex;
-  // Normal normal;
+  Normal normal;
   // TextureCoord uv;
 };
 }  // namespace s21

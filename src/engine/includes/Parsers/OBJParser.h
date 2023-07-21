@@ -13,6 +13,7 @@ class OBJParser : public BaseParser {
   void CenterVertices(vector<Vertex> &vertices, Vertex center);
   void ElevateVerticesToGround(vector<Vertex> &vertices);
   void CalculateNegativeIndices(vector<Face> &faces, size_t vertices_max_size);
+  void GenerateNormals(OBJ& obj);
   TagCounters CountTags(const string filePath);
 };
 }  // namespace s21

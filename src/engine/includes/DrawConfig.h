@@ -12,8 +12,8 @@ class DrawConfig {
   float point_size = 1;
   float line_width = 1;
   bool points = true;
-  bool lines = true;
-  bool triangles = false;
+  bool lines = false;
+  bool triangles = true;
   bool triangles_strip = false;
   bool round_circle = false;
   bool dashed_lines = false;

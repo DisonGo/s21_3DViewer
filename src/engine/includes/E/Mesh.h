@@ -32,8 +32,8 @@ class Mesh : public EObject, protected QOpenGLFunctions {
 
  private:
   map<OBJImportStrategyType, bool> buffer_toggle_{{kStandartImport, false},
-                                                  {kWireframeImport, true},
-                                                  {kTriangleImport, false},
+                                                  {kWireframeImport, false},
+                                                  {kTriangleImport, true},
                                                   {kVertexOnlyImport, false}};
   map<OBJImportStrategyType, VAO*> VAO_map_;
   DrawConfig* draw_config_;
