@@ -127,7 +127,6 @@ void Engine::Cycle() {
   if (drawConfig_->lines) DrawGeometry(GL_LINES);
   if (drawConfig_->triangles) DrawGeometry(GL_TRIANGLES);
   if (drawConfig_->triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
-  camera_uniform_buffer_.Unbind();
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
