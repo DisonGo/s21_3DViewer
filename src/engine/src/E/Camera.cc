@@ -14,7 +14,7 @@ Camera::Camera(int width, int height) {
   initializeOpenGLFunctions();
 }
 
-void Camera::Matrix(Program &program) {
+void Camera::Matrix() {
   move_speed_ = abs(z_range_.Y() - z_range_.X()) / 1000;
   rotation_speed_ = 10;
   if (mode_ == kFocus) CalcFocusPosition();
@@ -25,15 +25,6 @@ void Camera::Matrix(Program &program) {
                             z_range_.X(), z_range_.Y());
   if (view_mode_ == kPerspective)
     projection_.Perspective(FOV_, (float)vw_ / vh_, z_range_.X(), z_range_.Y());
-  program.UniformMatrix4fv("u_CameraView", 1, GL_FALSE, (view_).RawConstData());
-  program.UniformMatrix4fv("u_CameraProjection", 1, GL_FALSE,
-                           (projection_).RawConstData());
-
-  program.Uniform3f("u_CameraPos", position_.X(), position_.Y(), position_.Z());
-  program.Uniform2f("u_resolution", vw_, vh_);
-  program.Uniform1f("u_dashSize", 1);
-  program.Uniform1f("u_gapSize", 1);
-  program.Uniform1f("u_lineWidth", lineWidth_);
 }
 
 void Camera::ProcessFreeMode(godison::GPoint ePos) {

@@ -4,9 +4,11 @@
 #include <godison/Point.h>
 
 #include <QOpenGLFunctions>
-#include "GL/UBO.h"
+
 #include "E/EObject.h"
+#include "GL/UBO.h"
 #include "Shaders/Program.h"
+
 namespace s21 {
 class Camera : public EObject, protected QOpenGLFunctions {
  public:
@@ -34,7 +36,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
     float left_ = -1;
   };
 
-  void Matrix(Program &program);
+  void Matrix();
   virtual EObjectType GetType() const override { return type_; };
 
  public:  // Setters / Getters
@@ -68,7 +70,8 @@ class Camera : public EObject, protected QOpenGLFunctions {
 
   double GetZoomFactor() const;
   void SetZoomFactor(double newZoomFactor);
-  void SetDefaultUBOData(UBO& ubo);
+  void SetDefaultUBOData(UBO &ubo);
+  void PrintDefaultUBOData(UBO &ubo);
 
  protected:
   EObjectType type_ = EObjectType::kCamera;

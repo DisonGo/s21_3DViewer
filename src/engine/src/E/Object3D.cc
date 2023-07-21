@@ -1,16 +1,14 @@
 #include "E/Object3D.h"
 
 namespace s21 {
-void Object3D::Draw(GLenum type, Camera* camera) {
-  if (!program_ || !camera) return;
+void Object3D::Draw(GLenum type) {
+  if (!program_) return;
   program_->Activate();
   transform_.LoadModelMatrix(program_);
-  camera->Matrix(*program_);
   float red = 1, green = 1, blue = 1;
   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
-  auto cam_pos =camera->GetPosition();
-  program_->Uniform3f("u_lightPos", cam_pos.X(), cam_pos.Y(), cam_pos.Z());
+  program_->Uniform3f("u_lightPos", 1, 1, 1);
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     red = vertices_color_.redF();

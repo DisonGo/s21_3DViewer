@@ -4,6 +4,7 @@
 namespace s21 {
 class UBO : public GLBuffer {
  public:
+  void *GetBufferData(unsigned offset,unsigned count);
   GLenum GetType() override { return type; };
   GLenum type = GL_UNIFORM_BUFFER;
 };

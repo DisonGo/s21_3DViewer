@@ -40,13 +40,19 @@ void Camera::SetDefaultUBOData(UBO &ubo)
   // RESOLUTION
   ubo.BufferSubData(offset, s_vec2, Vector2D(vw_, vh_).Data().data());
   // POSITION
-  ubo.BufferSubData(offset += s_vec2, s_vec4, position_.ToVector<4>(1).Data().data());
+  ubo.BufferSubData(offset += s_vec2 * 2, s_vec4, position_.ToVector<4>(1).Data().data());
   // PROJECTION
   ubo.BufferSubData(offset += s_vec4, s_mat4, projection_.Data().data());
   // VIEW
   ubo.BufferSubData(offset += s_mat4, s_mat4, view_.Data().data());
   // PROJECTION X VIEW
   ubo.BufferSubData(offset += s_mat4, s_mat4, (projection_ * view_).Data().data());
+  // 64 * 3 + 16 * 2 = 224 bytes
+}
+
+void Camera::PrintDefaultUBOData(UBO &ubo)
+{
+
 }
 // Getters
 

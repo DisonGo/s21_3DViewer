@@ -24,7 +24,7 @@ class Object3D : public EObject {
     SetProgram(program);
   };
   virtual EObjectType GetType() const override { return type_; };
-  virtual void Draw(GLenum type, Camera* camera);
+  virtual void Draw(GLenum type);
 
   void UploadMesh(const OBJ& obj, OBJImportStrategy* importer);
 

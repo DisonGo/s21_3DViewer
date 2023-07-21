@@ -5,12 +5,11 @@
 #define GL_SILENCE_DEPRECATION
 #endif
 
-#include <QOpenGLFunctions>
+#include <QOpenGLExtraFunctions>
 
-#include "Shaders/FragmentShader.h"
-#include "Shaders/VertexShader.h"
+
 namespace s21 {
-class Program : protected QOpenGLFunctions {
+class Program : protected QOpenGLExtraFunctions {
  public:
   Program();
   Program(const std::string& vertexFile, const std::string& fragmentFile);

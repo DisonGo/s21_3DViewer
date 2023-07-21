@@ -2,7 +2,7 @@
 #define ENGINE_H
 
 #include <QOpenGLFunctions>
-
+#include "GL/UBO.h"
 #include "DrawConfig.h"
 #include "E/Camera.h"
 #include "E/EObjectItemModel.h"
@@ -45,6 +45,7 @@ class Engine : protected QOpenGLFunctions {
   DrawConfig* drawConfig_{};
   EObjectItemModel eObjectModel_;
   Object3DFactory object3d_factory_;
+  UBO camera_uniform_buffer_;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;
   std::vector<Object3D*> objects_3d_;

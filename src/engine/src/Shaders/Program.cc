@@ -3,6 +3,8 @@
 #include <QFile>
 
 #include "QDebug"
+#include "Shaders/FragmentShader.h"
+#include "Shaders/VertexShader.h"
 namespace s21 {
 Program::Program() { initializeOpenGLFunctions(); }
 
@@ -33,7 +35,6 @@ int Program::GetUniform(const std::string& name) {
 
 Program* Program::Default() {
   auto ptr = new Program(":/Shaders/vshader.glsl", ":/Shaders/fshader.glsl");
-  ptr->UniformBlockBinding("", 3);
   return ptr;
 }
 
@@ -63,13 +64,13 @@ void Program::UniformMatrix4fv(const char* name, int count, bool normalize,
   glUniformMatrix4fv(GetUniform(name), count, normalize, data);
 }
 
-void Program::UniformBlockBinding(const char *uniform_name, GLuint id)
-{
-   glUniformBlockBinding(ID_, GetUniformBlockIndex(uniform_name), id);
+void Program::UniformBlockBinding(const char* uniform_name, GLuint id) {
+  auto i = GetUniformBlockIndex(uniform_name);
+  qDebug() << "Camera:" << i;
+  glUniformBlockBinding(ID_, i, id);
 }
 
-GLuint Program::GetUniformBlockIndex(const char *uniform_name)
-{
+GLuint Program::GetUniformBlockIndex(const char* uniform_name) {
   return glGetUniformBlockIndex(ID_, uniform_name);
 }
 

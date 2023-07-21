@@ -83,6 +83,9 @@
       <height>130</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
    </widget>
    <widget class="OpenGLController" name="openGLWidget">
     <property name="geometry">

@@ -8,7 +8,7 @@ class Point : public Object3D {
  public:
   Point(float x = 0, float y = 0, float z = 0);
   Point(const Vector3D& position);
-  virtual void Draw(GLenum type, Camera* camera) override;
+  virtual void Draw(GLenum type) override;
 
  private:
   void CreateMesh(const Vector3D& position);

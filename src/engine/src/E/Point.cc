@@ -7,15 +7,12 @@ Point::Point(float x, float y, float z) : Point(Vector3D(x, y, z)) {
 
 Point::Point(const Vector3D &position) { CreateMesh(position); }
 
-void Point::Draw(GLenum type, Camera *camera) {
+void Point::Draw(GLenum type) {
   Q_UNUSED(type);
-  if (!camera) return;
-  program_->Activate();
   float red = vertices_color_.redF();
   float green = vertices_color_.greenF();
   float blue = vertices_color_.blueF();
   transform_.LoadModelMatrix(program_);
-  camera->Matrix(*program_);
   program_->Uniform3f("u_prototype_color", red, green, blue);
   program_->Uniform1f("u_pointSize", vertices_size_);
   program_->Uniform1i("u_circlePoint", true);
