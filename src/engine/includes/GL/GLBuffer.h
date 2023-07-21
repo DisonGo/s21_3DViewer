@@ -8,6 +8,9 @@ class GLBuffer : public GLObject {
   ~GLBuffer() { glDeleteBuffers(1, &ID_); }
   void Bind() override { glBindBuffer(GetType(), ID_); }
   void BindBase(GLuint base) { glBindBufferBase(GetType(), base, ID_); }
+  void BindBufferRange(GLuint index, GLintptr offset, GLsizeiptr size) {
+    glBindBufferRange(GetType(), index, ID_, offset, size);
+  };
   void BindData(GLsizeiptr size, const void* data,
                 GLenum usage = GL_STATIC_DRAW) {
     Bind();

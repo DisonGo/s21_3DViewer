@@ -6,7 +6,7 @@ VAO OBJImportWireframeStrategy::Import(const OBJ& obj) const {
   vao.Bind();
   VBO vbo(GetVertexDataArray(obj));
   EBO ebo(GetWireFrameIndexArray(obj));
-  vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
+  vao.LinkAttrib(vbo, 2, 3, GL_FLOAT, sizeof(VertexData), NULL);
   vao.SetIndicesN(ebo.GetSize());
   vao.SetVerticesN(vbo.GetSize());
   vao.Unbind();

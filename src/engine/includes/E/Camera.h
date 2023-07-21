@@ -70,7 +70,7 @@ class Camera : public EObject, protected QOpenGLFunctions {
 
   double GetZoomFactor() const;
   void SetZoomFactor(double newZoomFactor);
-  void SetDefaultUBOData(UBO &ubo);
+  void SetDefaultUBOData(UBO *ubo);
   void PrintDefaultUBOData(UBO &ubo);
 
  protected:

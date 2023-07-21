@@ -17,10 +17,10 @@ uniform vec3 u_prototype_color;
 
 layout(std140) uniform CameraData {
   vec2 resolution;
-  vec4 position;
-  mat4 projection;
-  mat4 view;
-  mat4 pv;
+  // vec4 position;
+  // mat4 projection;
+  // mat4 view;
+  // mat4 pv;
 };
 vec3 lightColor = vec3(1., 1., 1.);
 float ambientStrength = 0.2;
@@ -50,7 +50,7 @@ vec3 DoLigthing() {
   float diff = max(dot(norm, lightDir), 0.0);
 
   vec3 diffuse = diff * lightColor;
-
+  vec3 position = vec3(1.);
   vec3 viewDir = normalize(position.xyz - f_vertPos.xyz);
   vec3 reflectDir = reflect(-lightDir, norm);
 
@@ -60,7 +60,8 @@ vec3 DoLigthing() {
   return ambient + diffuse + specular;
 }
 void main() {
-  FragColor = vec4(u_prototype_color, 1);
+  FragColor = vec4(1);
+  // FragColor = vec4(vec3(resolution.y / resolution.x), 1);
   // DecidePointDraw();
   // DecideLineDraw();
 }

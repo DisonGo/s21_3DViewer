@@ -30,23 +30,24 @@ void Camera::SetZoomFactor(double newZoomFactor) {
   zoom_factor = newZoomFactor;
 }
 
-void Camera::SetDefaultUBOData(UBO &ubo)
+void Camera::SetDefaultUBOData(UBO *ubo)
 {
   // Mapping UBO data
   unsigned offset = 0;
   static const auto s_vec2 = sizeof(Vector2D().Data()); // 8
   static const auto s_vec4 = sizeof(Vector4D().Data()); // 16
   static const auto s_mat4 = sizeof(godison::matrices::Matrix4x4().Data()); // 64
+  Vector2D resolution(vw_, vh_);
   // RESOLUTION
-  ubo.BufferSubData(offset, s_vec2, Vector2D(vw_, vh_).Data().data());
+  ubo->BufferSubData(offset, s_vec2, &resolution.Data()[0]);
   // POSITION
-  ubo.BufferSubData(offset += s_vec2 * 2, s_vec4, position_.ToVector<4>(1).Data().data());
-  // PROJECTION
-  ubo.BufferSubData(offset += s_vec4, s_mat4, projection_.Data().data());
-  // VIEW
-  ubo.BufferSubData(offset += s_mat4, s_mat4, view_.Data().data());
-  // PROJECTION X VIEW
-  ubo.BufferSubData(offset += s_mat4, s_mat4, (projection_ * view_).Data().data());
+//  ubo.BufferSubData(offset += s_vec2 * 2, s_vec4, position_.ToVector<4>(1).Data().data());
+//  // PROJECTION
+//  ubo.BufferSubData(offset += s_vec4, s_mat4, projection_.Data().data());
+//  // VIEW
+//  ubo.BufferSubData(offset += s_mat4, s_mat4, view_.Data().data());
+//  // PROJECTION X VIEW
+//  ubo.BufferSubData(offset += s_mat4, s_mat4, (projection_ * view_).Data().data());
   // 64 * 3 + 16 * 2 = 224 bytes
 }
 

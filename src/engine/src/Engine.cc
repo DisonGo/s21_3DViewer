@@ -21,8 +21,18 @@ Engine::Engine() {
   SetupObject3DFactory();
   SetupDefaultCamera();
   SetupFocusPoint();
+  camera_uniform_buffer_.Bind();
   camera_uniform_buffer_.BindBase(0);
-  camera_uniform_buffer_.BindData(224, NULL, GL_STREAM_DRAW);
+  GLenum error = glGetError();
+  if (error != GL_NO_ERROR) {
+      // Handle the error
+      qDebug() << "Error binding uniform buffer to binding point: " <<
+          error << "\n";
+  }
+  camera_uniform_buffer_.BindData(16, NULL, GL_STREAM_DRAW);
+  camera_uniform_buffer_.Unbind();
+  camera_uniform_buffer_.BindBufferRange(0, 0, 16);
+
   Camera* second_camera = new Camera();
   cameras_.push_back(second_camera);
   engine_objects_.push_back(second_camera);
@@ -42,7 +52,7 @@ void Engine::SetupFocusPoint() {
 
 void Engine::SetupDefaultCamera() {
   Camera* default_camera = new Camera();
-  default_camera->SetPosition({2,3,4});
+  default_camera->SetPosition({2, 3, 4});
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
@@ -105,25 +115,23 @@ void Engine::Cycle() {
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   if (!current_camera_) return;
-  focus_point_.GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
   camera_uniform_buffer_.Bind();
+  focus_point_.GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
   current_camera_->Matrix();
-  current_camera_->SetDefaultUBOData(camera_uniform_buffer_);
-
-
+//  current_camera_->SetDefaultUBOData(&camera_uniform_buffer_);
+  const float a[2] = {1, 1};
+  camera_uniform_buffer_.BufferSubData(0, 8, &a[0]);
+  camera_uniform_buffer_.Unbind();
+  
   if (drawConfig_->points) DrawGeometry(GL_POINTS);
   if (drawConfig_->lines) DrawGeometry(GL_LINES);
   if (drawConfig_->triangles) DrawGeometry(GL_TRIANGLES);
   if (drawConfig_->triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
-  camera_uniform_buffer_.Unbind();
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
-void Engine::SetCurrentCamera(Camera *camera)
-{
-  current_camera_ = camera;
-}
+void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
 
 Engine& Engine::Instance() {
   static Engine instance;

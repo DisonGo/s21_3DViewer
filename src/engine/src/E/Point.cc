@@ -12,6 +12,7 @@ void Point::Draw(GLenum type) {
   float red = vertices_color_.redF();
   float green = vertices_color_.greenF();
   float blue = vertices_color_.blueF();
+  program_->Activate();
   transform_.LoadModelMatrix(program_);
   program_->Uniform3f("u_prototype_color", red, green, blue);
   program_->Uniform1f("u_pointSize", vertices_size_);
