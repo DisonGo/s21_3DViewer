@@ -4,6 +4,7 @@
 
 #include <set>
 
+using godison::vectors::Vector3D;
 #include "fstream"
 namespace s21 {
 TagCounters OBJParser::CountTags(const string filePath) {
@@ -82,6 +83,36 @@ void OBJParser::FetchVerticesByFaces(const std::vector<Vertex>& source,
   }
   faces = std::move(calibrated_faces);
 }
+void OBJParser::FetchNormalsByFaces(const std::vector<Normal>& source,
+                                    std::vector<Normal>& output,
+                                    std::vector<Face>& faces) {
+  std::set<const Normal*> existing_vertices;
+  std::map<size_t, size_t> v_indices_map;
+  std::vector<Face> calibrated_faces;
+
+  const auto faces_size = faces.size();
+
+  for (size_t i = 0; i < faces_size; ++i) {
+    calibrated_faces.push_back(faces[i]);
+
+    for (auto& index : calibrated_faces[i].indices) {
+      // Fetch only unique vertices
+
+      auto normal = &source[index.n_index];
+      bool normal_dont_exists =
+          existing_vertices.find(normal) == existing_vertices.end();
+      if (normal_dont_exists) {
+        existing_vertices.insert(normal);
+        v_indices_map.insert({index.n_index, output.size()});
+        output.push_back(*normal);
+      }
+    }
+    // Map used indices to new normal array
+    for (auto& index : calibrated_faces[i].indices)
+      index.n_index = v_indices_map.at(index.n_index);
+  }
+  faces = std::move(calibrated_faces);
+}
 
 void OBJParser::NormalizeVertices(std::vector<Vertex>& vertices,
                                   float normalizeSize) {
@@ -132,15 +163,43 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
     data.faces = std::vector<Face>(faces.begin() + object.i_start,
                                    faces.begin() + object.i_end);
     FetchVerticesByFaces(all_data.vertices, data.vertices, data.faces);
-    //    data.normals = all_data.normals;
+    FetchNormalsByFaces(all_data.normals, data.normals, data.faces);
     datas.push_back(data);
   }
   return datas;
 }
+void OBJParser::GenerateNormals(OBJ& obj) {
+  if (obj.vertices.empty()) return;
+  if (obj.normals.size() == obj.vertices.size()) return;
+  obj.normals.clear();
+  obj.normals = vector<Normal>(obj.vertices.size());
+  for (const auto& face : obj.faces) {
+    auto indices_count = face.indices.size();
+    if (indices_count < 3) {
+      // either a point or a line -> no well-defined normal vector
+      for (size_t i = 0; i < indices_count; ++i)
+        obj.normals[face.indices[i].v_index] = Normal();
+      continue;
+    }
 
+    const Vertex& pV1_ = (obj.vertices[face.indices[0].v_index]);
+    const Vertex& pV2_ = (obj.vertices[face.indices[1].v_index]);
+    const Vertex& pV3_ =
+        (obj.vertices[face.indices[face.indices.size() - 1].v_index]);
+
+    const Vector3D pV1(pV1_.x, pV1_.y, pV1_.z);
+    const Vector3D pV2(pV2_.x, pV2_.y, pV2_.z);
+    const Vector3D pV3(pV3_.x, pV3_.y, pV3_.z);
+
+    const Vector3D vNor =
+        (((Vector3D)(pV2 - pV1)).CrossProduct(pV3 - pV1)).Normalized();
+
+    for (const auto& index_bundle : face.indices)
+      obj.normals[index_bundle.v_index] = {vNor.X(), vNor.Y(), vNor.Z()};
+  }
+}
 std::vector<OBJ> OBJParser::Parse(string filePath) {
   std::ifstream file(filePath, std::ios_base::in);
-
   OBJ obj;
 
   // Count total amount of tags in file for memory allocation
@@ -202,12 +261,15 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-  // for (const auto& object : objects)
-  //   qDebug() << "Start:" << object.i_start << "End:" << object.i_end
-  //            << "Name:" << object.name.c_str();
   CenterVertices(obj.vertices, {0, 0, 0});
   NormalizeVertices(obj.vertices, 2);
   //  ElevateVerticesToGround(obj.vertices);
+  GenerateNormals(obj);
+
+  //  for (auto& vert : obj.vertices)
+  //    std::cout << vert << "\n";
+  //  for (auto& norm : obj.normals)
+  //    std::cout << norm.x << " " <<  norm.y << " " << norm.z << "\n";
 
   // Cleaning
   delete[] vertices;

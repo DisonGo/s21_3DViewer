@@ -1,8 +1,9 @@
 #version 410 core
 layout(location = 0) in vec3 aPos;
+layout(location = 1) in vec3 aNormal;
 flat out vec4 f_startPos;
 out vec4 f_vertPos;
-
+out vec3 f_normal;
 uniform mat4 u_camMatrix;
 uniform mat4 u_modelMatrix;
 uniform mat4 u_CameraView;
@@ -19,4 +20,5 @@ void main() {
   gl_Position = mvp_vec;
   gl_PointSize = u_pointSize;
   f_startPos = f_vertPos = mvp_vec;
+  f_normal = aNormal;
 }

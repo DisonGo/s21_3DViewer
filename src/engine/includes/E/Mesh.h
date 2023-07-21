@@ -41,8 +41,8 @@ class Mesh : public EObject, protected QOpenGLFunctions {
  private:
   std::string name_ = "Mesh";
   map<OBJImportStrategyType, bool> buffer_toggle_{{kStandartImport, false},
-                                                  {kWireframeImport, true},
-                                                  {kTriangleImport, false},
+                                                  {kWireframeImport, false},
+                                                  {kTriangleImport, true},
                                                   {kVertexOnlyImport, false}};
   map<OBJImportStrategyType, VAO*> VAO_map_;
 };
