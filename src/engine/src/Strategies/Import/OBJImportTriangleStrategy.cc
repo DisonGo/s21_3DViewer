@@ -7,7 +7,8 @@ VAO OBJImportTriangleStrategy::Import(const OBJ& obj) const {
   VBO vbo(GetVertexDataArray(obj));
   EBO ebo(GetTriangleIndexArray(obj));
   vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
-  vao.LinkAttrib(vbo, 1, 3, GL_FLOAT, sizeof(VertexData), (void*) (3 * sizeof(float)));
+  vao.LinkAttrib(vbo, 1, 3, GL_FLOAT, sizeof(VertexData),
+                 (void*)(3 * sizeof(float)));
   vao.SetIndicesN(ebo.GetSize());
   vao.SetVerticesN(vbo.GetSize());
   vao.Unbind();
@@ -18,11 +19,12 @@ VAO OBJImportTriangleStrategy::Import(const OBJ& obj) const {
 std::vector<VertexData> OBJImportTriangleStrategy::GetVertexDataArray(
     const OBJ& obj) const {
   std::vector<VertexData> new_arr;
-//  for (auto& vertex : obj.vertices) new_arr.push_back({vertex});
+  //  for (auto& vertex : obj.vertices) new_arr.push_back({vertex});
   auto vert_size = obj.vertices.size();
   if (obj.vertices.size() != obj.normals.size())
     throw "vertices.size != normals.size";
-  for (size_t i = 0; i < vert_size; ++i) new_arr.push_back({obj.vertices[i], obj.normals[i]});
+  for (size_t i = 0; i < vert_size; ++i)
+    new_arr.push_back({obj.vertices[i], obj.normals[i]});
   return new_arr;
 }
 std::vector<Face> OBJImportTriangleStrategy::GetTriangleIndexArray(

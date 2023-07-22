@@ -46,7 +46,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   float red = 1, green = 1, blue = 1;
   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
-  auto cam_pos =camera->GetPosition();
+  auto cam_pos = camera->GetPosition();
   program_->Uniform3f("u_lightPos", cam_pos.X(), cam_pos.Y(), cam_pos.Z());
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
