@@ -75,13 +75,15 @@ void OBJParser::GenerateNormals(OBJ& obj) {
 
     const Vertex& pV1_ = (obj.vertices[face.indices[0].v_index]);
     const Vertex& pV2_ = (obj.vertices[face.indices[1].v_index]);
-    const Vertex& pV3_ = (obj.vertices[face.indices[face.indices.size() - 1].v_index]);
+    const Vertex& pV3_ =
+        (obj.vertices[face.indices[face.indices.size() - 1].v_index]);
 
     const Vector3D pV1(pV1_.x, pV1_.y, pV1_.z);
     const Vector3D pV2(pV2_.x, pV2_.y, pV2_.z);
     const Vector3D pV3(pV3_.x, pV3_.y, pV3_.z);
 
-    const Vector3D vNor = (((Vector3D)(pV2 - pV1)).CrossProduct(pV3 - pV1)).Normalized();
+    const Vector3D vNor =
+        (((Vector3D)(pV2 - pV1)).CrossProduct(pV3 - pV1)).Normalized();
 
     for (const auto& index_bundle : face.indices)
       obj.normals[index_bundle.v_index] = {vNor.X(), vNor.Y(), vNor.Z()};
@@ -152,10 +154,10 @@ OBJ OBJParser::Parse(string filePath) {
   CalculateNegativeIndices(obj.faces, obj.vertices.size());
   GenerateNormals(obj);
 
-//  for (auto& vert : obj.vertices)
-//    std::cout << vert << "\n";
-//  for (auto& norm : obj.normals)
-//    std::cout << norm.x << " " <<  norm.y << " " << norm.z << "\n";
+  //  for (auto& vert : obj.vertices)
+  //    std::cout << vert << "\n";
+  //  for (auto& norm : obj.normals)
+  //    std::cout << norm.x << " " <<  norm.y << " " << norm.z << "\n";
 
   // Cleaning
   delete[] vertices;

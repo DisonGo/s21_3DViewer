@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 
+#include <FileImportWidget.h>
 #include <qgifimage.h>
 
 #include <QColorDialog>
@@ -8,7 +9,7 @@
 #include <QImageWriter>
 #include <QMessageBox>
 #include <QVariantAnimation>
-#include <FileImportWidget.h>
+
 #include "./ui_mainwindow.h"
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -16,7 +17,8 @@ MainWindow::MainWindow(QWidget* parent)
   setUnifiedTitleAndToolBarOnMac(true);
   loadSettings();
   applySettings();
-  connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this, SLOT(ImportFile(QString)));
+  connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this,
+          SLOT(ImportFile(QString)));
   connect(ui->openGLWidget, SIGNAL(initialized()), this,
           SLOT(SetupEObjectTreeView()));
   setAttribute(Qt::WA_NoSystemBackground);
@@ -53,9 +55,7 @@ void MainWindow::loadSettings() {
     settings.endGroup();
   }
 }
-void MainWindow::applySettings() {
-  ui->FileImporter->ImportPaths(filePaths);
-}
+void MainWindow::applySettings() { ui->FileImporter->ImportPaths(filePaths); }
 void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   while (QLayoutItem* item = layout->takeAt(0)) {
     if (deleteWidgets) {

@@ -8,7 +8,9 @@
 using namespace godison::matrices;
 using namespace godison::vectors;
 using std::cout;
-struct bre{float a,b,c;};
+struct bre {
+  float a, b, c;
+};
 std::ostream& operator<<(std::ostream& os, const QVector3D& v) {
   os << v.x() << " " << v.y() << " " << v.z() << " ";
   return os;

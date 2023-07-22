@@ -2,11 +2,12 @@
 #define OPENGLCONTROLLER_H
 #include <QObject>
 #include <QOpenGLExtraFunctions>
+#include <QOpenGLFramebufferObjectFormat>
 #include <QOpenGLTexture>
 #include <QOpenGLWidget>
 #include <QSurfaceFormat>
 #include <QTimer>
-#include <QOpenGLFramebufferObjectFormat>
+
 #include "Engine.h"
 #include "Shaders/Program.h"
 #include "Spacers/CameraSpacer.h"

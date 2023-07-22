@@ -17,6 +17,7 @@ set(ENGINE_HEADER
     includes/E/EObject.h
     includes/E/Transform.h
     includes/E/Object3D.h
+    includes/E/LightObject.h
     includes/E/Object3DFactory.h
     includes/E/EObjectTreeItem.h
     includes/E/EObjectItemModel.h

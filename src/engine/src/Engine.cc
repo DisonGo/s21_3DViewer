@@ -107,10 +107,7 @@ void Engine::Cycle() {
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
-void Engine::SetCurrentCamera(Camera *camera)
-{
-  current_camera_ = camera;
-}
+void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
 
 Engine& Engine::Instance() {
   static Engine instance;
