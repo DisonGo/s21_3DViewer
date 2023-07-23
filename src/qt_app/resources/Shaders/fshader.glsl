@@ -17,7 +17,7 @@ uniform vec3 u_prototype_color;
 
 uniform vec3 u_CameraPos;
 
-vec3 lightColor = vec3(1., 0.3, 1.);
+vec3 lightColor = vec3(1., 1., 1.);
 float ambientStrength = 0.1;
 float specularStrength = 0.2;
 
