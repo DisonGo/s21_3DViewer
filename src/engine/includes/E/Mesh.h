@@ -25,12 +25,14 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   void Import(const OBJ& obj, OBJImportStrategy* importer);
   void SetBufferToggle(OBJImportStrategyType type, bool value);
   bool GetBufferToggle(OBJImportStrategyType type);
+  const std::string& GetName() const {return name_;};
   virtual EObjectType GetType() const override { return type_; };
 
  protected:
   EObjectType type_ = EObjectType::kMesh;
 
  private:
+  std::string name_ = "Mesh";
   map<OBJImportStrategyType, bool> buffer_toggle_{{kStandartImport, false},
                                                   {kWireframeImport, true},
                                                   {kTriangleImport, false},

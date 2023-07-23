@@ -8,6 +8,9 @@ struct Vertex {
   GLfloat x, y, z;
   Vertex(){};
   Vertex(float X, float Y, float Z) : x(X), y(Y), z(Z){};
+  bool operator==(const Vertex& other) {
+    return x == other.x && y == other.y && z == other.z;
+  }
   friend std::ostream& operator<<(std::ostream& os, const Vertex& v) {
     os << v.x << " " << v.y << " " << v.z;
     return os;

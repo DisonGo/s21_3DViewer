@@ -36,6 +36,7 @@ void Mesh::Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer) {
     qDebug() << "Importer is null";
     return;
   }
+  if (!obj.name.empty()) name_ = obj.name;
   auto import_type = importer->GetType();
   auto vao = new VAO(importer->Import(obj));
   if (VAO_map_.count(import_type)) {

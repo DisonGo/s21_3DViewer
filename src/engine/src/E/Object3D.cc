@@ -36,8 +36,17 @@ void Object3D::Draw(GLenum type, Camera* camera) {
 
 void Object3D::UploadMesh(const OBJ& obj, OBJImportStrategy* importer) {
   if (!importer) return;
-  auto mesh_ptr = std::make_shared<Mesh>(obj, importer);
-  meshes_.push_back(mesh_ptr);
+  bool mesh_exists = false;
+  for (auto& mesh : meshes_) {
+    if (mesh->GetName() == obj.name) {
+      mesh_exists = true;
+      mesh->Import(obj, importer);
+    }
+  }
+  if (!mesh_exists) {
+    auto mesh_ptr = std::make_shared<Mesh>(obj, importer);
+    meshes_.push_back(mesh_ptr);
+  }
 }
 void Object3D::SetTransform(const Transform& transform) {
   if (transform_ == transform) return;

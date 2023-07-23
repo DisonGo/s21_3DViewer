@@ -3,14 +3,7 @@
 #include <godison/Vectors.h>
 
 #include "fstream"
-struct object {
-  std::string name;
-  size_t i_start;
-  size_t i_end;
-  bool operator==(const object& other) const{
-    return name == other.name && i_start == other.i_start && i_end == other.i_end;
-  }
-};
+#include <set>
 namespace s21 {
 TagCounters OBJParser::CountTags(const string filePath) {
   // FILE* obj_file = NULL;
@@ -75,6 +68,61 @@ void OBJParser::CalculateNegativeIndices(std::vector<Face>& faces,
       if (index.v_index < 0) index.v_index += vertices_max_size + 1;
 }
 
+void OBJParser::FetchVerticesByFaces(const std::vector<Vertex> &source, std::vector<Vertex> &output, std::vector<Face> &faces)
+{
+  std::set<const Vertex*> existing_vertices;
+  std::map<size_t ,size_t> v_indices_map;
+  std::vector<Face> calibrated_faces;
+
+  const auto faces_size = faces.size();
+
+  for (size_t i = 0; i < faces_size; ++i) {
+
+    calibrated_faces.push_back(faces[i]);
+
+    for (auto& index : calibrated_faces[i].indices) {
+      // Fetch only unique vertices
+      auto vertex = &source[index.v_index];
+      bool vertex_exists = existing_vertices.find(vertex) != existing_vertices.end();
+      if (!vertex_exists) {
+        existing_vertices.insert(vertex);
+        v_indices_map.insert({index.v_index, output.size()});
+        output.push_back(*vertex);
+      }
+    }
+    // Map used indices to new vertex array
+    for (auto& index : calibrated_faces[i].indices)
+      index.v_index =  v_indices_map.at(index.v_index);
+  }
+  faces = std::move(calibrated_faces);
+}
+
+void OBJParser::FetchNormalsByFaces(const std::vector<Normal> &source, std::vector<Normal> &output, std::vector<Face> &faces)
+{
+
+}
+
+std::vector<OBJ> OBJParser::CalculateObjects(OBJ &all_data, std::vector<object> objects)
+{
+  std::vector<OBJ> datas;
+  std::vector<Face>& faces = all_data.faces;
+  if (objects.empty()) return datas;
+  if (objects.size() == 1) {
+    all_data.name = objects.front().name;
+    datas.push_back(std::move(all_data));
+    return datas;
+  }
+  for (auto& object : objects) {
+    OBJ data;
+    data.name = object.name;
+    data.faces = std::vector<Face>(faces.begin() + object.i_start, faces.begin() + object.i_end);
+    FetchVerticesByFaces(all_data.vertices, data.vertices, data.faces);
+//    data.normals = all_data.normals;
+    datas.push_back(data);
+  }
+  return datas;
+}
+
 std::vector<OBJ> OBJParser::Parse(string filePath) {
   std::ifstream file(filePath, std::ios_base::in);
 
@@ -127,17 +175,18 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
     } else if (tag == "f") {
       ParseFace(values, faces, counter.fC);
     } else if (tag == "o") {
-//          current_object.i_end = counter.fC;
-//          objects.push_back(current_object);
-//          current_object = object();
-//          current_object.name = values;
-//          auto next_index = counter.fC + 1;
-//          current_object.i_start = next_index != tags.fC ? next_index : counter.fC;
-
+          current_object.i_end = counter.fC;
+          bool empty = current_object.i_end == current_object.i_start;
+          if (!empty) objects.push_back(current_object);
+          current_object = object();
+          current_object.name = values;
+          auto next_index = counter.fC + (counter.fC != 0);
+          current_object.i_start = next_index != tags.fC ? next_index : counter.fC;
     }
   }
-
-
+  current_object.i_end = counter.fC;
+  bool empty = current_object.i_end == current_object.i_start;
+  if (!empty) objects.push_back(current_object);
 
 
   // Insert values from dynamic arrays to OBJ std::vector`s
@@ -154,10 +203,11 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   //    qDebug() << str;
   //  }
   for (const auto& object : objects)
-    qDebug() << "Name:" << object.name.c_str() << "Start:" << object.i_start << "End:" << object.i_end;
+    qDebug() << "Start:" << object.i_start << "End:" << object.i_end << "Name:" << object.name.c_str();
   CenterVertices(obj.vertices, {0, 0, 0});
   ElevateVerticesToGround(obj.vertices);
   CalculateNegativeIndices(obj.faces, obj.vertices.size());
+
   // Cleaning
   delete[] vertices;
   delete[] normals;
@@ -166,8 +216,6 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   file.close();
   // if (str) free(str);
   // fclose(obj_file);
-  std::vector<OBJ> arr;
-  arr.push_back(obj);
-  return arr;
+  return CalculateObjects(obj, objects);
 }
 }  // namespace s21

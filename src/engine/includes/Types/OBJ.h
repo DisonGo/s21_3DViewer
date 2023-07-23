@@ -13,6 +13,7 @@ using std::vector;
 namespace s21 {
 struct OBJ {
  public:
+  std::string name = "";
   vector<Vertex> vertices;
   vector<Normal> normals;
   vector<Face> faces;
