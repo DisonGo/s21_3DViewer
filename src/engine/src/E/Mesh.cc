@@ -9,10 +9,10 @@ Mesh::Mesh() {
   draw_config_ = &DrawConfig::Instance();
 }
 
-Mesh::Mesh(const s21::OBJ& obj) : Mesh() {
-  auto imp = new s21::OBJImportWireframeStrategy;
+Mesh::Mesh(const s21::OBJ& obj, OBJImportStrategy* importer) : Mesh() {
+  auto imp = !importer ? new s21::OBJImportWireframeStrategy : importer;
   Import(obj, imp);
-  delete imp;
+  if (!importer) delete imp;
 }
 
 Mesh::~Mesh() {

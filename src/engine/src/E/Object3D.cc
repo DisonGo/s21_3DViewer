@@ -28,14 +28,16 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   }
   if (type == GL_TRIANGLES) red = green = blue = 0.8;
   program_->Uniform3f("u_prototype_color", red, green, blue);
-  mesh_.Draw(type);
+  for (const auto& mesh : meshes_)
+    mesh->Draw(type);
   program_->Uniform1i("u_dashed", false);
   program_->Uniform1i("u_circlePoint", false);
 }
 
 void Object3D::UploadMesh(const OBJ& obj, OBJImportStrategy* importer) {
   if (!importer) return;
-  mesh_.Import(obj, importer);
+  auto mesh_ptr = std::make_shared<Mesh>(obj, importer);
+  meshes_.push_back(mesh_ptr);
 }
 void Object3D::SetTransform(const Transform& transform) {
   if (transform_ == transform) return;
@@ -63,6 +65,4 @@ void Object3D::SetLineDisplayType(LineDisplayType new_type) {
 }
 
 void Object3D::SetProgram(Program& program) { program_ = &program; }
-
-void Object3D::SetMesh(const Mesh& mesh) { mesh_ = std::move(mesh); }
 }  // namespace s21

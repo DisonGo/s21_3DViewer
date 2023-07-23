@@ -3,6 +3,14 @@
 #include <godison/Vectors.h>
 
 #include "fstream"
+struct object {
+  std::string name;
+  size_t i_start;
+  size_t i_end;
+  bool operator==(const object& other) const{
+    return name == other.name && i_start == other.i_start && i_end == other.i_end;
+  }
+};
 namespace s21 {
 TagCounters OBJParser::CountTags(const string filePath) {
   // FILE* obj_file = NULL;
@@ -67,11 +75,7 @@ void OBJParser::CalculateNegativeIndices(std::vector<Face>& faces,
       if (index.v_index < 0) index.v_index += vertices_max_size + 1;
 }
 
-OBJ OBJParser::Parse(string filePath) {
-  // FILE* obj_file = NULL;
-  // obj_file = fopen(filePath.c_str(), "r");
-  // if (!obj_file) throw std::invalid_argument("Can't open file");
-
+std::vector<OBJ> OBJParser::Parse(string filePath) {
   std::ifstream file(filePath, std::ios_base::in);
 
   OBJ obj;
@@ -88,7 +92,8 @@ OBJ OBJParser::Parse(string filePath) {
   obj.faces.reserve(tags.fC);
 
   // Dynamic arrays memory allocation
-
+  std::vector<object> objects;
+  object current_object;
   Vertex* vertices = new Vertex[tags.vC];
   Normal* normals = new Normal[tags.vnC];
   TextureCoord* textureCoords = new TextureCoord[tags.vtC];
@@ -100,7 +105,6 @@ OBJ OBJParser::Parse(string filePath) {
   string line;
   string tag;
   string values;
-
   for (; file.good();) {
     // Find sub strings of tag and it's values
     std::getline(file, line);
@@ -122,8 +126,19 @@ OBJ OBJParser::Parse(string filePath) {
       counter.vnC++;
     } else if (tag == "f") {
       ParseFace(values, faces, counter.fC);
+    } else if (tag == "o") {
+//          current_object.i_end = counter.fC;
+//          objects.push_back(current_object);
+//          current_object = object();
+//          current_object.name = values;
+//          auto next_index = counter.fC + 1;
+//          current_object.i_start = next_index != tags.fC ? next_index : counter.fC;
+
     }
   }
+
+
+
 
   // Insert values from dynamic arrays to OBJ std::vector`s
 
@@ -138,10 +153,10 @@ OBJ OBJParser::Parse(string filePath) {
   //      str += QString().number(index.v_index) + " ";
   //    qDebug() << str;
   //  }
-
+  for (const auto& object : objects)
+    qDebug() << "Name:" << object.name.c_str() << "Start:" << object.i_start << "End:" << object.i_end;
   CenterVertices(obj.vertices, {0, 0, 0});
   ElevateVerticesToGround(obj.vertices);
-
   CalculateNegativeIndices(obj.faces, obj.vertices.size());
   // Cleaning
   delete[] vertices;
@@ -151,6 +166,8 @@ OBJ OBJParser::Parse(string filePath) {
   file.close();
   // if (str) free(str);
   // fclose(obj_file);
-  return obj;
+  std::vector<OBJ> arr;
+  arr.push_back(obj);
+  return arr;
 }
 }  // namespace s21

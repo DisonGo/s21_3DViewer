@@ -19,7 +19,8 @@ void Point::Draw(GLenum type, Camera *camera) {
   program_->Uniform3f("u_prototype_color", red, green, blue);
   program_->Uniform1f("u_pointSize", vertices_size_);
   program_->Uniform1i("u_circlePoint", true);
-  mesh_.Draw(GL_POINTS);
+  for (const auto& mesh : meshes_)
+    mesh->Draw(GL_POINTS);
 }
 
 void Point::CreateMesh(const Vector3D &position) {
@@ -29,7 +30,7 @@ void Point::CreateMesh(const Vector3D &position) {
   obj.faces.push_back({{{0, 0, 0}}});
   auto importer = new OBJImportVertexOnlyStrategy;
   UploadMesh(obj, importer);
-  mesh_.SetBufferToggle(s21::kVertexOnlyImport, true);
+  GetMesh(0).SetBufferToggle(s21::kVertexOnlyImport, true);
   delete importer;
 }
 

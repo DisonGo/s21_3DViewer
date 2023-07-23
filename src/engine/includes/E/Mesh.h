@@ -20,7 +20,7 @@ class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();
   ~Mesh();
-  Mesh(const OBJ& obj);
+  Mesh(const OBJ& obj, OBJImportStrategy* importer = nullptr);
   void Draw(GLenum type);
   void Import(const OBJ& obj, OBJImportStrategy* importer);
   void SetBufferToggle(OBJImportStrategyType type, bool value);

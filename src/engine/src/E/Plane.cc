@@ -8,7 +8,7 @@ void Plane::GeneratePlane() {
   obj.faces = GenerateIndices();
   auto importer = new OBJImportStandartStrategy;
   UploadMesh(obj, importer);
-  auto& mesh = GetMesh();
+  auto& mesh = GetMesh(0);
   mesh.SetBufferToggle(kStandartImport, true);
   mesh.SetBufferToggle(kWireframeImport, false);
   mesh.SetBufferToggle(kTriangleImport, false);

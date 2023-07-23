@@ -8,7 +8,7 @@ AUX_SOURCE_DIRECTORY(./src/Spacers ENGINE_SRCS)
 AUX_SOURCE_DIRECTORY(./src ENGINE_SRCS)
 set(LIB_NAME engine)
 set(ENGINE_HEADER
-    includes/Engine.h   
+    includes/Engine.h
     includes/DrawConfig.h
     includes/E/Mesh.h
     includes/E/Plane.h
@@ -20,7 +20,7 @@ set(ENGINE_HEADER
     includes/E/Object3DFactory.h
     includes/E/EObjectTreeItem.h
     includes/E/EObjectItemModel.h
-    
+
     includes/GL/GLObject.h
     includes/GL/GLArray.h
     includes/GL/GLBuffer.h
@@ -54,7 +54,7 @@ set(ENGINE_HEADER
     includes/Types/FaceVertex.h
     includes/Types/Normal.h
     includes/Types/OBJ.h
-    includes/Types/TextureCoord.h   
+    includes/Types/TextureCoord.h
     includes/Types/TriangleFace.h
     includes/Types/Vertex.h
     includes/Types/VertexColor.h

@@ -4,6 +4,8 @@
 #define GL_SILENCE_DEPRECATION
 #include <godison/Point.h>
 
+#include <memory>
+
 #include "E/Camera.h"
 #include "E/EObject.h"
 #include "E/Mesh.h"
@@ -15,14 +17,6 @@ enum LineDisplayType { kSolid = 0, kDashed };
 class Object3D : public EObject {
  public:
   Object3D() = default;
-  Object3D(const Mesh& mesh) : mesh_(mesh){};
-  Object3D(const Mesh& mesh, Program& program) : mesh_(mesh) {
-    SetProgram(program);
-  };
-  Object3D(const Mesh& mesh, Program& program, const Transform& transform)
-      : mesh_(mesh), transform_(transform) {
-    SetProgram(program);
-  };
   virtual EObjectType GetType() const override { return type_; };
   virtual void Draw(GLenum type, Camera* camera);
 
@@ -37,7 +31,8 @@ class Object3D : public EObject {
   void SetVerticesSize(double new_size);
   void SetDisplayMethod(PointDisplayType new_method);
   void SetLineDisplayType(LineDisplayType new_type);
-  Mesh& GetMesh() { return mesh_; };
+  Mesh& GetMesh(size_t index) { return *meshes_.at(index); };
+  const std::vector<std::shared_ptr<Mesh>>& GetMeshes() { return meshes_; };
   Transform& GetTrasform() { return transform_; };
   PointDisplayType GetPointDisplayMethod() { return point_display_method_; };
   LineDisplayType GetLineDisplayType() { return line_display_type_; };
@@ -48,7 +43,7 @@ class Object3D : public EObject {
 
  protected:
   EObjectType type_ = kObject3D;
-  Mesh mesh_;
+  std::vector<std::shared_ptr<Mesh>> meshes_;
   Program* program_{};
   Transform transform_;
   QColor edges_color_{255, 255, 255};

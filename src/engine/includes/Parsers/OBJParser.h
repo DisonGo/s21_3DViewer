@@ -6,7 +6,7 @@ class OBJParser : public BaseParser {
  public:
   OBJParserTypes type = kOBJParser;
   virtual OBJParserTypes GetType() const { return type; };
-  OBJ Parse(string filePath);
+  std::vector<OBJ> Parse(string filePath);
 
  private:
   void ParseFace(const string values, Face *faces, size_t &index);
