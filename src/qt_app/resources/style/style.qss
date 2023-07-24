@@ -1,7 +1,3 @@
-QDoubleSpinBox {
-	background-color: rgb(10, 10, 10);
-	color:rgb(254, 254, 254);
-}
 QWidget[class="config_widget"]{
 	background-color: #123123;
 	color:black;
@@ -10,3 +6,54 @@ QWidget[class="config_widget"]{
 	background-color: #123123;
 	color:black;
 }
+QLabel{
+	color: white;
+}
+QTreeView {
+	background-color: black;
+	color: white;
+}
+QTreeView::item {
+	color:white;
+}
+QTreeView::branch {
+	width: 10px;
+	height: 10px;
+}
+QTreeView::branch:has-children:closed { 
+	border-image: url(:/style/icons/expand_arrow.png);
+
+} 
+QTreeView::branch:has-children:open { 
+	image: url(":/style/icons/collapse_arrow.png");
+}
+QHeaderView  {
+	background-color: rgb(115, 155, 155);
+}
+QPushButton, QToolButton, QComboBox, QComboBox QAbstractItemView:item{
+	background-color: black;
+	color: white;
+}
+QPushButton:hover, QToolButton:hover, QComboBox:hover, QComboBox QAbstractItemView:item:hover{
+	background-color: rgb(20, 20, 20);
+	color: white;
+}
+QComboBox:selected {
+	background-color: rgb(160, 160, 206);
+}
+TripletWidget{
+	color:rgb(238, 238, 8);
+}
+#verticalWidget_2{
+	background: rgba(2, 2, 2, 0.7);
+	border: 1px solid transparent;
+	border-bottom-left-radius: 8px;
+}
+#verticalWidget_2 QRadioButton{
+	color: white;
+}
+#verticalWidget_2 QSpinBox, QDoubleSpinBox{
+	color:rgb(228, 228, 228);
+	background-color: rgb(15, 15, 15);
+}
+	

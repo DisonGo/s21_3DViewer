@@ -263,6 +263,9 @@
         <property name="rightMargin">
          <number>6</number>
         </property>
+        <property name="horizontalSpacing">
+         <number>6</number>
+        </property>
         <property name="verticalSpacing">
          <number>0</number>
         </property>
@@ -365,8 +368,13 @@
       </item>
       <item>
        <widget class="QSpinBox" name="FOV_V">
+        <property name="font">
+         <font>
+          <kerning>true</kerning>
+         </font>
+        </property>
         <property name="styleSheet">
-         <string notr="true">#FOV_V{margin: 0 6px;}</string>
+         <string notr="true"/>
         </property>
         <property name="minimum">
          <number>10</number>

@@ -99,6 +99,7 @@ void MainWindow::ShowObjectWidget(s21::EObject* object) {
   openGLWidget->SetCameraSpacer(cam_spacer);
 
   connect(widget, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
+  ui->verticalWidget_2->resize(ui->verticalWidget_2->size().width(), widget->size().height());
   ui->ObjectWidgetHolder->addWidget(widget);
 }
 

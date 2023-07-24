@@ -50,46 +50,13 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QWidget" name="verticalWidget_2" native="true">
-    <property name="geometry">
-     <rect>
-      <x>977</x>
-      <y>-1</y>
-      <width>304</width>
-      <height>459</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">#verticalWidget_2{
-	background: rgba(2, 2, 2, 0.7);
-	border: 1px solid transparent;
-	border-bottom-left-radius: 8px;
-}</string>
-    </property>
-    <layout class="QVBoxLayout" name="ObjectWidgetHolder"/>
-   </widget>
-   <widget class="FileImportWidget" name="FileImporter" native="true">
-    <property name="geometry">
-     <rect>
-      <x>978</x>
-      <y>457</y>
-      <width>302</width>
-      <height>130</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">#FileImporter{
-	background: rgba(2, 2, 2, 0.7);
-}</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="mainBack" native="true">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>-1</y>
-      <width>1280</width>
-      <height>722</height>
+      <width>1281</width>
+      <height>721</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="mainBackLayout">
@@ -110,9 +77,54 @@
      </property>
     </layout>
    </widget>
-   <zorder>mainBack</zorder>
-   <zorder>verticalWidget_2</zorder>
-   <zorder>FileImporter</zorder>
+   <widget class="FileImportWidget" name="FileImporter" native="true">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>620</y>
+      <width>321</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#FileImporter{
+	background: rgba(2, 2, 2, 0.7);
+}</string>
+    </property>
+   </widget>
+   <widget class="QWidget" name="verticalWidget_2" native="true">
+    <property name="geometry">
+     <rect>
+      <x>960</x>
+      <y>-1</y>
+      <width>321</width>
+      <height>0</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <layout class="QVBoxLayout" name="ObjectWidgetHolder">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <customwidgets>

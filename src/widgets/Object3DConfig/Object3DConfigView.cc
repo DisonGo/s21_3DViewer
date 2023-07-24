@@ -82,15 +82,22 @@ void Object3DConfigView::SetValuesFromConfig() {
 
 void Object3DConfigView::SetColor(const Vector3D &color) {
   if (!object_spacer_) return;
+
   auto new_color = QColor(color.X(), color.Y(), color.Z());
+
   auto widget_ptr = static_cast<TripletWidget *>(sender());
-  if (widget_ptr == ui->LineColorTriplet)
-    object_spacer_->SetEdgesColorValue(new_color);
-  if (widget_ptr == ui->PointColorTriplet)
-    object_spacer_->SetVerticesColorValue(new_color);
+
   auto style = QString("background: rgba(%1,%2,%3,0.3);").arg(color.X()).arg(color.Y()).arg(color.Z());
-//  qDebug() << style;
-  widget_ptr->setStyleSheet(style);
+
+  if (widget_ptr == ui->LineColorTriplet) {
+    object_spacer_->SetEdgesColorValue(new_color);
+    widget_ptr->setStyleSheet("#LineColorTriplet{" + style + "}");
+  }
+  if (widget_ptr == ui->PointColorTriplet)
+  {
+    object_spacer_->SetVerticesColorValue(new_color);
+    widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
+  }
   emit UpdateRequest();
 }
 
