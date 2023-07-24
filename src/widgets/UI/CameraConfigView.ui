@@ -13,6 +13,12 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <property name="class" stdset="0">
+   <string>config_widget</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="0">
     <widget class="QWidget" name="TransformsGrid" native="true">
@@ -359,6 +365,9 @@
       </item>
       <item>
        <widget class="QSpinBox" name="FOV_V">
+        <property name="styleSheet">
+         <string notr="true">#FOV_V{margin: 0 6px;}</string>
+        </property>
         <property name="minimum">
          <number>10</number>
         </property>
@@ -377,7 +386,7 @@
     <widget class="QLabel" name="CameraL">
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
@@ -398,7 +407,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="CameraModeG"/>
   <buttongroup name="ViewModeG"/>
+  <buttongroup name="CameraModeG"/>
  </buttongroups>
 </ui>

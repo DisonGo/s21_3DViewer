@@ -4,13 +4,14 @@
 #include <godison/Vectors.h>
 using godison::vectors::Vector3D;
 #include <FileImportWidget.h>
-
+#include <OpenGLController.h>
 #include <QAbstractButton>
 #include <QMainWindow>
 #include <QSettings>
-
+#include <QTreeView>
 #include "ConfigWidgetFactory.h"
 #include "E/Camera.h"
+#include <QSplitter>
 #include "Engine.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -28,8 +29,9 @@ class MainWindow : public QMainWindow {
  private:
   std::vector<QString> filePaths;
   Ui::MainWindow *ui;
-  s21::EObjectItemModel *eObjectModel;
-
+  QSplitter* splitter_ = nullptr;
+  OpenGLController* openGLWidget = nullptr;
+  QTreeView* object_tree = nullptr;
   void saveSettings();
  private slots:
   void ShowObjectWidget(s21::EObject *object);

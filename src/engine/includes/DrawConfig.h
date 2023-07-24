@@ -9,18 +9,11 @@ class DrawConfig {
     static DrawConfig instance;
     return instance;
   }
-  float point_size = 1;
-  float line_width = 1;
   bool points = true;
   bool lines = true;
   bool triangles = false;
   bool triangles_strip = false;
-  bool round_circle = false;
-  bool dashed_lines = false;
-  QColor fragment_color = QColor(255, 255, 255);
-  QColor line_color = QColor(255, 255, 255);
-  QColor dot_color = QColor(255, 255, 255);
-  QColor back_color = QColor(0, 0, 0);
+  QColor back_color = QColor(1, 10, 27);
 
  private:
   DrawConfig() = default;

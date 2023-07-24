@@ -88,6 +88,9 @@ void Object3DConfigView::SetColor(const Vector3D &color) {
     object_spacer_->SetEdgesColorValue(new_color);
   if (widget_ptr == ui->PointColorTriplet)
     object_spacer_->SetVerticesColorValue(new_color);
+  auto style = QString("background: rgba(%1,%2,%3,0.3);").arg(color.X()).arg(color.Y()).arg(color.Z());
+//  qDebug() << style;
+  widget_ptr->setStyleSheet(style);
   emit UpdateRequest();
 }
 

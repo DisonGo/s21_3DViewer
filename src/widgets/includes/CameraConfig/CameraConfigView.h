@@ -14,6 +14,7 @@ class CameraConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
+  Q_PROPERTY(QString class)
   using Vector3D = godison::vectors::Vector3D;
   using Vector2D = godison::vectors::Vector2D;
   explicit CameraConfigView(s21::CameraSpacer* cameraSpacer,

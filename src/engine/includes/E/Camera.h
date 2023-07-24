@@ -80,10 +80,10 @@ class Camera : public EObject, protected QOpenGLFunctions {
  private:  // vars
   CameraMode mode_ = kFocus;
   ViewMode view_mode_ = kPerspective;
-  Vector3D focus_point_ = Vector3D(0, 1, 0);
+  Vector3D focus_point_ = Vector3D(0, 0, 0);
   Vector3D position_ = Vector3D(1, 1, 1);
   Vector3D orientation_ = Vector3D(0, 1);
-  Vector2D z_range_ = Vector2D(0.001, 100);
+  Vector2D z_range_ = Vector2D(0.001, 10000);
   Vector3D focus_rotation_ = Vector3D(0, 0, 0);
   Vector3D up_ = Vector3D(0.0f, 1.0f, 0.0f);
 

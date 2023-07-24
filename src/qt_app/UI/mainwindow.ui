@@ -32,7 +32,7 @@
    <string>3DViewer</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">QSplitter::handle { background-color: grey }</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Triangular</enum>
@@ -50,27 +50,21 @@
    <property name="styleSheet">
     <string notr="true"/>
    </property>
-   <widget class="QTreeView" name="Tree">
-    <property name="geometry">
-     <rect>
-      <x>980</x>
-      <y>458</y>
-      <width>289</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <property name="autoExpandDelay">
-     <number>1</number>
-    </property>
-   </widget>
-   <widget class="QWidget" name="verticalLayoutWidget_2">
+   <widget class="QWidget" name="verticalWidget_2" native="true">
     <property name="geometry">
      <rect>
       <x>977</x>
-      <y>0</y>
+      <y>-1</y>
       <width>304</width>
       <height>459</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">#verticalWidget_2{
+	background: rgba(2, 2, 2, 0.7);
+	border: 1px solid transparent;
+	border-bottom-left-radius: 8px;
+}</string>
     </property>
     <layout class="QVBoxLayout" name="ObjectWidgetHolder"/>
    </widget>
@@ -78,46 +72,50 @@
     <property name="geometry">
      <rect>
       <x>978</x>
-      <y>589</y>
+      <y>457</y>
       <width>302</width>
       <height>130</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">#FileImporter{
+	background: rgba(2, 2, 2, 0.7);
+}</string>
+    </property>
    </widget>
-   <widget class="OpenGLController" name="openGLWidget">
+   <widget class="QWidget" name="mainBack" native="true">
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-1</y>
       <width>1280</width>
-      <height>720</height>
+      <height>722</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>2</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="focusPolicy">
-     <enum>Qt::StrongFocus</enum>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
+    <layout class="QGridLayout" name="mainBackLayout">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <property name="spacing">
+      <number>0</number>
+     </property>
+    </layout>
    </widget>
-   <zorder>openGLWidget</zorder>
-   <zorder>Tree</zorder>
-   <zorder>verticalLayoutWidget_2</zorder>
+   <zorder>mainBack</zorder>
+   <zorder>verticalWidget_2</zorder>
    <zorder>FileImporter</zorder>
   </widget>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>OpenGLController</class>
-   <extends>QOpenGLWidget</extends>
-   <header>OpenGLController.h</header>
-  </customwidget>
   <customwidget>
    <class>FileImportWidget</class>
    <extends>QWidget</extends>

@@ -273,7 +273,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="LineTypeG"/>
   <buttongroup name="PointTypeG"/>
+  <buttongroup name="LineTypeG"/>
  </buttongroups>
 </ui>

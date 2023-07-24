@@ -10,7 +10,10 @@ ConfigWidget *ConfigWidgetFactory::CreateWidget(s21::EObject *object,
   if (type == s21::kTransform) widget = CreatekTransform(object, parent);
   if (type == s21::kMesh) widget = CreatekMesh(object, parent);
   if (type == s21::kObject3D) widget = CreatekObject3D(object, parent);
-  if (widget) widget->setAttribute(Qt::WA_DeleteOnClose);
+  if (widget){
+    widget->setAttribute(Qt::WA_DeleteOnClose);
+    widget->setObjectName("ConfigView");
+  }
   return widget;
 }
 

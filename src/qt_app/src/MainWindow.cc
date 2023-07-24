@@ -16,10 +16,26 @@ MainWindow::MainWindow(QWidget* parent)
   setUnifiedTitleAndToolBarOnMac(true);
   loadSettings();
   applySettings();
+
+  splitter_ = new QSplitter(this);
+  openGLWidget = new OpenGLController(splitter_);
+  openGLWidget->setFocusPolicy(Qt::StrongFocus);
+  object_tree = new QTreeView(splitter_);
+  object_tree->setMinimumWidth(200);
+  object_tree->setMaximumWidth(300);
   connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this, SLOT(ImportFile(QString)));
-  connect(ui->openGLWidget, SIGNAL(initialized()), this,
+  connect(openGLWidget, SIGNAL(initialized()), this,
           SLOT(SetupEObjectTreeView()));
-  setAttribute(Qt::WA_NoSystemBackground);
+  splitter_->addWidget(object_tree);
+  splitter_->addWidget(openGLWidget);
+  splitter_->resize(1280, 720);
+  splitter_->setFocusPolicy(Qt::NoFocus);
+  ui->mainBackLayout->addWidget(splitter_);
+//  QVBoxLayout* mainLayout = new QVBoxLayout(this);
+
+//  // Add the new widget to the layout
+//  mainLayout->addWidget(splitter_);
+//  setAttribute(Qt::WA_NoSystemBackground);
 }
 MainWindow::~MainWindow() { delete ui; }
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -67,9 +83,9 @@ void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   }
 }
 void MainWindow::ImportFile(QString path) {
-  ui->openGLWidget->importObjFile(path);
+  openGLWidget->importObjFile(path);
   clearLayout(ui->ObjectWidgetHolder);
-  ui->openGLWidget->SetCameraSpacer(nullptr);
+  openGLWidget->SetCameraSpacer(nullptr);
 }
 
 void MainWindow::ShowObjectWidget(s21::EObject* object) {
@@ -80,20 +96,20 @@ void MainWindow::ShowObjectWidget(s21::EObject* object) {
   if (!widget) return;
   if (object->GetType() == s21::kCamera)
     cam_spacer = static_cast<CameraConfigView*>(widget)->GetCameraSpacer();
-  ui->openGLWidget->SetCameraSpacer(cam_spacer);
+  openGLWidget->SetCameraSpacer(cam_spacer);
 
   connect(widget, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
   ui->ObjectWidgetHolder->addWidget(widget);
 }
 
 void MainWindow::SetupEObjectTreeView() {
-  eObjectModel = &s21::Engine::Instance().GetEObjectItemModel();
-  connect(ui->Tree, &QAbstractItemView::clicked, eObjectModel,
+  auto eObjectModel = &s21::Engine::Instance().GetEObjectItemModel();
+  connect(object_tree, &QAbstractItemView::clicked, eObjectModel,
           &s21::EObjectItemModel::FindAndSelectIndex);
 
   connect(eObjectModel, &s21::EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
-  ui->Tree->setModel(eObjectModel);
+  object_tree->setModel(eObjectModel);
 }
 
-void MainWindow::UpdateGL() { ui->openGLWidget->update(); }
+void MainWindow::UpdateGL() { openGLWidget->update(); }

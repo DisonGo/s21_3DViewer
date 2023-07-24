@@ -205,7 +205,7 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   for (const auto& object : objects)
     qDebug() << "Start:" << object.i_start << "End:" << object.i_end << "Name:" << object.name.c_str();
   CenterVertices(obj.vertices, {0, 0, 0});
-  ElevateVerticesToGround(obj.vertices);
+//  ElevateVerticesToGround(obj.vertices);
   CalculateNegativeIndices(obj.faces, obj.vertices.size());
 
   // Cleaning
