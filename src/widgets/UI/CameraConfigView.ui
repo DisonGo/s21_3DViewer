@@ -231,6 +231,12 @@
         </item>
         <item row="1" column="0">
          <widget class="QDoubleSpinBox" name="zRangeXV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-100000.000000000000000</double>
           </property>
@@ -241,6 +247,12 @@
         </item>
         <item row="1" column="1">
          <widget class="QDoubleSpinBox" name="zRangeYV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-100000.000000000000000</double>
           </property>
@@ -298,6 +310,12 @@
         </item>
         <item row="1" column="0">
          <widget class="QDoubleSpinBox" name="LeftV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
@@ -308,6 +326,12 @@
         </item>
         <item row="1" column="1">
          <widget class="QDoubleSpinBox" name="RightV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
@@ -342,6 +366,12 @@
         </item>
         <item row="3" column="0">
          <widget class="QDoubleSpinBox" name="BottomV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
@@ -352,6 +382,12 @@
         </item>
         <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="TopV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
