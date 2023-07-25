@@ -9,6 +9,7 @@
 #include <QMessageBox>
 #include <QVariantAnimation>
 #include <FileImportWidget.h>
+#include <QHeaderView>
 #include "./ui_mainwindow.h"
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -23,6 +24,8 @@ MainWindow::MainWindow(QWidget* parent)
   object_tree = new QTreeView(splitter_);
   object_tree->setMinimumWidth(200);
   object_tree->setMaximumWidth(300);
+  auto header = object_tree->header();
+  header->setFixedHeight(30);
   connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this, SLOT(ImportFile(QString)));
   connect(openGLWidget, SIGNAL(initialized()), this,
           SLOT(SetupEObjectTreeView()));
@@ -85,6 +88,7 @@ void clearLayout(QLayout* layout, bool deleteWidgets = true) {
 void MainWindow::ImportFile(QString path) {
   openGLWidget->importObjFile(path);
   clearLayout(ui->ObjectWidgetHolder);
+  ui->verticalWidget_2->resize(ui->verticalWidget_2->size().width(), 0);
   openGLWidget->SetCameraSpacer(nullptr);
 }
 

@@ -2,7 +2,7 @@
 namespace s21 {
 EObjectItemModel::EObjectItemModel(QObject *parent)
     : QAbstractItemModel{parent} {
-  root_item_ = new EObjectTreeItem({tr("Object")}, nullptr);
+  root_item_ = new EObjectTreeItem({tr("Engine objects:")}, nullptr);
 }
 
 QModelIndex EObjectItemModel::index(int row, int column,
