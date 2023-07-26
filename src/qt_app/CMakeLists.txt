@@ -1,9 +1,6 @@
 AUX_SOURCE_DIRECTORY(./src VIEWER_SRCS)
-set(VIEWER_HEADERS
-    includes/MainWindow.h
-    includes/OpenGLController.h
-    includes/StyleLoader.h
-    includes/ConfigWidgetFactory.h
+file(GLOB_RECURSE VIEWER_HEADERS
+    includes/*.h
 )
 set(VIEWER_UIS
     UI/mainwindow.ui

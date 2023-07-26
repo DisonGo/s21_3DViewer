@@ -16,6 +16,12 @@ using godison::vectors::Vector3D;
 namespace s21 {
 Engine::Engine() {
   initializeOpenGLFunctions();
+  glEnable(GL_PROGRAM_POINT_SIZE);
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_DEPTH_TEST);
+  //   GLfloat lineWidthRange[2] = {0.0f, 0.0f};
+  // glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
+  // qDebug() << "Max width: " << lineWidthRange[1];
   drawConfig_ = &DrawConfig::Instance();
   qDebug() << "Engine config:" << drawConfig_;
   SetupObject3DFactory();
@@ -107,10 +113,7 @@ void Engine::Cycle() {
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
-void Engine::SetCurrentCamera(Camera *camera)
-{
-  current_camera_ = camera;
-}
+void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
 
 Engine& Engine::Instance() {
   static Engine instance;

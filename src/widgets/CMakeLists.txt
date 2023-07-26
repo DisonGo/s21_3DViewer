@@ -7,24 +7,11 @@ AUX_SOURCE_DIRECTORY(./ WIDGETS_SRCS)
 
 set(LIB_NAME widgets)
 set(CMAKE_AUTOUIC_SEARCH_PATHS ./UI)
-set(WIDGETS_HEADER
-    includes/DrawConfig/DrawConfigView.h
-    includes/MeshConfig/MeshConfigView.h
-    includes/CameraConfig/CameraConfigView.h
-    includes/Object3DConfig/Object3DConfigView.h
-    includes/TransformConfig/TransformConfigView.h
-    includes/TripletWidget.h
-    includes/ConfigWidget.h
-    includes/FileImportWidget.h
+file(GLOB_RECURSE WIDGETS_HEADER
+    includes/*.h
 )
-set(WIDGETS_UIS
-    UI/TripletWidget.ui
-    UI/Object3DConfigView.ui
-    UI/MeshConfigView.ui
-    UI/DrawConfigView.ui
-    UI/CameraConfigView.ui
-    UI/TransformConfigView.ui
-    UI/FileImportWidget.ui
+file(GLOB_RECURSE WIDGETS_UIS
+    UI/*.ui
 )
 add_library(${LIB_NAME} SHARED
     ${WIDGETS_UIS}

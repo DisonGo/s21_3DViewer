@@ -2,47 +2,37 @@
 
 #include <QFileInfo>
 #include <QMouseEvent>
-#include <QTimer>
 #include <QThread>
+#include <QTimer>
 void OpenGLController::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
     if (!cameraSpacer) return;
     cameraSpacer->mousePressSlot(e);
-//    RequestUpdate();
   }
 }
 
 void OpenGLController::mouseMoveEvent(QMouseEvent *e) {
   if (!LMB_pressed || !cameraSpacer) return;
   cameraSpacer->mouseMoveSlot(e);
-//  RequestUpdate();
-  update();
 }
 
 void OpenGLController::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = false;
     if (cameraSpacer) cameraSpacer->mouseReleaseSlot(e);
-//    RequestUpdate();
   }
 }
 
 void OpenGLController::keyPressEvent(QKeyEvent *e) {
   if (cameraSpacer) cameraSpacer->keyPressSlot(e);
-//  RequestUpdate();
-  update();
 }
 void OpenGLController::keyReleaseEvent(QKeyEvent *e) {
   if (cameraSpacer) cameraSpacer->keyReleaseSlot(e);
-//  RequestUpdate();
-  update();
 }
 
 void OpenGLController::wheelEvent(QWheelEvent *e) {
   if (cameraSpacer) cameraSpacer->wheelEventSlot(e);
-//  RequestUpdate();
-  update();
 }
 void OpenGLController::initializeGL() {
   setAutoFillBackground(false);
@@ -57,7 +47,6 @@ void OpenGLController::initializeGL() {
   GLfloat lineWidthRange[2] = {0.0f, 0.0f};
   glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
   qDebug() << "Max width: " << lineWidthRange[1];
-
   auto cam = engine->GetCurrentCamera();
   if (cam) {
     cam->SetVh(vh);
@@ -71,9 +60,7 @@ void OpenGLController::resizeGL(int w, int h) {
   calcSizes(w, h);
   update();
 }
-void OpenGLController::paintGL() {
-  engine->Cycle();
-}
+void OpenGLController::paintGL() { engine->Cycle(); }
 void OpenGLController::calcSizes(int w, int h) {
   vw = w;
   vh = h;
@@ -86,8 +73,7 @@ void OpenGLController::capture() {
   captureBuffer.push_back(frame);
 }
 
-void OpenGLController::PopUpdateSchedule()
-{
+void OpenGLController::PopUpdateSchedule() {
   if (update_schedule_.empty()) return;
   update_schedule_.pop_back();
   update();
@@ -101,8 +87,7 @@ std::vector<QImage> OpenGLController::stopScreenCapture() {
   return captureBuffer;
 }
 
-void OpenGLController::SetCameraSpacer(s21::CameraSpacer *spacer)
-{
+void OpenGLController::SetCameraSpacer(s21::CameraSpacer *spacer) {
   cameraSpacer = spacer;
   if (!cameraSpacer) return;
   engine->SetCurrentCamera(cameraSpacer->GetCamera());
@@ -118,8 +103,5 @@ void OpenGLController::importObjFile(QString filename) {
   update();
 }
 
-void OpenGLController::RequestUpdate()
-{
-  update_schedule_.push_back(1);
-}
+void OpenGLController::RequestUpdate() { update_schedule_.push_back(1); }
 OpenGLController::~OpenGLController() {}
