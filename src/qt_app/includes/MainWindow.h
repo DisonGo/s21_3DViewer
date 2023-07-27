@@ -13,6 +13,7 @@ using godison::vectors::Vector3D;
 #include "E/Camera.h"
 #include <QSplitter>
 #include "Engine.h"
+#include "Spacers/EngineSpacer.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -23,7 +24,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget *parent = nullptr);
+  MainWindow(s21::EngineSpacer& engine_spacer, QWidget *parent = nullptr);
   ~MainWindow();
 
  private:
@@ -32,6 +33,7 @@ class MainWindow : public QMainWindow {
   QSplitter* splitter_ = nullptr;
   OpenGLController* openGLWidget = nullptr;
   QTreeView* object_tree = nullptr;
+  s21::EngineSpacer& engine_spacer_;
   void saveSettings();
  private slots:
   void ShowObjectWidget(s21::EObject *object);

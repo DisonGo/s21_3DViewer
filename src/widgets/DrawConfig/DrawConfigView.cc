@@ -2,9 +2,9 @@
 
 #include "ui_DrawConfigView.h"
 
-DrawConfigView::DrawConfigView(QWidget *parent)
+DrawConfigView::DrawConfigView(s21::DrawConfig& draw_config, QWidget *parent)
     : ConfigWidget(parent),
-      drawConfigSpacer_(this),
+      drawConfigSpacer_(draw_config, this),
       ui(new Ui::DrawConfigView) {
   ui->setupUi(this);
   ui->PointsCheckBox->setChecked(drawConfigSpacer_.GetPoints());

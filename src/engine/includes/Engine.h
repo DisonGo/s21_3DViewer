@@ -15,34 +15,35 @@
 namespace s21 {
 class Engine : protected QOpenGLFunctions {
  public:
-  void DrawGeometry(GLenum type);
-  int indicesN = 0;
-  int verticesN = 0;
-  void importObj(QString fileName);
+  Engine(DrawConfig& config);
+  ~Engine();
+  void Initialize();
+  void ImportOBJFile(std::string file_path);
   void Cycle();
+
   EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();
   void SetCurrentCamera(Camera* camera);
-  static Engine& Instance();
-
  private:
-  Engine();
+  // TODO Add realization of move/copy constructors
   Engine(const Engine& old);                   // disallow copy constructor
   const Engine& operator=(const Engine& old);  // disallow assignment operator
-  ~Engine();
 
-  void SetupFocusPoint();
-  void SetupDefaultCamera();
-  void SetupObject3DFactory();
-  void DefaultObject3DImport(Object3D* object, bool add_to_delete_queue = true);
-  void RemoveObject(EObject* object);
   void Wipe3DObjects();
+  void SetupFocusPoint();
+  void SetupDefaultCameras();
+  void SetupObject3DFactory();
+  void DrawGeometry(GLenum type);
+  void RemoveObject(EObject* object);
+  void DefaultObject3DImport(Object3D* object, bool add_to_delete_queue = true);
 
+  Object3D* GenerateObject(std::string file_path);
+
+  bool initialized_ = false;
   bool single_object_mode = true;
-  Point focus_point_;
+  Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
-  Object3D* GenerateObject(QString fileName);
-  DrawConfig* drawConfig_{};
+  DrawConfig& drawConfig_;
   EObjectItemModel eObjectModel_;
   Object3DFactory object3d_factory_;
   std::vector<EObject*> engine_objects_;

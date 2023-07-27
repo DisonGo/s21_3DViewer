@@ -5,11 +5,11 @@
 
 #include "DrawConfig.h"
 #include "Engine.h"
+#include "Spacers/EngineSpacer.h"
 #include "MainWindow.h"
 
 int main(int argc, char *argv[]) {
   QSurfaceFormat format;
-  s21::DrawConfig::Instance();
   format.setDepthBufferSize(16);
   format.setStencilBufferSize(4);
   format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
@@ -25,7 +25,12 @@ int main(int argc, char *argv[]) {
   // const QString style_file_path =
   //     "/Users/evverenn/Desktop/Projects/Junk/3D_Viewer/src/qt_app/resources/"
   //     "style/style.qss";
-  MainWindow w;
+  s21::DrawConfig config;
+  s21::Engine engine(config);
+  s21::EngineSpacer spacer(engine);
+
+
+  MainWindow w (spacer);
 
   StyleLoader *style_loader = new StyleLoader(&w, style_file_path);
   style_loader->attach();

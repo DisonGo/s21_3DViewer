@@ -1,7 +1,5 @@
 #include "Spacers/DrawConfigSpacer.h"
 namespace s21 {
-DrawConfigSpacer::DrawConfigSpacer(QObject* parent) : QObject(parent) {
-  config_ = &DrawConfig::Instance();
-  qDebug() << "Spacer config:" << config_;
+DrawConfigSpacer::DrawConfigSpacer(DrawConfig& config, QObject* parent) : QObject(parent), config_(config) {
 };
 }  // namespace s21

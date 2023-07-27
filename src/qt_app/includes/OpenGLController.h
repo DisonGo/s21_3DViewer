@@ -1,29 +1,21 @@
 ﻿#ifndef OPENGLCONTROLLER_H
 #define OPENGLCONTROLLER_H
-#include <QObject>
 #include <QOpenGLExtraFunctions>
-#include <QOpenGLTexture>
 #include <QOpenGLWidget>
-#include <QSurfaceFormat>
 #include <QTimer>
-#include "Engine.h"
-#include "Shaders/Program.h"
 #include "Spacers/CameraSpacer.h"
-
+#include "Spacers/EngineSpacer.h"
 class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   Q_OBJECT
  public:
-  using QOpenGLWidget::QOpenGLWidget;
+  OpenGLController(s21::EngineSpacer& engine_spacer, QWidget* parent = nullptr) : QOpenGLWidget(parent), engine_spacer_(engine_spacer) {};
   ~OpenGLController();
-  s21::CameraSpacer *cameraSpacer = nullptr;
-  void startScreenCapture(int FPS);
-  std::vector<QImage> stopScreenCapture();
+
+  void StartScreenCapture(int FPS);
+  std::vector<QImage> StopScreenCapture();
   void SetCameraSpacer(s21::CameraSpacer *spacer);
- public slots:
-  void importObjFile(QString filename);
-  void RequestUpdate();
  signals:
-  void initialized();
+  void Initialized();
 
  protected:
   void mousePressEvent(QMouseEvent *e) override;
@@ -37,20 +29,19 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   void resizeGL(int w, int h) override;
   void paintGL() override;
  private slots:
-  void capture();
-  void PopUpdateSchedule();
+  void CaptureBuffer();
 
  private:
-  void calcSizes(int w, int h);
+  s21::CameraSpacer *camera_spacer_ = nullptr;
+  s21::EngineSpacer& engine_spacer_;
+  void CalcSizes(int w, int h);
   QTimer captureTimer;
   bool LMB_pressed = false;
   int vw = 0, vh = 0, ratio = 0;
-  std::vector<int> update_schedule_;
   std::vector<QImage> captureBuffer;
   QSize gifResolution = QSize(640, 480);
   int gifFps = 10;
   int gifLength = 5;
-  s21::Engine *engine;
 };
 
 #endif  // OPENGLCONTROLLER_H

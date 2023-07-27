@@ -12,7 +12,7 @@ class DrawConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
-  explicit DrawConfigView(QWidget *parent = nullptr);
+  explicit DrawConfigView(s21::DrawConfig& draw_config, QWidget *parent = nullptr);
   ~DrawConfigView();
  signals:
   void DrawConfigUpdated();

@@ -23,9 +23,9 @@ class CameraConfigView : public ConfigWidget {
   void SetCameraSpacer(s21::CameraSpacer* cameraSpacer);
  private slots:
   void SetValuesFromConfig();
-  void SetPosition(const CameraConfigView::Vector3D&);
-  void SetOrientation(const CameraConfigView::Vector3D&);
-  void SetFocusPoint(const CameraConfigView::Vector3D&);
+  void SetPosition(const Vector3D&);
+  void SetOrientation(const Vector3D&);
+  void SetFocusPoint(const Vector3D&);
   void SetCameraMode(QAbstractButton*);
   void SetViewMode(QAbstractButton*);
   void SetFOV(int);

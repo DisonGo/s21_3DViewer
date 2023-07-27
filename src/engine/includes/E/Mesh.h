@@ -2,7 +2,6 @@
 #define MESH_H
 #include <QOpenGLFunctions>
 
-#include "DrawConfig.h"
 #include "E/Camera.h"
 #include "E/EObject.h"
 #include "E/Transform.h"
@@ -38,7 +37,6 @@ class Mesh : public EObject, protected QOpenGLFunctions {
                                                   {kTriangleImport, false},
                                                   {kVertexOnlyImport, false}};
   map<OBJImportStrategyType, VAO*> VAO_map_;
-  DrawConfig* draw_config_;
 };
 }  // namespace s21
 

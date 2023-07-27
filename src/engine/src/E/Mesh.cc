@@ -6,7 +6,6 @@
 namespace s21 {
 Mesh::Mesh() {
   initializeOpenGLFunctions();
-  draw_config_ = &DrawConfig::Instance();
 }
 
 Mesh::Mesh(const s21::OBJ& obj, OBJImportStrategy* importer) : Mesh() {
