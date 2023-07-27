@@ -5,7 +5,6 @@
 class ConfigWidget : public QWidget {
   Q_OBJECT
  public:
-  Q_PROPERTY(QString class)
   using QWidget::QWidget;
  signals:
   void UpdateRequest();

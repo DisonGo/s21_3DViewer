@@ -5,10 +5,7 @@
 namespace s21 {
 class DrawConfig {
  public:
-  static DrawConfig& Instance() {
-    static DrawConfig instance;
-    return instance;
-  }
+  static DrawConfig& Instance();
   bool points = true;
   bool lines = true;
   bool triangles = false;

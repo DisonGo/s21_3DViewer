@@ -5,7 +5,7 @@ vector<float> Polygon::GenerateVertices() {
   vector<float> vertices;
   vertices.reserve(n_ * 3);
   auto offset = offset_.ToVector<3>();
-  for (int i = 0; i < n_; ++i) {
+  for (size_t i = 0; i < n_; ++i) {
     double x = cx_ + r_ * std::sin(i * 2.0 * M_PI / n_);
     double y = cy_ + r_ * std::cos(i * 2.0 * M_PI / n_);
     vectors::Vector3D vertex(x, y);

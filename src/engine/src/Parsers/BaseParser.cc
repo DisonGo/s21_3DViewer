@@ -63,12 +63,6 @@ Vertex BaseParser::ParseVertex(const string& line) {
   Vertex vert;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  //  vert.x = Stod(str);
-  //  while (*str && !isspace(*str)) ++str;
-  //  while (*str && isspace(*str)) ++str;
-  //  vert.y = Stod(str);
-  //  while (*str && !isspace(*str)) ++str;
-  //  vert.z = Stod(str);
   sscanf(str, "%f %f %f", &vert.x, &vert.y, &vert.z);
   return vert;
 }
@@ -77,9 +71,7 @@ TextureCoord BaseParser::ParseTextureCoord(const string& line) {
   TextureCoord textureCoord;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  textureCoord.u = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  textureCoord.v = Stod(str);
+  sscanf(str, "%f %f", &textureCoord.u, &textureCoord.v);
   return textureCoord;
 }
 
@@ -87,12 +79,7 @@ Normal BaseParser::ParseNormal(const string& line) {
   Normal normal;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  normal.x = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  while (*str && isspace(*str)) ++str;
-  normal.y = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  normal.z = Stod(str);
+  sscanf(str, "%f %f %f", &normal.x, &normal.y, &normal.z);
   return normal;
 }
 

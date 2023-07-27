@@ -113,14 +113,6 @@ void OBJParser::NormalizeVertices(std::vector<Vertex>& vertices,
     vertex.x = (vertex.x - centerX) * scaleFactor;
     vertex.y = (vertex.y - centerY) * scaleFactor;
     vertex.z = (vertex.z - centerZ) * scaleFactor;
-
-    // Make sure the vertices are in the [-1:1] range
-    //      if (vertex.x > 1.0f) vertex.x = 1.0f;
-    //      if (vertex.x < -1.0f) vertex.x = -1.0f;
-    //      if (vertex.y > 1.0f) vertex.y = 1.0f;
-    //      if (vertex.y < -1.0f) vertex.y = -1.0f;
-    //      if (vertex.z > 1.0f) vertex.z = 1.0f;
-    //      if (vertex.z < -1.0f) vertex.z = -1.0f;
   }
 }
 

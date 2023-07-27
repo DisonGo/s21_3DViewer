@@ -3,20 +3,14 @@
 #include "E/Point.h"
 #include "QtMath"
 namespace s21 {
-Camera::Camera() {
-  SetVh(0);
-  SetVw(0);
-  initializeOpenGLFunctions();
-}
+Camera::Camera() : Camera(0,0) {}
 Camera::Camera(int width, int height) {
   SetVw(width);
   SetVh(height);
-  initializeOpenGLFunctions();
 }
 
 void Camera::Matrix(Program &program) {
   godison::matrices::Matrix4x4 view, projection;
-  view.SetToIdentity();
   move_speed_ = abs(z_range_.Y() - z_range_.X()) / 1000;
   rotation_speed_ = 10;
 

@@ -179,9 +179,3 @@ void CameraConfigView::SetupConnects() {
           SLOT(SetBoxTop(double)));
   connect(ui->FOV_V, SIGNAL(valueChanged(int)), this, SLOT(SetFOV(int)));
 }
-
-// void CameraConfigView::on_ResetBut_clicked() {
-//   if (!camera_) return;
-//   camera->SetConfig(Camera::CameraConfig());
-//   SetValuesFromConfig(Camera::CameraConfig());
-// }

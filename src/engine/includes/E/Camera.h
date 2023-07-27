@@ -3,12 +3,10 @@
 #include <godison/Matrices.h>
 #include <godison/Point.h>
 
-#include <QOpenGLFunctions>
-
 #include "E/EObject.h"
 #include "Shaders/Program.h"
 namespace s21 {
-class Camera : public EObject, protected QOpenGLFunctions {
+class Camera : public EObject{
  public:
   using Vector2D = godison::vectors::Vector2D;
   using Vector3D = godison::vectors::Vector3D;

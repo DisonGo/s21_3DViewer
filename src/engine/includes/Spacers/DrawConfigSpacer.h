@@ -8,10 +8,7 @@ namespace s21 {
 class DrawConfigSpacer : public QObject {
   Q_OBJECT
  public:
-  DrawConfigSpacer(QObject* parent = nullptr) : QObject(parent) {
-    config_ = &DrawConfig::Instance();
-    qDebug() << "Spacer config:" << config_;
-  };
+  DrawConfigSpacer(QObject* parent = nullptr);
   bool GetPoints() const { return config_->points; };
   bool GetLines() const { return config_->lines; };
   bool GetTriangles() const { return config_->triangles; };
