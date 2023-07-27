@@ -116,6 +116,7 @@ FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size,
     FaceVertex& vertex = vertices[i];
     for (int j = 0; j < 3 && *str; j++) {
       int index = Stod(str) - 1;
+      if (index < 0) index += vertex_index + 1;
       while (*str && isspace(*str)) ++str;
       while (*str && std::isdigit(*str)) ++str;
       if (j == 0) vertex.v_index = index;

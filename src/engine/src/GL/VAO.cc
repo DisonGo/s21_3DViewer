@@ -11,7 +11,7 @@ void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
 
 void VAO::Draw(GLenum type) {
   Bind();
-  if (draw_arrays_)
+  if (draw_arrays_ || type == GL_POINTS)
     glDrawArrays(type, 0, verticesN_);
   else
     glDrawElements(type, indicesN_, GL_UNSIGNED_INT, 0);
