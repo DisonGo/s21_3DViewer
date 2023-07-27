@@ -29,7 +29,8 @@ class BaseParser {
   TextureCoord ParseTextureCoord(const string& line);
   Vertex ParseVertex(const string& line);
   Normal ParseNormal(const string& line);
-  FaceVertex* ParsePolygon(const string values, size_t& size);
+  FaceVertex* ParsePolygon(const string values, size_t& size,
+                           size_t vertex_index);
 
   double Stod(const char* s);
   double ParseDigits(char** p);

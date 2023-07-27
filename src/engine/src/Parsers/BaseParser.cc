@@ -96,7 +96,8 @@ Normal BaseParser::ParseNormal(const string& line) {
   return normal;
 }
 
-FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size) {
+FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size,
+                                     size_t vertex_index) {
   const char* str = values.c_str();
   size = CountFaceVertices(str);
   FaceVertex* vertices = new FaceVertex[size];
@@ -114,7 +115,7 @@ FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size) {
   for (size_t i = 0; i < size && *str; i++) {
     FaceVertex& vertex = vertices[i];
     for (int j = 0; j < 3 && *str; j++) {
-      unsigned index = Stod(str) - 1;
+      int index = Stod(str) - 1;
       while (*str && isspace(*str)) ++str;
       while (*str && std::isdigit(*str)) ++str;
       if (j == 0) vertex.v_index = index;

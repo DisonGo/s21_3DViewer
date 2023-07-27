@@ -9,21 +9,24 @@ class OBJParser : public BaseParser {
   vector<OBJ> Parse(string filePath);
 
  private:
-  struct object {
+  struct Object {
     std::string name = "Mesh";
     size_t i_start = 0;
     size_t i_end = 0;
-    bool operator==(const object& other) const{
-      return name == other.name && i_start == other.i_start && i_end == other.i_end;
+    bool operator==(const Object &other) const {
+      return name == other.name && i_start == other.i_start &&
+             i_end == other.i_end;
     }
+    bool IsEmpty() const { return i_end == i_start; }
   };
-  void ParseFace(const string values, Face *faces, size_t &index);
+  void ParseFace(const string values, Face *faces, size_t &index,
+                 size_t vertex_index);
   void CenterVertices(vector<Vertex> &vertices, Vertex center);
   void ElevateVerticesToGround(vector<Vertex> &vertices);
-  void CalculateNegativeIndices(vector<Face> &faces, size_t vertices_max_size);
-  void FetchVerticesByFaces(const vector<Vertex>& source, vector<Vertex>& output, vector<Face> &faces);
-  void FetchNormalsByFaces(const vector<Normal>& source, vector<Normal>& output, vector<Face> &faces);
-  vector<OBJ> CalculateObjects(OBJ& all_data, vector<object> objects);
+  void FetchVerticesByFaces(const vector<Vertex> &source,
+                            vector<Vertex> &output, vector<Face> &faces);
+  void NormalizeVertices(vector<Vertex> &vertices, float normalizeSize);
+  vector<OBJ> CalculateObjects(OBJ &all_data, vector<Object> objects);
   TagCounters CountTags(const string filePath);
 };
 }  // namespace s21
