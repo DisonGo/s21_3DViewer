@@ -5,8 +5,9 @@
 using godison::vectors::Vector3D;
 #include <QWidget>
 namespace Ui {
-class TripletWidget;
+ class TripletWidget;
 }
+namespace s21 {
 
 class TripletWidget : public QWidget {
   Q_OBJECT
@@ -33,7 +34,7 @@ class TripletWidget : public QWidget {
 
  private:
   Vector3D values = Vector3D(0, 0, 0);
-  Ui::TripletWidget *ui;
+  ::Ui::TripletWidget *ui;
 };
-
+}
 #endif  // TRIPLETWIDGET_H

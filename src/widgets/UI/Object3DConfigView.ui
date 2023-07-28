@@ -97,7 +97,7 @@
         </widget>
        </item>
        <item>
-        <widget class="TripletWidget" name="LineColorTriplet" native="true">
+        <widget class="s21::TripletWidget" name="LineColorTriplet" native="true">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -268,7 +268,7 @@
         </widget>
        </item>
        <item>
-        <widget class="TripletWidget" name="PointColorTriplet" native="true">
+        <widget class="s21::TripletWidget" name="PointColorTriplet" native="true">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -285,7 +285,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TripletWidget</class>
+   <class>s21::TripletWidget</class>
    <extends>QWidget</extends>
    <header location="global">TripletWidget.h</header>
    <container>1</container>

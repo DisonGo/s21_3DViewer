@@ -1,7 +1,7 @@
 #include "MeshConfig/MeshConfigView.h"
 
 #include "ui_MeshConfigView.h"
-
+namespace s21 {
 MeshConfigView::MeshConfigView(QWidget *parent)
     : ConfigWidget(parent), ui(new Ui::MeshConfigView) {
   Setup();
@@ -59,4 +59,5 @@ void MeshConfigView::Setup() {
           &MeshConfigView::SetBufferToggle);
   connect(ui->vertexOnlyBufferCheckBox, &QCheckBox::stateChanged, this,
           &MeshConfigView::SetBufferToggle);
+}
 }

@@ -55,7 +55,7 @@
        </widget>
       </item>
       <item>
-       <widget class="TripletWidget" name="PositionTriplet" native="true">
+       <widget class="s21::TripletWidget" name="PositionTriplet" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -72,7 +72,7 @@
        </widget>
       </item>
       <item>
-       <widget class="TripletWidget" name="OrientationTriplet" native="true">
+       <widget class="s21::TripletWidget" name="OrientationTriplet" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -89,7 +89,7 @@
        </widget>
       </item>
       <item>
-       <widget class="TripletWidget" name="FocusPointTriplet" native="true">
+       <widget class="s21::TripletWidget" name="FocusPointTriplet" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -445,7 +445,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TripletWidget</class>
+   <class>s21::TripletWidget</class>
    <extends>QWidget</extends>
    <header location="global">TripletWidget.h</header>
    <container>1</container>
@@ -454,7 +454,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="ViewModeG"/>
   <buttongroup name="CameraModeG"/>
+  <buttongroup name="ViewModeG"/>
  </buttongroups>
 </ui>

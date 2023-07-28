@@ -8,6 +8,7 @@ using godison::vectors::Vector3D;
 namespace Ui {
 class TransformConfigView;
 }
+namespace s21 {
 
 class TransformConfigView : public ConfigWidget {
   Q_OBJECT
@@ -31,6 +32,7 @@ class TransformConfigView : public ConfigWidget {
  private:
   void Setup();
   s21::TransformSpacer* transformSpacer_ = nullptr;
-  Ui::TransformConfigView* ui;
+  ::Ui::TransformConfigView* ui;
 };
+}
 #endif  // TRANSFORMCONFIGVIEW_H

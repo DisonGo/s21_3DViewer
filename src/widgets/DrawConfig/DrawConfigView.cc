@@ -1,7 +1,7 @@
 #include "DrawConfig/DrawConfigView.h"
 
 #include "ui_DrawConfigView.h"
-
+namespace s21 {
 DrawConfigView::DrawConfigView(s21::DrawConfig& draw_config, QWidget *parent)
     : ConfigWidget(parent),
       drawConfigSpacer_(draw_config, this),
@@ -30,3 +30,4 @@ DrawConfigView::DrawConfigView(s21::DrawConfig& draw_config, QWidget *parent)
 }
 
 DrawConfigView::~DrawConfigView() { delete ui; }
+}

@@ -1,7 +1,7 @@
 #include "Object3DConfig/Object3DConfigView.h"
 
 #include "ui_Object3DConfigView.h"
-
+namespace s21 {
 Object3DConfigView::Object3DConfigView(QWidget *parent)
     : ConfigWidget(parent), ui(new Ui::Object3DConfigView) {
   Setup();
@@ -135,4 +135,5 @@ void Object3DConfigView::SetPointSize(double size) {
   if (!object_spacer_) return;
   object_spacer_->SetVerticesSizeValue(size);
   emit UpdateRequest();
+}
 }

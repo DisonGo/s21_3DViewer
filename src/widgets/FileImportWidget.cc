@@ -3,7 +3,7 @@
 #include "ui_FileImportWidget.h"
 #include <QFileDialog>
 #include <QFileInfo>
-
+namespace s21 {
 FileImportWidget::FileImportWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::FileImportWidget) {
   Setup();
@@ -77,4 +77,5 @@ std::vector<std::string> FileImportWidget::PathsToStdVector()
     for (const auto& path : file_paths_)
       new_paths.push_back(path.toStdString());
   return new_paths;
+}
 }

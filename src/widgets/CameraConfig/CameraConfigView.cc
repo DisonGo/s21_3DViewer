@@ -1,6 +1,7 @@
 #include "CameraConfig/CameraConfigView.h"
 
 #include "ui_CameraConfigView.h"
+namespace s21 {
 CameraConfigView::CameraConfigView(s21::CameraSpacer *cameraSpacer,
                                    QWidget *parent)
     : ConfigWidget(parent), ui(new Ui::CameraConfigView) {
@@ -178,4 +179,5 @@ void CameraConfigView::SetupConnects() {
   connect(ui->TopV, SIGNAL(valueChanged(double)), this,
           SLOT(SetBoxTop(double)));
   connect(ui->FOV_V, SIGNAL(valueChanged(int)), this, SLOT(SetFOV(int)));
+}
 }

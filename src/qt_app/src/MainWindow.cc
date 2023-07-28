@@ -12,32 +12,12 @@
 #include <QVariantAnimation>
 
 #include "./ui_mainwindow.h"
-MainWindow::MainWindow(s21::EngineSpacer& engine_spacer, QWidget* parent)
+namespace s21 {
+MainWindow::MainWindow(EngineSpacer& engine_spacer, QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       engine_spacer_(engine_spacer) {
-  ui->setupUi(this);
-  setUnifiedTitleAndToolBarOnMac(true);
-  loadSettings();
-  applySettings();
-
-  splitter_ = new QSplitter(this);
-  openGLWidget = new OpenGLController(engine_spacer_, splitter_);
-  openGLWidget->setFocusPolicy(Qt::StrongFocus);
-  object_tree = new QTreeView(splitter_);
-  object_tree->setMinimumWidth(200);
-  object_tree->setMaximumWidth(300);
-  auto header = object_tree->header();
-  header->setFixedHeight(30);
-  connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this,
-          SLOT(ImportFile(QString)));
-  connect(openGLWidget, SIGNAL(Initialized()), this,
-          SLOT(SetupEObjectTreeView()));
-  splitter_->addWidget(object_tree);
-  splitter_->addWidget(openGLWidget);
-  splitter_->resize(1280, 720);
-  splitter_->setFocusPolicy(Qt::NoFocus);
-  ui->mainBackLayout->addWidget(splitter_);
+  Setup();
 }
 MainWindow::~MainWindow() { delete ui; }
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -56,6 +36,37 @@ void MainWindow::saveSettings() {
   }
   settings.endArray();
   settings.endGroup();
+}
+
+void MainWindow::Setup()
+{
+  ui->setupUi(this);
+  setUnifiedTitleAndToolBarOnMac(true);
+  SetupView();
+}
+
+void MainWindow::SetupView()
+{
+  splitter_ = new QSplitter(this);
+  openGLWidget = new OpenGLController(engine_spacer_, splitter_);
+
+  object_tree = new QTreeView(splitter_);
+  object_tree->setMinimumWidth(200);
+  object_tree->setMaximumWidth(300);
+  object_tree->header()->setFixedHeight(30);
+
+  splitter_->addWidget(object_tree);
+  splitter_->addWidget(openGLWidget);
+  splitter_->resize(1280, 720);
+
+  splitter_->setFocusPolicy(Qt::NoFocus);
+  openGLWidget->setFocusPolicy(Qt::StrongFocus);
+  ui->mainBackLayout->addWidget(splitter_);
+
+  connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this,
+          SLOT(ImportFile(QString)));
+  connect(openGLWidget, SIGNAL(Initialized()), this,
+          SLOT(SetupEObjectTreeView()));
 }
 
 void MainWindow::loadSettings() {
@@ -91,13 +102,13 @@ void MainWindow::ImportFile(QString path) {
   openGLWidget->update();
 }
 
-void MainWindow::ShowObjectWidget(s21::EObject* object) {
+void MainWindow::ShowObjectWidget(EObject* object) {
   static ConfigWidgetFactory widget_factory;
   clearLayout(ui->ObjectWidgetHolder);
   ConfigWidget* widget = widget_factory.CreateWidget(object, this);
-  s21::CameraSpacer* cam_spacer = nullptr;
+  CameraSpacer* cam_spacer = nullptr;
   if (!widget) return;
-  if (object->GetType() == s21::kCamera)
+  if (object->GetType() == kCamera)
     cam_spacer = static_cast<CameraConfigView*>(widget)->GetCameraSpacer();
   openGLWidget->SetCameraSpacer(cam_spacer);
 
@@ -110,11 +121,12 @@ void MainWindow::ShowObjectWidget(s21::EObject* object) {
 void MainWindow::SetupEObjectTreeView() {
   auto eObjectModel = &engine_spacer_.GetEObjectItemModel();
   connect(object_tree, &QAbstractItemView::clicked, eObjectModel,
-          &s21::EObjectItemModel::FindAndSelectIndex);
+          &EObjectItemModel::FindAndSelectIndex);
 
-  connect(eObjectModel, &s21::EObjectItemModel::ObjectSelected, this,
+  connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
   object_tree->setModel(eObjectModel);
 }
 
 void MainWindow::UpdateGL() { openGLWidget->update(); }
+}

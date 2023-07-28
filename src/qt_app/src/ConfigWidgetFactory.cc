@@ -1,5 +1,5 @@
 #include "ConfigWidgetFactory.h"
-
+namespace s21 {
 ConfigWidget *ConfigWidgetFactory::CreateWidget(s21::EObject *object,
                                                 QWidget *parent) {
   if (!object) return CreatekNone(parent);
@@ -50,4 +50,5 @@ ConfigWidget *ConfigWidgetFactory::CreatekObject3D(s21::EObject *object,
   auto spacer = new s21::Object3DSpacer(*obj_ptr, parent);
   auto view = new Object3DConfigView(spacer, parent);
   return view;
+}
 }

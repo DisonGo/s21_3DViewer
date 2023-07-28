@@ -1,7 +1,7 @@
 #include "TransformConfig/TransformConfigView.h"
 
 #include "ui_TransformConfigView.h"
-
+namespace s21 {
 TransformConfigView::TransformConfigView(QWidget *parent)
     : ConfigWidget(parent), ui(new Ui::TransformConfigView) {
   Setup();
@@ -69,4 +69,5 @@ void TransformConfigView::SetScale(const Vector3D scale) {
   if (!transformSpacer_) return;
   transformSpacer_->SetScale(scale);
   emit UpdateRequest();
+}
 }

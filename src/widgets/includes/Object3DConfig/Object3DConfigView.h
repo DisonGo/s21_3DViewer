@@ -8,6 +8,7 @@
 namespace Ui {
 class Object3DConfigView;
 }
+namespace s21 {
 
 class Object3DConfigView : public ConfigWidget {
   Q_OBJECT
@@ -19,7 +20,7 @@ class Object3DConfigView : public ConfigWidget {
   ~Object3DConfigView();
 
  private:
-  Ui::Object3DConfigView* ui;
+  ::Ui::Object3DConfigView* ui;
   s21::Object3DSpacer* object_spacer_ = nullptr;
   void Setup();
   void SetupSpacer(s21::Object3DSpacer* object_spacer);
@@ -32,5 +33,5 @@ class Object3DConfigView : public ConfigWidget {
   void SetLineWidth(double width);
   void SetPointSize(double size);
 };
-
+}
 #endif  // OBJECT3DCONFIGVIEW_H

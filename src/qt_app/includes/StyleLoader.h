@@ -7,18 +7,19 @@
 #include <QKeyEvent>
 #include <QKeySequence>
 #include <QObject>
+namespace s21 {
 class StyleLoader : public QObject {
   Q_OBJECT
  public:
   StyleLoader(QObject* parent, const QString& filename);
-  void attach(void);
-  static QString defaultStyleFile();
+  void Attach(void);
+  static QString DefaultStyleFile();
 
  private:
-  QString m_filename;
-  QFileSystemWatcher watcher;
+  QString filename_;
+  QFileSystemWatcher watcher_;
  private slots:
-  void setAppStyleSheet();
+  void SetAppStyleSheet();
 };
-
+}
 #endif  // STYLELOADER_H

@@ -90,7 +90,7 @@
          </widget>
         </item>
         <item>
-         <widget class="TripletWidget" name="TranslationTriplet" native="true"/>
+         <widget class="s21::TripletWidget" name="TranslationTriplet" native="true"/>
         </item>
         <item>
          <widget class="QLabel" name="RotationL">
@@ -100,7 +100,7 @@
          </widget>
         </item>
         <item>
-         <widget class="TripletWidget" name="RotationTriplet" native="true"/>
+         <widget class="s21::TripletWidget" name="RotationTriplet" native="true"/>
         </item>
         <item>
          <widget class="QLabel" name="ScaleL">
@@ -110,7 +110,7 @@
          </widget>
         </item>
         <item>
-         <widget class="TripletWidget" name="ScaleTriplet" native="true"/>
+         <widget class="s21::TripletWidget" name="ScaleTriplet" native="true"/>
         </item>
        </layout>
       </widget>
@@ -121,7 +121,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TripletWidget</class>
+   <class>s21::TripletWidget</class>
    <extends>QWidget</extends>
    <header location="global">TripletWidget.h</header>
    <container>1</container>

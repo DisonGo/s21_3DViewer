@@ -35,8 +35,10 @@
               "content": "Main UI rework to MVC",
               "id": 1688985886491,
               "level": "success",
-              "done": false,
-              "start": 1688985886491
+              "done": true,
+              "start": 1688985886491,
+              "focus": false,
+              "end": 1690533680416
             }
           },
           {
@@ -46,8 +48,10 @@
               "content": "Wrap UI classes in namespace s21",
               "id": 1688985918140,
               "level": "default",
-              "done": false,
-              "start": 1688985918140
+              "done": true,
+              "start": 1688985918140,
+              "focus": false,
+              "end": 1690533673944
             }
           },
           {
@@ -858,6 +862,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1689703566360"
+    "version": "1690533680516"
   }
 }

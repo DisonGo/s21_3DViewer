@@ -7,7 +7,7 @@
 namespace Ui {
 class DrawConfigView;
 }
-
+namespace s21 {
 class DrawConfigView : public ConfigWidget {
   Q_OBJECT
 
@@ -19,7 +19,7 @@ class DrawConfigView : public ConfigWidget {
 
  private:
   s21::DrawConfigSpacer drawConfigSpacer_;
-  Ui::DrawConfigView *ui;
+  ::Ui::DrawConfigView *ui;
 };
-
+}
 #endif  // DRAWCONFIGVIEW_H

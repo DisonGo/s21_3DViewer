@@ -4,6 +4,7 @@
 #include <QMouseEvent>
 #include <QThread>
 #include <QTimer>
+namespace s21 {
 void OpenGLController::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
@@ -80,7 +81,7 @@ std::vector<QImage> OpenGLController::StopScreenCapture() {
   return captureBuffer;
 }
 
-void OpenGLController::SetCameraSpacer(s21::CameraSpacer *spacer) {
+void OpenGLController::SetCameraSpacer(CameraSpacer *spacer) {
   camera_spacer_ = spacer;
   if (!camera_spacer_) return;
   engine_spacer_.SetCurrentCamera(camera_spacer_->GetCamera());
@@ -89,3 +90,4 @@ void OpenGLController::SetCameraSpacer(s21::CameraSpacer *spacer) {
   update();
 }
 OpenGLController::~OpenGLController() {}
+}

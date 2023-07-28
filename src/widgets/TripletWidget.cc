@@ -1,7 +1,7 @@
 #include "TripletWidget.h"
 
 #include "ui_TripletWidget.h"
-
+namespace s21 {
 TripletWidget::TripletWidget(QWidget* parent)
     : QWidget(parent), ui(new Ui::TripletWidget) {
   ui->setupUi(this);
@@ -85,4 +85,5 @@ void TripletWidget::ReadInput(double val) {
   if (wid == ui->secondV) values.SetY(val);
   if (wid == ui->thirdV) values.SetZ(val);
   emit InputsChanged(values);
+}
 }

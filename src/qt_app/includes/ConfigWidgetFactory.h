@@ -7,7 +7,7 @@
 #include <TransformConfig/TransformConfigView.h>
 
 #include "E/EObject.h"
-
+namespace s21 {
 class ConfigWidgetFactory {
  public:
   ConfigWidgetFactory() = default;
@@ -21,5 +21,5 @@ class ConfigWidgetFactory {
   static ConfigWidget* CreatekMesh(s21::EObject* object, QWidget* parent);
   static ConfigWidget* CreatekObject3D(s21::EObject* object, QWidget* parent);
 };
-
+}
 #endif  // CONFIGWIDGETFACTORY_H

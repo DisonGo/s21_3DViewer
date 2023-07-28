@@ -9,7 +9,7 @@
 namespace Ui {
 class CameraConfigView;
 }
-
+namespace s21 {
 class CameraConfigView : public ConfigWidget {
   Q_OBJECT
 
@@ -39,7 +39,7 @@ class CameraConfigView : public ConfigWidget {
  private:
   void SetupConnects();
   s21::CameraSpacer* cameraSpacer_{};
-  Ui::CameraConfigView* ui;
+  ::Ui::CameraConfigView* ui;
 };
-
+}
 #endif  // CAMERACONFIGVIEW_H

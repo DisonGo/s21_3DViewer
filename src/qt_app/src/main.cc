@@ -30,10 +30,10 @@ int main(int argc, char *argv[]) {
   s21::EngineSpacer spacer(engine);
 
 
-  MainWindow w (spacer);
+  s21::MainWindow w (spacer);
 
-  StyleLoader *style_loader = new StyleLoader(&w, style_file_path);
-  style_loader->attach();
+  auto *style_loader = new s21::StyleLoader(&w, style_file_path);
+  style_loader->Attach();
   w.show();
   return a.exec();
 }

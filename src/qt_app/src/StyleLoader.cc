@@ -1,21 +1,22 @@
 #include "StyleLoader.h"
-
-void StyleLoader::attach(void) { watcher.addPath(m_filename); }
-void StyleLoader::setAppStyleSheet() {
-  QFile file(m_filename);
+namespace s21 {
+void StyleLoader::Attach(void) { watcher_.addPath(filename_); }
+void StyleLoader::SetAppStyleSheet() {
+  QFile file(filename_);
   if (!file.open(QIODevice::ReadOnly)) {
-    qDebug() << "Cannot open stylesheet file " << m_filename;
+    qDebug() << "Cannot open stylesheet file " << filename_;
     return;
   }
   QString stylesheet = QString::fromUtf8(file.readAll());
   qApp->setStyleSheet(stylesheet);
 }
 
-QString StyleLoader::defaultStyleFile() { return ":/style.qss"; }
+QString StyleLoader::DefaultStyleFile() { return ":/style.qss"; }
 
 StyleLoader::StyleLoader(QObject* parent, const QString& filename)
-    : QObject(parent), m_filename(filename) {
-  QObject::connect(&watcher, SIGNAL(fileChanged(QString)), this,
+    : QObject(parent), filename_(filename) {
+  QObject::connect(&watcher_, SIGNAL(fileChanged(QString)), this,
                    SLOT(setAppStyleSheet()));
-  setAppStyleSheet();
+  SetAppStyleSheet();
+}
 }

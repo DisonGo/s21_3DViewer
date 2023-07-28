@@ -6,7 +6,7 @@
 namespace Ui {
 class MeshConfigView;
 }
-
+namespace s21 {
 class MeshConfigView : public ConfigWidget {
   Q_OBJECT
 
@@ -23,7 +23,7 @@ class MeshConfigView : public ConfigWidget {
  private:
   void Setup();
   s21::MeshSpacer* mesh_spacer_ = nullptr;
-  Ui::MeshConfigView* ui;
+  ::Ui::MeshConfigView* ui;
 };
-
+}
 #endif  // MESHCONFIGVIEW_H

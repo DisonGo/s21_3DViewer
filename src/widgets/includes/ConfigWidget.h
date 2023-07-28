@@ -1,7 +1,7 @@
 #ifndef CONFIGWIDGET_H
 #define CONFIGWIDGET_H
 #include <QWidget>
-
+namespace s21 {
 class ConfigWidget : public QWidget {
   Q_OBJECT
  public:
@@ -9,5 +9,5 @@ class ConfigWidget : public QWidget {
  signals:
   void UpdateRequest();
 };
-
+}
 #endif  // CONFIGWIDGET_H
