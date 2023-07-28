@@ -21,14 +21,14 @@ MainWindow::MainWindow(EngineSpacer& engine_spacer,
       engine_spacer_(engine_spacer),
       draw_config_spacer_(draw_config_spacer) {
   Setup();
-  loadSettings();
+  LoadSettings();
 }
 MainWindow::~MainWindow() { delete ui; }
 void MainWindow::closeEvent(QCloseEvent* event) {
   Q_UNUSED(event)
-  saveSettings();
+  SaveSettings();
 }
-void MainWindow::saveSettings() {
+void MainWindow::SaveSettings() {
   settings_.beginGroup("Settings");
 
   settings_.beginWriteArray("file_paths");
@@ -71,9 +71,10 @@ void MainWindow::SetupView() {
           SLOT(SetupEObjectTreeView()));
   connect(ui->background_color_b, SIGNAL(clicked()), this,
           SLOT(ChooseBackColor()));
+  connect(ui->record_b, SIGNAL(clicked()), this, SLOT(StartRecord()));
 }
 
-void MainWindow::loadSettings() {
+void MainWindow::LoadSettings() {
   settings_.beginGroup("Settings");
   int size = settings_.beginReadArray("file_paths");
   std::vector<QString> paths;
@@ -140,6 +141,18 @@ void MainWindow::ShowObjectWidget(EObject* object) {
   ui->ObjectWidgetHolder->addWidget(widget);
 }
 
+void MainWindow::StartRecord()
+{
+  openGLWidget->StartScreenCapture(git_fps_);
+  QTimer::singleShot(5000, this,  &MainWindow::StopRecord);
+}
+
+void MainWindow::StopRecord()
+{
+  auto data = openGLWidget->StopScreenCapture();
+  SaveGif(data, git_fps_);
+}
+
 void MainWindow::SetupEObjectTreeView() {
   auto eObjectModel = &engine_spacer_.GetEObjectItemModel();
   connect(object_tree, &QAbstractItemView::clicked, eObjectModel,
@@ -149,6 +162,19 @@ void MainWindow::SetupEObjectTreeView() {
           &MainWindow::ShowObjectWidget);
   object_tree->setModel(eObjectModel);
 }
-
+void MainWindow::SaveGif(std::vector<QImage> gifData, unsigned FPS) {
+  QGifImage gif(QSize(640, 480));
+  qDebug()  << "Frames count:" << gifData.size();
+  qDebug()  << "Fps determined for 5 seconds:" << gifData.size()/5;
+  gif.setDefaultDelay(1000 / FPS);
+  for (auto& frame : gifData) {
+    gif.addFrame(frame);
+  }
+  QString name = qgetenv("USER");
+  if (name.isEmpty()) name = qgetenv("USERNAME");
+  QString savePath = QFileDialog::getSaveFileName(
+      this, tr("Save gif"), "/Users/" + name, "Image (*.gif)");
+  gif.save(savePath);
+}
 void MainWindow::UpdateGL() { openGLWidget->update(); }
 }  // namespace s21

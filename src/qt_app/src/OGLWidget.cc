@@ -1,5 +1,5 @@
 #include "OGLWidget.h"
-
+#include <QOpenGLFramebufferObjectFormat>
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QThread>
@@ -68,12 +68,30 @@ void OGLWidget::CalcSizes(int w, int h) {
   ratio = vw / vh;
 }
 void OGLWidget::CaptureBuffer() {
+
   QImage frame = grabFramebuffer().scaled(gifResolution);
   captureBuffer.push_back(frame);
 }
 
 void OGLWidget::StartScreenCapture(int FPS) {
-  connect(&captureTimer, SIGNAL(timeout()), this, SLOT(capture()));
+  captureBuffer.clear();
+  fps_count = 0;
+  QOpenGLFramebufferObjectFormat format;
+  format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
+  format.setSamples(4); // Increase if necessary
+  QOpenGLFramebufferObject fbo(size(), format);
+  connect(&captureTimer, &QTimer::timeout, [&]() {
+    makeCurrent();
+    if (fps_count <= FPS * 5){
+      this->context()->functions()->glFinish();
+      captureBuffer.push_back(grabFramebuffer().scaled(gifResolution));
+      fps_count++;
+      qDebug() << "fps counter" << fps_count;
+      update();
+    } else {
+      captureTimer.stop();
+    }
+  });
   captureTimer.start(1000 / FPS);
 }
 std::vector<QImage> OGLWidget::StopScreenCapture() {

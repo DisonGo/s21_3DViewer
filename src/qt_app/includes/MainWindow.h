@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 
  private:
+  unsigned git_fps_ = 10;
   QSettings settings_;
   QSplitter* splitter_ = nullptr;
   QTreeView* object_tree = nullptr;
@@ -36,17 +37,20 @@ class MainWindow : public QMainWindow {
   OGLWidget* openGLWidget = nullptr;
   EngineSpacer& engine_spacer_;
   DrawConfigSpacer& draw_config_spacer_;
-  void saveSettings();
   void Setup();
   void SetupView();
- private slots:
+  void SaveSettings();
+  void LoadSettings();
+  void SaveGif(std::vector<QImage> gifData, unsigned FPS);
+private slots:
   void ShowObjectWidget(s21::EObject* object);
+  void StartRecord();
+  void StopRecord();
   void SetupEObjectTreeView();
   void UpdateGL();
 
   void ImportFile(QString path);
   void ChooseBackColor();
-  void loadSettings();
   void closeEvent(QCloseEvent* event) override;
 };
 }  // namespace s21

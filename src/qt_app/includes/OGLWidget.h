@@ -35,6 +35,7 @@ class OGLWidget : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   void CaptureBuffer();
 
  private:
+  int fps_count = 0;
   CameraSpacer *camera_spacer_ = nullptr;
   EngineSpacer &engine_spacer_;
   void CalcSizes(int w, int h);
