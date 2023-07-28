@@ -16,7 +16,7 @@ QString StyleLoader::DefaultStyleFile() { return ":/style.qss"; }
 StyleLoader::StyleLoader(QObject* parent, const QString& filename)
     : QObject(parent), filename_(filename) {
   QObject::connect(&watcher_, SIGNAL(fileChanged(QString)), this,
-                   SLOT(setAppStyleSheet()));
+                   SLOT(SetAppStyleSheet()));
   SetAppStyleSheet();
 }
-}
+}  // namespace s21

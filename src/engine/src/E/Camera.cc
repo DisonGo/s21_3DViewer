@@ -3,7 +3,7 @@
 #include "E/Point.h"
 #include "QtMath"
 namespace s21 {
-Camera::Camera() : Camera(0,0) {}
+Camera::Camera() : Camera(0, 0) {}
 Camera::Camera(int width, int height) {
   SetVw(width);
   SetVh(height);

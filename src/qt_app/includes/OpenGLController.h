@@ -3,13 +3,15 @@
 #include <QOpenGLExtraFunctions>
 #include <QOpenGLWidget>
 #include <QTimer>
+
 #include "Spacers/CameraSpacer.h"
 #include "Spacers/EngineSpacer.h"
 namespace s21 {
 class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   Q_OBJECT
  public:
-  OpenGLController(EngineSpacer& engine_spacer, QWidget* parent = nullptr) : QOpenGLWidget(parent), engine_spacer_(engine_spacer) {};
+  OpenGLController(EngineSpacer &engine_spacer, QWidget *parent = nullptr)
+      : QOpenGLWidget(parent), engine_spacer_(engine_spacer){};
   ~OpenGLController();
 
   void StartScreenCapture(int FPS);
@@ -34,7 +36,7 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
 
  private:
   CameraSpacer *camera_spacer_ = nullptr;
-  EngineSpacer& engine_spacer_;
+  EngineSpacer &engine_spacer_;
   void CalcSizes(int w, int h);
   QTimer captureTimer;
   bool LMB_pressed = false;
@@ -45,6 +47,6 @@ class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   int gifLength = 5;
 };
 
-}
+}  // namespace s21
 
 #endif  // OPENGLCONTROLLER_H

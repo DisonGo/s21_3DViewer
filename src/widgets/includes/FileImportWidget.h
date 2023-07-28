@@ -7,10 +7,9 @@ namespace Ui {
 class FileImportWidget;
 }
 namespace s21 {
-class FileImportWidget : public QWidget
-{
+class FileImportWidget : public QWidget {
   Q_OBJECT
-public:
+ public:
   explicit FileImportWidget(QWidget *parent = nullptr);
   ~FileImportWidget();
   void ImportPaths(QVector<QString> paths);
@@ -19,17 +18,18 @@ public:
 
   std::vector<std::string> ExportPaths();
   QVector<QString> ExportPathsQ();
-signals:
+ signals:
   void FileImporting(QString path);
 
-private slots:
+ private slots:
   void ChooseFile();
   void ImportFile();
-private:
+
+ private:
   std::vector<std::string> PathsToStdVector();
   void Setup();
   QVector<QString> file_paths_;
   ::Ui::FileImportWidget *ui;
 };
-}
-#endif // FILEIMPORTWIDGET_H
+}  // namespace s21
+#endif  // FILEIMPORTWIDGET_H

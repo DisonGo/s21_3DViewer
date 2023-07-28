@@ -34,7 +34,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout" stretch="7,1">
        <property name="spacing">
-        <number>0</number>
+        <number>5</number>
        </property>
        <item>
         <widget class="QComboBox" name="FileListCB">
@@ -44,10 +44,16 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>9999</width>
-           <height>35</height>
+           <height>30</height>
           </size>
          </property>
         </widget>
@@ -60,11 +66,20 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>35</height>
+           <height>30</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Выбрать</string>

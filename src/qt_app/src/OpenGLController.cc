@@ -90,4 +90,4 @@ void OpenGLController::SetCameraSpacer(CameraSpacer *spacer) {
   update();
 }
 OpenGLController::~OpenGLController() {}
-}
+}  // namespace s21

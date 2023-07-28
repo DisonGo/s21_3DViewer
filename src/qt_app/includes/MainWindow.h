@@ -1,14 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <FileImportWidget.h>
+#include <OpenGLController.h>
 #include <godison/Vectors.h>
+
 #include <QAbstractButton>
 #include <QMainWindow>
 #include <QSettings>
-#include <QTreeView>
 #include <QSplitter>
-#include <FileImportWidget.h>
-#include <OpenGLController.h>
+#include <QTreeView>
+
 #include "ConfigWidgetFactory.h"
 #include "Spacers/EngineSpacer.h"
 using godison::vectors::Vector3D;
@@ -21,13 +23,13 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(EngineSpacer& engine_spacer, QWidget *parent = nullptr);
+  MainWindow(EngineSpacer& engine_spacer, QWidget* parent = nullptr);
   ~MainWindow();
 
  private:
   QSplitter* splitter_ = nullptr;
   QTreeView* object_tree = nullptr;
-  ::Ui::MainWindow *ui;
+  ::Ui::MainWindow* ui;
   OpenGLController* openGLWidget = nullptr;
   EngineSpacer& engine_spacer_;
   std::vector<QString> filePaths;
@@ -35,7 +37,7 @@ class MainWindow : public QMainWindow {
   void Setup();
   void SetupView();
  private slots:
-  void ShowObjectWidget(s21::EObject *object);
+  void ShowObjectWidget(s21::EObject* object);
   void SetupEObjectTreeView();
   void UpdateGL();
 
@@ -43,7 +45,7 @@ class MainWindow : public QMainWindow {
 
   void loadSettings();
   void applySettings();
-  void closeEvent(QCloseEvent *event) override;
+  void closeEvent(QCloseEvent* event) override;
 };
-}
+}  // namespace s21
 #endif  // MAINWINDOW_H

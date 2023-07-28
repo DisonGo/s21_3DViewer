@@ -87,14 +87,16 @@ void Object3DConfigView::SetColor(const Vector3D &color) {
 
   auto widget_ptr = static_cast<TripletWidget *>(sender());
 
-  auto style = QString("background: rgba(%1,%2,%3,0.3);").arg(color.X()).arg(color.Y()).arg(color.Z());
+  auto style = QString("background: rgba(%1,%2,%3,0.3);")
+                   .arg(color.X())
+                   .arg(color.Y())
+                   .arg(color.Z());
 
   if (widget_ptr == ui->LineColorTriplet) {
     object_spacer_->SetEdgesColorValue(new_color);
     widget_ptr->setStyleSheet("#LineColorTriplet{" + style + "}");
   }
-  if (widget_ptr == ui->PointColorTriplet)
-  {
+  if (widget_ptr == ui->PointColorTriplet) {
     object_spacer_->SetVerticesColorValue(new_color);
     widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
   }
@@ -136,4 +138,4 @@ void Object3DConfigView::SetPointSize(double size) {
   object_spacer_->SetVerticesSizeValue(size);
   emit UpdateRequest();
 }
-}
+}  // namespace s21

@@ -21,5 +21,5 @@ class StyleLoader : public QObject {
  private slots:
   void SetAppStyleSheet();
 };
-}
+}  // namespace s21
 #endif  // STYLELOADER_H

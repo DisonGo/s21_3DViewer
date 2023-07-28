@@ -38,15 +38,17 @@ class Polygon : public Shape {
 };
 class Rectangle : public Shape {
  public:
-//  Rectangle(double x = 0, double y = 0, double w = 0, double h = 0,
-//            vectors::Vector4D offset = {0, 0, 0, 0}){};
+  //  Rectangle(double x = 0, double y = 0, double w = 0, double h = 0,
+  //            vectors::Vector4D offset = {0, 0, 0, 0}){};
 };
 
 class Point : public Shape {
  public:
   Point();
-  virtual vector<float> GenerateVertices() override{ return vector<float>();};
-  virtual vector<unsigned> GenerateIndices() override{ return vector<unsigned>();};
+  virtual vector<float> GenerateVertices() override { return vector<float>(); };
+  virtual vector<unsigned> GenerateIndices() override {
+    return vector<unsigned>();
+  };
 };
 }  // namespace shapes
 }  // namespace godison

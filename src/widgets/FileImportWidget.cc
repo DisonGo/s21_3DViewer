@@ -1,31 +1,28 @@
 #include "FileImportWidget.h"
 
-#include "ui_FileImportWidget.h"
 #include <QFileDialog>
 #include <QFileInfo>
+
+#include "ui_FileImportWidget.h"
 namespace s21 {
-FileImportWidget::FileImportWidget(QWidget *parent)
+FileImportWidget::FileImportWidget(QWidget* parent)
     : QWidget(parent), ui(new Ui::FileImportWidget) {
   Setup();
 }
 
 FileImportWidget::~FileImportWidget() { delete ui; }
 
-void FileImportWidget::ImportPaths(QVector<QString> paths)
-{
+void FileImportWidget::ImportPaths(QVector<QString> paths) {
   ImportPaths((std::vector<QString>){paths.begin(), paths.end()});
 }
 
-void FileImportWidget::ImportPaths(std::vector<QString> paths)
-{
+void FileImportWidget::ImportPaths(std::vector<QString> paths) {
   std::vector<std::string> new_paths;
-  for (const auto& path : paths)
-    new_paths.push_back(path.toStdString());
+  for (const auto& path : paths) new_paths.push_back(path.toStdString());
   ImportPaths(new_paths);
 }
 
-void FileImportWidget::ImportPaths(std::vector<std::string> paths)
-{
+void FileImportWidget::ImportPaths(std::vector<std::string> paths) {
   for (const auto& path : paths) {
     const auto str = path.c_str();
     if (!QFileInfo::exists(str)) continue;
@@ -40,17 +37,14 @@ std::vector<std::string> FileImportWidget::ExportPaths()
   return PathsToStdVector();
 }
 
-QVector<QString> FileImportWidget::ExportPathsQ()
-{
+QVector<QString> FileImportWidget::ExportPathsQ() { return file_paths_; }
 
-  return file_paths_;
-}
-
-void FileImportWidget::Setup()
-{
+void FileImportWidget::Setup() {
   ui->setupUi(this);
-  connect(ui->OpenFileBut, &QAbstractButton::clicked, this, &FileImportWidget::ChooseFile);
-  connect(ui->LoadFileBut, &QAbstractButton::clicked, this, &FileImportWidget::ImportFile);
+  connect(ui->OpenFileBut, &QAbstractButton::clicked, this,
+          &FileImportWidget::ChooseFile);
+  connect(ui->LoadFileBut, &QAbstractButton::clicked, this,
+          &FileImportWidget::ImportFile);
 }
 
 void FileImportWidget::ChooseFile() {
@@ -64,18 +58,15 @@ void FileImportWidget::ChooseFile() {
   ui->FileListCB->setCurrentIndex(ui->FileListCB->findText(filename));
 }
 
-void FileImportWidget::ImportFile()
-{
+void FileImportWidget::ImportFile() {
   QString file_path = ui->FileListCB->currentText();
   if (file_path.isEmpty()) return;
   emit FileImporting(file_path);
 }
 
-std::vector<std::string> FileImportWidget::PathsToStdVector()
-{
+std::vector<std::string> FileImportWidget::PathsToStdVector() {
   std::vector<std::string> new_paths;
-    for (const auto& path : file_paths_)
-      new_paths.push_back(path.toStdString());
+  for (const auto& path : file_paths_) new_paths.push_back(path.toStdString());
   return new_paths;
 }
-}
+}  // namespace s21

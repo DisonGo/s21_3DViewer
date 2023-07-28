@@ -180,4 +180,4 @@ void CameraConfigView::SetupConnects() {
           SLOT(SetBoxTop(double)));
   connect(ui->FOV_V, SIGNAL(valueChanged(int)), this, SLOT(SetFOV(int)));
 }
-}
+}  // namespace s21

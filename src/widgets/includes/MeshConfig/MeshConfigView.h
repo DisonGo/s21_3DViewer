@@ -25,5 +25,5 @@ class MeshConfigView : public ConfigWidget {
   s21::MeshSpacer* mesh_spacer_ = nullptr;
   ::Ui::MeshConfigView* ui;
 };
-}
+}  // namespace s21
 #endif  // MESHCONFIGVIEW_H

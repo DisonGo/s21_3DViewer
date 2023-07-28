@@ -12,7 +12,8 @@ class DrawConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
-  explicit DrawConfigView(s21::DrawConfig& draw_config, QWidget *parent = nullptr);
+  explicit DrawConfigView(s21::DrawConfig &draw_config,
+                          QWidget *parent = nullptr);
   ~DrawConfigView();
  signals:
   void DrawConfigUpdated();
@@ -21,5 +22,5 @@ class DrawConfigView : public ConfigWidget {
   s21::DrawConfigSpacer drawConfigSpacer_;
   ::Ui::DrawConfigView *ui;
 };
-}
+}  // namespace s21
 #endif  // DRAWCONFIGVIEW_H

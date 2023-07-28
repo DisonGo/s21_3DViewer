@@ -4,8 +4,9 @@
 #define GL_SILENCE_DEPRECATION
 #include <godison/Point.h>
 
-#include <memory>
 #include <QColor>
+#include <memory>
+
 #include "E/Camera.h"
 #include "E/EObject.h"
 #include "E/Mesh.h"

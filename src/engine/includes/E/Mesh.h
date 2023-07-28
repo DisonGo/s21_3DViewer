@@ -24,7 +24,7 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   void Import(const OBJ& obj, OBJImportStrategy* importer);
   void SetBufferToggle(OBJImportStrategyType type, bool value);
   bool GetBufferToggle(OBJImportStrategyType type);
-  const std::string& GetName() const {return name_;};
+  const std::string& GetName() const { return name_; };
   virtual EObjectType GetType() const override { return type_; };
 
  protected:

@@ -5,8 +5,8 @@
 
 #include "DrawConfig.h"
 #include "Engine.h"
-#include "Spacers/EngineSpacer.h"
 #include "MainWindow.h"
+#include "Spacers/EngineSpacer.h"
 
 int main(int argc, char *argv[]) {
   QSurfaceFormat format;
@@ -29,8 +29,7 @@ int main(int argc, char *argv[]) {
   s21::Engine engine(config);
   s21::EngineSpacer spacer(engine);
 
-
-  s21::MainWindow w (spacer);
+  s21::MainWindow w(spacer);
 
   auto *style_loader = new s21::StyleLoader(&w, style_file_path);
   style_loader->Attach();

@@ -132,7 +132,7 @@ void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent,
   if (type == kObject3D) {
     auto object3d = static_cast<Object3D *>(item);
     AddItem(&object3d->GetTrasform(), new_item);
-    for (const auto& mesh : object3d->GetMeshes())
+    for (const auto &mesh : object3d->GetMeshes())
       AddItem(&*mesh, new_item, mesh->GetName());
   }
 }

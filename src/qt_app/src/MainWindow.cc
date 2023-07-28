@@ -38,15 +38,13 @@ void MainWindow::saveSettings() {
   settings.endGroup();
 }
 
-void MainWindow::Setup()
-{
+void MainWindow::Setup() {
   ui->setupUi(this);
   setUnifiedTitleAndToolBarOnMac(true);
   SetupView();
 }
 
-void MainWindow::SetupView()
-{
+void MainWindow::SetupView() {
   splitter_ = new QSplitter(this);
   openGLWidget = new OpenGLController(engine_spacer_, splitter_);
 
@@ -129,4 +127,4 @@ void MainWindow::SetupEObjectTreeView() {
 }
 
 void MainWindow::UpdateGL() { openGLWidget->update(); }
-}
+}  // namespace s21

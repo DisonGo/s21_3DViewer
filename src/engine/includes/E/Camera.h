@@ -6,7 +6,7 @@
 #include "E/EObject.h"
 #include "Shaders/Program.h"
 namespace s21 {
-class Camera : public EObject{
+class Camera : public EObject {
  public:
   using Vector2D = godison::vectors::Vector2D;
   using Vector3D = godison::vectors::Vector3D;
@@ -79,7 +79,7 @@ class Camera : public EObject{
   CameraMode mode_ = kFocus;
   ViewMode view_mode_ = kPerspective;
   Vector3D focus_point_ = Vector3D(0, 0, 0);
-  Vector3D position_ = Vector3D(1, 1, 1);
+  Vector3D position_ = Vector3D(2, 2, 2);
   Vector3D orientation_ = Vector3D(0, 1);
   Vector2D z_range_ = Vector2D(0.001, 100);
   Vector3D focus_rotation_ = Vector3D(0, 0, 0);

@@ -86,4 +86,4 @@ void TripletWidget::ReadInput(double val) {
   if (wid == ui->thirdV) values.SetZ(val);
   emit InputsChanged(values);
 }
-}
+}  // namespace s21

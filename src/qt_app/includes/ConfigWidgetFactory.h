@@ -21,5 +21,5 @@ class ConfigWidgetFactory {
   static ConfigWidget* CreatekMesh(s21::EObject* object, QWidget* parent);
   static ConfigWidget* CreatekObject3D(s21::EObject* object, QWidget* parent);
 };
-}
+}  // namespace s21
 #endif  // CONFIGWIDGETFACTORY_H

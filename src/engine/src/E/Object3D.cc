@@ -28,8 +28,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   }
   if (type == GL_TRIANGLES) red = green = blue = 0.8;
   program_->Uniform3f("u_prototype_color", red, green, blue);
-  for (const auto& mesh : meshes_)
-    mesh->Draw(type);
+  for (const auto& mesh : meshes_) mesh->Draw(type);
   program_->Uniform1i("u_dashed", false);
   program_->Uniform1i("u_circlePoint", false);
 }

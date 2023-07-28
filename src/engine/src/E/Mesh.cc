@@ -4,9 +4,7 @@
 #define MAP_CONTAINS(map, val) (map.find(val) != map.end())
 #include "GL/VBO.h"
 namespace s21 {
-Mesh::Mesh() {
-  initializeOpenGLFunctions();
-}
+Mesh::Mesh() { initializeOpenGLFunctions(); }
 
 Mesh::Mesh(const s21::OBJ& obj, OBJImportStrategy* importer) : Mesh() {
   auto imp = !importer ? new s21::OBJImportWireframeStrategy : importer;

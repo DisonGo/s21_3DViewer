@@ -24,6 +24,7 @@ class Engine : protected QOpenGLFunctions {
   EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();
   void SetCurrentCamera(Camera* camera);
+
  private:
   // TODO Add realization of move/copy constructors
   Engine(const Engine& old);                   // disallow copy constructor

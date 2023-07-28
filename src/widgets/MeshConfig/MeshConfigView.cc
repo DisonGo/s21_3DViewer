@@ -60,4 +60,4 @@ void MeshConfigView::Setup() {
   connect(ui->vertexOnlyBufferCheckBox, &QCheckBox::stateChanged, this,
           &MeshConfigView::SetBufferToggle);
 }
-}
+}  // namespace s21

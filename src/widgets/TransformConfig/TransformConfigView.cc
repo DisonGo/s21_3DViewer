@@ -70,4 +70,4 @@ void TransformConfigView::SetScale(const Vector3D scale) {
   transformSpacer_->SetScale(scale);
   emit UpdateRequest();
 }
-}
+}  // namespace s21

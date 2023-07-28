@@ -10,7 +10,7 @@ ConfigWidget *ConfigWidgetFactory::CreateWidget(s21::EObject *object,
   if (type == s21::kTransform) widget = CreatekTransform(object, parent);
   if (type == s21::kMesh) widget = CreatekMesh(object, parent);
   if (type == s21::kObject3D) widget = CreatekObject3D(object, parent);
-  if (widget){
+  if (widget) {
     widget->setAttribute(Qt::WA_DeleteOnClose);
     widget->setObjectName("ConfigView");
   }
@@ -51,4 +51,4 @@ ConfigWidget *ConfigWidgetFactory::CreatekObject3D(s21::EObject *object,
   auto view = new Object3DConfigView(spacer, parent);
   return view;
 }
-}
+}  // namespace s21

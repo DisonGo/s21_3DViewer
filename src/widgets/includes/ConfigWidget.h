@@ -9,5 +9,5 @@ class ConfigWidget : public QWidget {
  signals:
   void UpdateRequest();
 };
-}
+}  // namespace s21
 #endif  // CONFIGWIDGET_H

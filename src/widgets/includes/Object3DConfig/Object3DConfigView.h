@@ -33,5 +33,5 @@ class Object3DConfigView : public ConfigWidget {
   void SetLineWidth(double width);
   void SetPointSize(double size);
 };
-}
+}  // namespace s21
 #endif  // OBJECT3DCONFIGVIEW_H

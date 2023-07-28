@@ -14,7 +14,7 @@ using godison::vectors::Vector3D;
 #define ERASE_FROM_VECTOR(vec, x) \
   vec.erase(std::remove(vec.begin(), vec.end(), x), vec.end())
 namespace s21 {
-Engine::Engine(DrawConfig &config) : drawConfig_(config) {}
+Engine::Engine(DrawConfig& config) : drawConfig_(config) {}
 
 Engine::~Engine() {
   for (auto obj : engine_objects_) delete obj;
@@ -75,8 +75,7 @@ void Engine::Wipe3DObjects() {
 }
 
 Object3D* Engine::GenerateObject(std::string file_path) {
-  return new Object3D(
-      object3d_factory_.GetObject(file_path.c_str()));
+  return new Object3D(object3d_factory_.GetObject(file_path.c_str()));
 }
 
 void Engine::ImportOBJFile(std::string file_path) {
@@ -104,8 +103,7 @@ Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
 void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
 
-void Engine::Initialize()
-{
+void Engine::Initialize() {
   if (initialized_) return;
   initializeOpenGLFunctions();
   glEnable(GL_PROGRAM_POINT_SIZE);

@@ -10,9 +10,9 @@ class EngineSpacer : public QObject {
   void InitializeEngine();
   void RequestRenderCycle();
   void ImportOBJFile(std::string file_path);
-  EObjectItemModel &GetEObjectItemModel();
-  Camera *GetCurrentCamera();
-  void SetCurrentCamera(Camera * camera);
+  EObjectItemModel& GetEObjectItemModel();
+  Camera* GetCurrentCamera();
+  void SetCurrentCamera(Camera* camera);
   void GetObjectStats();
  signals:
   void ConfigUpdated();

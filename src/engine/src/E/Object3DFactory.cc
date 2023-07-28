@@ -34,7 +34,7 @@ Object3D Object3DFactory::GetObject(const char *file_path) {
   if (parser_type == kOBJParser) {
     try {
       auto datas = static_cast<OBJParser *>(parser_)->Parse(file_path);
-      for (const auto& data : datas)
+      for (const auto &data : datas)
         for (const auto &[type, importer] : importers_)
           if (importer.on) object.UploadMesh(data, importer.importer_ptr);
     } catch (...) {
