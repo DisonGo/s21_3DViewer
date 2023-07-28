@@ -1,11 +1,11 @@
-#include "OpenGLController.h"
+#include "OGLWidget.h"
 
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QThread>
 #include <QTimer>
 namespace s21 {
-void OpenGLController::mousePressEvent(QMouseEvent *e) {
+void OGLWidget::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = true;
     if (!camera_spacer_) return;
@@ -13,29 +13,29 @@ void OpenGLController::mousePressEvent(QMouseEvent *e) {
   }
 }
 
-void OpenGLController::mouseMoveEvent(QMouseEvent *e) {
+void OGLWidget::mouseMoveEvent(QMouseEvent *e) {
   if (!LMB_pressed || !camera_spacer_) return;
   camera_spacer_->mouseMoveSlot(e);
 }
 
-void OpenGLController::mouseReleaseEvent(QMouseEvent *e) {
+void OGLWidget::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
     LMB_pressed = false;
     if (camera_spacer_) camera_spacer_->mouseReleaseSlot(e);
   }
 }
 
-void OpenGLController::keyPressEvent(QKeyEvent *e) {
+void OGLWidget::keyPressEvent(QKeyEvent *e) {
   if (camera_spacer_) camera_spacer_->keyPressSlot(e);
 }
-void OpenGLController::keyReleaseEvent(QKeyEvent *e) {
+void OGLWidget::keyReleaseEvent(QKeyEvent *e) {
   if (camera_spacer_) camera_spacer_->keyReleaseSlot(e);
 }
 
-void OpenGLController::wheelEvent(QWheelEvent *e) {
+void OGLWidget::wheelEvent(QWheelEvent *e) {
   if (camera_spacer_) camera_spacer_->wheelEventSlot(e);
 }
-void OpenGLController::initializeGL() {
+void OGLWidget::initializeGL() {
   setAutoFillBackground(false);
   initializeOpenGLFunctions();
   makeCurrent();
@@ -50,38 +50,38 @@ void OpenGLController::initializeGL() {
   emit Initialized();
 }
 
-void OpenGLController::resizeGL(int w, int h) {
+void OGLWidget::resizeGL(int w, int h) {
   glViewport(0, 0, w, h);
   CalcSizes(w, h);
   update();
 }
-void OpenGLController::paintGL() {
+void OGLWidget::paintGL() {
   makeCurrent();
   engine_spacer_.RequestRenderCycle();
   doneCurrent();
 }
-void OpenGLController::CalcSizes(int w, int h) {
+void OGLWidget::CalcSizes(int w, int h) {
   vw = w;
   vh = h;
   if (camera_spacer_) camera_spacer_->SetVh(vh);
   if (camera_spacer_) camera_spacer_->SetVw(vw);
   ratio = vw / vh;
 }
-void OpenGLController::CaptureBuffer() {
+void OGLWidget::CaptureBuffer() {
   QImage frame = grabFramebuffer().scaled(gifResolution);
   captureBuffer.push_back(frame);
 }
 
-void OpenGLController::StartScreenCapture(int FPS) {
+void OGLWidget::StartScreenCapture(int FPS) {
   connect(&captureTimer, SIGNAL(timeout()), this, SLOT(capture()));
   captureTimer.start(1000 / FPS);
 }
-std::vector<QImage> OpenGLController::StopScreenCapture() {
+std::vector<QImage> OGLWidget::StopScreenCapture() {
   captureTimer.stop();
   return captureBuffer;
 }
 
-void OpenGLController::SetCameraSpacer(CameraSpacer *spacer) {
+void OGLWidget::SetCameraSpacer(CameraSpacer *spacer) {
   camera_spacer_ = spacer;
   if (!camera_spacer_) return;
   engine_spacer_.SetCurrentCamera(camera_spacer_->GetCamera());
@@ -89,5 +89,5 @@ void OpenGLController::SetCameraSpacer(CameraSpacer *spacer) {
   camera_spacer_->SetVw(vw);
   update();
 }
-OpenGLController::~OpenGLController() {}
+OGLWidget::~OGLWidget() {}
 }  // namespace s21

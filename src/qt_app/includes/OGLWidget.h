@@ -7,12 +7,12 @@
 #include "Spacers/CameraSpacer.h"
 #include "Spacers/EngineSpacer.h"
 namespace s21 {
-class OpenGLController : public QOpenGLWidget, protected QOpenGLExtraFunctions {
+class OGLWidget : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   Q_OBJECT
  public:
-  OpenGLController(EngineSpacer &engine_spacer, QWidget *parent = nullptr)
+  OGLWidget(EngineSpacer &engine_spacer, QWidget *parent = nullptr)
       : QOpenGLWidget(parent), engine_spacer_(engine_spacer){};
-  ~OpenGLController();
+  ~OGLWidget();
 
   void StartScreenCapture(int FPS);
   std::vector<QImage> StopScreenCapture();

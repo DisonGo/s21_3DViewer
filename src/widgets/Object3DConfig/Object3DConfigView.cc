@@ -18,6 +18,9 @@ Object3DConfigView::~Object3DConfigView() { delete ui; }
 
 void Object3DConfigView::Setup() {
   ui->setupUi(this);
+  ui->LineColorTriplet->SetTexts("r:", "g:", "b:");
+  ui->PointColorTriplet->SetTexts("r:", "g:", "b:");
+
   ui->LineColorTriplet->SetRange(0, 255);
   ui->PointColorTriplet->SetRange(0, 255);
 

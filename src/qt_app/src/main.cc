@@ -6,6 +6,7 @@
 #include "DrawConfig.h"
 #include "Engine.h"
 #include "MainWindow.h"
+#include "Spacers/DrawConfigSpacer.h"
 #include "Spacers/EngineSpacer.h"
 
 int main(int argc, char *argv[]) {
@@ -19,17 +20,12 @@ int main(int argc, char *argv[]) {
   QSurfaceFormat::setDefaultFormat(format);
   QApplication a(argc, argv);
   const QString style_file_path = ":/style/style.qss";
-  // ":/style/icons/collapse_arrow.png";
-  // const QString style_file_path =
-  //     "C:/gits/3D_Viewer/src/qt_app/resources/style/style.qss";
-  // const QString style_file_path =
-  //     "/Users/evverenn/Desktop/Projects/Junk/3D_Viewer/src/qt_app/resources/"
-  //     "style/style.qss";
   s21::DrawConfig config;
+  s21::DrawConfigSpacer config_spacer(config);
   s21::Engine engine(config);
-  s21::EngineSpacer spacer(engine);
+  s21::EngineSpacer engine_spacer(engine);
 
-  s21::MainWindow w(spacer);
+  s21::MainWindow w(engine_spacer, config_spacer);
 
   auto *style_loader = new s21::StyleLoader(&w, style_file_path);
   style_loader->Attach();

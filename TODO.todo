@@ -5,16 +5,14 @@
         "key": 1688985445512,
         "children": [
           {
-            "key": 1689179713327,
+            "key": 1688986285805,
             "children": [],
             "todo": {
-              "content": "CRASH: if file doesn't exists when being parsed.",
-              "id": 1689179713327,
-              "level": "warning",
-              "done": true,
-              "start": 1689179713327,
-              "focus": false,
-              "end": 1689703566278
+              "content": "Fix image saving formats (PNG -> BMP/JPEG)",
+              "id": 1688986285805,
+              "level": "success",
+              "done": false,
+              "start": 1688986285805
             }
           },
           {
@@ -26,6 +24,19 @@
               "level": "default",
               "done": false,
               "start": 1688985866795
+            }
+          },
+          {
+            "key": 1689179713327,
+            "children": [],
+            "todo": {
+              "content": "CRASH: if file doesn't exists when being parsed.",
+              "id": 1689179713327,
+              "level": "warning",
+              "done": true,
+              "start": 1689179713327,
+              "focus": false,
+              "end": 1689703566278
             }
           },
           {
@@ -42,6 +53,32 @@
             }
           },
           {
+            "key": 1688986255276,
+            "children": [],
+            "todo": {
+              "content": "UI for background color",
+              "id": 1688986255276,
+              "level": "success",
+              "done": true,
+              "start": 1688986255276,
+              "focus": false,
+              "end": 1690536385462
+            }
+          },
+          {
+            "key": 1688986266629,
+            "children": [],
+            "todo": {
+              "content": "Settings must be saved between program restarts",
+              "id": 1688986266629,
+              "level": "success",
+              "done": true,
+              "start": 1688986266629,
+              "focus": false,
+              "end": 1690538841554
+            }
+          },
+          {
             "key": 1688985918140,
             "children": [],
             "todo": {
@@ -52,50 +89,6 @@
               "start": 1688985918140,
               "focus": false,
               "end": 1690533673944
-            }
-          },
-          {
-            "key": 1688986255276,
-            "children": [],
-            "todo": {
-              "content": "UI for background color",
-              "id": 1688986255276,
-              "level": "success",
-              "done": false,
-              "start": 1688986255276
-            }
-          },
-          {
-            "key": 1688986266629,
-            "children": [],
-            "todo": {
-              "content": "Settings must be saved between program restarts",
-              "id": 1688986266629,
-              "level": "success",
-              "done": false,
-              "start": 1688986266629
-            }
-          },
-          {
-            "key": 1688986285805,
-            "children": [],
-            "todo": {
-              "content": "Fix image saving formats (PNG -> BMP/JPEG)",
-              "id": 1688986285805,
-              "level": "success",
-              "done": false,
-              "start": 1688986285805
-            }
-          },
-          {
-            "key": 1688993779137,
-            "children": [],
-            "todo": {
-              "content": "Start using shared_ptr for MVC",
-              "id": 1688993779137,
-              "level": "default",
-              "done": false,
-              "start": 1688993779137
             }
           },
           {
@@ -162,6 +155,17 @@
       {
         "key": 1687723053618,
         "children": [
+          {
+            "key": 1688993779137,
+            "children": [],
+            "todo": {
+              "content": "Start using shared_ptr for MVC",
+              "id": 1688993779137,
+              "level": "default",
+              "done": false,
+              "start": 1688993779137
+            }
+          },
           {
             "key": 1687723105337,
             "children": [
@@ -862,6 +866,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1690533680516"
+    "version": "1690538857401"
   }
 }

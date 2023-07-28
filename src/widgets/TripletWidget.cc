@@ -2,7 +2,7 @@
 
 #include "ui_TripletWidget.h"
 namespace s21 {
-TripletWidget::TripletWidget(QWidget* parent)
+TripletWidget::TripletWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::TripletWidget) {
   ui->setupUi(this);
   connect(ui->firstV, SIGNAL(valueChanged(double)), this,
@@ -15,7 +15,7 @@ TripletWidget::TripletWidget(QWidget* parent)
 
 TripletWidget::~TripletWidget() { delete ui; }
 
-void TripletWidget::SetValues(const Vector3D& values) {
+void TripletWidget::SetValues(const Vector3D &values) {
   if (values == this->values) return;
   this->values = values;
   UpdateInputs();
@@ -71,6 +71,25 @@ void TripletWidget::SetRange(double min, double max) {
   SetRangeMax(max);
 }
 
+void TripletWidget::SetTexts(const char *first, const char *second,
+                             const char *third) {
+  SetFirstText(first);
+  SetSecondText(second);
+  SetThirdText(third);
+}
+
+void TripletWidget::SetFirstText(const char *text) {
+  ui->firstL->setText(text);
+}
+
+void TripletWidget::SetSecondText(const char *text) {
+  ui->secondL->setText(text);
+}
+
+void TripletWidget::SetThirdText(const char *text) {
+  ui->thirdL->setText(text);
+}
+
 void TripletWidget::UpdateInputs() {
   ui->firstV->setValue(values.X());
   ui->secondV->setValue(values.Y());
@@ -79,7 +98,7 @@ void TripletWidget::UpdateInputs() {
 }
 
 void TripletWidget::ReadInput(double val) {
-  QDoubleSpinBox* wid = (QDoubleSpinBox*)sender();
+  QDoubleSpinBox *wid = (QDoubleSpinBox *)sender();
   if (!wid) return;
   if (wid == ui->firstV) values.SetX(val);
   if (wid == ui->secondV) values.SetY(val);

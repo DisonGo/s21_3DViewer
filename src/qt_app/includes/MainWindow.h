@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <FileImportWidget.h>
-#include <OpenGLController.h>
+#include <OGLWidget.h>
 #include <godison/Vectors.h>
 
 #include <QAbstractButton>
@@ -12,6 +12,7 @@
 #include <QTreeView>
 
 #include "ConfigWidgetFactory.h"
+#include "Spacers/DrawConfigSpacer.h"
 #include "Spacers/EngineSpacer.h"
 using godison::vectors::Vector3D;
 namespace Ui {
@@ -23,16 +24,18 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(EngineSpacer& engine_spacer, QWidget* parent = nullptr);
+  MainWindow(EngineSpacer& engine_spacer, DrawConfigSpacer& draw_config_spacer,
+             QWidget* parent = nullptr);
   ~MainWindow();
 
  private:
+  QSettings settings_;
   QSplitter* splitter_ = nullptr;
   QTreeView* object_tree = nullptr;
   ::Ui::MainWindow* ui;
-  OpenGLController* openGLWidget = nullptr;
+  OGLWidget* openGLWidget = nullptr;
   EngineSpacer& engine_spacer_;
-  std::vector<QString> filePaths;
+  DrawConfigSpacer& draw_config_spacer_;
   void saveSettings();
   void Setup();
   void SetupView();
@@ -42,9 +45,8 @@ class MainWindow : public QMainWindow {
   void UpdateGL();
 
   void ImportFile(QString path);
-
+  void ChooseBackColor();
   void loadSettings();
-  void applySettings();
   void closeEvent(QCloseEvent* event) override;
 };
 }  // namespace s21

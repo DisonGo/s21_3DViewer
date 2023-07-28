@@ -54,9 +54,9 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-1</y>
+      <y>0</y>
       <width>1281</width>
-      <height>721</height>
+      <height>720</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="mainBackLayout">
@@ -124,6 +124,25 @@
       <number>0</number>
      </property>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="background_color_b">
+    <property name="geometry">
+     <rect>
+      <x>972</x>
+      <y>598</y>
+      <width>297</width>
+      <height>38</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>Background color</string>
+    </property>
    </widget>
   </widget>
  </widget>
