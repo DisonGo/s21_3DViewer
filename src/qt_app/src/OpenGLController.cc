@@ -56,8 +56,9 @@ void OpenGLController::resizeGL(int w, int h) {
 }
 void OpenGLController::paintGL() {
   makeCurrent();
-                                 engine_spacer_.RequestRenderCycle();
-                                 doneCurrent();}
+  engine_spacer_.RequestRenderCycle();
+  doneCurrent();
+}
 void OpenGLController::CalcSizes(int w, int h) {
   vw = w;
   vh = h;

@@ -13,14 +13,16 @@
 
 #include "./ui_mainwindow.h"
 MainWindow::MainWindow(s21::EngineSpacer& engine_spacer, QWidget* parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),  engine_spacer_(engine_spacer) {
+    : QMainWindow(parent),
+      ui(new Ui::MainWindow),
+      engine_spacer_(engine_spacer) {
   ui->setupUi(this);
   setUnifiedTitleAndToolBarOnMac(true);
   loadSettings();
   applySettings();
 
   splitter_ = new QSplitter(this);
-  openGLWidget = new OpenGLController(engine_spacer_ ,splitter_);
+  openGLWidget = new OpenGLController(engine_spacer_, splitter_);
   openGLWidget->setFocusPolicy(Qt::StrongFocus);
   object_tree = new QTreeView(splitter_);
   object_tree->setMinimumWidth(200);
@@ -81,11 +83,12 @@ void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   }
 }
 void MainWindow::ImportFile(QString path) {
+  openGLWidget->makeCurrent();
   engine_spacer_.ImportOBJFile(path.toStdString());
   clearLayout(ui->ObjectWidgetHolder);
   ui->verticalWidget_2->resize(ui->verticalWidget_2->size().width(), 0);
   openGLWidget->SetCameraSpacer(nullptr);
-
+  openGLWidget->update();
 }
 
 void MainWindow::ShowObjectWidget(s21::EObject* object) {

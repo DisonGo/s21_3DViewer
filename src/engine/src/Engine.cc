@@ -37,7 +37,6 @@ void Engine::SetupDefaultCameras() {
   Camera* second_camera = new Camera();
   cameras_.push_back(second_camera);
   engine_objects_.push_back(second_camera);
-  current_camera_ = second_camera;
   eObjectModel_.AddItem(second_camera, nullptr, "Second camera");
 }
 
@@ -122,7 +121,7 @@ void Engine::Initialize()
 }
 
 void Engine::DrawGeometry(GLenum type) {
-  if (initialized_) return;
+  if (!initialized_) return;
   if (!current_camera_) return;
   focus_point_->GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
   for (auto object : objects_3d_)
