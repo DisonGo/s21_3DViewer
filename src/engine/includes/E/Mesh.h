@@ -29,7 +29,6 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   const std::string& GetName() const { return name_; };
   virtual EObjectType GetType() const override { return type_; };
 
-
  protected:
   EObjectType type_ = EObjectType::kMesh;
 

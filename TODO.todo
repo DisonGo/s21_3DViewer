@@ -24,8 +24,10 @@
               "content": "Information about the uploaded model - file name, number of vertices and edges.",
               "id": 1688985866795,
               "level": "default",
-              "done": false,
-              "start": 1688985866795
+              "done": true,
+              "start": 1688985866795,
+              "focus": false,
+              "end": 1690631790839
             }
           },
           {
@@ -868,6 +870,6 @@
     "autoSort": false,
     "showEndTime": false,
     "lang": "en",
-    "version": "1690620758950"
+    "version": "1690631790904"
   }
 }

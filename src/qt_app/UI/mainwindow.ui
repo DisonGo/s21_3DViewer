@@ -56,7 +56,7 @@
       <x>0</x>
       <y>0</y>
       <width>1281</width>
-      <height>720</height>
+      <height>721</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="mainBackLayout">
@@ -80,8 +80,8 @@
    <widget class="s21::FileImportWidget" name="FileImporter" native="true">
     <property name="geometry">
      <rect>
-      <x>960</x>
-      <y>620</y>
+      <x>972</x>
+      <y>633</y>
       <width>321</width>
       <height>101</height>
      </rect>
@@ -128,8 +128,8 @@
    <widget class="QPushButton" name="background_color_b">
     <property name="geometry">
      <rect>
-      <x>972</x>
-      <y>598</y>
+      <x>984</x>
+      <y>608</y>
       <width>297</width>
       <height>38</height>
      </rect>
@@ -147,8 +147,8 @@
    <widget class="QPushButton" name="record_b">
     <property name="geometry">
      <rect>
-      <x>972</x>
-      <y>560</y>
+      <x>984</x>
+      <y>570</y>
       <width>297</width>
       <height>38</height>
      </rect>
@@ -166,8 +166,8 @@
    <widget class="QPushButton" name="screenshot_b">
     <property name="geometry">
      <rect>
-      <x>972</x>
-      <y>522</y>
+      <x>984</x>
+      <y>532</y>
       <width>297</width>
       <height>38</height>
      </rect>
@@ -181,6 +181,81 @@
     <property name="text">
      <string>Screenshot</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="object_stats_l_wid" native="true">
+    <property name="geometry">
+     <rect>
+      <x>307</x>
+      <y>687</y>
+      <width>677</width>
+      <height>33</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="object_stats_l">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="object_vertices_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="object_edges_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="object_name_label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>

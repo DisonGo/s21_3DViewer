@@ -36,7 +36,7 @@ class MainWindow : public QMainWindow {
   QSize gif_resolution_ = QSize(640, 480);
   QSettings settings_;
   QSplitter* splitter_ = nullptr;
-  QTreeView* object_tree = nullptr;
+  QTreeView* object_tree_ = nullptr;
   ::Ui::MainWindow* ui;
   OGLWidget* openGLWidget = nullptr;
   EngineSpacer& engine_spacer_;
@@ -46,14 +46,14 @@ class MainWindow : public QMainWindow {
   void SetupView();
   void SaveSettings();
   void LoadSettings();
-  void SaveGif(std::vector<QImage> gifData, unsigned FPS);
  private slots:
   void ShowObjectWidget(s21::EObject* object);
   void StartRecord();
   void StopRecord();
   void SaveScreenshot();
   void SetupEObjectTreeView();
-  void PrintImported(unsigned long vertices_n, unsigned long indices_n, std::string file_name);
+  void PrintImported(unsigned long vertices_n, unsigned long indices_n,
+                     std::string file_name);
   void UpdateGL();
 
   void ImportFile(QString path);

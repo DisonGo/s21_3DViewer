@@ -56,19 +56,22 @@ void MainWindow::SetupView() {
   splitter_ = new QSplitter(this);
   openGLWidget = new OGLWidget(engine_spacer_, splitter_);
 
-  object_tree = new QTreeView(splitter_);
-  object_tree->setMinimumWidth(200);
-  object_tree->setMaximumWidth(300);
-  object_tree->header()->setFixedHeight(30);
+  object_tree_ = new QTreeView(splitter_);
+  object_tree_->setMinimumWidth(200);
+  object_tree_->setMaximumWidth(300);
+  object_tree_->resize(300, 720);
+  object_tree_->header()->setFixedHeight(30);
 
-  splitter_->addWidget(object_tree);
+  splitter_->addWidget(object_tree_);
   splitter_->addWidget(openGLWidget);
   splitter_->resize(1280, 720);
 
   splitter_->setFocusPolicy(Qt::NoFocus);
   openGLWidget->setFocusPolicy(Qt::StrongFocus);
   ui->mainBackLayout->addWidget(splitter_);
-
+  splitter_->show();
+  ui->object_stats_l_wid->move(object_tree_->width() + 7,
+                               ui->object_stats_l_wid->y());
   connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this,
           SLOT(ImportFile(QString)));
   connect(openGLWidget, SIGNAL(Initialized()), this,
@@ -77,7 +80,8 @@ void MainWindow::SetupView() {
           SLOT(ChooseBackColor()));
   connect(ui->record_b, SIGNAL(clicked()), this, SLOT(StartRecord()));
   connect(ui->screenshot_b, SIGNAL(clicked()), this, SLOT(SaveScreenshot()));
-  connect(&engine_spacer_, &EngineSpacer::ObjectImported, this, &MainWindow::PrintImported);
+  connect(&engine_spacer_, &EngineSpacer::ObjectImported, this,
+          &MainWindow::PrintImported);
 }
 
 void MainWindow::LoadSettings() {
@@ -165,17 +169,21 @@ void MainWindow::SaveScreenshot() {
 
 void MainWindow::SetupEObjectTreeView() {
   auto eObjectModel = &engine_spacer_.GetEObjectItemModel();
-  connect(object_tree, &QAbstractItemView::clicked, eObjectModel,
+  connect(object_tree_, &QAbstractItemView::clicked, eObjectModel,
           &EObjectItemModel::FindAndSelectIndex);
 
   connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
-  object_tree->setModel(eObjectModel);
+  object_tree_->setModel(eObjectModel);
 }
 
-void MainWindow::PrintImported(unsigned long vertices_n, unsigned long indices_n, std::string file_name)
-{
-  qDebug() << "Vertices:" << vertices_n << "Indices:" << indices_n << "File name:" << file_name.c_str();
+void MainWindow::PrintImported(unsigned long vertices_n,
+                               unsigned long indices_n, std::string file_name) {
+  ui->object_vertices_label->setText(QString("Vertices: %1").arg(vertices_n));
+  ui->object_edges_label->setText(QString("Edges: %1").arg(indices_n / 4));
+  ui->object_name_label->setText(
+      QString("File name: %1").arg(file_name.c_str()));
 }
+
 void MainWindow::UpdateGL() { openGLWidget->update(); }
 }  // namespace s21

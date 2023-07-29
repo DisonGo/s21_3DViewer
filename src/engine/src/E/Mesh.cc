@@ -54,15 +54,13 @@ bool Mesh::GetBufferToggle(OBJImportStrategyType type) {
   return buffer_toggle_.find(type)->second;
 }
 
-unsigned long Mesh::GetVertices(OBJImportStrategyType buffer_type)
-{
+unsigned long Mesh::GetVertices(OBJImportStrategyType buffer_type) {
   if (!MAP_CONTAINS(VAO_map_, buffer_type)) return 0;
   auto vao = VAO_map_.find(buffer_type)->second;
   return vao ? vao->GetVerticesN() : 0;
 }
 
-unsigned long Mesh::GetIndices(OBJImportStrategyType buffer_type)
-{
+unsigned long Mesh::GetIndices(OBJImportStrategyType buffer_type) {
   if (!MAP_CONTAINS(VAO_map_, buffer_type)) return 0;
   auto vao = VAO_map_.find(buffer_type)->second;
   return vao ? vao->GetIndicesN() : 0;

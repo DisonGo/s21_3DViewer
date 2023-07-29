@@ -74,3 +74,6 @@ TripletWidget{
 	background-color: rgb(15, 15, 15);
 }
 	
+#object_stats_l_wid {
+	background-color:rgb(15, 15, 15);
+}

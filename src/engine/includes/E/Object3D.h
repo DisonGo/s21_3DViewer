@@ -42,10 +42,9 @@ class Object3D : public EObject {
   double GetEdgesThickness() { return edges_thickness_; };
   QColor GetVerticesColor() { return vertices_color_; };
   double GetVerticesSize() { return vertices_size_; };
-  std::string GetFileName() { return file_name_;};
+  std::string GetFileName() { return file_name_; };
   unsigned long CountVertices(OBJImportStrategyType buffer_type);
   unsigned long CountIndices(OBJImportStrategyType buffer_type);
-
 
  protected:
   std::string file_name_ = "";

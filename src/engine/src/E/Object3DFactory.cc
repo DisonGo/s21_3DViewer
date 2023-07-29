@@ -1,4 +1,5 @@
 #include "E/Object3DFactory.h"
+
 #include "QFileInfo"
 #define MAP_CONTAINS(map, val) (map.find(val) != map.end())
 namespace s21 {
