@@ -47,7 +47,7 @@ class Engine : protected QOpenGLFunctions {
   bool single_object_mode_ = true;
   Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
-  DrawConfig& drawConfig_;
+  DrawConfig& draw_config_;
   EObjectItemModel e_object_model_;
   Object3DFactory object3d_factory_;
   std::vector<EObject*> engine_objects_;

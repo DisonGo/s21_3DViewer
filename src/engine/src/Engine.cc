@@ -14,7 +14,7 @@ using godison::vectors::Vector3D;
 #define ERASE_FROM_VECTOR(vec, x) \
   vec.erase(std::remove(vec.begin(), vec.end(), x), vec.end())
 namespace s21 {
-Engine::Engine(DrawConfig& config) : drawConfig_(config) {}
+Engine::Engine(DrawConfig& config) : draw_config_(config) {}
 
 Engine::~Engine() {
   for (auto obj : engine_objects_) delete obj;
@@ -32,7 +32,7 @@ void Engine::SetupDefaultCameras() {
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
-  eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
+  e_object_model_.AddItem(default_camera, nullptr, "Main camera");
 
   Camera* second_camera = new Camera();
   second_camera->SetPosition({2, 0, 0});
@@ -41,7 +41,7 @@ void Engine::SetupDefaultCameras() {
   second_camera->SetZRange({-100, 100});
   cameras_.push_back(second_camera);
   engine_objects_.push_back(second_camera);
-  eObjectModel_.AddItem(second_camera, nullptr, "Second camera");
+  e_object_model_.AddItem(second_camera, nullptr, "Second camera");
 }
 
 void Engine::SetupObject3DFactory() {
@@ -66,9 +66,9 @@ void Engine::RemoveObject(EObject* object) {
   if (type == s21::kObject3D) ERASE_FROM_VECTOR(objects_3d_, object);
   if (type == s21::kCamera) ERASE_FROM_VECTOR(cameras_, object);
   ERASE_FROM_VECTOR(engine_objects_, object);
-  auto tree_item = eObjectModel_.FindItem(object);
+  auto tree_item = e_object_model_.FindItem(object);
   if (!tree_item) return;
-  eObjectModel_.DeleteItem(tree_item);
+  e_object_model_.DeleteItem(tree_item);
   delete object;
 }
 
@@ -87,20 +87,20 @@ void Engine::ImportOBJFile(std::string file_path) {
   Object3D* object_3d = GenerateObject(file_path);
   if (!object_3d) return;
   QFileInfo fileInfo(file_path.c_str());
-  if (single_object_mode) Wipe3DObjects();
+  if (single_object_mode_) Wipe3DObjects();
   DefaultObject3DImport(object_3d);
-  eObjectModel_.AddItem(object_3d, nullptr, fileInfo.baseName().toStdString());
+  e_object_model_.AddItem(object_3d, nullptr, fileInfo.baseName().toStdString());
 }
 
 void Engine::Cycle() {
   if (!initialized_) return;
-  glClearColor(GET_VEC_COLOR(drawConfig_.back_color), 1);
+  glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  if (drawConfig_.points) DrawGeometry(GL_POINTS);
-  if (drawConfig_.lines) DrawGeometry(GL_LINES);
-  if (drawConfig_.triangles) DrawGeometry(GL_TRIANGLES);
-  if (drawConfig_.triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
+  if (draw_config_.points) DrawGeometry(GL_POINTS);
+  if (draw_config_.lines) DrawGeometry(GL_LINES);
+  if (draw_config_.triangles) DrawGeometry(GL_TRIANGLES);
+  if (draw_config_.triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }

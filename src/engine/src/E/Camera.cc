@@ -93,8 +93,8 @@ void Camera::ProcessKeyPress(Qt::Key key) {
 void Camera::CalcFocusPosition() {
   constexpr double MIN_DIST = 0.1;
   float distance = (position_ - focus_point_).Length();
-  if (distance * zoom_factor > MIN_DIST) distance *= zoom_factor;
-  zoom_factor = 1;
+  if (distance * zoom_factor_ > MIN_DIST) distance *= zoom_factor_;
+  zoom_factor_ = 1;
   orientation_ = (position_ - focus_point_).Normalized();
   if (orientation_.Y() > 0.95) orientation_.SetY(0.95);
   if (orientation_.Y() < -0.95) orientation_.SetY(-0.95);

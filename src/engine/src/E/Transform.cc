@@ -5,8 +5,8 @@ bool Transform::operator==(const Transform &a) const {
           scale_ == a.scale_);
 }
 void Transform::UpdateScale() {
-  modelScale_.SetToIdentity();
-  modelScale_.Scale(scale_);
+  model_scale_.SetToIdentity();
+  model_scale_.Scale(scale_);
   awaitingLoadInProgram_ = true;
 }
 
@@ -18,13 +18,13 @@ void Transform::UpdateRotation() {
   rot_x.Rotate(rotation_.X(), {1, 0, 0});
   rot_y.Rotate(rotation_.Y(), {0, 1, 0});
   rot_z.Rotate(rotation_.Z(), {0, 0, 1});
-  modelRot_ = rot_x * rot_y * rot_z;
+  model_rot_ = rot_x * rot_y * rot_z;
   awaitingLoadInProgram_ = true;
 }
 
 void Transform::UpdateTranslate() {
-  modelTranslate_.SetToIdentity();
-  modelTranslate_.Translate(translate_);
+  model_translate_.SetToIdentity();
+  model_translate_.Translate(translate_);
   awaitingLoadInProgram_ = true;
 }
 
@@ -38,7 +38,7 @@ void Transform::LoadModelMatrix(Program *program) {
   if (!program) return;
   program->UniformMatrix4fv(
       "u_modelMatrix", 1, GL_FALSE,
-      (modelScale_ * modelRot_ * modelTranslate_).RawConstData());
+      (model_scale_ * model_rot_ * model_translate_).RawConstData());
   awaitingLoadInProgram_ = false;
 }
 }  // namespace s21
