@@ -21,6 +21,7 @@ run: build
 build_debug:
 	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
 install: build
+
 run_t:
 	@cmake --build ./build  --target TESTING -j 8 -- -s
 	@./${BUILD_PATH}/exe/TESTING
@@ -35,16 +36,9 @@ dvi:
 	@$(OPEN_CMD) dvi/index.md
 
 clean:
-	@cd transforms; make $@
-	@cd obj_parser; make $@
-	@rm -rf report
+	@cmake --build ${BUILD_PATH} --target clean
 test:
-	@cd transforms; make
-	@cd obj_parser; make
-	
-	@clear
-	@cd transforms; make $@
-	@cd obj_parser; make $@
+	@cmake --build ${BUILD_PATH} --target TESTING --parallel 8
 gcov_report:
 	@cd transforms; make $@
 	@cd obj_parser; make $@
