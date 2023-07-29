@@ -73,6 +73,7 @@ class Camera : public EObject {
  private:  // Methods
   void ProcessFreeMode(GPoint ePos);
   void ProcessFocusMode(GPoint ePos);
+  void ProcessKeyPress(Qt::Key key);
   void CalcFocusPosition();
 
  private:  // vars

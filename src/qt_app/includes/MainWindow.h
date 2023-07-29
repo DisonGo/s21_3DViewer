@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <FileImportWidget.h>
+#include <ImageSaverControler.h>
 #include <OGLWidget.h>
 #include <godison/Vectors.h>
 
@@ -25,11 +26,14 @@ class MainWindow : public QMainWindow {
 
  public:
   MainWindow(EngineSpacer& engine_spacer, DrawConfigSpacer& draw_config_spacer,
+             ImageSaverControler& image_saver_controler,
              QWidget* parent = nullptr);
   ~MainWindow();
 
  private:
-  unsigned git_fps_ = 10;
+  unsigned gif_fps_ = 10;
+  unsigned gif_length_ = 5;
+  QSize gif_resolution_ = QSize(640, 480);
   QSettings settings_;
   QSplitter* splitter_ = nullptr;
   QTreeView* object_tree = nullptr;
@@ -37,15 +41,17 @@ class MainWindow : public QMainWindow {
   OGLWidget* openGLWidget = nullptr;
   EngineSpacer& engine_spacer_;
   DrawConfigSpacer& draw_config_spacer_;
+  ImageSaverControler& image_saver_controler_;
   void Setup();
   void SetupView();
   void SaveSettings();
   void LoadSettings();
   void SaveGif(std::vector<QImage> gifData, unsigned FPS);
-private slots:
+ private slots:
   void ShowObjectWidget(s21::EObject* object);
   void StartRecord();
   void StopRecord();
+  void SaveScreenshot();
   void SetupEObjectTreeView();
   void UpdateGL();
 

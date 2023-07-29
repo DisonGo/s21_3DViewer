@@ -15,11 +15,14 @@
 #include "./ui_mainwindow.h"
 namespace s21 {
 MainWindow::MainWindow(EngineSpacer& engine_spacer,
-                       DrawConfigSpacer& draw_config_spacer, QWidget* parent)
+                       DrawConfigSpacer& draw_config_spacer,
+                       ImageSaverControler& image_saver_controler,
+                       QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
       engine_spacer_(engine_spacer),
-      draw_config_spacer_(draw_config_spacer) {
+      draw_config_spacer_(draw_config_spacer),
+      image_saver_controler_(image_saver_controler) {
   Setup();
   LoadSettings();
 }
@@ -39,6 +42,7 @@ void MainWindow::SaveSettings() {
   }
   settings_.endArray();
   settings_.setValue("back_color", draw_config_spacer_.GetBackColor());
+
   settings_.endGroup();
 }
 
@@ -72,6 +76,7 @@ void MainWindow::SetupView() {
   connect(ui->background_color_b, SIGNAL(clicked()), this,
           SLOT(ChooseBackColor()));
   connect(ui->record_b, SIGNAL(clicked()), this, SLOT(StartRecord()));
+  connect(ui->screenshot_b, SIGNAL(clicked()), this, SLOT(SaveScreenshot()));
 }
 
 void MainWindow::LoadSettings() {
@@ -113,9 +118,10 @@ void MainWindow::ImportFile(QString path) {
   openGLWidget->makeCurrent();
   engine_spacer_.ImportOBJFile(path.toStdString());
   clearLayout(ui->ObjectWidgetHolder);
-  ui->verticalWidget_2->resize(ui->verticalWidget_2->size().width(), 0);
+  ui->ObjectWidgetHolderWidget->resize(
+      ui->ObjectWidgetHolderWidget->size().width(), 0);
   openGLWidget->SetCameraSpacer(nullptr);
-  openGLWidget->update();
+  UpdateGL();
 }
 
 void MainWindow::ChooseBackColor() {
@@ -136,21 +142,24 @@ void MainWindow::ShowObjectWidget(EObject* object) {
   openGLWidget->SetCameraSpacer(cam_spacer);
 
   connect(widget, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
-  ui->verticalWidget_2->resize(ui->verticalWidget_2->size().width(),
-                               widget->size().height());
+
+  ui->ObjectWidgetHolderWidget->resize(
+      ui->ObjectWidgetHolderWidget->size().width(), widget->size().height());
   ui->ObjectWidgetHolder->addWidget(widget);
 }
 
-void MainWindow::StartRecord()
-{
-  openGLWidget->StartScreenCapture(git_fps_);
-  QTimer::singleShot(5000, this,  &MainWindow::StopRecord);
+void MainWindow::StartRecord() {
+  openGLWidget->StartScreenCapture(gif_fps_, gif_length_);
+  QTimer::singleShot(gif_length_ * 1000, this, &MainWindow::StopRecord);
 }
 
-void MainWindow::StopRecord()
-{
-  auto data = openGLWidget->StopScreenCapture();
-  SaveGif(data, git_fps_);
+void MainWindow::StopRecord() {
+  auto gif_data = openGLWidget->StopScreenCapture();
+  image_saver_controler_.SaveGif(gif_data, gif_resolution_, gif_fps_);
+}
+
+void MainWindow::SaveScreenshot() {
+  image_saver_controler_.SaveScreenShot(openGLWidget->GetScreenShot());
 }
 
 void MainWindow::SetupEObjectTreeView() {
@@ -161,20 +170,6 @@ void MainWindow::SetupEObjectTreeView() {
   connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
   object_tree->setModel(eObjectModel);
-}
-void MainWindow::SaveGif(std::vector<QImage> gifData, unsigned FPS) {
-  QGifImage gif(QSize(640, 480));
-  qDebug()  << "Frames count:" << gifData.size();
-  qDebug()  << "Fps determined for 5 seconds:" << gifData.size()/5;
-  gif.setDefaultDelay(1000 / FPS);
-  for (auto& frame : gifData) {
-    gif.addFrame(frame);
-  }
-  QString name = qgetenv("USER");
-  if (name.isEmpty()) name = qgetenv("USERNAME");
-  QString savePath = QFileDialog::getSaveFileName(
-      this, tr("Save gif"), "/Users/" + name, "Image (*.gif)");
-  gif.save(savePath);
 }
 void MainWindow::UpdateGL() { openGLWidget->update(); }
 }  // namespace s21

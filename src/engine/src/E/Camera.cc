@@ -74,6 +74,22 @@ void Camera::ProcessFocusMode(godison::GPoint ePos) {
   m_center_pos_ = ePos;
 }
 
+void Camera::ProcessKeyPress(Qt::Key key) {
+  if (mode_ == Camera::kFree) {
+    Vector3D Buf = position_;
+    Vector3D distance;
+    Vector3D Rigth = Vector3D::Normal(orientation_, up_);
+    if (key == Qt::Key_W) distance = orientation_;
+    if (key == Qt::Key_A) distance = -Rigth * 0.1;
+    if (key == Qt::Key_S) distance = -orientation_;
+    if (key == Qt::Key_D) distance = Rigth * 0.1;
+    if (key == Qt::Key_Space) distance = up_;
+    if (key == Qt::Key_Control) distance = -up_;
+    distance *= move_speed_;
+    position_ += distance;
+  }
+}
+
 void Camera::CalcFocusPosition() {
   constexpr double MIN_DIST = 0.1;
   float distance = (position_ - focus_point_).Length();

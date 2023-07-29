@@ -35,6 +35,10 @@ void Engine::SetupDefaultCameras() {
   eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
 
   Camera* second_camera = new Camera();
+  second_camera->SetPosition({2, 0, 0});
+  second_camera->SetViewMode(Camera::ViewMode::kOrthographic);
+  second_camera->SetBox(Camera::ParallelBox(2, 2, -2, -2));
+  second_camera->SetZRange({-100, 100});
   cameras_.push_back(second_camera);
   engine_objects_.push_back(second_camera);
   eObjectModel_.AddItem(second_camera, nullptr, "Second camera");

@@ -1,7 +1,8 @@
 #include "OGLWidget.h"
-#include <QOpenGLFramebufferObjectFormat>
+
 #include <QFileInfo>
 #include <QMouseEvent>
+#include <QOpenGLFramebufferObjectFormat>
 #include <QThread>
 #include <QTimer>
 namespace s21 {
@@ -38,6 +39,7 @@ void OGLWidget::wheelEvent(QWheelEvent *e) {
 void OGLWidget::initializeGL() {
   setAutoFillBackground(false);
   initializeOpenGLFunctions();
+  connect(&capture_timer_, &QTimer::timeout, this, &OGLWidget::CaptureBuffer);
   makeCurrent();
   QSize winSize = this->size();
   CalcSizes(winSize.width(), winSize.height());
@@ -65,38 +67,36 @@ void OGLWidget::CalcSizes(int w, int h) {
   vh = h;
   if (camera_spacer_) camera_spacer_->SetVh(vh);
   if (camera_spacer_) camera_spacer_->SetVw(vw);
-  ratio = vw / vh;
 }
 void OGLWidget::CaptureBuffer() {
-
-  QImage frame = grabFramebuffer().scaled(gifResolution);
-  captureBuffer.push_back(frame);
+  makeCurrent();
+  if (fps_count_ < gif_fps_ * gif_length_) {
+    this->context()->functions()->glFinish();
+    capture_buffer_.push_back(grabFramebuffer().scaled(gif_resolution_));
+    fps_count_++;
+    update();
+  } else {
+    capture_timer_.stop();
+  }
+  doneCurrent();
 }
 
-void OGLWidget::StartScreenCapture(int FPS) {
-  captureBuffer.clear();
-  fps_count = 0;
-  QOpenGLFramebufferObjectFormat format;
-  format.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
-  format.setSamples(4); // Increase if necessary
-  QOpenGLFramebufferObject fbo(size(), format);
-  connect(&captureTimer, &QTimer::timeout, [&]() {
-    makeCurrent();
-    if (fps_count <= FPS * 5){
-      this->context()->functions()->glFinish();
-      captureBuffer.push_back(grabFramebuffer().scaled(gifResolution));
-      fps_count++;
-      qDebug() << "fps counter" << fps_count;
-      update();
-    } else {
-      captureTimer.stop();
-    }
-  });
-  captureTimer.start(1000 / FPS);
+void OGLWidget::StartScreenCapture(unsigned FPS, unsigned length) {
+  capture_buffer_.clear();
+  fps_count_ = 0;
+  gif_fps_ = FPS;
+  gif_length_ = length;
+  capture_timer_.start(1000 / gif_fps_);
+}
+
+QImage OGLWidget::GetScreenShot() {
+  makeCurrent();
+  this->context()->functions()->glFinish();
+  return grabFramebuffer();
 }
 std::vector<QImage> OGLWidget::StopScreenCapture() {
-  captureTimer.stop();
-  return captureBuffer;
+  capture_timer_.stop();
+  return capture_buffer_;
 }
 
 void OGLWidget::SetCameraSpacer(CameraSpacer *spacer) {

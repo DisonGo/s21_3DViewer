@@ -3,23 +3,7 @@ using godison::vectors::Vector2D;
 using godison::vectors::Vector3D;
 namespace s21 {
 void CameraSpacer::keyPressSlot(QKeyEvent *e) {
-  int key = e->key();
-
-  if (key == Qt::Key_Shift) camera_.SetMoveSpeed(camera_.move_speed_);
-  if (camera_.mode_ == Camera::kFree) {
-    Vector3D Buf = camera_.position_;
-    Vector3D distance;
-    Vector3D Rigth = Vector3D::Normal(camera_.orientation_, camera_.up_);
-    if (key == Qt::Key_W) distance = camera_.orientation_;
-    if (key == Qt::Key_A) distance = -Rigth * 0.1;
-    if (key == Qt::Key_S) distance = -camera_.orientation_;
-    if (key == Qt::Key_D) distance = Rigth * 0.1;
-    if (key == Qt::Key_Space) distance = camera_.up_;
-    if (key == Qt::Key_Control) distance = -camera_.up_;
-    distance *= camera_.move_speed_;
-    camera_.position_ += distance;
-    if (Buf != camera_.position_) emit ConfigUpdated();
-  }
+  camera_.ProcessKeyPress((Qt::Key)e->key());
   emit ConfigUpdated();
 }
 
