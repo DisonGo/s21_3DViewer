@@ -89,7 +89,7 @@ class Camera : public EObject {
   float FOV_ = 130;
   double lineWidth_ = 1;
   double sensitivity_ = 20;
-  double zoom_factor = 1;
+  double zoom_factor_ = 1;
   bool LMBPressed_ = false;
   int vw_ = 1;
   int vh_ = 1;
