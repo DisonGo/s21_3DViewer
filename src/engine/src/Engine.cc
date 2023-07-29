@@ -105,6 +105,34 @@ void Engine::Cycle() {
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
+std::string Engine::GetObject3DFileName(size_t index)
+{
+  std::string name = "";
+  try {
+    auto object = objects_3d_.at(index);
+    if (object) name = object->GetFileName();
+  } catch (...){
+    qDebug() << "Object doesn't exist";
+    name = "";
+  }
+  return name;
+}
+
+std::pair<unsigned long, unsigned long> Engine::GetObject3DStats(size_t index)
+{
+  std::pair<unsigned long, unsigned long> stats;
+  try {
+    auto object = objects_3d_.at(index);
+    if (object) {
+      stats.first = object->CountVertices(s21::kWireframeImport);
+      stats.second = object->CountIndices(s21::kWireframeImport);
+    }
+  } catch (...){
+    qDebug() << "Object doesn't exist";
+  }
+  return stats;
+}
+
 void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
 
 void Engine::Initialize() {

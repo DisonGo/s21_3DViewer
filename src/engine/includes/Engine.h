@@ -12,6 +12,7 @@
 #include "E/Point.h"
 #include "Parsers/OBJParser.h"
 #include "Shaders/Program.h"
+
 namespace s21 {
 class Engine : protected QOpenGLFunctions {
  public:
@@ -23,6 +24,8 @@ class Engine : protected QOpenGLFunctions {
 
   EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
   Camera* GetCurrentCamera();
+  std::string GetObject3DFileName(size_t index);
+  std::pair<unsigned long, unsigned long> GetObject3DStats(size_t index);
   void SetCurrentCamera(Camera* camera);
 
  private:

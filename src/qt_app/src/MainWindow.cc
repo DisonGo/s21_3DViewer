@@ -77,6 +77,7 @@ void MainWindow::SetupView() {
           SLOT(ChooseBackColor()));
   connect(ui->record_b, SIGNAL(clicked()), this, SLOT(StartRecord()));
   connect(ui->screenshot_b, SIGNAL(clicked()), this, SLOT(SaveScreenshot()));
+  connect(&engine_spacer_, &EngineSpacer::ObjectImported, this, &MainWindow::PrintImported);
 }
 
 void MainWindow::LoadSettings() {
@@ -170,6 +171,11 @@ void MainWindow::SetupEObjectTreeView() {
   connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
   object_tree->setModel(eObjectModel);
+}
+
+void MainWindow::PrintImported(unsigned long vertices_n, unsigned long indices_n, std::string file_name)
+{
+  qDebug() << "Vertices:" << vertices_n << "Indices:" << indices_n << "File name:" << file_name.c_str();
 }
 void MainWindow::UpdateGL() { openGLWidget->update(); }
 }  // namespace s21

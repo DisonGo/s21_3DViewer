@@ -32,6 +32,7 @@ class Object3D : public EObject {
   void SetVerticesSize(double new_size);
   void SetDisplayMethod(PointDisplayType new_method);
   void SetLineDisplayType(LineDisplayType new_type);
+  void SetFileName(std::string file_name);
   Mesh& GetMesh(size_t index) { return *meshes_.at(index); };
   const std::vector<std::shared_ptr<Mesh>>& GetMeshes() { return meshes_; };
   Transform& GetTrasform() { return transform_; };
@@ -41,8 +42,13 @@ class Object3D : public EObject {
   double GetEdgesThickness() { return edges_thickness_; };
   QColor GetVerticesColor() { return vertices_color_; };
   double GetVerticesSize() { return vertices_size_; };
+  std::string GetFileName() { return file_name_;};
+  unsigned long CountVertices(OBJImportStrategyType buffer_type);
+  unsigned long CountIndices(OBJImportStrategyType buffer_type);
+
 
  protected:
+  std::string file_name_ = "";
   EObjectType type_ = kObject3D;
   std::vector<std::shared_ptr<Mesh>> meshes_;
   Program* program_{};

@@ -53,6 +53,7 @@ class MainWindow : public QMainWindow {
   void StopRecord();
   void SaveScreenshot();
   void SetupEObjectTreeView();
+  void PrintImported(unsigned long vertices_n, unsigned long indices_n, std::string file_name);
   void UpdateGL();
 
   void ImportFile(QString path);

@@ -7,6 +7,9 @@ void EngineSpacer::RequestRenderCycle() { engine_.Cycle(); }
 
 void EngineSpacer::ImportOBJFile(std::string file_path) {
   engine_.ImportOBJFile(file_path);
+  auto stats = engine_.GetObject3DStats(1);
+  auto name = engine_.GetObject3DFileName(1);
+  emit ObjectImported(stats.first, stats.second, name);
 }
 
 EObjectItemModel &EngineSpacer::GetEObjectItemModel() {
@@ -18,6 +21,4 @@ Camera *EngineSpacer::GetCurrentCamera() { return engine_.GetCurrentCamera(); }
 void EngineSpacer::SetCurrentCamera(Camera *camera) {
   engine_.SetCurrentCamera(camera);
 }
-
-void EngineSpacer::GetObjectStats() {}
 }  // namespace s21

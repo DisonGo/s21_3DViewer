@@ -1,4 +1,5 @@
 #include "E/Object3DFactory.h"
+#include "QFileInfo"
 #define MAP_CONTAINS(map, val) (map.find(val) != map.end())
 namespace s21 {
 void Object3DFactory::SetParser(BaseParser *parser) {
@@ -31,9 +32,11 @@ Object3D Object3DFactory::GetObject(const char *file_path) {
   auto object = Object3D();
   if (!parser_) return object;
   auto parser_type = parser_->GetType();
+  std::string file_name = QFileInfo(file_path).fileName().toStdString();
   if (parser_type == kOBJParser) {
     try {
       auto datas = static_cast<OBJParser *>(parser_)->Parse(file_path);
+      object.SetFileName(file_name);
       for (const auto &data : datas)
         for (const auto &[type, importer] : importers_)
           if (importer.on) object.UploadMesh(data, importer.importer_ptr);

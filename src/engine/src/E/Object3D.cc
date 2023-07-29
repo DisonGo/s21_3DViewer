@@ -72,5 +72,19 @@ void Object3D::SetLineDisplayType(LineDisplayType new_type) {
   line_display_type_ = new_type;
 }
 
+void Object3D::SetFileName(std::string file_name) { file_name_ = file_name; }
+
+unsigned long Object3D::CountVertices(OBJImportStrategyType buffer_type) {
+  unsigned long count = 0;
+  for (auto& mesh : meshes_) count += mesh->GetVertices(buffer_type);
+  return count;
+}
+
+unsigned long Object3D::CountIndices(OBJImportStrategyType buffer_type) {
+  unsigned long count = 0;
+  for (auto& mesh : meshes_) count += mesh->GetIndices(buffer_type);
+  return count;
+}
+
 void Object3D::SetProgram(Program& program) { program_ = &program; }
 }  // namespace s21

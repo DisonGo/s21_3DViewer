@@ -24,8 +24,11 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   void Import(const OBJ& obj, OBJImportStrategy* importer);
   void SetBufferToggle(OBJImportStrategyType type, bool value);
   bool GetBufferToggle(OBJImportStrategyType type);
+  unsigned long GetVertices(OBJImportStrategyType buffer_type);
+  unsigned long GetIndices(OBJImportStrategyType buffer_type);
   const std::string& GetName() const { return name_; };
   virtual EObjectType GetType() const override { return type_; };
+
 
  protected:
   EObjectType type_ = EObjectType::kMesh;
