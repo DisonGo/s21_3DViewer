@@ -22,7 +22,7 @@ class Engine : protected QOpenGLFunctions {
   void ImportOBJFile(std::string file_path);
   void Cycle();
 
-  EObjectItemModel& GetEObjectItemModel() { return eObjectModel_; };
+  EObjectItemModel& GetEObjectItemModel() { return e_object_model_; };
   Camera* GetCurrentCamera();
   std::string GetObject3DFileName(size_t index);
   std::pair<unsigned long, unsigned long> GetObject3DStats(size_t index);
@@ -44,11 +44,11 @@ class Engine : protected QOpenGLFunctions {
   Object3D* GenerateObject(std::string file_path);
 
   bool initialized_ = false;
-  bool single_object_mode = true;
+  bool single_object_mode_ = true;
   Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
   DrawConfig& drawConfig_;
-  EObjectItemModel eObjectModel_;
+  EObjectItemModel e_object_model_;
   Object3DFactory object3d_factory_;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;

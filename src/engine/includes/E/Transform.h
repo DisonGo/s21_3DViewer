@@ -40,9 +40,9 @@ class Transform : public EObject, protected QOpenGLFunctions {
   Vector3D rotation_ = Vector3D(0, 0, 0);
   Vector3D translate_ = Vector3D(0, 0, 0);
 
-  godison::matrices::Matrix4x4 modelScale_;
-  godison::matrices::Matrix4x4 modelRot_;
-  godison::matrices::Matrix4x4 modelTranslate_;
+  godison::matrices::Matrix4x4 model_scale_;
+  godison::matrices::Matrix4x4 model_rot_;
+  godison::matrices::Matrix4x4 model_translate_;
   bool awaitingLoadInProgram_ = false;
 };
 }  // namespace s21
