@@ -19,7 +19,7 @@ class DrawConfigView : public ConfigWidget {
   void DrawConfigUpdated();
 
  private:
-  s21::DrawConfigSpacer drawConfigSpacer_;
+  s21::DrawConfigSpacer draw_config_spacer_;
   ::Ui::DrawConfigView *ui;
 };
 }  // namespace s21

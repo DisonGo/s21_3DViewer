@@ -27,7 +27,7 @@ void TransformConfigView::Setup() {
   ui->RotationTriplet->SetRange(-10000, 10000);
 }
 TransformConfigView::~TransformConfigView() {
-  if (transformSpacer_) delete transformSpacer_;
+  if (transform_spacer_) delete transform_spacer_;
   delete ui;
 }
 
@@ -38,36 +38,36 @@ void TransformConfigView::ResetValues() {
 }
 
 void TransformConfigView::SetValuesFromConfig() {
-  if (!transformSpacer_) return;
-  ui->TranslationTriplet->SetValues(transformSpacer_->GetTranslate());
-  ui->RotationTriplet->SetValues(transformSpacer_->GetRotation());
-  ui->ScaleTriplet->SetValues(transformSpacer_->GetScale());
+  if (!transform_spacer_) return;
+  ui->TranslationTriplet->SetValues(transform_spacer_->GetTranslate());
+  ui->RotationTriplet->SetValues(transform_spacer_->GetRotation());
+  ui->ScaleTriplet->SetValues(transform_spacer_->GetScale());
 }
 
 void TransformConfigView::SetTranformSpacer(
     s21::TransformSpacer *transformSpacer) {
-  transformSpacer_ = transformSpacer;
-  if (!transformSpacer_) return;
-  connect(transformSpacer_, &s21::TransformSpacer::ConfigUpdated, this,
+  transform_spacer_ = transformSpacer;
+  if (!transform_spacer_) return;
+  connect(transform_spacer_, &s21::TransformSpacer::ConfigUpdated, this,
           &TransformConfigView::SetValuesFromConfig);
   SetValuesFromConfig();
 }
 
 void TransformConfigView::SetTranslation(const Vector3D translate) {
-  if (!transformSpacer_) return;
-  transformSpacer_->SetTranslate(translate);
+  if (!transform_spacer_) return;
+  transform_spacer_->SetTranslate(translate);
   emit UpdateRequest();
 }
 
 void TransformConfigView::SetRotation(const Vector3D rotation) {
-  if (!transformSpacer_) return;
-  transformSpacer_->SetRotation(rotation);
+  if (!transform_spacer_) return;
+  transform_spacer_->SetRotation(rotation);
   emit UpdateRequest();
 }
 
 void TransformConfigView::SetScale(const Vector3D scale) {
-  if (!transformSpacer_) return;
-  transformSpacer_->SetScale(scale);
+  if (!transform_spacer_) return;
+  transform_spacer_->SetScale(scale);
   emit UpdateRequest();
 }
 }  // namespace s21

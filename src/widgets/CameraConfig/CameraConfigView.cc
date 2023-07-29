@@ -16,32 +16,32 @@ CameraConfigView::CameraConfigView(s21::CameraSpacer *cameraSpacer,
 }
 
 CameraConfigView::~CameraConfigView() {
-  if (cameraSpacer_) delete cameraSpacer_;
+  if (camera_spacer_) delete camera_spacer_;
   delete ui;
 }
 
-s21::CameraSpacer *CameraConfigView::GetCameraSpacer() { return cameraSpacer_; }
+s21::CameraSpacer *CameraConfigView::GetCameraSpacer() { return camera_spacer_; }
 
 void CameraConfigView::SetCameraSpacer(s21::CameraSpacer *cameraSpacer) {
-  cameraSpacer_ = cameraSpacer;
+  camera_spacer_ = cameraSpacer;
   if (!cameraSpacer) return;
-  connect(cameraSpacer_, SIGNAL(ConfigUpdated()), this,
+  connect(camera_spacer_, SIGNAL(ConfigUpdated()), this,
           SLOT(SetValuesFromConfig()));
   SetValuesFromConfig();
 }
 
 void CameraConfigView::SetValuesFromConfig() {
-  if (!cameraSpacer_) return;
-  ui->PositionTriplet->SetValues(cameraSpacer_->GetPosition());
-  ui->OrientationTriplet->SetValues(cameraSpacer_->GetOrientation());
-  ui->FocusPointTriplet->SetValues(cameraSpacer_->GetFocusPoint());
+  if (!camera_spacer_) return;
+  ui->PositionTriplet->SetValues(camera_spacer_->GetPosition());
+  ui->OrientationTriplet->SetValues(camera_spacer_->GetOrientation());
+  ui->FocusPointTriplet->SetValues(camera_spacer_->GetFocusPoint());
 
-  auto zRange = cameraSpacer_->GetZRange();
+  auto zRange = camera_spacer_->GetZRange();
 
   ui->zRangeXV->setValue(zRange.X());
   ui->zRangeYV->setValue(zRange.Y());
 
-  switch (cameraSpacer_->GetMode()) {
+  switch (camera_spacer_->GetMode()) {
     case s21::Camera::kFree:
       ui->CameraModeFree->setChecked(true);
       break;
@@ -50,7 +50,7 @@ void CameraConfigView::SetValuesFromConfig() {
       break;
   }
 
-  switch (cameraSpacer_->GetViewMode()) {
+  switch (camera_spacer_->GetViewMode()) {
     case s21::Camera::kPerspective:
       ui->ViewModePerspective->setChecked(true);
       break;
@@ -58,8 +58,8 @@ void CameraConfigView::SetValuesFromConfig() {
       ui->ViewModeParallel->setChecked(true);
       break;
   }
-  auto box = cameraSpacer_->GetBox();
-  ui->FOV_V->setValue(cameraSpacer_->GetFOV());
+  auto box = camera_spacer_->GetBox();
+  ui->FOV_V->setValue(camera_spacer_->GetFOV());
   ui->TopV->setValue(box.top_);
   ui->RightV->setValue(box.right_);
   ui->BottomV->setValue(box.bottom_);
@@ -68,90 +68,90 @@ void CameraConfigView::SetValuesFromConfig() {
 }
 
 void CameraConfigView::SetPosition(const Vector3D &position) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetPosition(position);
+  if (!camera_spacer_) return;
+  camera_spacer_->SetPosition(position);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetOrientation(const Vector3D &orientation) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetOrientation(orientation);
+  if (!camera_spacer_) return;
+  camera_spacer_->SetOrientation(orientation);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetFocusPoint(const Vector3D &focusPoint) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetFocusPoint(focusPoint);
+  if (!camera_spacer_) return;
+  camera_spacer_->SetFocusPoint(focusPoint);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetCameraMode(QAbstractButton *but) {
-  if (!cameraSpacer_) return;
-  if (but == ui->CameraModeFocus) cameraSpacer_->SetMode(s21::Camera::kFocus);
-  if (but == ui->CameraModeFree) cameraSpacer_->SetMode(s21::Camera::kFree);
+  if (!camera_spacer_) return;
+  if (but == ui->CameraModeFocus) camera_spacer_->SetMode(s21::Camera::kFocus);
+  if (but == ui->CameraModeFree) camera_spacer_->SetMode(s21::Camera::kFree);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetViewMode(QAbstractButton *but) {
-  if (!cameraSpacer_) return;
+  if (!camera_spacer_) return;
   if (but == ui->ViewModePerspective)
-    cameraSpacer_->SetViewMode(s21::Camera::kPerspective);
+    camera_spacer_->SetViewMode(s21::Camera::kPerspective);
   if (but == ui->ViewModeParallel)
-    cameraSpacer_->SetViewMode(s21::Camera::kOrthographic);
+    camera_spacer_->SetViewMode(s21::Camera::kOrthographic);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetFOV(int val) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetFOV(val);
+  if (!camera_spacer_) return;
+  camera_spacer_->SetFOV(val);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetZNear(double val) {
-  if (!cameraSpacer_) return;
-  auto zRange = cameraSpacer_->GetZRange();
+  if (!camera_spacer_) return;
+  auto zRange = camera_spacer_->GetZRange();
   zRange.SetX(val);
-  cameraSpacer_->SetZRange(zRange);
+  camera_spacer_->SetZRange(zRange);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetZFar(double val) {
-  if (!cameraSpacer_) return;
-  auto zRange = cameraSpacer_->GetZRange();
+  if (!camera_spacer_) return;
+  auto zRange = camera_spacer_->GetZRange();
   zRange.SetY(val);
-  cameraSpacer_->SetZRange(zRange);
+  camera_spacer_->SetZRange(zRange);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxLeft(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.left_ = val;
-  cameraSpacer_->SetBox(box);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxRight(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.right_ = val;
-  cameraSpacer_->SetBox(box);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxBottom(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.bottom_ = val;
-  cameraSpacer_->SetBox(box);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxTop(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.top_ = val;
-  cameraSpacer_->SetBox(box);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 

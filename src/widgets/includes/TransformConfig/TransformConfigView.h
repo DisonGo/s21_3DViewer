@@ -31,7 +31,7 @@ class TransformConfigView : public ConfigWidget {
 
  private:
   void Setup();
-  s21::TransformSpacer* transformSpacer_ = nullptr;
+  s21::TransformSpacer* transform_spacer_ = nullptr;
   ::Ui::TransformConfigView* ui;
 };
 }  // namespace s21

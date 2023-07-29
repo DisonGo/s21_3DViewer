@@ -54,7 +54,7 @@ void MainWindow::Setup() {
 
 void MainWindow::SetupView() {
   splitter_ = new QSplitter(this);
-  openGLWidget = new OGLWidget(engine_spacer_, splitter_);
+  open_gl_widget_ = new OGLWidget(engine_spacer_, splitter_);
 
   object_tree_ = new QTreeView(splitter_);
   object_tree_->setMinimumWidth(200);
@@ -63,18 +63,18 @@ void MainWindow::SetupView() {
   object_tree_->header()->setFixedHeight(30);
 
   splitter_->addWidget(object_tree_);
-  splitter_->addWidget(openGLWidget);
+  splitter_->addWidget(open_gl_widget_);
   splitter_->resize(1280, 720);
 
   splitter_->setFocusPolicy(Qt::NoFocus);
-  openGLWidget->setFocusPolicy(Qt::StrongFocus);
+  open_gl_widget_->setFocusPolicy(Qt::StrongFocus);
   ui->mainBackLayout->addWidget(splitter_);
   splitter_->show();
   ui->object_stats_l_wid->move(object_tree_->width() + 7,
                                ui->object_stats_l_wid->y());
   connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this,
           SLOT(ImportFile(QString)));
-  connect(openGLWidget, SIGNAL(Initialized()), this,
+  connect(open_gl_widget_, SIGNAL(Initialized()), this,
           SLOT(SetupEObjectTreeView()));
   connect(ui->background_color_b, SIGNAL(clicked()), this,
           SLOT(ChooseBackColor()));
@@ -120,12 +120,12 @@ void MainWindow::ImportFile(QString path) {
     errorMessage->exec();
     return;
   }
-  openGLWidget->makeCurrent();
+  open_gl_widget_->makeCurrent();
   engine_spacer_.ImportOBJFile(path.toStdString());
   clearLayout(ui->ObjectWidgetHolder);
   ui->ObjectWidgetHolderWidget->resize(
       ui->ObjectWidgetHolderWidget->size().width(), 0);
-  openGLWidget->SetCameraSpacer(nullptr);
+  open_gl_widget_->SetCameraSpacer(nullptr);
   UpdateGL();
 }
 
@@ -144,7 +144,7 @@ void MainWindow::ShowObjectWidget(EObject* object) {
   if (!widget) return;
   if (object->GetType() == kCamera)
     cam_spacer = static_cast<CameraConfigView*>(widget)->GetCameraSpacer();
-  openGLWidget->SetCameraSpacer(cam_spacer);
+  open_gl_widget_->SetCameraSpacer(cam_spacer);
 
   connect(widget, SIGNAL(UpdateRequest()), this, SLOT(UpdateGL()));
 
@@ -154,17 +154,17 @@ void MainWindow::ShowObjectWidget(EObject* object) {
 }
 
 void MainWindow::StartRecord() {
-  openGLWidget->StartScreenCapture(gif_fps_, gif_length_);
+  open_gl_widget_->StartScreenCapture(gif_fps_, gif_length_);
   QTimer::singleShot(gif_length_ * 1000, this, &MainWindow::StopRecord);
 }
 
 void MainWindow::StopRecord() {
-  auto gif_data = openGLWidget->StopScreenCapture();
+  auto gif_data = open_gl_widget_->StopScreenCapture();
   image_saver_controler_.SaveGif(gif_data, gif_resolution_, gif_fps_);
 }
 
 void MainWindow::SaveScreenshot() {
-  image_saver_controler_.SaveScreenShot(openGLWidget->GetScreenShot());
+  image_saver_controler_.SaveScreenShot(open_gl_widget_->GetScreenShot());
 }
 
 void MainWindow::SetupEObjectTreeView() {
@@ -185,5 +185,5 @@ void MainWindow::PrintImported(unsigned long vertices_n,
       QString("File name: %1").arg(file_name.c_str()));
 }
 
-void MainWindow::UpdateGL() { openGLWidget->update(); }
+void MainWindow::UpdateGL() { open_gl_widget_->update(); }
 }  // namespace s21

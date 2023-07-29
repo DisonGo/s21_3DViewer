@@ -48,8 +48,8 @@ class OGLWidget : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   CameraSpacer *camera_spacer_ = nullptr;
   EngineSpacer &engine_spacer_;
 
-  bool LMB_pressed = false;
-  int vw = 0, vh = 0;
+  bool LMB_pressed_ = false;
+  int vw_ = 0, vh_ = 0;
 };
 
 }  // namespace s21

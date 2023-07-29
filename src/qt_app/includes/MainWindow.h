@@ -38,7 +38,7 @@ class MainWindow : public QMainWindow {
   QSplitter* splitter_ = nullptr;
   QTreeView* object_tree_ = nullptr;
   ::Ui::MainWindow* ui;
-  OGLWidget* openGLWidget = nullptr;
+  OGLWidget* open_gl_widget_ = nullptr;
   EngineSpacer& engine_spacer_;
   DrawConfigSpacer& draw_config_spacer_;
   ImageSaverControler& image_saver_controler_;

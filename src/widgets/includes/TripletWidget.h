@@ -37,7 +37,7 @@ class TripletWidget : public QWidget {
   void ReadInput(double val);
 
  private:
-  Vector3D values = Vector3D(0, 0, 0);
+  Vector3D values_ = Vector3D(0, 0, 0);
   ::Ui::TripletWidget* ui;
 };
 }  // namespace s21

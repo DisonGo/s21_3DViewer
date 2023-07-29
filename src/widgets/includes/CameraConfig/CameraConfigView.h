@@ -38,7 +38,7 @@ class CameraConfigView : public ConfigWidget {
 
  private:
   void SetupConnects();
-  s21::CameraSpacer* cameraSpacer_{};
+  s21::CameraSpacer* camera_spacer_{};
   ::Ui::CameraConfigView* ui;
 };
 }  // namespace s21

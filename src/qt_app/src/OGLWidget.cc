@@ -8,20 +8,20 @@
 namespace s21 {
 void OGLWidget::mousePressEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
-    LMB_pressed = true;
+    LMB_pressed_ = true;
     if (!camera_spacer_) return;
     camera_spacer_->mousePressSlot(e);
   }
 }
 
 void OGLWidget::mouseMoveEvent(QMouseEvent *e) {
-  if (!LMB_pressed || !camera_spacer_) return;
+  if (!LMB_pressed_ || !camera_spacer_) return;
   camera_spacer_->mouseMoveSlot(e);
 }
 
 void OGLWidget::mouseReleaseEvent(QMouseEvent *e) {
   if (e->button() == Qt::LeftButton) {
-    LMB_pressed = false;
+    LMB_pressed_ = false;
     if (camera_spacer_) camera_spacer_->mouseReleaseSlot(e);
   }
 }
@@ -46,8 +46,8 @@ void OGLWidget::initializeGL() {
   engine_spacer_.InitializeEngine();
   auto cam = engine_spacer_.GetCurrentCamera();
   if (cam) {
-    cam->SetVh(vh);
-    cam->SetVw(vw);
+    cam->SetVh(vh_);
+    cam->SetVw(vw_);
   }
   emit Initialized();
 }
@@ -63,10 +63,10 @@ void OGLWidget::paintGL() {
   doneCurrent();
 }
 void OGLWidget::CalcSizes(int w, int h) {
-  vw = w;
-  vh = h;
-  if (camera_spacer_) camera_spacer_->SetVh(vh);
-  if (camera_spacer_) camera_spacer_->SetVw(vw);
+  vw_ = w;
+  vh_ = h;
+  if (camera_spacer_) camera_spacer_->SetVh(vh_);
+  if (camera_spacer_) camera_spacer_->SetVw(vw_);
 }
 void OGLWidget::CaptureBuffer() {
   makeCurrent();
@@ -103,8 +103,8 @@ void OGLWidget::SetCameraSpacer(CameraSpacer *spacer) {
   camera_spacer_ = spacer;
   if (!camera_spacer_) return;
   engine_spacer_.SetCurrentCamera(camera_spacer_->GetCamera());
-  camera_spacer_->SetVh(vh);
-  camera_spacer_->SetVw(vw);
+  camera_spacer_->SetVh(vh_);
+  camera_spacer_->SetVw(vw_);
   update();
 }
 OGLWidget::~OGLWidget() {}
