@@ -10,29 +10,31 @@ class VAO : public GLArray {
  public:
   using GLArray::GLArray;
   VAO(const VAO& other) {
-    ID_ = other.ID_;
-    indicesN_ = other.indicesN_;
+    *this = other;
   };
   VAO(VAO&& other) {
-    ID_ = other.ID_;
-    indicesN_ = other.indicesN_;
-    other.ID_ = 0;
+    *this = other;
   };
   const VAO& operator=(VAO&& other) {
-    ID_ = other.ID_;
+    if (this == &other) return *this;
     indicesN_ = other.indicesN_;
+    verticesN_ = other.verticesN_;
+    draw_arrays_ = other.draw_arrays_;
+    ID_ = other.ID_;
     other.ID_ = 0;
     return *this;
   };
   const VAO& operator=(const VAO& other) {
-    ID_ = other.ID_;
-    indicesN_ = other.indicesN_;
+    if (this == &other) return *this;
+    CopyVao(other);
     return *this;
   };
+  void CopyVao(const VAO& other);
   void LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
                   GLsizeiptr stride, void* offset);
   void Draw(GLenum type);
-
+  void BindVBO(VBO& VBO);
+  void BindEBO(EBO& EBO);
   void SetIndicesN(size_t new_indicesN) { indicesN_ = new_indicesN; };
   void SetVerticesN(size_t new_verticesN) { verticesN_ = new_verticesN; };
   void SetDrawArrays(bool new_draw_arrays_) {
@@ -43,6 +45,9 @@ class VAO : public GLArray {
   size_t GetDrawArrays() { return draw_arrays_; };
 
  private:
+
+  VBO binded_vbo_;
+  EBO binded_ebo_;
   bool draw_arrays_ = false;
   size_t indicesN_;
   size_t verticesN_;

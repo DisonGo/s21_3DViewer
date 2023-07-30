@@ -5,6 +5,8 @@
 namespace s21 {
 void Object3DFactory::SetParser(BaseParser *parser) {
   if (parser_) delete parser_;
+  for (auto &[type, importer] : importers_)
+    if (importer.importer_ptr) delete importer.importer_ptr;
   parser_ = parser;
 }
 
@@ -46,6 +48,44 @@ Object3D Object3DFactory::GetObject(const char *file_path) {
     }
   }
   return object;
+}
+
+Object3DFactory& Object3DFactory::operator=(Object3DFactory&& other)
+{
+  if (this == &other) return *this;
+  if (parser_) delete parser_;
+  parser_ = nullptr;
+  for (auto &[type, importer] : importers_) {
+     if (importer.importer_ptr) delete importer.importer_ptr;
+     importer.importer_ptr = nullptr;
+  }
+  std::swap(parser_, other.parser_);
+  std::swap(importers_, other.importers_);
+  return *this;
+}
+Object3DFactory& Object3DFactory::operator=(const Object3DFactory& other)
+{
+  if (this == &other) return *this;
+
+  if (parser_) delete parser_;
+  if (other.parser_)
+    parser_ = other.parser_->GetType() == s21::kOBJParser ? new OBJParser(*static_cast<OBJParser*>(other.parser_)) : nullptr;
+  else
+    parser_ = other.parser_;
+  for (auto &[type, importer] : other.importers_) {
+    if (!importer.importer_ptr) continue;
+    OBJImportStrategy* imp_ptr = nullptr;
+    if (type == s21::kStandartImport)
+      imp_ptr = new OBJImportStandartStrategy(*static_cast<OBJImportStandartStrategy*>(importer.importer_ptr));
+    else if (type == s21::kWireframeImport)
+      imp_ptr = new OBJImportWireframeStrategy(*static_cast<OBJImportWireframeStrategy*>(importer.importer_ptr));
+    else if (type == s21::kTriangleImport)
+      imp_ptr = new OBJImportTriangleStrategy(*static_cast<OBJImportTriangleStrategy*>(importer.importer_ptr));
+    else if (type == s21::kVertexOnlyImport)
+      imp_ptr = new OBJImportVertexOnlyStrategy(*static_cast<OBJImportVertexOnlyStrategy*>(importer.importer_ptr));
+    importers_.insert({type, {imp_ptr, importer.on}});
+  }
+  return *this;
 }
 
 }  // namespace s21

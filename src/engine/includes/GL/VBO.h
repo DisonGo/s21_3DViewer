@@ -4,16 +4,14 @@
 #include "Types/VertexData.h"
 namespace s21 {
 class VBO : public GLBuffer {
+ friend class VAO;
  public:
+  using GLBuffer::GLBuffer;
   VBO(std::vector<VertexData> vertices);
   void BindVertices(std::vector<VertexData> vertices);
-  GLenum GetType() override { return type; };
+  GLenum GetType() const override { return type; };
   GLenum type = GL_ARRAY_BUFFER;
   size_t GetSize() { return size_; };
-
- private:
-  size_t size_;
-  size_t allocated_;
 };
 }  // namespace s21
 #endif  // VBO_H

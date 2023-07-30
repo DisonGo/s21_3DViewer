@@ -6,7 +6,7 @@
 #endif
 
 #include <QFile>
-#include <QOpenGLFunctions>
+#include <QOpenGLExtraFunctions>
 
 #include "QDebug"
 
@@ -14,7 +14,7 @@ namespace s21 {
 namespace utils {
 std::string GetFileContent(const std::string& filePath);
 }
-class Shader : protected QOpenGLFunctions {
+class Shader : protected QOpenGLExtraFunctions {
  public:
   void LinkToProgram(GLuint programID);
   void Delete() {

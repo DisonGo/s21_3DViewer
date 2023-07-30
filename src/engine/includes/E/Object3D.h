@@ -18,11 +18,20 @@ enum LineDisplayType { kSolid = 0, kDashed };
 class Object3D : public EObject {
  public:
   Object3D() = default;
+  Object3D(const Object3D& other) {
+    *this = other;
+  }
+  Object3D(Object3D&& other) {
+    *this = other;
+  }
+  ~Object3D() {
+    if (delete_program_ && program_) delete program_;
+  }
+  Object3D& operator=(const Object3D& other);
+  Object3D& operator=(Object3D&& other);
   virtual EObjectType GetType() const override { return type_; };
   virtual void Draw(GLenum type, Camera* camera);
-
   void UploadMesh(const OBJ& obj, OBJImportStrategy* importer);
-
   void SetMesh(const Mesh& mesh);
   void SetProgram(Program& program);
   void SetTransform(const Transform& transform);
@@ -47,6 +56,7 @@ class Object3D : public EObject {
   unsigned long CountIndices(OBJImportStrategyType buffer_type);
 
  protected:
+  bool delete_program_ = false;
   std::string file_name_ = "";
   EObjectType type_ = kObject3D;
   std::vector<std::shared_ptr<Mesh>> meshes_;

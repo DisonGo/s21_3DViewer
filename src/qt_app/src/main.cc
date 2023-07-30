@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   s21::DrawConfigSpacer config_spacer(config);
 
   s21::Engine engine(config);
-  s21::EngineSpacer engine_spacer(engine);
+  s21::EngineSpacer engine_spacer(engine2);
 
   s21::MainWindow w(engine_spacer, config_spacer, saver_controler);
 

@@ -16,7 +16,18 @@
 namespace s21 {
 class Engine : protected QOpenGLFunctions {
  public:
+  Engine() = delete;
   Engine(DrawConfig& config);
+  Engine(const Engine& other) : draw_config_(other.draw_config_) {
+    *this = other;
+  }
+
+  Engine(Engine&& other) : draw_config_(other.draw_config_) {
+    *this = other;
+  }
+
+  Engine& operator=(const Engine& other);
+  Engine& operator=(Engine&& other);
   ~Engine();
   void Initialize();
   void ImportOBJFile(std::string file_path);
@@ -30,8 +41,6 @@ class Engine : protected QOpenGLFunctions {
 
  private:
   // TODO Add realization of move/copy constructors
-  Engine(const Engine& old);                   // disallow copy constructor
-  const Engine& operator=(const Engine& old);  // disallow assignment operator
 
   void Wipe3DObjects();
   void SetupFocusPoint();
@@ -48,7 +57,7 @@ class Engine : protected QOpenGLFunctions {
   Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
   DrawConfig& draw_config_;
-  EObjectItemModel e_object_model_;
+  EObjectItemModel e_object_model_; // TODO copy/move
   Object3DFactory object3d_factory_;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;

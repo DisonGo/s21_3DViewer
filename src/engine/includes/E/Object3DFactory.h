@@ -19,9 +19,18 @@ class Object3DFactory {
 
  public:
   Object3DFactory() = default;
+  Object3DFactory(const Object3DFactory& other) {
+    *this = other;
+  }
+
+  Object3DFactory(Object3DFactory&& other) {
+    *this = other;
+  }
+
+  Object3DFactory& operator=(const Object3DFactory& other);
+  Object3DFactory& operator=(Object3DFactory&& other);
   ~Object3DFactory() {
     if (parser_) delete parser_;
-    if (importer_) delete importer_;
   };
   Object3D GetObject(const char* file_path);
   void SetParser(BaseParser* parser);
@@ -31,7 +40,6 @@ class Object3DFactory {
 
  private:
   BaseParser* parser_ = nullptr;
-  OBJImportStrategy* importer_ = nullptr;
   std::map<OBJImportStrategyType, ImporterBundle> importers_;
 };
 }  // namespace s21

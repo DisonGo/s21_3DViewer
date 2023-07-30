@@ -17,8 +17,8 @@ namespace s21 {
 Engine::Engine(DrawConfig& config) : draw_config_(config) {}
 
 Engine::~Engine() {
-  for (auto obj : engine_objects_) delete obj;
-  for (auto program : programs_) delete program;
+  for (auto obj : engine_objects_) if (obj) delete obj;
+  for (auto program : programs_) if (program) delete program;
 }
 
 void Engine::SetupFocusPoint() {
@@ -132,6 +132,63 @@ std::pair<unsigned long, unsigned long> Engine::GetObject3DStats(size_t index) {
 }
 
 void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
+
+Engine &Engine::operator=(const Engine &other)
+{
+  if (this == &other) return *this;
+  for (auto& obj : other.cameras_)
+    if (obj) {
+      if (obj == other.current_camera_) {
+        auto camera = new Camera(*obj);
+        current_camera_ = camera;
+        cameras_.push_back(camera);
+      } else {
+        cameras_.push_back(new Camera(*obj));
+      }
+    }
+  for (auto& obj : other.objects_3d_)
+    if (obj) {
+      if (obj == other.focus_point_) {
+        auto point = new Point(*static_cast<Point*>(obj));
+        focus_point_ = point;
+        objects_3d_.push_back(point);
+      } else {
+        objects_3d_.push_back(new Object3D(*obj));
+      }
+    }
+  for (auto& obj : other.programs_)
+    if (obj) programs_.push_back(new Program(*obj));
+
+  for (auto& obj : cameras_)
+     engine_objects_.push_back(obj);
+  for (auto& obj : objects_3d_)
+     engine_objects_.push_back(obj);
+  draw_config_ = other.draw_config_;
+  object3d_factory_ = std::move(other.object3d_factory_);
+  return *this;
+}
+Engine &Engine::operator=(Engine &&other)
+{
+  if (this == &other) return *this;
+  initialized_ = other.initialized_;
+  if (initialized_) initializeOpenGLFunctions();
+  focus_point_ = nullptr;
+  current_camera_ = nullptr;
+  for (auto& obj : engine_objects_) if (obj) delete obj;
+  for (auto program : programs_) if (program) delete program;
+  engine_objects_.clear();
+  cameras_.clear();
+  objects_3d_.clear();
+  programs_.clear();
+  draw_config_ = other.draw_config_;
+  std::swap(focus_point_, other.focus_point_);
+  std::swap(current_camera_, other.current_camera_);
+  std::swap(programs_, other.programs_);
+  std::swap(objects_3d_, other.objects_3d_);
+  std::swap(cameras_, other.cameras_);
+  std::swap(engine_objects_, other.engine_objects_);
+  return *this;
+}
 
 void Engine::Initialize() {
   if (initialized_) return;

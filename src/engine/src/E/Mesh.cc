@@ -6,6 +6,28 @@
 namespace s21 {
 Mesh::Mesh() { initializeOpenGLFunctions(); }
 
+Mesh &Mesh::operator=(const Mesh &other)
+{
+  if (this == &other) return *this;
+  name_ = other.name_;
+  buffer_toggle_ = other.buffer_toggle_;
+  for (auto & [key, vao] : other.VAO_map_) {
+    VAO* copy_vao = vao ? new VAO(*vao) : nullptr;
+    VAO_map_.insert({key, copy_vao});
+  }
+  return *this;
+}
+Mesh &Mesh::operator=(Mesh &&other)
+{
+  if (this == &other) return *this;
+  name_ = other.name_;
+  buffer_toggle_ = other.buffer_toggle_;
+  VAO_map_ = other.VAO_map_;
+  for (auto & [key, vao] : other.VAO_map_)
+    vao = nullptr;
+  return *this;
+}
+
 Mesh::Mesh(const s21::OBJ& obj, OBJImportStrategy* importer) : Mesh() {
   auto imp = !importer ? new s21::OBJImportWireframeStrategy : importer;
   Import(obj, imp);
@@ -13,10 +35,8 @@ Mesh::Mesh(const s21::OBJ& obj, OBJImportStrategy* importer) : Mesh() {
 }
 
 Mesh::~Mesh() {
-  //  qDebug() << "Destroying mesh:";
   for (auto const& [key, vao] : VAO_map_) {
     if (!vao) continue;
-    //    qDebug() << "Vertex Array: " << vao->ID_ << " destroyed";
     delete vao;
   }
 }

@@ -13,12 +13,21 @@ namespace s21 {
 class Program : protected QOpenGLFunctions {
  public:
   Program();
+  Program(const Program& other) {
+    *this = other;
+  }
+
+  Program(Program&& other) {
+    *this = other;
+  }
+
   Program(const std::string& vertexFile, const std::string& fragmentFile);
   void Activate();
   void Delete();
   int GetUniform(const std::string& name);
   static Program* Default();
-  Program& operator=(Program&&);
+  Program& operator=(const Program& other);
+  Program& operator=(Program&& other);
   // GL Functions
   void Uniform1i(const char* name, int a);
   void Uniform1f(const char* name, float a);
@@ -29,6 +38,7 @@ class Program : protected QOpenGLFunctions {
 
  private:
   GLuint ID_ = 0;
+  void CopyProgram(const Program& other);
   void SetProgram(const std::string& vertexFile,
                   const std::string& fragmentFile);
   bool LinkSuccessful();
