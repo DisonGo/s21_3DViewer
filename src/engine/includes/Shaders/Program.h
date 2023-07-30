@@ -13,13 +13,9 @@ namespace s21 {
 class Program : protected QOpenGLFunctions {
  public:
   Program();
-  Program(const Program& other) {
-    *this = other;
-  }
+  Program(const Program& other) { *this = other; }
 
-  Program(Program&& other) {
-    *this = other;
-  }
+  Program(Program&& other) { *this = other; }
 
   Program(const std::string& vertexFile, const std::string& fragmentFile);
   void Activate();

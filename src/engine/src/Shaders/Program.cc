@@ -69,14 +69,14 @@ void Program::UniformMatrix4fv(const char* name, int count, bool normalize,
   glUniformMatrix4fv(GetUniform(name), count, normalize, data);
 }
 
-void Program::CopyProgram(const Program &other)
-{
+void Program::CopyProgram(const Program& other) {
   GLsizei binarySize;
   glGetProgramiv(other.ID_, GL_PROGRAM_BINARY_LENGTH, &binarySize);
   std::vector<GLubyte> binaryData(binarySize);
   GLsizei length;
   GLenum format;
-  glGetProgramBinary(other.ID_, binarySize, &length, &format, binaryData.data());
+  glGetProgramBinary(other.ID_, binarySize, &length, &format,
+                     binaryData.data());
   glProgramBinary(ID_, format, binaryData.data(), length);
 }
 

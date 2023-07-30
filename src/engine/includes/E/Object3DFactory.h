@@ -19,13 +19,9 @@ class Object3DFactory {
 
  public:
   Object3DFactory() = default;
-  Object3DFactory(const Object3DFactory& other) {
-    *this = other;
-  }
+  Object3DFactory(const Object3DFactory& other) { *this = other; }
 
-  Object3DFactory(Object3DFactory&& other) {
-    *this = other;
-  }
+  Object3DFactory(Object3DFactory&& other) { *this = other; }
 
   Object3DFactory& operator=(const Object3DFactory& other);
   Object3DFactory& operator=(Object3DFactory&& other);

@@ -22,9 +22,7 @@ class Engine : protected QOpenGLFunctions {
     *this = other;
   }
 
-  Engine(Engine&& other) : draw_config_(other.draw_config_) {
-    *this = other;
-  }
+  Engine(Engine&& other) : draw_config_(other.draw_config_) { *this = other; }
 
   Engine& operator=(const Engine& other);
   Engine& operator=(Engine&& other);
@@ -57,7 +55,7 @@ class Engine : protected QOpenGLFunctions {
   Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
   DrawConfig& draw_config_;
-  EObjectItemModel e_object_model_; // TODO copy/move
+  EObjectItemModel e_object_model_;  // TODO copy/move
   Object3DFactory object3d_factory_;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;

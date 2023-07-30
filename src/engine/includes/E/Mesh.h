@@ -18,13 +18,9 @@ namespace s21 {
 class Mesh : public EObject, protected QOpenGLFunctions {
  public:
   Mesh();
-  Mesh(const Mesh& other) {
-    *this = other;
-  }
+  Mesh(const Mesh& other) { *this = other; }
 
-  Mesh(Mesh&& other) {
-    *this = other;
-  }
+  Mesh(Mesh&& other) { *this = other; }
 
   Mesh& operator=(const Mesh& other);
   Mesh& operator=(Mesh&& other);

@@ -18,12 +18,8 @@ enum LineDisplayType { kSolid = 0, kDashed };
 class Object3D : public EObject {
  public:
   Object3D() = default;
-  Object3D(const Object3D& other) {
-    *this = other;
-  }
-  Object3D(Object3D&& other) {
-    *this = other;
-  }
+  Object3D(const Object3D& other) { *this = other; }
+  Object3D(Object3D&& other) { *this = other; }
   ~Object3D() {
     if (delete_program_ && program_) delete program_;
   }

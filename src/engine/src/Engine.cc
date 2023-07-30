@@ -17,8 +17,10 @@ namespace s21 {
 Engine::Engine(DrawConfig& config) : draw_config_(config) {}
 
 Engine::~Engine() {
-  for (auto obj : engine_objects_) if (obj) delete obj;
-  for (auto program : programs_) if (program) delete program;
+  for (auto obj : engine_objects_)
+    if (obj) delete obj;
+  for (auto program : programs_)
+    if (program) delete program;
 }
 
 void Engine::SetupFocusPoint() {
@@ -89,7 +91,8 @@ void Engine::ImportOBJFile(std::string file_path) {
   QFileInfo fileInfo(file_path.c_str());
   if (single_object_mode_) Wipe3DObjects();
   DefaultObject3DImport(object_3d);
-  e_object_model_.AddItem(object_3d, nullptr, fileInfo.baseName().toStdString());
+  e_object_model_.AddItem(object_3d, nullptr,
+                          fileInfo.baseName().toStdString());
 }
 
 void Engine::Cycle() {
@@ -133,8 +136,7 @@ std::pair<unsigned long, unsigned long> Engine::GetObject3DStats(size_t index) {
 
 void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
 
-Engine &Engine::operator=(const Engine &other)
-{
+Engine& Engine::operator=(const Engine& other) {
   if (this == &other) return *this;
   for (auto& obj : other.cameras_)
     if (obj) {
@@ -159,23 +161,22 @@ Engine &Engine::operator=(const Engine &other)
   for (auto& obj : other.programs_)
     if (obj) programs_.push_back(new Program(*obj));
 
-  for (auto& obj : cameras_)
-     engine_objects_.push_back(obj);
-  for (auto& obj : objects_3d_)
-     engine_objects_.push_back(obj);
+  for (auto& obj : cameras_) engine_objects_.push_back(obj);
+  for (auto& obj : objects_3d_) engine_objects_.push_back(obj);
   draw_config_ = other.draw_config_;
   object3d_factory_ = std::move(other.object3d_factory_);
   return *this;
 }
-Engine &Engine::operator=(Engine &&other)
-{
+Engine& Engine::operator=(Engine&& other) {
   if (this == &other) return *this;
   initialized_ = other.initialized_;
   if (initialized_) initializeOpenGLFunctions();
   focus_point_ = nullptr;
   current_camera_ = nullptr;
-  for (auto& obj : engine_objects_) if (obj) delete obj;
-  for (auto program : programs_) if (program) delete program;
+  for (auto& obj : engine_objects_)
+    if (obj) delete obj;
+  for (auto program : programs_)
+    if (program) delete program;
   engine_objects_.clear();
   cameras_.clear();
   objects_3d_.clear();

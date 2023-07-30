@@ -9,12 +9,8 @@ namespace s21 {
 class VAO : public GLArray {
  public:
   using GLArray::GLArray;
-  VAO(const VAO& other) {
-    *this = other;
-  };
-  VAO(VAO&& other) {
-    *this = other;
-  };
+  VAO(const VAO& other) { *this = other; };
+  VAO(VAO&& other) { *this = other; };
   const VAO& operator=(VAO&& other) {
     if (this == &other) return *this;
     indicesN_ = other.indicesN_;
@@ -45,7 +41,6 @@ class VAO : public GLArray {
   size_t GetDrawArrays() { return draw_arrays_; };
 
  private:
-
   VBO binded_vbo_;
   EBO binded_ebo_;
   bool draw_arrays_ = false;

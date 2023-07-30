@@ -4,7 +4,8 @@
 #include "Types/VertexData.h"
 namespace s21 {
 class VBO : public GLBuffer {
- friend class VAO;
+  friend class VAO;
+
  public:
   using GLBuffer::GLBuffer;
   VBO(std::vector<VertexData> vertices);

@@ -1,7 +1,6 @@
 #include "GL/VAO.h"
 namespace s21 {
-void VAO::CopyVao(const VAO &other)
-{
+void VAO::CopyVao(const VAO &other) {
   indicesN_ = other.indicesN_;
   verticesN_ = other.verticesN_;
   draw_arrays_ = other.draw_arrays_;
@@ -13,8 +12,8 @@ void VAO::CopyVao(const VAO &other)
   Unbind();
 }
 
-void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint nComponents, GLenum type,
-                     GLsizeiptr stride, void* offset) {
+void VAO::LinkAttrib(VBO &VBO, GLuint layout, GLuint nComponents, GLenum type,
+                     GLsizeiptr stride, void *offset) {
   if (ID_ == 0) return;
   VBO.Bind();
   glVertexAttribPointer(layout, nComponents, type, GL_FALSE, stride, offset);
@@ -31,15 +30,13 @@ void VAO::Draw(GLenum type) {
   Unbind();
 }
 
-void VAO::BindVBO(VBO &VBO)
-{
+void VAO::BindVBO(VBO &VBO) {
   Bind();
   VBO.Bind();
   binded_vbo_ = VBO;
 }
 
-void VAO::BindEBO(EBO &EBO)
-{
+void VAO::BindEBO(EBO &EBO) {
   Bind();
   EBO.Bind();
   binded_ebo_ = EBO;

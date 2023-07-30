@@ -20,7 +20,9 @@ CameraConfigView::~CameraConfigView() {
   delete ui;
 }
 
-s21::CameraSpacer *CameraConfigView::GetCameraSpacer() { return camera_spacer_; }
+s21::CameraSpacer *CameraConfigView::GetCameraSpacer() {
+  return camera_spacer_;
+}
 
 void CameraConfigView::SetCameraSpacer(s21::CameraSpacer *cameraSpacer) {
   camera_spacer_ = cameraSpacer;

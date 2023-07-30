@@ -4,7 +4,8 @@
 #include "Types/Face.h"
 namespace s21 {
 class EBO : public GLBuffer {
- friend class VAO;
+  friend class VAO;
+
  public:
   using GLBuffer::GLBuffer;
   EBO(std::vector<Face> indices);

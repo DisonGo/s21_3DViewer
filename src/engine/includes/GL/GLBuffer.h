@@ -5,12 +5,8 @@ namespace s21 {
 class GLBuffer : public GLObject {
  public:
   GLBuffer() { glGenBuffers(1, &ID_); };
-  GLBuffer(const GLBuffer& other) {
-    *this = other;
-  }
-  GLBuffer(GLBuffer&& other) {
-    *this = other;
-  }
+  GLBuffer(const GLBuffer& other) { *this = other; }
+  GLBuffer(GLBuffer&& other) { *this = other; }
   GLBuffer& operator=(const GLBuffer& other) {
     if (this == &other) return *this;
     if (!other.allocated_) return *this;
@@ -19,7 +15,7 @@ class GLBuffer : public GLObject {
     CopyBuffer(other);
     return *this;
   }
-  GLBuffer& operator=(GLBuffer&& other){
+  GLBuffer& operator=(GLBuffer&& other) {
     if (this == &other) return *this;
     ID_ = other.ID_;
     allocated_ = other.allocated_;

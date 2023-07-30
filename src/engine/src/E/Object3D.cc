@@ -1,8 +1,7 @@
 #include "E/Object3D.h"
 
 namespace s21 {
-Object3D &Object3D::operator=(const Object3D &other)
-{
+Object3D& Object3D::operator=(const Object3D& other) {
   if (this == &other) return *this;
   file_name_ = other.file_name_;
   transform_ = other.transform_;
@@ -20,8 +19,7 @@ Object3D &Object3D::operator=(const Object3D &other)
     meshes_.push_back(std::make_shared<Mesh>(*mesh));
   return *this;
 }
-Object3D &Object3D::operator=(Object3D &&other)
-{
+Object3D& Object3D::operator=(Object3D&& other) {
   if (this == &other) return *this;
   file_name_ = other.file_name_;
   transform_ = other.transform_;
