@@ -6,12 +6,13 @@ AUX_SOURCE_DIRECTORY(./src VIEWER_SRCS)
 file(GLOB_RECURSE VIEWER_HEADERS
     includes/*.h
 )
+
 target_link_libraries(TESTING
     engine
     godison
-    gtest
-    gtest_main
+    GTest::gtest_main
     Qt${QT_VERSION_MAJOR}::Gui
 )
-enable_testing()
+include(GoogleTest)
+gtest_discover_tests(TESTING)
 add_test(NAME TestMyCode COMMAND TestMyCode)
