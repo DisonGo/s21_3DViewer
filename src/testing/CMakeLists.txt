@@ -10,7 +10,7 @@ file(GLOB_RECURSE VIEWER_HEADERS
 target_link_libraries(TESTING
     engine
     godison
-    GTest::gtest_main
+    gtest
     Qt${QT_VERSION_MAJOR}::Gui
 )
 include(GoogleTest)
