@@ -202,9 +202,9 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-  for (const auto& object : objects)
-    qDebug() << "Start:" << object.i_start << "End:" << object.i_end
-             << "Name:" << object.name.c_str();
+  // for (const auto& object : objects)
+  //   qDebug() << "Start:" << object.i_start << "End:" << object.i_end
+  //            << "Name:" << object.name.c_str();
   CenterVertices(obj.vertices, {0, 0, 0});
   NormalizeVertices(obj.vertices, 2);
   //  ElevateVerticesToGround(obj.vertices);

@@ -1,5 +1,5 @@
 PROJECT_NAME 		= 3D_Viewer
-BUILD_PATH 			= ./build
+BUILD_PATH 			= ../build
 EXE_DIR 			= /exe
 PROJECT_EXE_PATH 	= ${PROJECT_NAME}.app/Contents/MacOS
 EXE_PATH 			= ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH}/${PROJECT_NAME}
@@ -15,12 +15,13 @@ endif
 all: install open
 build:
 	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -Wno-dev -B ${BUILD_PATH} .
-	@cmake --build ${BUILD_PATH} --target 3D_Viewer --parallel 8
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
+build_3D_Viewer:
+	@cmake --build ${BUILD_PATH} --target 3D_Viewer --parallel 8
 build_debug:
 	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
-install: build
+install: build build_3D_Viewer
 
 run_t:
 	@cmake --build ./build  --target TESTING -j 8 -- -s
@@ -37,7 +38,7 @@ dvi:
 
 clean:
 	@cmake --build ${BUILD_PATH} --target clean
-test:
+test: build
 	@cmake --build ${BUILD_PATH} --target TESTING --parallel 8
 	@./${BUILD_PATH}/exe/TESTING
 gcov_report:
