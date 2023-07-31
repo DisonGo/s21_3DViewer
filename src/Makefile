@@ -39,6 +39,7 @@ clean:
 	@cmake --build ${BUILD_PATH} --target clean
 test:
 	@cmake --build ${BUILD_PATH} --target TESTING --parallel 8
+	@./${BUILD_PATH}/exe/TESTING
 gcov_report:
 	@cd transforms; make $@
 	@cd obj_parser; make $@

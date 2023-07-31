@@ -12,9 +12,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ../exe)
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
-set(CMAKE_CXX_FLAGS "-Wall -Wextra ")
+set(CURRENT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -DMYPATH=${CMAKE_SOURCE_DIR}")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+#-DMYPATH=" ${CMAKE_SOURCE_DIR}
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
