@@ -27,6 +27,10 @@ class Object3DFactory {
   Object3DFactory& operator=(Object3DFactory&& other);
   ~Object3DFactory() {
     if (parser_) delete parser_;
+    for (auto& [type, importer] : importers_) {
+      if (importer.importer_ptr) delete importer.importer_ptr;
+      importer.importer_ptr = nullptr;
+    }
   };
   Object3D GetObject(const char* file_path);
   void SetParser(BaseParser* parser);

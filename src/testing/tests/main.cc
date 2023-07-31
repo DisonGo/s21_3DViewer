@@ -1,5 +1,6 @@
-#include <iostream>
 #include <gtest/gtest.h>
+
+#include <iostream>
 
 #include "Parsers/OBJParser.h"
 
@@ -26,61 +27,31 @@ TEST(viewer_3d, parser_vertices_test) {
   std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "2.obj");
 
   static const std::vector<std::vector<float>> points = {
-    { 2, 2, 2 },
-    { 2, 2, -2 },
-    { 2, -2, 2 },
-    { 2, -2, -2},
-    { -2, 2, -2 },
-    { -2, 2, 2 },
-    { -2, -2, -2},
-    { -2, -2, 2 },
-    { -2, 2, -2 },
-    { 2, 2, -2 },
-    { -2, 2, 2  },
-    { 2, 2, 2  },
-    { -2, -2, 2 },
-    { 2, -2, 2 },
-    { -2 ,-2, -2},
-    { 2, -2, -2},
-    { -2, 2, 2  },
-    { 2, 2, 2  },
-    { -2, -2, 2 },
-    { 2, -2, 2 },
-    { 2, 2, -2 },
-    { -2, 2, -2 },
-    { 2, -2, -2},
-    { -2, -2, -2} 
-  };
+      {2, 2, 2},   {2, 2, -2},   {2, -2, 2},  {2, -2, -2}, {-2, 2, -2},
+      {-2, 2, 2},  {-2, -2, -2}, {-2, -2, 2}, {-2, 2, -2}, {2, 2, -2},
+      {-2, 2, 2},  {2, 2, 2},    {-2, -2, 2}, {2, -2, 2},  {-2, -2, -2},
+      {2, -2, -2}, {-2, 2, 2},   {2, 2, 2},   {-2, -2, 2}, {2, -2, 2},
+      {2, 2, -2},  {-2, 2, -2},  {2, -2, -2}, {-2, -2, -2}};
 
   for (size_t i = 0; i < result.back().vertices.size(); i++) {
     EXPECT_FLOAT_EQ(result.back().vertices[i].x, points[i][0]);
     EXPECT_FLOAT_EQ(result.back().vertices[i].y, points[i][1]);
     EXPECT_FLOAT_EQ(result.back().vertices[i].z, points[i][2]);
   }
-
 }
 
 TEST(viewer_3d, parser_indices_test) {
   std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "2.obj");
 
   static const std::vector<std::vector<int>> indices = {
-    {1, 3, 2},
-    {3, 4, 2},
-    {5, 7, 6},
-    {7, 8, 6},
-    {9, 11, 10},
-    {11, 12, 10},
-    {13, 15, 14},
-    {15, 16, 14},
-    {17, 19, 18},
-    {19, 20, 18},
-    {21, 23, 22},
-    {23, 24, 22}
-  };
+      {1, 3, 2},    {3, 4, 2},    {5, 7, 6},    {7, 8, 6},
+      {9, 11, 10},  {11, 12, 10}, {13, 15, 14}, {15, 16, 14},
+      {17, 19, 18}, {19, 20, 18}, {21, 23, 22}, {23, 24, 22}};
   size_t counter = 0;
   for (size_t i = 0; i < result.back().faces.size(); i++) {
     for (size_t j = 0; j < result.back().faces[i].indices.size(); j++) {
-      EXPECT_EQ(result.back().faces[i].indices[j].v_index, (indices[i][counter++] - 1));
+      EXPECT_EQ(result.back().faces[i].indices[j].v_index,
+                (indices[i][counter++] - 1));
     }
     counter = 0;
   }

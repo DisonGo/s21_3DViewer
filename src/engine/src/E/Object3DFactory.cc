@@ -72,6 +72,11 @@ Object3DFactory &Object3DFactory::operator=(const Object3DFactory &other) {
                   : nullptr;
   else
     parser_ = other.parser_;
+  for (auto &[type, importer] : importers_) {
+    if (importer.importer_ptr) delete importer.importer_ptr;
+    importer.importer_ptr = nullptr;
+  }
+
   for (auto &[type, importer] : other.importers_) {
     if (!importer.importer_ptr) continue;
     OBJImportStrategy *imp_ptr = nullptr;
