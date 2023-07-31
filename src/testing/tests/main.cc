@@ -12,19 +12,19 @@ std::string path_inside_src = "/testing/tests/test_resource/";
 std::string test_resources_path = TOSTRING(MYPATH) + path_inside_src;
 
 TEST(viewer_3d, parser_first_test) {
-  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "1.obj");
+  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "empty.jenya");
   EXPECT_EQ(result.back().faces.size(), 1000);
 }
 
 TEST(viewer_3d, parser_second_test) {
-  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "2.obj");
+  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "cube.jenya");
   EXPECT_EQ(result.back().vertices.size(), 24);
   EXPECT_EQ(result.back().faces.size(), 12);
   EXPECT_STREQ(result.back().name.c_str(), "Box");
 }
 
 TEST(viewer_3d, parser_vertices_test) {
-  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "2.obj");
+  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "cube.jenya");
 
   static const std::vector<std::vector<float>> points = {
       {2, 2, 2},   {2, 2, -2},   {2, -2, 2},  {2, -2, -2}, {-2, 2, -2},
@@ -41,7 +41,7 @@ TEST(viewer_3d, parser_vertices_test) {
 }
 
 TEST(viewer_3d, parser_indices_test) {
-  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "2.obj");
+  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "cube.jenya");
 
   static const std::vector<std::vector<int>> indices = {
       {1, 3, 2},    {3, 4, 2},    {5, 7, 6},    {7, 8, 6},
@@ -58,7 +58,7 @@ TEST(viewer_3d, parser_indices_test) {
 }
 
 TEST(viewer_3d, some_group_names) {
-  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "3.obj");
+  std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "third.jenya");
 
   EXPECT_EQ(result.size(), 2);
   EXPECT_STREQ(result[0].name.c_str(), "Box");
