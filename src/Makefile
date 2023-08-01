@@ -20,7 +20,7 @@ run: build
 build_3D_Viewer:
 	@cmake --build ${BUILD_PATH} --target 3D_Viewer --parallel 8
 build_debug:
-	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
+	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -Wno-dev -B ${BUILD_PATH} .
 install: build build_3D_Viewer
 
 run_t:
@@ -32,7 +32,8 @@ open:
 	@./${EXE_PATH}
 dist: install
 	@cd ${BUILD_PATH}${EXE_DIR}/ && tar czf ../../src/${PROJECT_NAME}.tgz ./*
-
+leaks:
+	leaks -atExit -- ./${EXE_PATH}
 dvi:
 	@$(OPEN_CMD) dvi/index.md
 
