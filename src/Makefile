@@ -1,5 +1,6 @@
 PROJECT_NAME 		= 3D_Viewer
 BUILD_PATH 			= ../build
+ABS_BUILD_PATH	= $(abspath $(BUILD_PATH))
 EXE_DIR 			= /exe
 PROJECT_EXE_PATH 	= ${PROJECT_NAME}.app/Contents/MacOS
 EXE_PATH 			= ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH}/${PROJECT_NAME}
@@ -11,8 +12,7 @@ endif
 ifeq ($(UNAME_S),Darwin)
 	OPEN_CMD = open
 endif
-# @cd ${BUILD_PATH}; make
-all: install open
+all: install tests open
 build:
 	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -Wno-dev -B ${BUILD_PATH} .
 run: build
@@ -29,24 +29,18 @@ run_t:
 uninstall:
 	rm -rf ${BUILD_PATH}
 open:
-	./${EXE_PATH}
+	@./${EXE_PATH}
 dist: install
-	@tar cvzf ${PROJECT_NAME}.tgz build
+	@cd ${BUILD_PATH}${EXE_DIR}/ && tar czf ../../src/${PROJECT_NAME}.tgz ./*
 
 dvi:
 	@$(OPEN_CMD) dvi/index.md
 
 clean:
 	@cmake --build ${BUILD_PATH} --target clean
-test: build
+tests: build
 	@cmake --build ${BUILD_PATH} --target TESTING --parallel 8
 	@./${BUILD_PATH}/exe/TESTING
-gcov_report:
-	@cd transforms; make $@
-	@cd obj_parser; make $@
-	@genhtml -q --dark-mode -o report transforms/report.info obj_parser/report.info
-
-	@$(OPEN_CMD) report/index.html
 clang:
 	clang-format --style=Google -n $(shell find . -name '*.cc') $(shell find . -name '*.h')
 clang-replace:

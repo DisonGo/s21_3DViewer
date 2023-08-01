@@ -29,7 +29,8 @@ int main(int argc, char *argv[]) {
 
   s21::Engine engine(config);
   s21::EngineSpacer engine_spacer(engine);
-
+  QCoreApplication::setOrganizationName("godison_co");
+  QCoreApplication::setApplicationName("3D Viewer 2.0");
   s21::MainWindow w(engine_spacer, config_spacer, saver_controler);
 
   auto *style_loader = new s21::StyleLoader(&w, style_file_path);
