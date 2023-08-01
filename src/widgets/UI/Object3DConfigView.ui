@@ -135,10 +135,10 @@
           <double>0.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>10.000000000000000</double>
+          <double>64.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.010000000000000</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="value">
           <double>1.000000000000000</double>
@@ -237,13 +237,13 @@
        <item>
         <widget class="QDoubleSpinBox" name="PointSizeSB">
          <property name="minimum">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>10.000000000000000</double>
+          <double>5.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -294,7 +294,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="LineTypeG"/>
   <buttongroup name="PointTypeG"/>
+  <buttongroup name="LineTypeG"/>
  </buttongroups>
 </ui>

@@ -3,11 +3,6 @@
         <file>style/style.qss</file>
         <file>Shaders/fshader.glsl</file>
         <file>Shaders/vshader.glsl</file>
-        <file>style/icons/note.svg</file>
-        <file>style/icons/settings.svg</file>
-        <file>style/icons/tuner.svg</file>
-        <file>style/Nunito/Nunito-Italic-VariableFont_wght.ttf</file>
-        <file>style/Nunito/Nunito-VariableFont_wght.ttf</file>
         <file>style/icons/collapse_arrow.png</file>
         <file>style/icons/expand_arrow.png</file>
     </qresource>

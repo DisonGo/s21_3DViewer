@@ -48,19 +48,20 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
+    program_->Uniform1i("u_circlePoint", is_circle);
     red = vertices_color_.redF();
     green = vertices_color_.greenF();
     blue = vertices_color_.blueF();
   }
   if (type == GL_LINES) {
+    program_->Uniform1i("u_dashed", is_dashed);
     red = edges_color_.redF();
     green = edges_color_.greenF();
     blue = edges_color_.blueF();
   }
   if (type == GL_TRIANGLES) red = green = blue = 0.8;
-  program_->Uniform1i("u_circlePoint", is_circle);
+
   program_->Uniform1f("u_pointSize", vertices_size_);
-  program_->Uniform1i("u_dashed", is_dashed);
   program_->Uniform1i("u_dashSize", 3);
   program_->Uniform1i("u_gapSize", 3);
   program_->Uniform1f("u_lineWidth", edges_thickness_);

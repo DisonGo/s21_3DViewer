@@ -32,7 +32,7 @@
       <number>5</number>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" stretch="7,1">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="5,1">
        <property name="spacing">
         <number>5</number>
        </property>
@@ -55,6 +55,9 @@
            <width>9999</width>
            <height>30</height>
           </size>
+         </property>
+         <property name="placeholderText">
+          <string>Select file or find new -&gt;</string>
          </property>
         </widget>
        </item>
@@ -82,7 +85,7 @@
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Выбрать</string>
+          <string>.obj</string>
          </property>
         </widget>
        </item>
@@ -111,7 +114,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="text">
-        <string>Загрузить</string>
+        <string>Load object</string>
        </property>
       </widget>
      </item>

@@ -32,7 +32,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
 
 
-add_subdirectory(qt_app)
+add_subdirectory(3D_Viewer)
 add_subdirectory(engine)
 add_subdirectory(gifImage)
 add_subdirectory(widgets)
