@@ -1,4 +1,4 @@
-#ifndef DRAWCONFIG_H
+  #ifndef DRAWCONFIG_H
 #define DRAWCONFIG_H
 #include <QColor>
 #include <QDebug>
