@@ -4,7 +4,7 @@
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
-
+#include <Logger.h>
 #include "EObjectTreeItem.h"
 using std::string;
 using std::vector;
@@ -43,6 +43,7 @@ class EObjectItemModel : public QAbstractItemModel {
 
  private:
   QModelIndex FindParentIndex(EObjectTreeItem *item);
+  Logger logger_{"EObjectItemModel"};
   EObjectTreeItem *root_item_;
   QVector<EObject *> all_objects_;
   QVector<Camera *> camera_ptrs_;

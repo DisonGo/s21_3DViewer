@@ -1,6 +1,8 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <Logger.h>
+
 #include <QOpenGLFunctions>
 
 #include "DrawConfig.h"
@@ -39,9 +41,9 @@ class Engine : protected QOpenGLFunctions {
 
  private:
   // TODO Add realization of move/copy constructors
-
   void Wipe3DObjects();
   void SetupFocusPoint();
+  void CheckOpenGLSettings();
   void SetupDefaultCameras();
   void SetupObject3DFactory();
   void DrawGeometry(GLenum type);
@@ -52,6 +54,7 @@ class Engine : protected QOpenGLFunctions {
 
   bool initialized_ = false;
   bool single_object_mode_ = true;
+  Logger logger_{"Engine"};
   Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
   DrawConfig& draw_config_;
