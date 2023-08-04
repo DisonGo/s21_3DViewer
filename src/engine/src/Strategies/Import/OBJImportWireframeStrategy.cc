@@ -22,18 +22,18 @@ std::vector<VertexData> OBJImportWireframeStrategy::GetVertexDataArray(
 }
 std::vector<Face> OBJImportWireframeStrategy::GetWireFrameIndexArray(
     const OBJ& obj) {
-  std::vector<Face> triangle_indices;
+  std::vector<Face> indices;
   for (auto& face : obj.faces) {
-    Face triangleFace;
-    triangleFace.indices.push_back(face.indices.front());
+    Face wire_face;
+    wire_face.indices.push_back(face.indices.front());
     auto size = face.indices.size();
     for (size_t i = 1; i < size; ++i) {
-      triangleFace.indices.push_back(face.indices.at(i));
-      triangleFace.indices.push_back(face.indices.at(i));
+      wire_face.indices.push_back(face.indices.at(i));
+      wire_face.indices.push_back(face.indices.at(i));
     }
-    triangleFace.indices.push_back(face.indices.front());
-    triangle_indices.push_back(triangleFace);
+    wire_face.indices.push_back(face.indices.front());
+    indices.push_back(wire_face);
   }
-  return triangle_indices;
+  return indices;
 };
 }  // namespace s21

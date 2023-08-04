@@ -7,13 +7,22 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>486</height>
+    <height>397</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <property name="class" stdset="0">
+   <string>config_widget</string>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="verticalSpacing">
+    <number>0</number>
+   </property>
    <item row="1" column="0">
     <widget class="QWidget" name="TransformsGrid" native="true">
      <property name="sizePolicy">
@@ -22,7 +31,7 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+     <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -46,7 +55,7 @@
        </widget>
       </item>
       <item>
-       <widget class="TripletWidget" name="PositionTriplet" native="true">
+       <widget class="s21::TripletWidget" name="PositionTriplet" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -63,7 +72,7 @@
        </widget>
       </item>
       <item>
-       <widget class="TripletWidget" name="OrientationTriplet" native="true">
+       <widget class="s21::TripletWidget" name="OrientationTriplet" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -80,7 +89,7 @@
        </widget>
       </item>
       <item>
-       <widget class="TripletWidget" name="FocusPointTriplet" native="true">
+       <widget class="s21::TripletWidget" name="FocusPointTriplet" native="true">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -222,6 +231,12 @@
         </item>
         <item row="1" column="0">
          <widget class="QDoubleSpinBox" name="zRangeXV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-100000.000000000000000</double>
           </property>
@@ -232,6 +247,12 @@
         </item>
         <item row="1" column="1">
          <widget class="QDoubleSpinBox" name="zRangeYV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-100000.000000000000000</double>
           </property>
@@ -255,6 +276,9 @@
          <number>6</number>
         </property>
         <property name="rightMargin">
+         <number>6</number>
+        </property>
+        <property name="horizontalSpacing">
          <number>6</number>
         </property>
         <property name="verticalSpacing">
@@ -286,6 +310,12 @@
         </item>
         <item row="1" column="0">
          <widget class="QDoubleSpinBox" name="LeftV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
@@ -296,6 +326,12 @@
         </item>
         <item row="1" column="1">
          <widget class="QDoubleSpinBox" name="RightV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
@@ -330,6 +366,12 @@
         </item>
         <item row="3" column="0">
          <widget class="QDoubleSpinBox" name="BottomV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
@@ -340,6 +382,12 @@
         </item>
         <item row="3" column="1">
          <widget class="QDoubleSpinBox" name="TopV">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>21</height>
+           </size>
+          </property>
           <property name="minimum">
            <double>-10000.000000000000000</double>
           </property>
@@ -359,6 +407,14 @@
       </item>
       <item>
        <widget class="QSpinBox" name="FOV_V">
+        <property name="font">
+         <font>
+          <kerning>true</kerning>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="minimum">
          <number>10</number>
         </property>
@@ -370,39 +426,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Line width:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="LineWidthV">
-        <property name="minimum">
-         <double>0.010000000000000</double>
-        </property>
-        <property name="maximum">
-         <double>2.000000000000000</double>
-        </property>
-        <property name="singleStep">
-         <double>0.010000000000000</double>
-        </property>
-        <property name="value">
-         <double>0.010000000000000</double>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="ResetBut">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Reset</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -410,7 +433,7 @@
     <widget class="QLabel" name="CameraL">
      <property name="font">
       <font>
-       <pointsize>12</pointsize>
+       <pointsize>20</pointsize>
       </font>
      </property>
      <property name="text">
@@ -422,7 +445,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TripletWidget</class>
+   <class>s21::TripletWidget</class>
    <extends>QWidget</extends>
    <header location="global">TripletWidget.h</header>
    <container>1</container>

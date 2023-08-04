@@ -1,21 +1,23 @@
 #ifndef TRIPLETWIDGET_H
 #define TRIPLETWIDGET_H
 
-#include <QVector3D>
+#include <godison/Vectors.h>
+using godison::vectors::Vector3D;
 #include <QWidget>
 namespace Ui {
 class TripletWidget;
 }
+namespace s21 {
 
 class TripletWidget : public QWidget {
   Q_OBJECT
 
  public:
-  explicit TripletWidget(QWidget *parent = nullptr);
+  explicit TripletWidget(QWidget* parent = nullptr);
   ~TripletWidget();
-  void SetValues(const QVector3D &values);
+  void SetValues(const Vector3D& values);
   void SetStep(double step);
-  QVector3D GetValues() const;
+  Vector3D GetValues() const;
 
  public slots:
   void ResetValues();
@@ -24,15 +26,19 @@ class TripletWidget : public QWidget {
   void SetRangeMin(double min);
   void SetRangeMax(double max);
   void SetRange(double min, double max);
+  void SetTexts(const char* first, const char* second, const char* third);
+  void SetFirstText(const char* text);
+  void SetSecondText(const char* text);
+  void SetThirdText(const char* text);
  signals:
-  void InputsChanged(const QVector3D values);
+  void InputsChanged(const Vector3D values);
  private slots:
   void UpdateInputs();
   void ReadInput(double val);
 
  private:
-  QVector3D values = QVector3D(0, 0, 0);
-  Ui::TripletWidget *ui;
+  Vector3D values_ = Vector3D(0, 0, 0);
+  ::Ui::TripletWidget* ui;
 };
-
+}  // namespace s21
 #endif  // TRIPLETWIDGET_H

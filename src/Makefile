@@ -1,5 +1,5 @@
 PROJECT_NAME 		= 3D_Viewer
-BUILD_PATH 			= ./build
+BUILD_PATH 			= ../build
 EXE_DIR 			= /exe
 PROJECT_EXE_PATH 	= ${PROJECT_NAME}.app/Contents/MacOS
 EXE_PATH 			= ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH}/${PROJECT_NAME}
@@ -11,46 +11,37 @@ endif
 ifeq ($(UNAME_S),Darwin)
 	OPEN_CMD = open
 endif
-all: install open
+all: install tests open
 build:
-	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
-	@cmake -DCMAKE_BUILD_TYPE="Release" -B ${BUILD_PATH} .
-	@cd ${BUILD_PATH}; make
-run: build
-	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
+	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -Wno-dev -B ${BUILD_PATH} .
+build_3D_Viewer:
+	@cmake --build ${BUILD_PATH} --target 3D_Viewer --parallel 8
 build_debug:
-	@if [ ! -d ${BUILD_PATH} ]; then mkdir ${BUILD_PATH}; fi
-	@cmake -DCMAKE_BUILD_TYPE="Debug" -B ${BUILD_PATH} .
-	@cd ${BUILD_PATH}; make
-install: build
+	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -Wno-dev -B ${BUILD_PATH} .
+
+
+install: build build_3D_Viewer
 
 uninstall:
 	rm -rf ${BUILD_PATH}
-open:
-	./${EXE_PATH}
-dist: install
-	@tar cvzf ${PROJECT_NAME}.tgz build
 
+clean:
+	@cmake --build ${BUILD_PATH} --target clean
+tests: build
+	@cmake --build ${BUILD_PATH} --target TESTING --parallel 8
+	@./${BUILD_PATH}/exe/TESTING
+run: build
+	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
+
+open:
+	@./${EXE_PATH}
+dist: install
+	@cd ${BUILD_PATH}${EXE_DIR}/ && tar czf ../../src/${PROJECT_NAME}.tgz ./*
+leaks: build_debug build_3D_Viewer
+	leaks -atExit -- ./${EXE_PATH}
 dvi:
 	@$(OPEN_CMD) dvi/index.md
 
-clean:
-	@cd transforms; make $@
-	@cd obj_parser; make $@
-	@rm -rf report
-test:
-	@cd transforms; make
-	@cd obj_parser; make
-	
-	@clear
-	@cd transforms; make $@
-	@cd obj_parser; make $@
-gcov_report:
-	@cd transforms; make $@
-	@cd obj_parser; make $@
-	@genhtml -q --dark-mode -o report transforms/report.info obj_parser/report.info
-
-	@$(OPEN_CMD) report/index.html
 clang:
 	clang-format --style=Google -n $(shell find . -name '*.cc') $(shell find . -name '*.h')
 clang-replace:

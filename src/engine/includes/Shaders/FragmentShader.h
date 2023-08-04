@@ -4,7 +4,7 @@
 
 namespace s21 {
 class FragmentShader : public Shader {
-public:
+ public:
   void Compile();
   using Shader::Shader;
   FragmentShader(const std::string& filePath) : Shader() {

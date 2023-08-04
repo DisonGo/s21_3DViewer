@@ -1,8 +1,10 @@
 #include "CameraConfig/CameraConfigView.h"
 
 #include "ui_CameraConfigView.h"
-CameraConfigView::CameraConfigView(QWidget *parent, s21::CameraSpacer *cameraSpacer)
-    : QWidget(parent), ui(new Ui::CameraConfigView) {
+namespace s21 {
+CameraConfigView::CameraConfigView(s21::CameraSpacer *cameraSpacer,
+                                   QWidget *parent)
+    : ConfigWidget(parent), ui(new Ui::CameraConfigView) {
   ui->setupUi(this);
   ui->PositionTriplet->SetRange(-10000, 10000);
   ui->FocusPointTriplet->SetRange(-10000, 10000);
@@ -14,30 +16,34 @@ CameraConfigView::CameraConfigView(QWidget *parent, s21::CameraSpacer *cameraSpa
 }
 
 CameraConfigView::~CameraConfigView() {
-  if (cameraSpacer_) delete cameraSpacer_;
+  if (camera_spacer_) delete camera_spacer_;
   delete ui;
 }
 
+s21::CameraSpacer *CameraConfigView::GetCameraSpacer() {
+  return camera_spacer_;
+}
+
 void CameraConfigView::SetCameraSpacer(s21::CameraSpacer *cameraSpacer) {
-  cameraSpacer_ = cameraSpacer;
+  camera_spacer_ = cameraSpacer;
   if (!cameraSpacer) return;
-  connect(cameraSpacer_, SIGNAL(ConfigUpdated()), this,
+  connect(camera_spacer_, SIGNAL(ConfigUpdated()), this,
           SLOT(SetValuesFromConfig()));
   SetValuesFromConfig();
 }
 
 void CameraConfigView::SetValuesFromConfig() {
-  if (!cameraSpacer_) return;
-  ui->PositionTriplet->SetValues(cameraSpacer_->GetPosition());
-  ui->OrientationTriplet->SetValues(cameraSpacer_->GetOrientation());
-  ui->FocusPointTriplet->SetValues(cameraSpacer_->GetFocusPoint());
+  if (!camera_spacer_) return;
+  ui->PositionTriplet->SetValues(camera_spacer_->GetPosition());
+  ui->OrientationTriplet->SetValues(camera_spacer_->GetOrientation());
+  ui->FocusPointTriplet->SetValues(camera_spacer_->GetFocusPoint());
 
-  auto zRange = cameraSpacer_->GetZRange();
+  auto zRange = camera_spacer_->GetZRange();
 
-  ui->zRangeXV->setValue(zRange.x());
-  ui->zRangeYV->setValue(zRange.y());
+  ui->zRangeXV->setValue(zRange.X());
+  ui->zRangeYV->setValue(zRange.Y());
 
-  switch (cameraSpacer_->GetMode()) {
+  switch (camera_spacer_->GetMode()) {
     case s21::Camera::kFree:
       ui->CameraModeFree->setChecked(true);
       break;
@@ -46,7 +52,7 @@ void CameraConfigView::SetValuesFromConfig() {
       break;
   }
 
-  switch (cameraSpacer_->GetViewMode()) {
+  switch (camera_spacer_->GetViewMode()) {
     case s21::Camera::kPerspective:
       ui->ViewModePerspective->setChecked(true);
       break;
@@ -54,116 +60,110 @@ void CameraConfigView::SetValuesFromConfig() {
       ui->ViewModeParallel->setChecked(true);
       break;
   }
-  auto box = cameraSpacer_->GetBox();
-  ui->FOV_V->setValue(cameraSpacer_->GetFOV());
+  auto box = camera_spacer_->GetBox();
+  ui->FOV_V->setValue(camera_spacer_->GetFOV());
   ui->TopV->setValue(box.top_);
   ui->RightV->setValue(box.right_);
   ui->BottomV->setValue(box.bottom_);
   ui->LeftV->setValue(box.left_);
-  ui->LineWidthV->setValue(cameraSpacer_->GetLineWidth());
   emit UpdateRequest();
 }
 
-void CameraConfigView::SetPosition(const QVector3D &position) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetPosition(position);
+void CameraConfigView::SetPosition(const Vector3D &position) {
+  if (!camera_spacer_) return;
+  camera_spacer_->SetPosition(position);
   emit UpdateRequest();
 }
 
-void CameraConfigView::SetOrientation(const QVector3D &orientation) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetOrientation(orientation);
+void CameraConfigView::SetOrientation(const Vector3D &orientation) {
+  if (!camera_spacer_) return;
+  camera_spacer_->SetOrientation(orientation);
   emit UpdateRequest();
 }
 
-void CameraConfigView::SetFocusPoint(const QVector3D &focusPoint) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetFocusPoint(focusPoint);
+void CameraConfigView::SetFocusPoint(const Vector3D &focusPoint) {
+  if (!camera_spacer_) return;
+  camera_spacer_->SetFocusPoint(focusPoint);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetCameraMode(QAbstractButton *but) {
-  if (!cameraSpacer_) return;
-  if (but == ui->CameraModeFocus) cameraSpacer_->SetMode(s21::Camera::kFocus);
-  if (but == ui->CameraModeFree) cameraSpacer_->SetMode(s21::Camera::kFree);
+  if (!camera_spacer_) return;
+  if (but == ui->CameraModeFocus) camera_spacer_->SetMode(s21::Camera::kFocus);
+  if (but == ui->CameraModeFree) camera_spacer_->SetMode(s21::Camera::kFree);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetViewMode(QAbstractButton *but) {
-  if (!cameraSpacer_) return;
+  if (!camera_spacer_) return;
   if (but == ui->ViewModePerspective)
-    cameraSpacer_->SetViewMode(s21::Camera::kPerspective);
+    camera_spacer_->SetViewMode(s21::Camera::kPerspective);
   if (but == ui->ViewModeParallel)
-    cameraSpacer_->SetViewMode(s21::Camera::kOrthographic);
+    camera_spacer_->SetViewMode(s21::Camera::kOrthographic);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetFOV(int val) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetFOV(val);
+  if (!camera_spacer_) return;
+  camera_spacer_->SetFOV(val);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetZNear(double val) {
-  if (!cameraSpacer_) return;
-  auto zRange = cameraSpacer_->GetZRange();
-  zRange.setX(val);
-  cameraSpacer_->SetZRange(zRange);
+  if (!camera_spacer_) return;
+  auto zRange = camera_spacer_->GetZRange();
+  zRange.SetX(val);
+  camera_spacer_->SetZRange(zRange);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetZFar(double val) {
-  if (!cameraSpacer_) return;
-  auto zRange = cameraSpacer_->GetZRange();
-  zRange.setY(val);
-  cameraSpacer_->SetZRange(zRange);
+  if (!camera_spacer_) return;
+  auto zRange = camera_spacer_->GetZRange();
+  zRange.SetY(val);
+  camera_spacer_->SetZRange(zRange);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxLeft(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.left_ = val;
-  cameraSpacer_->SetBox(box);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxRight(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.right_ = val;
-  cameraSpacer_->SetBox(box);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxBottom(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.bottom_ = val;
-  cameraSpacer_->SetBox(box);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetBoxTop(double val) {
-  if (!cameraSpacer_) return;
-  auto box = cameraSpacer_->GetBox();
+  if (!camera_spacer_) return;
+  auto box = camera_spacer_->GetBox();
   box.top_ = val;
-  cameraSpacer_->SetBox(box);
-  emit UpdateRequest();
-}
-void CameraConfigView::SetLineWidth(double val) {
-  if (!cameraSpacer_) return;
-  cameraSpacer_->SetLineWidth(val);
+  camera_spacer_->SetBox(box);
   emit UpdateRequest();
 }
 
 void CameraConfigView::SetupConnects() {
-  connect(ui->PositionTriplet, SIGNAL(InputsChanged(QVector3D)), this,
-          SLOT(SetPosition(QVector3D)));
-  connect(ui->OrientationTriplet, SIGNAL(InputsChanged(QVector3D)), this,
-          SLOT(SetOrientation(QVector3D)));
-  connect(ui->FocusPointTriplet, SIGNAL(InputsChanged(QVector3D)), this,
-          SLOT(SetFocusPoint(QVector3D)));
+  connect(ui->PositionTriplet, SIGNAL(InputsChanged(Vector3D)), this,
+          SLOT(SetPosition(Vector3D)));
+  connect(ui->OrientationTriplet, SIGNAL(InputsChanged(Vector3D)), this,
+          SLOT(SetOrientation(Vector3D)));
+  connect(ui->FocusPointTriplet, SIGNAL(InputsChanged(Vector3D)), this,
+          SLOT(SetFocusPoint(Vector3D)));
   connect(ui->CameraModeG, SIGNAL(buttonClicked(QAbstractButton *)), this,
           SLOT(SetCameraMode(QAbstractButton *)));
   connect(ui->ViewModeG, SIGNAL(buttonClicked(QAbstractButton *)), this,
@@ -181,12 +181,5 @@ void CameraConfigView::SetupConnects() {
   connect(ui->TopV, SIGNAL(valueChanged(double)), this,
           SLOT(SetBoxTop(double)));
   connect(ui->FOV_V, SIGNAL(valueChanged(int)), this, SLOT(SetFOV(int)));
-  connect(ui->LineWidthV, SIGNAL(valueChanged(double)), this,
-          SLOT(SetLineWidth(double)));
 }
-
-// void CameraConfigView::on_ResetBut_clicked() {
-//   if (!camera_) return;
-//   camera->SetConfig(Camera::CameraConfig());
-//   SetValuesFromConfig(Camera::CameraConfig());
-// }
+}  // namespace s21

@@ -1,9 +1,9 @@
 #include "MeshConfig/MeshConfigView.h"
 
 #include "ui_MeshConfigView.h"
-
+namespace s21 {
 MeshConfigView::MeshConfigView(QWidget *parent)
-    : QWidget(parent), ui(new Ui::MeshConfigView) {
+    : ConfigWidget(parent), ui(new Ui::MeshConfigView) {
   Setup();
 }
 
@@ -32,7 +32,7 @@ void MeshConfigView::SetValuesFromConfig() {
   ui->wireframeBufferCheckBox->setChecked(
       mesh_spacer_->GetBufferToogleValue(s21::kWireframeImport));
   ui->vertexOnlyBufferCheckBox->setChecked(
-        mesh_spacer_->GetBufferToogleValue(s21::kVertexOnlyImport));
+      mesh_spacer_->GetBufferToogleValue(s21::kVertexOnlyImport));
 }
 
 void MeshConfigView::SetBufferToggle(int value) {
@@ -60,3 +60,4 @@ void MeshConfigView::Setup() {
   connect(ui->vertexOnlyBufferCheckBox, &QCheckBox::stateChanged, this,
           &MeshConfigView::SetBufferToggle);
 }
+}  // namespace s21

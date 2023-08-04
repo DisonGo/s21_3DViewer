@@ -1,13 +1,13 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
-#include <QMatrix4x4>
-#include <QVector3D>
+#include <godison/Matrices.h>
 
 #include "E/EObject.h"
 #include "Shaders/Program.h"
 namespace s21 {
 class Transform : public EObject, protected QOpenGLFunctions {
   friend class TransformSpacer;
+  using Vector3D = godison::vectors::Vector3D;
 
  public:
   Transform() {
@@ -21,13 +21,13 @@ class Transform : public EObject, protected QOpenGLFunctions {
   virtual EObjectType GetType() const override { return type_; };
   bool operator==(const Transform &a) const;
 
-  const QVector3D &GetScale() const;
-  const QVector3D &GetRotation() const;
-  const QVector3D &GetTranslate() const;
+  const Vector3D &GetScale() const;
+  const Vector3D &GetRotation() const;
+  const Vector3D &GetTranslate() const;
 
-  void SetScale(const QVector3D &newScale);
-  void SetRotation(const QVector3D &newRotation);
-  void SetTranslate(const QVector3D &newTranslate);
+  void SetScale(const Vector3D &newScale);
+  void SetRotation(const Vector3D &newRotation);
+  void SetTranslate(const Vector3D &newTranslate);
 
  protected:
   EObjectType type_ = EObjectType::kTransform;
@@ -36,13 +36,13 @@ class Transform : public EObject, protected QOpenGLFunctions {
   void UpdateScale();
   void UpdateRotation();
   void UpdateTranslate();
-  QVector3D scale_ = QVector3D(1, 1, 1);
-  QVector3D rotation_ = QVector3D(0, 0, 0);
-  QVector3D translate_ = QVector3D(0, 0, 0);
+  Vector3D scale_ = Vector3D(1, 1, 1);
+  Vector3D rotation_ = Vector3D(0, 0, 0);
+  Vector3D translate_ = Vector3D(0, 0, 0);
 
-  QMatrix4x4 modelScale_;
-  QMatrix4x4 modelRot_;
-  QMatrix4x4 modelTranslate_;
+  godison::matrices::Matrix4x4 model_scale_;
+  godison::matrices::Matrix4x4 model_rot_;
+  godison::matrices::Matrix4x4 model_translate_;
   bool awaitingLoadInProgram_ = false;
 };
 }  // namespace s21

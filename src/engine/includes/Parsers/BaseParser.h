@@ -18,7 +18,7 @@ namespace s21 {
 struct TagCounters {
   size_t vC = 0, vnC = 0, vtC = 0, fC = 0;
 };
-enum OBJParserTypes { kBaseParser, kOBJParser, kEdgeParser, kTriangleParser };
+enum OBJParserTypes { kBaseParser, kOBJParser };
 class BaseParser {
  public:
   OBJParserTypes type = kBaseParser;
@@ -29,7 +29,8 @@ class BaseParser {
   TextureCoord ParseTextureCoord(const string& line);
   Vertex ParseVertex(const string& line);
   Normal ParseNormal(const string& line);
-  FaceVertex* ParsePolygon(const string values, size_t& size);
+  FaceVertex* ParsePolygon(const string values, size_t& size,
+                           size_t vertex_index);
 
   double Stod(const char* s);
   double ParseDigits(char** p);

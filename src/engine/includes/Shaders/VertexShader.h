@@ -4,10 +4,10 @@
 
 namespace s21 {
 class VertexShader : public Shader {
-public:
+ public:
   void Compile();
   using Shader::Shader;
-  VertexShader(const std::string& filePath) : Shader(){
+  VertexShader(const std::string& filePath) : Shader() {
     SetFileName(filePath);
     Compile();
   };

@@ -1,8 +1,8 @@
 #include "TripletWidget.h"
 
 #include "ui_TripletWidget.h"
-
-TripletWidget::TripletWidget(QWidget* parent)
+namespace s21 {
+TripletWidget::TripletWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::TripletWidget) {
   ui->setupUi(this);
   connect(ui->firstV, SIGNAL(valueChanged(double)), this,
@@ -15,9 +15,9 @@ TripletWidget::TripletWidget(QWidget* parent)
 
 TripletWidget::~TripletWidget() { delete ui; }
 
-void TripletWidget::SetValues(const QVector3D& values) {
-  if (values == this->values) return;
-  this->values = values;
+void TripletWidget::SetValues(const Vector3D &values) {
+  if (values == this->values_) return;
+  this->values_ = values;
   UpdateInputs();
 }
 
@@ -29,15 +29,15 @@ void TripletWidget::SetStep(double step) {
   ui->thirdV->setSingleStep(step);
 }
 
-QVector3D TripletWidget::GetValues() const { return values; }
+Vector3D TripletWidget::GetValues() const { return values_; }
 
 void TripletWidget::ResetValues() {
   ui->firstV->setRange(-10000, 10000);
   ui->secondV->setRange(-10000, 10000);
   ui->thirdV->setRange(-10000, 10000);
-  values.setX(0);
-  values.setY(0);
-  values.setZ(0);
+  values_.SetX(0);
+  values_.SetY(0);
+  values_.SetZ(0);
   UpdateInputs();
 }
 
@@ -71,18 +71,38 @@ void TripletWidget::SetRange(double min, double max) {
   SetRangeMax(max);
 }
 
+void TripletWidget::SetTexts(const char *first, const char *second,
+                             const char *third) {
+  SetFirstText(first);
+  SetSecondText(second);
+  SetThirdText(third);
+}
+
+void TripletWidget::SetFirstText(const char *text) {
+  ui->firstL->setText(text);
+}
+
+void TripletWidget::SetSecondText(const char *text) {
+  ui->secondL->setText(text);
+}
+
+void TripletWidget::SetThirdText(const char *text) {
+  ui->thirdL->setText(text);
+}
+
 void TripletWidget::UpdateInputs() {
-  ui->firstV->setValue(values.x());
-  ui->secondV->setValue(values.y());
-  ui->thirdV->setValue(values.z());
-  emit InputsChanged(values);
+  ui->firstV->setValue(values_.X());
+  ui->secondV->setValue(values_.Y());
+  ui->thirdV->setValue(values_.Z());
+  emit InputsChanged(values_);
 }
 
 void TripletWidget::ReadInput(double val) {
-  QDoubleSpinBox* wid = (QDoubleSpinBox*)sender();
+  QDoubleSpinBox *wid = (QDoubleSpinBox *)sender();
   if (!wid) return;
-  if (wid == ui->firstV) values.setX(val);
-  if (wid == ui->secondV) values.setY(val);
-  if (wid == ui->thirdV) values.setZ(val);
-  emit InputsChanged(values);
+  if (wid == ui->firstV) values_.SetX(val);
+  if (wid == ui->secondV) values_.SetY(val);
+  if (wid == ui->thirdV) values_.SetZ(val);
+  emit InputsChanged(values_);
 }
+}  // namespace s21

@@ -1,94 +1,215 @@
 #include "Engine.h"
 
+#include <godison/Shapes.h>
+#include <godison/Vectors.h>
 #include <memory.h>
 
-#include <QRandomGenerator>
-#include <QVector2D>
-#include <QVector3D>
-#include <functional>
 #include <QFileInfo>
+#include <QRandomGenerator>
+#include <functional>
+
+using godison::shapes::Polygon;
+using godison::vectors::Vector3D;
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
+#define ERASE_FROM_VECTOR(vec, x) \
+  vec.erase(std::remove(vec.begin(), vec.end(), x), vec.end())
 namespace s21 {
-Engine::Engine() {
-  initializeOpenGLFunctions();
-  drawConfig_ = &DrawConfig::Instance();
+Engine::Engine(DrawConfig& config) : draw_config_(config) {}
+
+Engine::~Engine() {
+  for (auto obj : engine_objects_)
+    if (obj) delete obj;
+  for (auto program : programs_)
+    if (program) delete program;
+}
+
+void Engine::SetupFocusPoint() {
+  focus_point_ = new Point();
+  auto object_3d = static_cast<Object3D*>(focus_point_);
+  DefaultObject3DImport(object_3d);
+}
+
+void Engine::SetupDefaultCameras() {
   Camera* default_camera = new Camera();
-  SetParser(new OBJParser);
   cameras_.push_back(default_camera);
   engine_objects_.push_back(default_camera);
   current_camera_ = default_camera;
-  eObjectModel_.AddItem(default_camera, nullptr, "Main camera");
+  e_object_model_.AddItem(default_camera, nullptr, "Main camera");
+
+  Camera* second_camera = new Camera();
+  second_camera->SetPosition({2, 0, 0});
+  second_camera->SetViewMode(Camera::ViewMode::kOrthographic);
+  second_camera->SetBox(Camera::ParallelBox(2, 2, -2, -2));
+  second_camera->SetZRange({-100, 100});
+  cameras_.push_back(second_camera);
+  engine_objects_.push_back(second_camera);
+  e_object_model_.AddItem(second_camera, nullptr, "Second camera");
+}
+
+void Engine::SetupObject3DFactory() {
+  object3d_factory_.SetParser(new OBJParser);
+  object3d_factory_.InstallImporter(new OBJImportWireframeStrategy);
+  object3d_factory_.InstallImporter(new OBJImportTriangleStrategy);
+}
+
+void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
+  if (!object) return;
   auto program = Program::Default();
-  auto plane = static_cast<Object3D*>(new Plane(100, 100, 100, 100));
-  plane->SetProgram(*program);
-  plane->GetTrasform().SetRotation({90, 0, 0});
-  engine_objects_.push_back(plane);
-  eObjectModel_.AddItem(plane,nullptr, "Plane");
-  objects_3d_.push_back(plane);
+  object->SetProgram(*program);
+  objects_3d_.push_back(object);
   programs_.push_back(program);
+  if (add_to_delete_queue) engine_objects_.push_back(object);
 }
 
-Engine::~Engine() {
-  for (auto obj : engine_objects_) delete obj;
-  for (auto program : programs_) delete program;
+void Engine::RemoveObject(EObject* object) {
+  if (!object) return;
+  if (object == focus_point_) return;
+  auto type = object->GetType();
+  if (type == s21::kObject3D) ERASE_FROM_VECTOR(objects_3d_, object);
+  if (type == s21::kCamera) ERASE_FROM_VECTOR(cameras_, object);
+  ERASE_FROM_VECTOR(engine_objects_, object);
+  auto tree_item = e_object_model_.FindItem(object);
+  if (!tree_item) return;
+  e_object_model_.DeleteItem(tree_item);
+  delete object;
 }
 
-Object3D* Engine::GenerateObject(QString fileName) {
-  static OBJImportWireframeStrategy wireframeImporter;
-  static OBJImportStandartStrategy standartImporter;
-  static OBJImportTriangleStrategy triangleImporter;
-  static OBJImportVertexOnlyStrategy vertexOnlyImporter;
-
-  auto object_3d = new Object3D();
-  auto obj = OBJParser().Parse(fileName.toStdString());
-
-//  object_3d->UploadMesh(*obj, &standartImporter);
-  object_3d->UploadMesh(*obj, &wireframeImporter);
-  object_3d->UploadMesh(*obj, &triangleImporter);
-//  object_3d->UploadMesh(*obj, &vertexOnlyImporter);
-
-  delete obj;
-  return object_3d;
+void Engine::Wipe3DObjects() {
+  if (objects_3d_.empty()) return;
+  auto copy(objects_3d_);
+  for (auto& object : copy) RemoveObject(object);
 }
 
-void Engine::importObj(QString fileName) {
-  Object3D* object_3d = GenerateObject(fileName);
+Object3D* Engine::GenerateObject(std::string file_path) {
+  return new Object3D(object3d_factory_.GetObject(file_path.c_str()));
+}
+
+void Engine::ImportOBJFile(std::string file_path) {
+  if (!initialized_) return;
+  Object3D* object_3d = GenerateObject(file_path);
   if (!object_3d) return;
-  QFileInfo fileInfo(fileName);
-
-  auto program = Program::Default();
-  object_3d->SetProgram(*program);
-  objects_3d_.push_back(object_3d);
-  eObjectModel_.AddItem(object_3d, nullptr, fileInfo.baseName().toStdString());
-  engine_objects_.push_back(object_3d);
-  programs_.push_back(program);
+  QFileInfo fileInfo(file_path.c_str());
+  if (single_object_mode_) Wipe3DObjects();
+  DefaultObject3DImport(object_3d);
+  e_object_model_.AddItem(object_3d, nullptr,
+                          fileInfo.baseName().toStdString());
 }
 
 void Engine::Cycle() {
-  glClearColor(GET_VEC_COLOR(drawConfig_->back_color), 1);
+  if (!initialized_) return;
+  glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  if (drawConfig_->points) DrawGeometry(GL_POINTS);
-  if (drawConfig_->lines) DrawGeometry(GL_LINES);
-  if (drawConfig_->triangles) DrawGeometry(GL_TRIANGLES);
-  if (drawConfig_->triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
+
+  if (draw_config_.points) DrawGeometry(GL_POINTS);
+  if (draw_config_.lines) DrawGeometry(GL_LINES);
+  if (draw_config_.triangles) DrawGeometry(GL_TRIANGLES);
+  if (draw_config_.triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
 
-void Engine::SetParser(BaseParser* parser) {
-  if (OBJParser_) delete OBJParser_;
-  OBJParser_ = parser;
+std::string Engine::GetObject3DFileName(size_t index) {
+  std::string name = "";
+  try {
+    auto object = objects_3d_.at(index);
+    if (object) name = object->GetFileName();
+  } catch (...) {
+    qDebug() << "Object doesn't exist";
+    name = "";
+  }
+  return name;
 }
 
-Engine* Engine::Instance() {
-  static Engine instance;
-  return &instance;
+std::pair<unsigned long, unsigned long> Engine::GetObject3DStats(size_t index) {
+  std::pair<unsigned long, unsigned long> stats;
+  try {
+    auto object = objects_3d_.at(index);
+    if (object) {
+      stats.first = object->CountVertices(s21::kWireframeImport);
+      stats.second = object->CountIndices(s21::kWireframeImport);
+    }
+  } catch (...) {
+    qDebug() << "Object doesn't exist";
+  }
+  return stats;
+}
+
+void Engine::SetCurrentCamera(Camera* camera) { current_camera_ = camera; }
+
+Engine& Engine::operator=(const Engine& other) {
+  if (this == &other) return *this;
+  for (auto& obj : other.cameras_)
+    if (obj) {
+      if (obj == other.current_camera_) {
+        auto camera = new Camera(*obj);
+        current_camera_ = camera;
+        cameras_.push_back(camera);
+      } else {
+        cameras_.push_back(new Camera(*obj));
+      }
+    }
+  for (auto& obj : other.objects_3d_)
+    if (obj) {
+      if (obj == other.focus_point_) {
+        auto point = new Point(*static_cast<Point*>(obj));
+        focus_point_ = point;
+        objects_3d_.push_back(point);
+      } else {
+        objects_3d_.push_back(new Object3D(*obj));
+      }
+    }
+  for (auto& obj : other.programs_)
+    if (obj) programs_.push_back(new Program(*obj));
+
+  for (auto& obj : cameras_) engine_objects_.push_back(obj);
+  for (auto& obj : objects_3d_) engine_objects_.push_back(obj);
+  draw_config_ = other.draw_config_;
+  object3d_factory_ = std::move(other.object3d_factory_);
+  return *this;
+}
+Engine& Engine::operator=(Engine&& other) {
+  if (this == &other) return *this;
+  initialized_ = other.initialized_;
+  if (initialized_) initializeOpenGLFunctions();
+  focus_point_ = nullptr;
+  current_camera_ = nullptr;
+  for (auto& obj : engine_objects_)
+    if (obj) delete obj;
+  for (auto program : programs_)
+    if (program) delete program;
+  engine_objects_.clear();
+  cameras_.clear();
+  objects_3d_.clear();
+  programs_.clear();
+  draw_config_ = other.draw_config_;
+  std::swap(focus_point_, other.focus_point_);
+  std::swap(current_camera_, other.current_camera_);
+  std::swap(programs_, other.programs_);
+  std::swap(objects_3d_, other.objects_3d_);
+  std::swap(cameras_, other.cameras_);
+  std::swap(engine_objects_, other.engine_objects_);
+  return *this;
+}
+
+void Engine::Initialize() {
+  if (initialized_) return;
+  initializeOpenGLFunctions();
+  glEnable(GL_PROGRAM_POINT_SIZE);
+  glEnable(GL_CULL_FACE);
+  glEnable(GL_DEPTH_TEST);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  SetupObject3DFactory();
+  SetupDefaultCameras();
+  SetupFocusPoint();
+  initialized_ = true;
 }
 
 void Engine::DrawGeometry(GLenum type) {
-  // p.Draw(type, current_camera_);
+  if (!initialized_) return;
+  if (!current_camera_) return;
+  focus_point_->GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
   for (auto object : objects_3d_)
     if (object) object->Draw(type, current_camera_);
 }

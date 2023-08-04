@@ -16,11 +16,13 @@ class EObjectTreeItem {
 
   EObjectTreeItem *child(int row);
   int childCount() const;
+  static int RecursiveChildCount(EObjectTreeItem *item);
   int columnCount() const;
   QVariant data(int column) const;
   void SetParent(EObjectTreeItem *parent = nullptr);
   void RemoveChild(EObjectTreeItem *child);
   EObject *GetObjectPtr() { return object_ptr_; };
+  EObjectTreeItem *RecursiveFindChildByPtr(EObject *object);
   int row() const;
   EObjectTreeItem *parentItem();
   EObjectType GetType() { return type_; };

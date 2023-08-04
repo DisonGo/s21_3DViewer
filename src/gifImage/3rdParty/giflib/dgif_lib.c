@@ -372,7 +372,7 @@ DGifGetImageDesc(GifFileType *GifFile)
         }
 
         /* Get the image local color map: */
-        for (i = 0; i < GifFile->Image.ColorMap->ColorCount; i++) {
+        for (i = 0; i < (unsigned int)GifFile->Image.ColorMap->ColorCount; i++) {
             if (READ(GifFile, Buf, 3) != 3) {
                 GifFreeMapObject(GifFile->Image.ColorMap);
                 GifFile->Error = D_GIF_ERR_READ_FAILED;

@@ -2,7 +2,7 @@
 namespace s21 {
 EObjectItemModel::EObjectItemModel(QObject *parent)
     : QAbstractItemModel{parent} {
-  root_item_ = new EObjectTreeItem({tr("Object")}, nullptr);
+  root_item_ = new EObjectTreeItem({tr("Engine objects:")}, nullptr);
 }
 
 QModelIndex EObjectItemModel::index(int row, int column,
@@ -116,21 +116,10 @@ void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
   if (!item) return;
   qDebug() << "Type:" << item->GetType();
   auto obj_ptr = item->GetObjectPtr();
-  try {
-    if (mesh_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer" << mesh_ptrs_.at(mesh_ptrs_.indexOf(obj_ptr));
-    if (camera_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer" << camera_ptrs_.at(camera_ptrs_.indexOf(obj_ptr));
-    if (object3D_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer"
-               << object3D_ptrs_.at(object3D_ptrs_.indexOf(obj_ptr));
-    if (transform_ptrs_.contains(obj_ptr))
-      qDebug() << " Pointer"
-               << transform_ptrs_.at(transform_ptrs_.indexOf(obj_ptr));
-  } catch (...) {
-  }
+  if (all_objects_.contains(obj_ptr)) qDebug() << " Pointer" << obj_ptr;
 }
-void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent, std::string title) {
+void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent,
+                               std::string title) {
   if (!item || item->GetType() == kNone) return;
   if (!parent) parent = root_item_;
   auto type = item->GetType();
@@ -143,12 +132,41 @@ void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent, std::stri
   if (type == kObject3D) {
     auto object3d = static_cast<Object3D *>(item);
     AddItem(&object3d->GetTrasform(), new_item);
-    AddItem(&object3d->GetMesh(), new_item);
+    for (const auto &mesh : object3d->GetMeshes())
+      AddItem(&*mesh, new_item, mesh->GetName());
   }
 }
 
+void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
+  if (!item) return;
+  if (item == root_item_) return;
+  auto ptr = item->GetObjectPtr();
+  if (!ptr) return;
+
+  auto row = item->row();
+  auto parent_ptr = item->parentItem();
+  auto obj_ptr = item->GetObjectPtr();
+  auto parent_index = QModelIndex();
+
+  int delete_count = EObjectTreeItem::RecursiveChildCount(item);
+
+  beginRemoveRows(parent_index, row, row + delete_count);
+  parent_ptr->RemoveChild(item);
+  if (all_objects_.contains(obj_ptr)) all_objects_.removeAll(obj_ptr);
+  if (camera_ptrs_.contains(obj_ptr)) camera_ptrs_.removeAll(obj_ptr);
+  if (object3D_ptrs_.contains(obj_ptr)) object3D_ptrs_.removeAll(obj_ptr);
+  if (transform_ptrs_.contains(obj_ptr)) transform_ptrs_.removeAll(obj_ptr);
+  delete item;
+  endRemoveRows();
+}
+
+EObjectTreeItem *EObjectItemModel::FindItem(EObject *object) {
+  if (!root_item_) return nullptr;
+  return root_item_->RecursiveFindChildByPtr(object);
+}
 void EObjectItemModel::PushObjectInVectors(EObject *item) {
   if (!item) return;
+  all_objects_ << item;
   switch (item->GetType()) {
     case kNone:
       return;
@@ -167,4 +185,4 @@ void EObjectItemModel::PushObjectInVectors(EObject *item) {
       break;
   }
 }
-}
+}  // namespace s21

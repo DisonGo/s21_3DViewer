@@ -1,0 +1,24 @@
+#include "Spacers/EngineSpacer.h"
+
+namespace s21 {
+void EngineSpacer::InitializeEngine() { engine_.Initialize(); }
+
+void EngineSpacer::RequestRenderCycle() { engine_.Cycle(); }
+
+void EngineSpacer::ImportOBJFile(std::string file_path) {
+  engine_.ImportOBJFile(file_path);
+  auto stats = engine_.GetObject3DStats(1);
+  auto name = engine_.GetObject3DFileName(1);
+  emit ObjectImported(stats.first, stats.second, name);
+}
+
+EObjectItemModel &EngineSpacer::GetEObjectItemModel() {
+  return engine_.GetEObjectItemModel();
+}
+
+Camera *EngineSpacer::GetCurrentCamera() { return engine_.GetCurrentCamera(); }
+
+void EngineSpacer::SetCurrentCamera(Camera *camera) {
+  engine_.SetCurrentCamera(camera);
+}
+}  // namespace s21

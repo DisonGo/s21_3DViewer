@@ -20,6 +20,15 @@ EObjectTreeItem *EObjectTreeItem::child(int row) {
 
 int EObjectTreeItem::childCount() const { return m_child_items_.count(); }
 
+int EObjectTreeItem::RecursiveChildCount(EObjectTreeItem *item) {
+  if (!item) return 0;
+  if (item->m_child_items_.empty()) return 0;
+  int count = 0;
+  for (auto child : item->m_child_items_)
+    count += RecursiveChildCount(child) + 1;
+  return count;
+}
+
 int EObjectTreeItem::row() const {
   if (m_parent_item_)
     return m_parent_item_->m_child_items_.indexOf(
@@ -43,6 +52,16 @@ void EObjectTreeItem::SetParent(EObjectTreeItem *parent) {
 
 void EObjectTreeItem::RemoveChild(EObjectTreeItem *child) {
   if (m_child_items_.contains(child)) m_child_items_.removeAll(child);
+}
+
+EObjectTreeItem *EObjectTreeItem::RecursiveFindChildByPtr(EObject *object) {
+  EObjectTreeItem *item = nullptr;
+  for (auto &child : m_child_items_) {
+    if (child->object_ptr_ == object) return child;
+    if (child->childCount()) item = child->RecursiveFindChildByPtr(object);
+    if (item) return item;
+  }
+  return item;
 }
 
 EObjectTreeItem *EObjectTreeItem::parentItem() { return m_parent_item_; }

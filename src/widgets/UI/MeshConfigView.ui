@@ -6,55 +6,100 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>157</width>
-    <height>99</height>
+    <width>155</width>
+    <height>148</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>500</width>
+    <height>500</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <layout class="QFormLayout" name="formLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="standartBufferLabel">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="title">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
        <property name="text">
-        <string>Standart buffer</string>
+        <string>Mesh</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QCheckBox" name="standartBufferCheckBox"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="wireframeBufferLabel">
-       <property name="text">
-        <string>Wireframe buffer</string>
+     <item>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="labelAlignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QCheckBox" name="wireframeBufferCheckBox"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="triangleBufferLabel">
-       <property name="text">
-        <string>Triangle buffer</string>
+       <property name="formAlignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QCheckBox" name="triangleBufferCheckBox"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="vertexOnlyBufferLabel">
-       <property name="text">
-        <string>Vertex only buffer</string>
+       <property name="horizontalSpacing">
+        <number>13</number>
        </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QCheckBox" name="vertexOnlyBufferCheckBox"/>
+       <item row="0" column="1">
+        <widget class="QLabel" name="standartBufferLabel">
+         <property name="text">
+          <string>Standart buffer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QCheckBox" name="standartBufferCheckBox">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="wireframeBufferCheckBox"/>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="wireframeBufferLabel">
+         <property name="text">
+          <string>Wireframe buffer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QCheckBox" name="triangleBufferCheckBox"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="triangleBufferLabel">
+         <property name="text">
+          <string>Triangle buffer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QCheckBox" name="vertexOnlyBufferCheckBox">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="vertexOnlyBufferLabel">
+         <property name="text">
+          <string>Vertex only buffer</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>

@@ -7,14 +7,17 @@
 namespace s21 {
 class CameraSpacer : public QObject {
   Q_OBJECT
+  using Vector3D = godison::vectors::Vector3D;
+  using Vector2D = godison::vectors::Vector2D;
+
  public:
-  CameraSpacer(QObject *parent, Camera &camera_);
+  CameraSpacer(Camera &camera_, QObject *parent = nullptr);
   void SetMode(Camera::CameraMode newMode);
   void SetViewMode(Camera::ViewMode newViewMode);
-  void SetFocusPoint(const QVector3D &newFocusPoint);
-  void SetPosition(const QVector3D &newPosition);
-  void SetOrientation(const QVector3D &newOrientation);
-  void SetZRange(const QVector2D &newZRange);
+  void SetFocusPoint(const Vector3D &newFocusPoint);
+  void SetPosition(const Vector3D &newPosition);
+  void SetOrientation(const Vector3D &newOrientation);
+  void SetZRange(const Vector2D &newZRange);
   void SetFOV(float newFOV);
   void SetVw(int newVw);
   void SetVh(int newVh);
@@ -25,17 +28,18 @@ class CameraSpacer : public QObject {
 
   Camera::CameraMode GetMode() const;
   Camera::ViewMode GetViewMode() const;
-  const QVector3D &GetFocusPoint() const;
-  const QVector3D &GetPosition() const;
-  const QVector3D &GetOrientation() const;
-  const QVector2D &GetZRange() const;
+  const Vector3D &GetFocusPoint() const;
+  const Vector3D &GetPosition() const;
+  const Vector3D &GetOrientation() const;
+  const Vector2D &GetZRange() const;
   float GetFOV() const;
   int GetVw() const;
   int GetVh() const;
   float GetMoveSpeed() const;
   float GetRotationSpeed() const;
   const Camera::ParallelBox &GetBox() const;
-  double GetLineWidth();
+  double GetLineWidth() const;
+  Camera *GetCamera() const;
 
  public slots:
   void keyPressSlot(QKeyEvent *e);

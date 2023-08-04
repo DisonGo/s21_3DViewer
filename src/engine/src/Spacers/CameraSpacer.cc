@@ -1,6 +1,8 @@
 #include "Spacers/CameraSpacer.h"
+using godison::vectors::Vector2D;
+using godison::vectors::Vector3D;
 namespace s21 {
-CameraSpacer::CameraSpacer(QObject *parent, Camera &camera)
+CameraSpacer::CameraSpacer(Camera &camera, QObject *parent)
     : QObject(parent), camera_(camera) {}
 
 void CameraSpacer::SetMode(Camera::CameraMode newMode) {
@@ -14,22 +16,22 @@ void CameraSpacer::SetViewMode(Camera::ViewMode newViewMode) {
   emit ConfigUpdated();
 }
 
-void CameraSpacer::SetFocusPoint(const QVector3D &newFocusPoint) {
+void CameraSpacer::SetFocusPoint(const Vector3D &newFocusPoint) {
   camera_.SetFocusPoint(newFocusPoint);
   emit ConfigUpdated();
 }
 
-void CameraSpacer::SetPosition(const QVector3D &newPosition) {
+void CameraSpacer::SetPosition(const Vector3D &newPosition) {
   camera_.SetPosition(newPosition);
   emit ConfigUpdated();
 }
 
-void CameraSpacer::SetOrientation(const QVector3D &newOrientation) {
+void CameraSpacer::SetOrientation(const Vector3D &newOrientation) {
   camera_.SetOrientation(newOrientation);
   emit ConfigUpdated();
 }
 
-void CameraSpacer::SetZRange(const QVector2D &newZRange) {
+void CameraSpacer::SetZRange(const Vector2D &newZRange) {
   camera_.SetZRange(newZRange);
   emit ConfigUpdated();
 }
@@ -73,19 +75,19 @@ Camera::ViewMode CameraSpacer::GetViewMode() const {
   return camera_.GetViewMode();
 }
 
-const QVector3D &CameraSpacer::GetFocusPoint() const {
+const Vector3D &CameraSpacer::GetFocusPoint() const {
   return camera_.GetFocusPoint();
 }
 
-const QVector3D &CameraSpacer::GetPosition() const {
+const Vector3D &CameraSpacer::GetPosition() const {
   return camera_.GetPosition();
 }
 
-const QVector3D &CameraSpacer::GetOrientation() const {
+const Vector3D &CameraSpacer::GetOrientation() const {
   return camera_.GetOrientation();
 }
 
-const QVector2D &CameraSpacer::GetZRange() const { return camera_.GetZRange(); }
+const Vector2D &CameraSpacer::GetZRange() const { return camera_.GetZRange(); }
 
 float CameraSpacer::GetFOV() const { return camera_.GetFOV(); }
 
@@ -103,5 +105,7 @@ const Camera::ParallelBox &CameraSpacer::GetBox() const {
   return camera_.GetBox();
 }
 
-double CameraSpacer::GetLineWidth() { return camera_.GetLineWidth(); }
+double CameraSpacer::GetLineWidth() const { return camera_.GetLineWidth(); }
+
+Camera *CameraSpacer::GetCamera() const { return &camera_; }
 }  // namespace s21

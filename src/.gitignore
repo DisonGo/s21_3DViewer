@@ -1,4 +1,5 @@
 glm
+*.tgz
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
 obj_parser/obj_parser

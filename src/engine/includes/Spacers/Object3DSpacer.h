@@ -10,7 +10,9 @@ class Object3DSpacer : public QObject {
  public:
   Object3DSpacer(Object3D& object, QObject* parent = nullptr)
       : QObject(parent), object_(object){};
-  PointDisplayType GetDisplayMethodValue() { return object_.GetPointDisplayMethod(); };
+  PointDisplayType GetDisplayMethodValue() {
+    return object_.GetPointDisplayMethod();
+  };
   LineDisplayType GetUITypeValue() { return object_.GetLineDisplayType(); };
   QColor GetEdgesColorValue() { return object_.GetEdgesColor(); };
   double GetEdgesThicknessValue() { return object_.GetEdgesThickness(); };

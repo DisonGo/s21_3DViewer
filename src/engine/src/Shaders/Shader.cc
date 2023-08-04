@@ -19,10 +19,7 @@ bool Shader::CompileSuccessful() {
   return status == GL_TRUE;
 }
 
-void Shader::SetFileName(const std::string& fileName)
-{
-  fileName_ = fileName;
-}
+void Shader::SetFileName(const std::string& fileName) { fileName_ = fileName; }
 void Shader::CheckCompilation() {
   if (!CompileSuccessful()) PrintShaderError();
 }

@@ -1,15 +1,16 @@
 #ifndef TRANSFORMCONFIGVIEW_H
 #define TRANSFORMCONFIGVIEW_H
 
-#include <QVector3D>
-#include <QWidget>
-
+#include <godison/Vectors.h>
+using godison::vectors::Vector3D;
+#include "ConfigWidget.h"
 #include "Spacers/TransformSpacer.h"
 namespace Ui {
 class TransformConfigView;
 }
+namespace s21 {
 
-class TransformConfigView : public QWidget {
+class TransformConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
@@ -22,16 +23,16 @@ class TransformConfigView : public QWidget {
   void ResetValues();
   void SetValuesFromConfig();
   void SetTranformSpacer(s21::TransformSpacer* transform);
-  void SetTranslation(const QVector3D);
-  void SetRotation(const QVector3D);
-  void SetScale(const QVector3D);
+  void SetTranslation(const Vector3D);
+  void SetRotation(const Vector3D);
+  void SetScale(const Vector3D);
  signals:
-  void UpdateRequest();
   void TransformUpdated();
 
  private:
   void Setup();
-  s21::TransformSpacer* transformSpacer_ = nullptr;
-  Ui::TransformConfigView* ui;
+  s21::TransformSpacer* transform_spacer_ = nullptr;
+  ::Ui::TransformConfigView* ui;
 };
+}  // namespace s21
 #endif  // TRANSFORMCONFIGVIEW_H

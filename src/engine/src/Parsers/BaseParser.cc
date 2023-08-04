@@ -1,4 +1,5 @@
 #include "Parsers/BaseParser.h"
+
 #include "stdio.h"
 using std::isspace;
 using std::string;
@@ -6,10 +7,14 @@ using std::vector;
 namespace s21 {
 size_t BaseParser::CountFaceVertices(const char* line) {
   size_t count = 0;
-  for (; *line; ++line) {
+  size_t size = strlen(line);
+  for (size_t i = 0; *line && i < size; ++line, ++i) {
     if (*line && !isspace(*line)) {
       count++;
-      while (*line && !isspace(*line)) ++line;
+      while (*line && !isspace(*line)) {
+        ++line;
+        ++i;
+      }
     }
   }
   return count;
@@ -58,12 +63,6 @@ Vertex BaseParser::ParseVertex(const string& line) {
   Vertex vert;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-//  vert.x = Stod(str);
-//  while (*str && !isspace(*str)) ++str;
-//  while (*str && isspace(*str)) ++str;
-//  vert.y = Stod(str);
-//  while (*str && !isspace(*str)) ++str;
-//  vert.z = Stod(str);
   sscanf(str, "%f %f %f", &vert.x, &vert.y, &vert.z);
   return vert;
 }
@@ -72,9 +71,7 @@ TextureCoord BaseParser::ParseTextureCoord(const string& line) {
   TextureCoord textureCoord;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  textureCoord.u = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  textureCoord.v = Stod(str);
+  sscanf(str, "%f %f", &textureCoord.u, &textureCoord.v);
   return textureCoord;
 }
 
@@ -82,16 +79,12 @@ Normal BaseParser::ParseNormal(const string& line) {
   Normal normal;
   const char* str = line.c_str();
   while (*str && isspace(*str)) ++str;
-  normal.x = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  while (*str && isspace(*str)) ++str;
-  normal.y = Stod(str);
-  while (*str && !isspace(*str)) ++str;
-  normal.z = Stod(str);
+  sscanf(str, "%f %f %f", &normal.x, &normal.y, &normal.z);
   return normal;
 }
 
-FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size) {
+FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size,
+                                     size_t vertex_index) {
   const char* str = values.c_str();
   size = CountFaceVertices(str);
   FaceVertex* vertices = new FaceVertex[size];
@@ -109,7 +102,8 @@ FaceVertex* BaseParser::ParsePolygon(const string values, size_t& size) {
   for (size_t i = 0; i < size && *str; i++) {
     FaceVertex& vertex = vertices[i];
     for (int j = 0; j < 3 && *str; j++) {
-      unsigned index = Stod(str) - 1;
+      int index = Stod(str) - 1;
+      if (index < 0) index += vertex_index + 1;
       while (*str && isspace(*str)) ++str;
       while (*str && std::isdigit(*str)) ++str;
       if (j == 0) vertex.v_index = index;

@@ -2,31 +2,30 @@
 #define CAMERACONFIGVIEW_H
 
 #include <QAbstractButton>
-#include <QWidget>
 
+#include "ConfigWidget.h"
 #include "Spacers/CameraSpacer.h"
 
 namespace Ui {
 class CameraConfigView;
 }
-
-class CameraConfigView : public QWidget {
+namespace s21 {
+class CameraConfigView : public ConfigWidget {
   Q_OBJECT
 
  public:
-  explicit CameraConfigView(QWidget* parent = nullptr,
-                            s21::CameraSpacer* cameraSpacer = nullptr);
+  using Vector3D = godison::vectors::Vector3D;
+  using Vector2D = godison::vectors::Vector2D;
+  explicit CameraConfigView(s21::CameraSpacer* cameraSpacer,
+                            QWidget* parent = nullptr);
   ~CameraConfigView();
-
+  s21::CameraSpacer* GetCameraSpacer();
   void SetCameraSpacer(s21::CameraSpacer* cameraSpacer);
- signals:
-  void UpdateRequest();
  private slots:
-  //  void on_ResetBut_clicked();
   void SetValuesFromConfig();
-  void SetPosition(const QVector3D&);
-  void SetOrientation(const QVector3D&);
-  void SetFocusPoint(const QVector3D&);
+  void SetPosition(const Vector3D&);
+  void SetOrientation(const Vector3D&);
+  void SetFocusPoint(const Vector3D&);
   void SetCameraMode(QAbstractButton*);
   void SetViewMode(QAbstractButton*);
   void SetFOV(int);
@@ -36,13 +35,11 @@ class CameraConfigView : public QWidget {
   void SetBoxRight(double);
   void SetBoxBottom(double);
   void SetBoxTop(double);
-  void SetLineWidth(double);
 
  private:
   void SetupConnects();
-  s21::CameraSpacer* cameraSpacer_{};
-  Ui::CameraConfigView* ui;
+  s21::CameraSpacer* camera_spacer_{};
+  ::Ui::CameraConfigView* ui;
 };
-
-
+}  // namespace s21
 #endif  // CAMERACONFIGVIEW_H

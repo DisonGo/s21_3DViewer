@@ -282,7 +282,7 @@ EGifPutScreenDesc(GifFileType *GifFile,
 
     /* First write the version prefix into the file. */
     if (InternalWrite(GifFile, (unsigned char *)write_version,
-              strlen(write_version)) != strlen(write_version)) {
+              (int)strlen(write_version)) != (int)strlen(write_version)) {
         GifFile->Error = E_GIF_ERR_WRITE_FAILED;
         return GIF_ERROR;
     }
@@ -424,6 +424,7 @@ EGifPutImageDesc(GifFileType *GifFile,
 
     /* Reset compress algorithm parameters. */
     (void)EGifSetupCompress(GifFile);
+//    if (GifFile->Image.ColorMap) GifFreeMapObject(GifFile->Image.ColorMap);
 
     return GIF_OK;
 }
@@ -693,7 +694,7 @@ int EGifGCBToSavedExtension(const GraphicsControlBlock *GCB,
  The block should NOT be freed by the user (not dynamically allocated).
 ******************************************************************************/
 int
-EGifPutCode(GifFileType *GifFile, int CodeSize, const GifByteType *CodeBlock)
+EGifPutCode(GifFileType *GifFile, const GifByteType *CodeBlock)
 {
     GifFilePrivateType *Private = (GifFilePrivateType *)GifFile->Private;
 
@@ -728,7 +729,7 @@ EGifPutCodeNext(GifFileType *GifFile, const GifByteType *CodeBlock)
 
     if (CodeBlock != NULL) {
         if (InternalWrite(GifFile, CodeBlock, CodeBlock[0] + 1)
-               != (unsigned)(CodeBlock[0] + 1)) {
+               != (int)(CodeBlock[0] + 1)) {
             GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
         }
@@ -794,6 +795,61 @@ EGifCloseFile(GifFileType *GifFile)
     /* 
      * Without the #ifndef, we get spurious warnings because Coverity mistakenly
      * thinks the GIF structure is freed on an error return. 
+     */
+#ifndef __COVERITY__
+    free(GifFile);
+#endif /* __COVERITY__ */
+
+    return GIF_OK;
+}
+
+int
+EGifCloseFile1(GifFileType *GifFile)
+{
+    GifByteType Buf;
+    GifFilePrivateType *Private;
+    FILE *File;
+
+    if (GifFile == NULL)
+        return GIF_ERROR;
+
+    Private = (GifFilePrivateType *) GifFile->Private;
+    if (Private == NULL)
+        return GIF_ERROR;
+    if (!IS_WRITEABLE(Private)) {
+        /* This file was NOT open for writing: */
+        GifFile->Error = E_GIF_ERR_NOT_WRITEABLE;
+        return GIF_ERROR;
+    }
+
+    File = Private->File;
+
+    Buf = TERMINATOR_INTRODUCER;
+    InternalWrite(GifFile, &Buf, 1);
+
+//    if (GifFile->Image.ColorMap) {
+//        GifFreeMapObject(GifFile->Image.ColorMap);
+//        GifFile->Image.ColorMap = NULL;
+//    }
+    if (GifFile->SColorMap) {
+        GifFreeMapObject(GifFile->SColorMap);
+        GifFile->SColorMap = NULL;
+    }
+    if (Private) {
+        if (Private->HashTable) {
+            free((char *) Private->HashTable);
+        }
+            free((char *) Private);
+    }
+
+    if (File && fclose(File) != 0) {
+        GifFile->Error = E_GIF_ERR_CLOSE_FAILED;
+        return GIF_ERROR;
+    }
+
+    /*
+     * Without the #ifndef, we get spurious warnings because Coverity mistakenly
+     * thinks the GIF structure is freed on an error return.
      */
 #ifndef __COVERITY__
     free(GifFile);
@@ -1013,7 +1069,7 @@ EGifBufferedOutput(GifFileType *GifFile,
     if (c == FLUSH_OUTPUT) {
         /* Flush everything out. */
         if (Buf[0] != 0
-            && InternalWrite(GifFile, Buf, Buf[0] + 1) != (unsigned)(Buf[0] + 1)) {
+            && InternalWrite(GifFile, Buf, Buf[0] + 1) != (int)(Buf[0] + 1)) {
             GifFile->Error = E_GIF_ERR_WRITE_FAILED;
             return GIF_ERROR;
         }
@@ -1026,7 +1082,7 @@ EGifBufferedOutput(GifFileType *GifFile,
     } else {
         if (Buf[0] == 255) {
             /* Dump out this buffer - it is full: */
-            if (InternalWrite(GifFile, Buf, Buf[0] + 1) != (unsigned)(Buf[0] + 1)) {
+            if (InternalWrite(GifFile, Buf, Buf[0] + 1) != (int)(Buf[0] + 1)) {
                 GifFile->Error = E_GIF_ERR_WRITE_FAILED;
                 return GIF_ERROR;
             }
@@ -1131,14 +1187,15 @@ EGifSpew(GifFileType *GifFileOut)
 		    return (GIF_ERROR);
 	    }
 	}
+    GifFreeMapObject(GifFileOut->Image.ColorMap);
     }
 
     if (EGifWriteExtensions(GifFileOut,
 			    GifFileOut->ExtensionBlocks,
 			    GifFileOut->ExtensionBlockCount) == GIF_ERROR)
 	return (GIF_ERROR);
-
-    if (EGifCloseFile(GifFileOut) == GIF_ERROR)
+    GifFreeSavedImages(GifFileOut);
+    if (EGifCloseFile1(GifFileOut) == GIF_ERROR)
         return (GIF_ERROR);
 
     return (GIF_OK);

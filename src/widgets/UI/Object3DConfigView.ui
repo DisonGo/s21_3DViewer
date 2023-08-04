@@ -7,15 +7,21 @@
     <x>0</x>
     <y>0</y>
     <width>338</width>
-    <height>550</height>
+    <height>321</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="MainLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <property name="bottomMargin">
       <number>10</number>
      </property>
@@ -27,17 +33,17 @@
         </font>
        </property>
        <property name="text">
-        <string>Lines config:</string>
+        <string>Lines config</string>
        </property>
       </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="LineTypeLayout">
        <property name="leftMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <item>
         <widget class="QLabel" name="LineTypeL">
@@ -74,11 +80,14 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="LineColorLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <item>
         <widget class="QLabel" name="LineColorL">
@@ -88,11 +97,11 @@
         </widget>
        </item>
        <item>
-        <widget class="TripletWidget" name="LineColorTriplet" native="true">
+        <widget class="s21::TripletWidget" name="LineColorTriplet" native="true">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
         </widget>
@@ -101,11 +110,14 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="LineWidthLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>
@@ -120,13 +132,16 @@
        <item>
         <widget class="QDoubleSpinBox" name="LineWidthSB">
          <property name="minimum">
-          <double>0.100000000000000</double>
+          <double>0.000000000000000</double>
          </property>
          <property name="maximum">
-          <double>3.000000000000000</double>
+          <double>64.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
+         </property>
+         <property name="value">
+          <double>1.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -140,17 +155,20 @@
         </font>
        </property>
        <property name="text">
-        <string>Points config:</string>
+        <string>Points config</string>
        </property>
       </widget>
      </item>
      <item>
       <layout class="QVBoxLayout" name="PointTypeLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <item>
         <widget class="QLabel" name="PointTypeL">
@@ -197,11 +215,14 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="PointWidthLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>
@@ -216,13 +237,13 @@
        <item>
         <widget class="QDoubleSpinBox" name="PointSizeSB">
          <property name="minimum">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
          </property>
          <property name="maximum">
           <double>5.000000000000000</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>1.000000000000000</double>
          </property>
         </widget>
        </item>
@@ -230,11 +251,14 @@
      </item>
      <item>
       <layout class="QVBoxLayout" name="PointColorLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
        <property name="leftMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>5</number>
+        <number>0</number>
        </property>
        <item>
         <widget class="QLabel" name="PointColorL">
@@ -244,11 +268,11 @@
         </widget>
        </item>
        <item>
-        <widget class="TripletWidget" name="PointColorTriplet" native="true">
+        <widget class="s21::TripletWidget" name="PointColorTriplet" native="true">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>20</height>
           </size>
          </property>
         </widget>
@@ -261,7 +285,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TripletWidget</class>
+   <class>s21::TripletWidget</class>
    <extends>QWidget</extends>
    <header location="global">TripletWidget.h</header>
    <container>1</container>

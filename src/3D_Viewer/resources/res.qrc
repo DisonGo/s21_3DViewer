@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style/style.qss</file>
+        <file>Shaders/fshader.glsl</file>
+        <file>Shaders/vshader.glsl</file>
+        <file>style/icons/collapse_arrow.png</file>
+        <file>style/icons/expand_arrow.png</file>
+    </qresource>
+</RCC>

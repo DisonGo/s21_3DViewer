@@ -5,22 +5,26 @@ bool Transform::operator==(const Transform &a) const {
           scale_ == a.scale_);
 }
 void Transform::UpdateScale() {
-  modelScale_.setToIdentity();
-  modelScale_.scale(scale_);
+  model_scale_.SetToIdentity();
+  model_scale_.Scale(scale_);
   awaitingLoadInProgram_ = true;
 }
 
 void Transform::UpdateRotation() {
-  modelRot_.setToIdentity();
-  modelRot_.rotate(rotation_.x(), 1, 0, 0);
-  modelRot_.rotate(rotation_.y(), 0, 1, 0);
-  modelRot_.rotate(rotation_.z(), 0, 0, 1);
+  godison::matrices::Matrix4x4 rot_x, rot_y, rot_z;
+  rot_x.SetToIdentity();
+  rot_y.SetToIdentity();
+  rot_z.SetToIdentity();
+  rot_x.Rotate(rotation_.X(), {1, 0, 0});
+  rot_y.Rotate(rotation_.Y(), {0, 1, 0});
+  rot_z.Rotate(rotation_.Z(), {0, 0, 1});
+  model_rot_ = rot_x * rot_y * rot_z;
   awaitingLoadInProgram_ = true;
 }
 
 void Transform::UpdateTranslate() {
-  modelTranslate_.setToIdentity();
-  modelTranslate_.translate(translate_);
+  model_translate_.SetToIdentity();
+  model_translate_.Translate(translate_);
   awaitingLoadInProgram_ = true;
 }
 
@@ -32,9 +36,9 @@ void Transform::UpdateModel() {
 void Transform::LoadModelMatrix(Program *program) {
   if (!awaitingLoadInProgram_) return;
   if (!program) return;
-  int modelLoc = program->GetUniform("u_modelMatrix");
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE,
-                     (modelTranslate_ * modelRot_ * modelScale_).data());
+  program->UniformMatrix4fv(
+      "u_modelMatrix", 1, GL_FALSE,
+      (model_scale_ * model_rot_ * model_translate_).RawConstData());
   awaitingLoadInProgram_ = false;
 }
 }  // namespace s21

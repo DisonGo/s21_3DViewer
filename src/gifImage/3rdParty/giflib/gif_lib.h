@@ -139,6 +139,7 @@ GifFileType *EGifOpen(void *userPtr, OutputFunc writeFunc, int *Error);
 int EGifSpew(GifFileType *GifFile);
 char *EGifGetGifVersion(GifFileType *GifFile); /* new in 5.x */
 int EGifCloseFile(GifFileType *GifFile);
+int EGifCloseFile1(GifFileType *GifFile);
 
 #define E_GIF_ERR_OPEN_FAILED 1 /* And EGif possible errors. */
 #define E_GIF_ERR_WRITE_FAILED 2
@@ -170,8 +171,7 @@ int EGifPutExtensionBlock(GifFileType *GifFile, const int GifExtLen,
 int EGifPutExtensionTrailer(GifFileType *GifFile);
 int EGifPutExtension(GifFileType *GifFile, const int GifExtCode,
                      const int GifExtLen, const void *GifExtension);
-int EGifPutCode(GifFileType *GifFile, int GifCodeSize,
-                const GifByteType *GifCodeBlock);
+int EGifPutCode(GifFileType *GifFile, const GifByteType *GifCodeBlock);
 int EGifPutCodeNext(GifFileType *GifFile, const GifByteType *GifCodeBlock);
 
 /******************************************************************************
@@ -255,6 +255,7 @@ extern int GifAddExtensionBlock(int *ExtensionBlock_Count,
                                 unsigned int Len, unsigned char ExtData[]);
 extern void GifFreeExtensions(int *ExtensionBlock_Count,
                               ExtensionBlock **ExtensionBlocks);
+extern void FreeLastSavedImage(GifFileType *GifFile);
 extern SavedImage *GifMakeSavedImage(GifFileType *GifFile,
                                      const SavedImage *CopyFrom);
 extern void GifFreeSavedImages(GifFileType *GifFile);
