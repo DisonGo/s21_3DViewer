@@ -35,7 +35,7 @@ void LightObject::Draw(GLenum type, Camera* camera) {
     blue = vertices_color_.blueF();
   }
   program_->Uniform3f("u_prototype_color", red, green, blue);
-  mesh_.Draw(type);
+  for (const auto& mesh : meshes_) mesh->Draw(type);
   program_->Uniform1i("u_dashed", false);
   program_->Uniform1i("u_circlePoint", false);
 }

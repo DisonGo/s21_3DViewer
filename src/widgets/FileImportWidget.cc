@@ -4,6 +4,7 @@
 #include <QFileInfo>
 
 #include "ui_FileImportWidget.h"
+namespace s21 {
 FileImportWidget::FileImportWidget(QWidget* parent)
     : QWidget(parent), ui(new Ui::FileImportWidget) {
   Setup();
