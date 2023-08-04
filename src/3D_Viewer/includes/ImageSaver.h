@@ -11,7 +11,7 @@ namespace s21 {
 class ImageSaver {
  public:
   ImageSaver() {
-    QString user_name_ = qgetenv("USER");
+    user_name_ = qgetenv("USER");
     if (user_name_.isEmpty()) user_name_ = qgetenv("USERNAME");
   }
   void SaveGif(std::vector<QImage> gifData, QSize resolution, unsigned FPS) {
