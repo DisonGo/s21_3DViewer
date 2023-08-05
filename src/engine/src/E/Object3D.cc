@@ -47,7 +47,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
   auto cam_pos = camera->GetPosition();
-  // program_->Uniform3f("u_lightPos", cam_pos.X(), cam_pos.Y(), cam_pos.Z());
+  program_->Uniform3f("u_lightPos", cam_pos.X(), cam_pos.Y(), cam_pos.Z());
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     program_->Uniform1i("u_circlePoint", is_circle);
@@ -62,6 +62,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
     blue = edges_color_.blueF();
   }
   if (type == GL_TRIANGLES) {
+    program_->Uniform1i("u_do_lighting", true);
     red = vertices_color_.redF();
     green = vertices_color_.greenF();
     blue = vertices_color_.blueF();
@@ -74,7 +75,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   program_->Uniform3f("u_prototype_color", red, green, blue);
 
   for (const auto& mesh : meshes_) mesh->Draw(type);
-
+  program_->Uniform1i("u_do_lighting", false);
   program_->Uniform1i("u_dashed", false);
   program_->Uniform1i("u_circlePoint", false);
 }

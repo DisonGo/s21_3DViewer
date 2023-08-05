@@ -6,7 +6,7 @@ in vec3 f_normal;
 out vec4 FragColor;
 uniform bool u_circlePoint;
 uniform bool u_dashed;
-
+uniform bool u_do_lighting;
 uniform vec3 u_lightPos;
 
 uniform float u_dashSize;
@@ -55,7 +55,10 @@ vec3 DoLigthing() {
   return ambient + diffuse + specular;
 }
 void main() {
-  FragColor = vec4(DoLigthing() * u_prototype_color, 1);
+  if (u_do_lighting)
+    FragColor = vec4(DoLigthing() * u_prototype_color, 1);
+  else
+    FragColor = vec4(u_prototype_color, 1);
   DecidePointDraw();
   DecideLineDraw();
 }

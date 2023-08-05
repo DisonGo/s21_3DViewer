@@ -1,4 +1,4 @@
-  #ifndef DRAWCONFIG_H
+#ifndef DRAWCONFIG_H
 #define DRAWCONFIG_H
 #include <QColor>
 #include <QDebug>
@@ -11,7 +11,7 @@ class DrawConfig {
   DrawConfig& operator=(DrawConfig&& old) = delete;
   ~DrawConfig() = default;
   bool points = true;
-  bool lines = false;
+  bool lines = true;
   bool triangles = true;
   bool triangles_strip = false;
   QColor back_color = QColor(1, 10, 27);
