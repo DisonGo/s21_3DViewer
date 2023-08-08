@@ -1,5 +1,11 @@
 #version 410 core
 
+struct Light {
+  vec3 position;
+  vec3 color;
+  float strength;
+}
+
 flat in vec4 f_startPos;
 in vec4 f_vertPos;
 in vec3 f_normal;
@@ -9,6 +15,7 @@ uniform bool u_dashed;
 uniform bool u_do_lighting;
 uniform vec3 u_lightPos;
 
+uniform Light[10] u_ligths;
 uniform float u_dashSize;
 uniform float u_gapSize;
 

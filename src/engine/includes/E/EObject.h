@@ -1,7 +1,15 @@
 #ifndef EOBJECT_H
 #define EOBJECT_H
 namespace s21 {
-enum EObjectType { kNone = 0, kMesh, kCamera, kTransform, kObject3D };
+enum EObjectType {
+  kNone = 0,
+  kMesh,
+  kCamera,
+  kTransform,
+  kObject3D,
+  kLight,
+  kLightObject
+};
 class EObject {
  protected:
   EObjectType type_ = kNone;
