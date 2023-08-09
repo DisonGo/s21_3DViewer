@@ -11,7 +11,7 @@ class Logger {
   enum class LogLevel { kBasic, kInfo, kWarning, kError, kCritical };
   enum class LogWriter { kCout, kQDebug };
   void Log(const char* message, LogLevel level = LogLevel::kBasic,
-                  LogWriter writer = LogWriter::kQDebug);
+                  LogWriter writer = LogWriter::kCout);
   void SetNameSpace(const std::string& name_space);
 private:
   std::string name_space_ = "";

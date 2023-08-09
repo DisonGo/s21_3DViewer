@@ -20,8 +20,9 @@ void EBO::BindIndices(std::vector<Face> indices) {
   for (auto& faceVert : new_indices) ind.push_back(faceVert.v_index);
   size_ = ind.size();
   allocated_ = size_ * sizeof(GLuint);
-  auto log = std::string("Allocating size / bytes: ") + std::to_string(size_) +
-             ":" + std::to_string(allocated_);
+  auto log = std::string("Allocating ") + std::to_string(size_) +
+             " elements with total size of " + std::to_string(allocated_) +
+             " bytes";
   logger_.Log(log.c_str());
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, allocated_, ind.data(), GL_STATIC_DRAW);
 }

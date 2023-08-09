@@ -31,6 +31,7 @@ class Program : protected QOpenGLExtraFunctions {
   void Uniform3f(const char* name, float a, float b, float c);
   void UniformMatrix4fv(const char* name, int count, bool normalize,
                         const float* data);
+  void LineWidth(float width);
 
  private:
   GLuint ID_ = 0;
