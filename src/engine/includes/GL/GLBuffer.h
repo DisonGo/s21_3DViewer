@@ -1,6 +1,7 @@
 #ifndef GLBUFFER_H
 #define GLBUFFER_H
 #include "GLObject.h"
+#include "Logger.h"
 namespace s21 {
 class GLBuffer : public GLObject {
  public:
@@ -30,6 +31,9 @@ class GLBuffer : public GLObject {
                         other.allocated_);
     glBindBuffer(GL_COPY_WRITE_BUFFER, 0);
     glBindBuffer(GL_COPY_READ_BUFFER, 0);
+    auto log = std::string("Copying buffer " + std::to_string(other.ID_) +
+                           " into " + std::to_string(ID_));
+    logger_.Log(log.c_str());
   };
   ~GLBuffer() { glDeleteBuffers(1, &ID_); };
   void Bind() override { glBindBuffer(GetType(), ID_); };
@@ -41,6 +45,9 @@ class GLBuffer : public GLObject {
  protected:
   size_t allocated_ = 0;
   size_t size_ = 0;
+
+ private:
+  Logger logger_{"GLBuffer"};
 };
 }  // namespace s21
 

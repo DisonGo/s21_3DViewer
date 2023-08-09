@@ -1,6 +1,8 @@
 #ifndef OBJECT3DFACTORY_H
 #define OBJECT3DFACTORY_H
 
+#include <Logger.h>
+
 #include <map>
 
 #include "E/Object3D.h"
@@ -40,6 +42,7 @@ class Object3DFactory {
 
  private:
   BaseParser* parser_ = nullptr;
+  Logger logger_{"Object3DFactory"};
   std::map<OBJImportStrategyType, ImporterBundle> importers_;
 };
 }  // namespace s21

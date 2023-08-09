@@ -71,8 +71,8 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   program_->Uniform1f("u_pointSize", vertices_size_);
   program_->Uniform1i("u_dashSize", 3);
   program_->Uniform1i("u_gapSize", 3);
-  program_->Uniform1f("u_lineWidth", edges_thickness_);
   program_->Uniform3f("u_prototype_color", red, green, blue);
+  program_->LineWidth(edges_thickness_);
 
   for (const auto& mesh : meshes_) mesh->Draw(type);
   program_->Uniform1i("u_do_lighting", false);

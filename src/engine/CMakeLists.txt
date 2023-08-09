@@ -9,6 +9,7 @@ AUX_SOURCE_DIRECTORY(./src ENGINE_SRCS)
 set(LIB_NAME engine)
 file(GLOB_RECURSE ENGINE_HEADER
     includes/*.h
+    includes/*.hpp
 )
 add_library(${LIB_NAME} STATIC
     ${ENGINE_SRCS}

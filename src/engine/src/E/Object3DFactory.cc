@@ -1,5 +1,6 @@
 #include "E/Object3DFactory.h"
 
+#include "Logger.h"
 #include "QFileInfo"
 #define MAP_CONTAINS(map, val) (map.find(val) != map.end())
 namespace s21 {
@@ -38,13 +39,14 @@ Object3D Object3DFactory::GetObject(const char *file_path) {
   std::string file_name = QFileInfo(file_path).fileName().toStdString();
   if (parser_type == kOBJParser) {
     try {
+      if (!QFileInfo::exists(file_path)) throw "File doesn't exist";
       auto datas = static_cast<OBJParser *>(parser_)->Parse(file_path);
       object.SetFileName(file_name);
       for (const auto &data : datas)
         for (const auto &[type, importer] : importers_)
           if (importer.on) object.UploadMesh(data, importer.importer_ptr);
     } catch (...) {
-      std::cout << "no file";
+      logger_.Log("Failed to generate Object3D", Logger::LogLevel::kError);
     }
   }
   return object;

@@ -3,6 +3,7 @@
 #define GL_SILENCE_DEPRECATION
 #include <QOpenGLExtraFunctions>
 #include <QOpenGLFunctions>
+#include <Logger.h>
 namespace s21 {
 class GLObject : public QOpenGLExtraFunctions {
  public:

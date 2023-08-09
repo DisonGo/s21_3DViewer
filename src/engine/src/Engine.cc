@@ -1,5 +1,6 @@
 #include "Engine.h"
 
+#include <Logger.h>
 #include <godison/Shapes.h>
 #include <godison/Vectors.h>
 #include <memory.h>
@@ -7,14 +8,15 @@
 #include <QFileInfo>
 #include <QRandomGenerator>
 #include <functional>
-
 using godison::shapes::Polygon;
 using godison::vectors::Vector3D;
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
 #define ERASE_FROM_VECTOR(vec, x) \
   vec.erase(std::remove(vec.begin(), vec.end(), x), vec.end())
 namespace s21 {
-Engine::Engine(DrawConfig& config) : draw_config_(config) {}
+Engine::Engine(DrawConfig& config) : draw_config_(config) {
+  logger_.Log("Engine created: waiting for initialization");
+}
 
 Engine::~Engine() {
   for (auto obj : engine_objects_)
@@ -27,6 +29,31 @@ void Engine::SetupFocusPoint() {
   focus_point_ = new Point();
   auto object_3d = static_cast<Object3D*>(focus_point_);
   DefaultObject3DImport(object_3d);
+  logger_.Log("Setup focus point");
+}
+
+void Engine::CheckOpenGLSettings() {
+  const GLubyte* version = glGetString(GL_VERSION);
+
+  auto open_gl_version =
+      "OpenGL version: " + std::string(reinterpret_cast<const char*>(version));
+
+  GLfloat lineWidthRange[2];
+  glGetFloatv(GL_ALIASED_LINE_WIDTH_RANGE, lineWidthRange);
+  auto max_width =
+      "Maximum width of a line: " + std::to_string(lineWidthRange[1]);
+
+  int majorVersion, minorVersion;
+  glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
+  glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
+  if (majorVersion < 4 || minorVersion < 1)
+    logger_.Log(
+        "Current version of OpenGL is unsupported. Please install at least "
+        "OpenGL 4.1 and further",
+        Logger::LogLevel::kCritical);
+
+  logger_.Log(open_gl_version.c_str(), Logger::LogLevel::kInfo);
+  logger_.Log(max_width.c_str(), Logger::LogLevel::kInfo);
 }
 
 void Engine::SetupDefaultCameras() {
@@ -44,12 +71,14 @@ void Engine::SetupDefaultCameras() {
   cameras_.push_back(second_camera);
   engine_objects_.push_back(second_camera);
   e_object_model_.AddItem(second_camera, nullptr, "Second camera");
+  logger_.Log("Setup cameras");
 }
 
 void Engine::SetupObject3DFactory() {
   object3d_factory_.SetParser(new OBJParser);
   object3d_factory_.InstallImporter(new OBJImportWireframeStrategy);
   object3d_factory_.InstallImporter(new OBJImportTriangleStrategy);
+  logger_.Log("Setup Object3D factory");
 }
 
 void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
@@ -59,6 +88,9 @@ void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   objects_3d_.push_back(object);
   programs_.push_back(program);
   if (add_to_delete_queue) engine_objects_.push_back(object);
+  std::string log("Default imported Object3D: ");
+  log += object->GetFileName();
+  logger_.Log(log.c_str());
 }
 
 void Engine::RemoveObject(EObject* object) {
@@ -72,6 +104,9 @@ void Engine::RemoveObject(EObject* object) {
   if (!tree_item) return;
   e_object_model_.DeleteItem(tree_item);
   delete object;
+  std::string log("Removed object: ");
+  log += std::to_string(reinterpret_cast<uintptr_t>(object));
+  logger_.Log(log.c_str());
 }
 
 void Engine::Wipe3DObjects() {
@@ -193,7 +228,9 @@ Engine& Engine::operator=(Engine&& other) {
 
 void Engine::Initialize() {
   if (initialized_) return;
+  logger_.Log("Initializing engine");
   initializeOpenGLFunctions();
+  CheckOpenGLSettings();
   glEnable(GL_PROGRAM_POINT_SIZE);
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
@@ -204,6 +241,7 @@ void Engine::Initialize() {
   SetupDefaultCameras();
   SetupFocusPoint();
   initialized_ = true;
+  logger_.Log("Engine initialized");
 }
 
 void Engine::DrawGeometry(GLenum type) {

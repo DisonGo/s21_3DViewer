@@ -69,6 +69,11 @@ void Program::UniformMatrix4fv(const char* name, int count, bool normalize,
   glUniformMatrix4fv(GetUniform(name), count, normalize, data);
 }
 
+void Program::LineWidth(float width)
+{
+  glLineWidth(width);
+}
+
 void Program::CopyProgram(const Program& other) {
   GLsizei binarySize;
   glGetProgramiv(other.ID_, GL_PROGRAM_BINARY_LENGTH, &binarySize);

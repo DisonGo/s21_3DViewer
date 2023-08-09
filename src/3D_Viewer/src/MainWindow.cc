@@ -113,13 +113,13 @@ void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   }
 }
 void MainWindow::ImportFile(QString path) {
-  if (!QFileInfo::exists(path)) {
-    QErrorMessage* errorMessage = new QErrorMessage();
-    errorMessage->setWindowTitle("Import error");
-    errorMessage->showMessage("Choosen file doesn't exist");
-    errorMessage->exec();
-    return;
-  }
+//  if (!QFileInfo::exists(path)) {
+//    QErrorMessage* errorMessage = new QErrorMessage();
+//    errorMessage->setWindowTitle("Import error");
+//    errorMessage->showMessage("Choosen file doesn't exist");
+//    errorMessage->exec();
+//    return;
+//  }
   open_gl_widget_->makeCurrent();
   engine_spacer_.ImportOBJFile(path.toStdString());
   clearLayout(ui->ObjectWidgetHolder);

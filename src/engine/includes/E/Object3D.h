@@ -11,7 +11,9 @@
 #include "E/EObject.h"
 #include "E/Mesh.h"
 #include "E/Transform.h"
+#include "Logger.h"
 #include "Shaders/Program.h"
+
 namespace s21 {
 enum class PointDisplayType { kNone = 0, kCircle, kSquare };
 enum LineDisplayType { kSolid = 0, kDashed };
@@ -56,6 +58,7 @@ class Object3D : public EObject {
   std::string file_name_ = "";
   EObjectType type_ = kObject3D;
   std::vector<std::shared_ptr<Mesh>> meshes_;
+  Logger logger_{"Object3D"};
   Program* program_{};
   Transform transform_;
   QColor edges_color_{255, 255, 255};

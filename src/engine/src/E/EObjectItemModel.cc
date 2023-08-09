@@ -1,4 +1,7 @@
 #include "E/EObjectItemModel.h"
+
+#include "Logger.h"
+#include "QString"
 namespace s21 {
 EObjectItemModel::EObjectItemModel(QObject *parent)
     : QAbstractItemModel{parent} {
@@ -129,6 +132,8 @@ void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent,
   auto new_item = new EObjectTreeItem({tr(Title.c_str())}, item, parent);
   PushObjectInVectors(item);
   endInsertRows();
+  auto log = std::string("Added ") + Title;
+  logger_.Log(log.c_str());
   if (type == kObject3D) {
     auto object3d = static_cast<Object3D *>(item);
     AddItem(&object3d->GetTrasform(), new_item);
@@ -156,6 +161,9 @@ void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
   if (camera_ptrs_.contains(obj_ptr)) camera_ptrs_.removeAll(obj_ptr);
   if (object3D_ptrs_.contains(obj_ptr)) object3D_ptrs_.removeAll(obj_ptr);
   if (transform_ptrs_.contains(obj_ptr)) transform_ptrs_.removeAll(obj_ptr);
+  auto item_name = item->data(0).value<QString>().toStdString();
+  auto log = std::string("Removed ") + item_name;
+  logger_.Log(log.c_str());
   delete item;
   endRemoveRows();
 }

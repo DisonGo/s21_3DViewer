@@ -4,7 +4,7 @@ struct Light {
   vec3 position;
   vec3 color;
   float strength;
-}
+};
 
 flat in vec4 f_startPos;
 in vec4 f_vertPos;
