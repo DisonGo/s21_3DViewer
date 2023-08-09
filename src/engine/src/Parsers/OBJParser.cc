@@ -120,7 +120,10 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
                                              std::vector<Object> objects) {
   std::vector<OBJ> datas;
   std::vector<Face>& faces = all_data.faces;
-  if (objects.empty()) return datas;
+  if (objects.empty()) {
+    logger_.Log("Vector of objects if empty", Logger::LogLevel::kWarning);
+    return datas;
+  }
   if (objects.size() == 1) {
     all_data.name = objects.front().name;
     datas.push_back(std::move(all_data));
@@ -140,7 +143,11 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
 
 std::vector<OBJ> OBJParser::Parse(string filePath) {
   std::ifstream file(filePath, std::ios_base::in);
-
+  if (file.bad()) {
+    logger_.Log("Bad file. Empty array will be returned",
+                Logger::LogLevel::kError);
+    return std::vector<OBJ>();
+  }
   OBJ obj;
 
   // Count total amount of tags in file for memory allocation
@@ -148,7 +155,10 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   TagCounters tags = CountTags(filePath);
 
   // std::vector memory allocation
-
+  if (!tags.vC) logger_.Log("No vertices", Logger::LogLevel::kWarning);
+  if (!tags.vnC) logger_.Log("No normals", Logger::LogLevel::kWarning);
+  if (!tags.vtC) logger_.Log("No uv's", Logger::LogLevel::kWarning);
+  if (!tags.fC) logger_.Log("No faces", Logger::LogLevel::kWarning);
   obj.vertices.reserve(tags.vC);
   obj.normals.reserve(tags.vnC);
   obj.texture_coords.reserve(tags.vtC);

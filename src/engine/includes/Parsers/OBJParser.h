@@ -1,5 +1,7 @@
 #ifndef OBJPARSER_H
 #define OBJPARSER_H
+#include <Logger.h>
+
 #include "Parsers/BaseParser.h"
 namespace s21 {
 class OBJParser : public BaseParser {
@@ -28,6 +30,7 @@ class OBJParser : public BaseParser {
   void NormalizeVertices(vector<Vertex> &vertices, float normalizeSize);
   vector<OBJ> CalculateObjects(OBJ &all_data, vector<Object> objects);
   TagCounters CountTags(const string filePath);
+  Logger logger_{"OBJParser"};
 };
 }  // namespace s21
 #endif  // OBJPARSER_H

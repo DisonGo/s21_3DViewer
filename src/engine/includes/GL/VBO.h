@@ -1,8 +1,9 @@
 #ifndef VBO_H
 #define VBO_H
+#include <Logger.h>
+
 #include "GL/GLBuffer.h"
 #include "Types/VertexData.h"
-#include <Logger.h>
 namespace s21 {
 class VBO : public GLBuffer {
   friend class VAO;
@@ -14,6 +15,7 @@ class VBO : public GLBuffer {
   GLenum GetType() const override { return type; };
   GLenum type = GL_ARRAY_BUFFER;
   size_t GetSize() { return size_; };
+  
  private:
   Logger logger_{"VBO"};
 };
