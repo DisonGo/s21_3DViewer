@@ -174,6 +174,8 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
 void OBJParser::GenerateNormals(OBJ& obj) {
   if (obj.vertices.empty()) return;
   if (obj.normals.size() == obj.vertices.size()) return;
+  logger_.Log("Bad normals array. Generating new array",
+              Logger::LogLevel::kWarning);
   obj.normals.clear();
   obj.normals = vector<Normal>(obj.vertices.size());
   for (const auto& face : obj.faces) {
