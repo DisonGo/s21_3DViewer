@@ -1,5 +1,6 @@
 #include "Strategies/Import/OBJImportTriangleStrategy.h"
 
+#include "Logger.h"
 namespace s21 {
 VAO OBJImportTriangleStrategy::Import(const OBJ& obj) const {
   VAO vao;
@@ -21,8 +22,15 @@ std::vector<VertexData> OBJImportTriangleStrategy::GetVertexDataArray(
   std::vector<VertexData> new_arr;
   //  for (auto& vertex : obj.vertices) new_arr.push_back({vertex});
   auto vert_size = obj.vertices.size();
-  if (obj.vertices.size() != obj.normals.size())
+  if (vert_size != obj.normals.size()) {
+    static Logger logger("OBJImportTriangleStrategy");
+    auto log = std::string("Vertices size: ") + std::to_string(vert_size);
+    auto log2 =
+        std::string("Normals size: ") + std::to_string(obj.normals.size());
+    logger.Log(log.c_str(), Logger::LogLevel::kError);
+    logger.Log(log2.c_str(), Logger::LogLevel::kError);
     throw "vertices.size != normals.size";
+  }
   for (size_t i = 0; i < vert_size; ++i)
     new_arr.push_back({obj.vertices[i], obj.normals[i]});
   return new_arr;

@@ -54,11 +54,12 @@ void OBJParser::ElevateVerticesToGround(std::vector<Vertex>& vertices) {
   for (auto& vertex : vertices) vertex.y += min;
 }
 
-void OBJParser::FetchVerticesByFaces(const std::vector<Vertex>& source,
-                                     std::vector<Vertex>& output,
+void OBJParser::FetchVertexDataByFaces(const OBJ& source,
+                                     OBJ& output,
                                      std::vector<Face>& faces) {
   std::set<const Vertex*> existing_vertices;
   std::map<size_t, size_t> v_indices_map;
+//  std::map<size_t, size_t> n_indices_map;
   std::vector<Face> calibrated_faces;
 
   const auto faces_size = faces.size();
@@ -68,25 +69,28 @@ void OBJParser::FetchVerticesByFaces(const std::vector<Vertex>& source,
 
     for (auto& index : calibrated_faces[i].indices) {
       // Fetch only unique vertices
-      auto vertex = &source[index.v_index];
+      auto vertex = &source.vertices[index.v_index];
       bool vertex_dont_exists =
           existing_vertices.find(vertex) == existing_vertices.end();
       if (vertex_dont_exists) {
         existing_vertices.insert(vertex);
-        v_indices_map.insert({index.v_index, output.size()});
-        output.push_back(*vertex);
+        v_indices_map.insert({index.v_index, output.vertices.size()});
+//        n_indices_map.insert({index.n_index, output.normals.size()});
+        output.vertices.push_back(*vertex);
+        output.normals.push_back(source.normals[index.v_index]);
       }
     }
     // Map used indices to new vertex array
-    for (auto& index : calibrated_faces[i].indices)
-      index.v_index = v_indices_map.at(index.v_index);
+    for (auto& index : calibrated_faces[i].indices) {
+        index.v_index = v_indices_map.at(index.v_index);
+//        index.n_index = n_indices_map.at(index.n_index);
+    }
   }
   faces = std::move(calibrated_faces);
 }
 void OBJParser::FetchNormalsByFaces(const std::vector<Normal>& source,
                                     std::vector<Normal>& output,
                                     std::vector<Face>& faces) {
-  std::set<const Normal*> existing_vertices;
   std::map<size_t, size_t> v_indices_map;
   std::vector<Face> calibrated_faces;
 
@@ -99,13 +103,8 @@ void OBJParser::FetchNormalsByFaces(const std::vector<Normal>& source,
       // Fetch only unique vertices
 
       auto normal = &source[index.n_index];
-      bool normal_dont_exists =
-          existing_vertices.find(normal) == existing_vertices.end();
-      if (normal_dont_exists) {
-        existing_vertices.insert(normal);
-        v_indices_map.insert({index.n_index, output.size()});
-        output.push_back(*normal);
-      }
+      v_indices_map.insert({index.n_index, output.size()});
+      output.push_back(*normal);
     }
     // Map used indices to new normal array
     for (auto& index : calibrated_faces[i].indices)
@@ -165,8 +164,8 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
     data.name = object.name;
     data.faces = std::vector<Face>(faces.begin() + object.i_start,
                                    faces.begin() + object.i_end);
-    FetchVerticesByFaces(all_data.vertices, data.vertices, data.faces);
-    FetchNormalsByFaces(all_data.normals, data.normals, data.faces);
+    FetchVertexDataByFaces(all_data, data, data.faces);
+//    FetchNormalsByFaces(all_data.normals, data.normals, data.faces);
     datas.push_back(data);
   }
   return datas;

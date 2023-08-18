@@ -3,7 +3,7 @@
 #include <QDebug>
 #include <cstdio>
 #include <iostream>
-
+// BUG Sometimes crashes when a lot of log messages in a short time
 using std::cout;
 #ifndef _WIN32
 constexpr const char* RESET = "\033[0m";
@@ -46,15 +46,14 @@ Logger::LogLevel Logger::active_log_level_ = static_cast<LogLevel>(
 void Logger::Log(const char* message, LogLevel level, LogWriter writer) {
   if (!IsLogLevelActive(level)) return;
   auto str = CreateMessage(message, level);
-  auto msg = str.c_str();
+
 #ifndef _WIN32
   if (writer == LogWriter::kCout)
-    cout << level_color_map.at(level) << msg << RESET << "\n";
-    //  if (writer == LogWriter::kQDebug) qDebug() << dye::red(msg) << msg;
+    cout << level_color_map.at(level) << str << RESET << "\n";
 #else
+  auto msg = str.c_str();
   if (writer == LogWriter::kCout)
     cout << dye::colorize(msg, level_color_map.at(level)) << "\n";
-    //  if (writer == LogWriter::kQDebug) qDebug() << dye::red(msg) << msg;
 #endif
 }
 

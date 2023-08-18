@@ -14,6 +14,7 @@ uniform bool u_circlePoint;
 uniform bool u_dashed;
 uniform bool u_do_lighting;
 uniform vec3 u_lightPos;
+uniform vec3 u_lightDir;
 
 uniform Light[10] u_ligths;
 uniform float u_dashSize;
@@ -48,7 +49,7 @@ vec3 DoLigthing() {
   vec3 ambient = ambientStrength * lightColor;
 
   vec3 norm = normalize(f_normal);
-  vec3 lightDir = normalize(u_lightPos - f_vertPos.xyz);
+  vec3 lightDir = normalize(u_lightDir);
   float diff = max(dot(norm, lightDir), 0.0);
 
   vec3 diffuse = diff * lightColor;

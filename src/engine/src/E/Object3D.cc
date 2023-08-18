@@ -47,7 +47,10 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
   auto cam_pos = camera->GetPosition();
+  auto cam_ornt = camera->GetOrientation();
+  if (camera->GetMode() == Camera::CameraMode::kFree) cam_ornt *= -1;
   program_->Uniform3f("u_lightPos", cam_pos.X(), cam_pos.Y(), cam_pos.Z());
+  program_->Uniform3f("u_lightDir", cam_ornt.X(), cam_ornt.Y(), cam_ornt.Z());
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     program_->Uniform1i("u_circlePoint", is_circle);
