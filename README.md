@@ -1,43 +1,6 @@
 # 3D_Viewer 
-Implementation of our own version of the 3D Viewer.
+Implementation of software for viewing wireframe 3D objects.
 
-## Build
-### Preparation
-   To start build you need to move to `./src` dir.
-   ```Bash
-   cd ./src
-   ```
-### Build
-* Build program
+*Branch **3D_Viewer_2_0_** contains latest version of app that successfully passed peer/code review (CPP4).*
 
-   ```
-   make all
-   ```
-   or
-   ```
-   make install
-   ```
-*  Build and run tests
-   ```
-   make tests
-   ```
-*  Generate lib code coverage by tests into `./src/report` dir
-   ```
-   make gcov_report
-   ```
-*  Clean project
-   ```
-   make clean
-   ```
-*  Unistall Project
-   ```
-   make uninstall
-   ```
-*  Open HTML file
-   ```
-   make dvi
-   ```
-*  Create archive with program
-   ```
-   make dist
-   ```
+Version 2.1 (lighting/textures) curently is WIP.
