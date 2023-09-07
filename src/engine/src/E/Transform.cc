@@ -36,9 +36,11 @@ void Transform::UpdateModel() {
 void Transform::LoadModelMatrix(Program *program) {
   if (!awaitingLoadInProgram_) return;
   if (!program) return;
-  program->UniformMatrix4fv(
-      "u_modelMatrix", 1, GL_FALSE,
-      (model_scale_ * model_rot_ * model_translate_).RawConstData());
+  auto model_mat = model_scale_ * model_rot_ * model_translate_;
+  program->UniformMatrix4fv("u_modelMatrix", 1, GL_FALSE,
+                            model_mat.RawConstData());
+  program->UniformMatrix4fv("u_modelMatrixInvTrans", 1, GL_FALSE,
+                            model_mat.Invert().Transpose().RawConstData());
   awaitingLoadInProgram_ = false;
 }
 }  // namespace s21

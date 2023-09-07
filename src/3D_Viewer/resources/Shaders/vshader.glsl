@@ -6,6 +6,7 @@ out vec4 f_vertPos;
 out vec3 f_normal;
 uniform mat4 u_camMatrix;
 uniform mat4 u_modelMatrix;
+uniform mat4 u_modelMatrixInvTrans;
 uniform mat4 u_CameraView;
 uniform mat4 u_CameraProjection;
 
@@ -20,5 +21,5 @@ void main() {
   gl_Position = mvp_vec;
   gl_PointSize = u_pointSize;
   f_startPos = f_vertPos = mvp_vec;
-  f_normal = aNormal;
+  f_normal = normalize((u_modelMatrixInvTrans * vec4(aNormal, 1)).xyz);
 }
