@@ -57,6 +57,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     program_->Uniform1i("u_circlePoint", is_circle);
+
     red = vertices_color_.redF();
     green = vertices_color_.greenF();
     blue = vertices_color_.blueF();
@@ -68,6 +69,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
     blue = edges_color_.blueF();
   }
   if (type == GL_TRIANGLES) {
+    program_->Uniform1i("u_flat_shade", is_circle);
     program_->Uniform1i("u_do_lighting", true);
     red = base_color_.redF();
     green = base_color_.greenF();
@@ -81,6 +83,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   program_->LineWidth(edges_thickness_);
 
   for (const auto& mesh : meshes_) mesh->Draw(type);
+  program_->Uniform1i("u_flat_shade", false);
   program_->Uniform1i("u_do_lighting", false);
   program_->Uniform1i("u_dashed", false);
   program_->Uniform1i("u_circlePoint", false);

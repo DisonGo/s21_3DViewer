@@ -9,9 +9,11 @@ struct Light {
 flat in vec4 f_startPos;
 in vec4 f_vertPos;
 in vec3 f_normal;
+flat in vec3 f_normal_flat;
 out vec4 FragColor;
 uniform bool u_circlePoint;
 uniform bool u_dashed;
+uniform bool u_flat_shade;
 uniform bool u_do_lighting;
 uniform vec3 u_lightPos;
 uniform vec3 u_lightDir;
@@ -47,8 +49,11 @@ void DecideLineDraw() {
 }
 vec3 DoLigthing() {
   vec3 ambient = ambientStrength * lightColor;
-
-  vec3 norm = normalize(f_normal);
+  vec3 norm;
+  if (u_flat_shade)
+    norm = normalize(f_normal_flat);
+  else
+    norm = normalize(f_normal);
   vec3 lightDir = normalize(u_lightDir);
   float diff = max(dot(norm, lightDir), 0.0);
 

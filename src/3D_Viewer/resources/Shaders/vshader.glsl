@@ -4,6 +4,7 @@ layout(location = 1) in vec3 aNormal;
 flat out vec4 f_startPos;
 out vec4 f_vertPos;
 out vec3 f_normal;
+flat out vec3 f_normal_flat;
 uniform mat4 u_camMatrix;
 uniform mat4 u_modelMatrix;
 uniform mat4 u_modelMatrixInvTrans;
@@ -21,5 +22,6 @@ void main() {
   gl_Position = mvp_vec;
   gl_PointSize = u_pointSize;
   f_startPos = f_vertPos = mvp_vec;
-  f_normal = normalize((u_modelMatrixInvTrans * vec4(aNormal, 1)).xyz);
+  f_normal_flat = f_normal =
+      normalize((u_modelMatrixInvTrans * vec4(aNormal, 1)).xyz);
 }
