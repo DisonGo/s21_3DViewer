@@ -6,17 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>338</width>
-    <height>321</height>
+    <width>295</width>
+    <height>381</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="MainLayout">
      <property name="spacing">
@@ -279,6 +276,35 @@
        </item>
       </layout>
      </item>
+     <item>
+      <widget class="QLabel" name="BaseL">
+       <property name="font">
+        <font>
+         <pointsize>20</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Base config</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="BaseColorL">
+       <property name="text">
+        <string>Color:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="s21::TripletWidget" name="BaseColorTriplet" native="true">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
@@ -294,7 +320,7 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="PointTypeG"/>
   <buttongroup name="LineTypeG"/>
+  <buttongroup name="PointTypeG"/>
  </buttongroups>
 </ui>

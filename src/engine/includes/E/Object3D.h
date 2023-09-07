@@ -30,9 +30,9 @@ class Object3D : public EObject {
   virtual EObjectType GetType() const override { return type_; };
   virtual void Draw(GLenum type, Camera* camera);
   void UploadMesh(const OBJ& obj, OBJImportStrategy* importer);
-  void SetMesh(const Mesh& mesh);
   void SetProgram(Program& program);
   void SetTransform(const Transform& transform);
+  void SetBaseColor(QColor new_color);
   void SetEdgesColor(QColor new_color);
   void SetEdgesThickness(double new_thickness);
   void SetVerticesColor(QColor new_color);
@@ -45,6 +45,7 @@ class Object3D : public EObject {
   Transform& GetTrasform() { return transform_; };
   PointDisplayType GetPointDisplayMethod() { return point_display_method_; };
   LineDisplayType GetLineDisplayType() { return line_display_type_; };
+  QColor GetBaseColor() { return base_color_; };
   QColor GetEdgesColor() { return edges_color_; };
   double GetEdgesThickness() { return edges_thickness_; };
   QColor GetVerticesColor() { return vertices_color_; };
@@ -61,6 +62,7 @@ class Object3D : public EObject {
   Logger logger_{"Object3D"};
   Program* program_{};
   Transform transform_;
+  QColor base_color_{227, 228, 230};
   QColor edges_color_{255, 255, 255};
   double edges_thickness_{1};
   QColor vertices_color_{255, 125, 125};
@@ -68,6 +70,8 @@ class Object3D : public EObject {
   PointDisplayType point_display_method_ = PointDisplayType::kNone;
   LineDisplayType line_display_type_ = kSolid;
 };
+
+
 
 }  // namespace s21
 

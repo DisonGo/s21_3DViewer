@@ -20,12 +20,15 @@ void Object3DConfigView::Setup() {
   ui->setupUi(this);
   ui->LineColorTriplet->SetTexts("r:", "g:", "b:");
   ui->PointColorTriplet->SetTexts("r:", "g:", "b:");
+  ui->BaseColorTriplet->SetTexts("r:", "g:", "b:");
 
   ui->LineColorTriplet->SetRange(0, 255);
   ui->PointColorTriplet->SetRange(0, 255);
+  ui->BaseColorTriplet->SetRange(0, 255);
 
   ui->LineColorTriplet->SetStep(1);
   ui->PointColorTriplet->SetStep(1);
+  ui->BaseColorTriplet->SetStep(1);
   SetupConnects();
 }
 
@@ -40,6 +43,8 @@ void Object3DConfigView::SetupConnects() {
   connect(ui->LineColorTriplet, &TripletWidget::InputsChanged, this,
           &Object3DConfigView::SetColor);
   connect(ui->PointColorTriplet, &TripletWidget::InputsChanged, this,
+          &Object3DConfigView::SetColor);
+  connect(ui->BaseColorTriplet, &TripletWidget::InputsChanged, this,
           &Object3DConfigView::SetColor);
   for (auto &but : ui->PointTypeG->buttons())
     connect(but, &QRadioButton::toggled, this,
@@ -81,6 +86,11 @@ void Object3DConfigView::SetValuesFromConfig() {
   Vector3D point_color_vec(point_color.red(), point_color.green(),
                            point_color.blue());
   ui->PointColorTriplet->SetValues(point_color_vec);
+
+  auto base_color = object_spacer_->GetBaseColorValue();
+  Vector3D base_color_vec(base_color.red(), base_color.green(),
+                           base_color.blue());
+  ui->BaseColorTriplet->SetValues(base_color_vec);
 }
 
 void Object3DConfigView::SetColor(const Vector3D &color) {
@@ -101,6 +111,10 @@ void Object3DConfigView::SetColor(const Vector3D &color) {
   }
   if (widget_ptr == ui->PointColorTriplet) {
     object_spacer_->SetVerticesColorValue(new_color);
+    widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
+  }
+  if (widget_ptr == ui->BaseColorTriplet) {
+    object_spacer_->SetBaseColorValue(new_color);
     widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
   }
   emit UpdateRequest();

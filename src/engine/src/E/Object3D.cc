@@ -5,6 +5,7 @@ Object3D& Object3D::operator=(const Object3D& other) {
   if (this == &other) return *this;
   file_name_ = other.file_name_;
   transform_ = other.transform_;
+  base_color_ = other.base_color_;
   edges_color_ = other.edges_color_;
   edges_thickness_ = other.edges_thickness_;
   vertices_color_ = other.vertices_color_;
@@ -23,6 +24,7 @@ Object3D& Object3D::operator=(Object3D&& other) {
   if (this == &other) return *this;
   file_name_ = other.file_name_;
   transform_ = other.transform_;
+  base_color_ = other.base_color_;
   edges_color_ = other.edges_color_;
   edges_thickness_ = other.edges_thickness_;
   vertices_color_ = other.vertices_color_;
@@ -40,6 +42,7 @@ Object3D& Object3D::operator=(Object3D&& other) {
 
 void Object3D::Draw(GLenum type, Camera* camera) {
   if (!program_ || !camera) return;
+  // BUG Points stoped rendering.
   program_->Activate();
   transform_.LoadModelMatrix(program_);
   camera->Matrix(*program_);
@@ -66,9 +69,9 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   }
   if (type == GL_TRIANGLES) {
     program_->Uniform1i("u_do_lighting", true);
-    red = vertices_color_.redF();
-    green = vertices_color_.greenF();
-    blue = vertices_color_.blueF();
+    red = base_color_.redF();
+    green = base_color_.greenF();
+    blue = base_color_.blueF();
   }
 
   program_->Uniform1f("u_pointSize", vertices_size_);
@@ -102,6 +105,9 @@ void Object3D::SetTransform(const Transform& transform) {
   transform_ = transform;
   transform_.UpdateModel();
 }
+
+void Object3D::SetBaseColor(QColor new_color) { base_color_ = new_color; }
+
 void Object3D::SetEdgesColor(QColor new_color) { edges_color_ = new_color; }
 
 void Object3D::SetEdgesThickness(double new_thickness) {

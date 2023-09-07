@@ -14,11 +14,13 @@ class Object3DSpacer : public QObject {
     return object_.GetPointDisplayMethod();
   };
   LineDisplayType GetUITypeValue() { return object_.GetLineDisplayType(); };
+  QColor GetBaseColorValue() { return object_.GetBaseColor(); };
   QColor GetEdgesColorValue() { return object_.GetEdgesColor(); };
   double GetEdgesThicknessValue() { return object_.GetEdgesThickness(); };
   QColor GetVerticesColorValue() { return object_.GetVerticesColor(); };
   double GetVerticesSizeValue() { return object_.GetVerticesSize(); };
 
+  void SetBaseColorValue(QColor new_color);
   void SetEdgesColorValue(QColor new_color);
   void SetEdgesThicknessValue(double new_thickness);
   void SetVerticesColorValue(QColor new_color);

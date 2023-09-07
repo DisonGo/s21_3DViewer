@@ -6,6 +6,12 @@ void s21::Object3DSpacer::SetEdgesColorValue(QColor new_color) {
   emit ConfigUpdated();
 }
 
+void s21::Object3DSpacer::SetBaseColorValue(QColor new_color) {
+  if (object_.GetBaseColor() == new_color) return;
+  object_.SetBaseColor(new_color);
+  emit ConfigUpdated();
+}
+
 void s21::Object3DSpacer::SetEdgesThicknessValue(double new_thickness) {
   if (object_.GetEdgesThickness() == new_thickness) return;
   object_.SetEdgesThickness(new_thickness);
