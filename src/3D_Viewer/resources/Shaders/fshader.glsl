@@ -30,6 +30,7 @@ uniform vec3 u_CameraPos;
 vec3 lightColor = vec3(1., 1., 1.);
 float ambientStrength = 0.1;
 float specularStrength = 0.2;
+vec3 lightDir = vec3(-1, -1, -1);
 
 void DecidePointDraw() {
   vec2 circCoord = 2.0 * gl_PointCoord - 1.0;
@@ -67,11 +68,38 @@ vec3 DoLigthing() {
 
   return ambient + diffuse + specular;
 }
-void main() {
-  if (u_do_lighting)
-    FragColor = vec4(DoLigthing() * u_prototype_color, 1);
+vec3 CalcLight(vec3 position, vec3 color, float strength) {
+  if (strength == 0) return vec3(0);
+  vec3 ambient = strength * color;
+  vec3 norm;
+  if (u_flat_shade)
+    norm = normalize(f_normal_flat);
   else
+    norm = normalize(f_normal);
+  vec3 light_dir = normalize(lightDir);
+  float diff = max(dot(norm, light_dir), 0.0);
+
+  vec3 diffuse = diff * color;
+
+  vec3 viewDir = normalize(u_CameraPos - f_vertPos.xyz);
+  vec3 reflectDir = reflect(-light_dir, norm);
+
+  float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+  vec3 specular = strength * spec * color;
+
+  return ambient + diffuse + specular;
+}
+void main() {
+  if (u_do_lighting) {
+    vec3 final_light = vec3(0);
+    int lights_count = 2;
+    for (int i = 0; i < lights_count; i++)
+      final_light += CalcLight(u_ligths[i].position, u_ligths[i].color,
+                               u_ligths[i].strength);
+    FragColor = vec4(final_light * u_prototype_color, 1);
+  } else {
     FragColor = vec4(u_prototype_color, 1);
+  }
   DecidePointDraw();
   DecideLineDraw();
 }

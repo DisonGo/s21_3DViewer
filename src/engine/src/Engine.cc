@@ -23,6 +23,8 @@ Engine::~Engine() {
     if (obj) delete obj;
   for (auto program : programs_)
     if (program) delete program;
+  for (auto light : lights_)
+    if (light) delete light;
 }
 
 void Engine::SetupFocusPoint() {
@@ -81,6 +83,15 @@ void Engine::SetupObject3DFactory() {
   logger_.Log("Setup Object3D factory");
 }
 
+void Engine::SetupDefaultLight()
+{
+    auto light = new LightObject(Light({2,2,2},{255,0,0},0.3));
+    auto light2 = new LightObject(Light({2,2,-2},{0,255,0},0.2));
+  lights_.push_back(light);
+  lights_.push_back(light2);
+  logger_.Log("Setup default light");
+}
+
 void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   if (!object) return;
   auto program = Program::Default();
@@ -134,7 +145,10 @@ void Engine::Cycle() {
   if (!initialized_) return;
   glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+  for (auto program: programs_)
+    if (program)
+      for (size_t i = 0; i < lights_.size(); ++i)
+        lights_[i]->LoadInGLSLArray(*program, "u_ligths", i);
   if (draw_config_.points) DrawGeometry(GL_POINTS);
   if (draw_config_.lines) DrawGeometry(GL_LINES);
   if (draw_config_.triangles) DrawGeometry(GL_TRIANGLES);
@@ -195,6 +209,8 @@ Engine& Engine::operator=(const Engine& other) {
     }
   for (auto& obj : other.programs_)
     if (obj) programs_.push_back(new Program(*obj));
+  for (auto& obj : other.lights_)
+    if (obj) lights_.push_back(new LightObject(*obj));
 
   for (auto& obj : cameras_) engine_objects_.push_back(obj);
   for (auto& obj : objects_3d_) engine_objects_.push_back(obj);
@@ -212,6 +228,8 @@ Engine& Engine::operator=(Engine&& other) {
     if (obj) delete obj;
   for (auto program : programs_)
     if (program) delete program;
+  for (auto light : lights_)
+    if (light) delete light;
   engine_objects_.clear();
   cameras_.clear();
   objects_3d_.clear();
@@ -220,6 +238,7 @@ Engine& Engine::operator=(Engine&& other) {
   std::swap(focus_point_, other.focus_point_);
   std::swap(current_camera_, other.current_camera_);
   std::swap(programs_, other.programs_);
+  std::swap(lights_, other.lights_);
   std::swap(objects_3d_, other.objects_3d_);
   std::swap(cameras_, other.cameras_);
   std::swap(engine_objects_, other.engine_objects_);
@@ -240,6 +259,7 @@ void Engine::Initialize() {
   SetupObject3DFactory();
   SetupDefaultCameras();
   SetupFocusPoint();
+  SetupDefaultLight();
   initialized_ = true;
   logger_.Log("Engine initialized");
 }

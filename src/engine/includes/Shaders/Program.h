@@ -25,11 +25,11 @@ class Program : protected QOpenGLExtraFunctions {
   Program& operator=(const Program& other);
   Program& operator=(Program&& other);
   // GL Functions
-  void Uniform1i(const char* name, int a);
-  void Uniform1f(const char* name, float a);
-  void Uniform2f(const char* name, float a, float b);
-  void Uniform3f(const char* name, float a, float b, float c);
-  void UniformMatrix4fv(const char* name, int count, bool normalize,
+  void Uniform1i(const std::string& name, int a);
+  void Uniform1f(const std::string& name, float a);
+  void Uniform2f(const std::string& name, float a, float b);
+  void Uniform3f(const std::string& name, float a, float b, float c);
+  void UniformMatrix4fv(const std::string& name, int count, bool normalize,
                         const float* data);
   void LineWidth(float width);
 

@@ -37,15 +37,14 @@ namespace s21 {
 //   program_->Uniform1i("u_dashed", false);
 //   program_->Uniform1i("u_circlePoint", false);
 // }
-void LightObject::LoadInGLSLArray(const Program& program,
+void LightObject::LoadInGLSLArray(Program& program,
                                   const std::string& array_name, size_t index) {
   if (array_name.empty()) return;
   auto prefix = array_name + "[" + std::to_string(index) + "].";
-  program.Uniform3f(prefix + "position", position_.X(), position_.Y(),
-                    position_.Z());
-  program.Uniform3f(prefix + "color", color_.X(), color_.Y(), color_.Z());
+  program.Uniform3f(prefix + "position", -position_.X(), -position_.Y(),
+                    -position_.Z());
+  program.Uniform3f(prefix + "color", color_.X() / 256, color_.Y() / 256,
+                    color_.Z() / 256);
   program.Uniform1f(prefix + "strength", strength_);
-
-  glUniform1i(loc, value);
 }
 }  // namespace s21
