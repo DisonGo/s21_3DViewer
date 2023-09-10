@@ -26,7 +26,7 @@ uniform vec2 u_resolution;
 uniform vec3 u_prototype_color;
 
 uniform vec3 u_CameraPos;
-
+float specular_shininess = 8;
 vec3 lightColor = vec3(1., 1., 1.);
 float ambientStrength = 0.1;
 float specularStrength = 0.2;
@@ -68,31 +68,38 @@ vec3 DoLigthing() {
 
   return ambient + diffuse + specular;
 }
+float CalcDiffuse(vec3 normal, vec3 light_direction) {
+  return max(dot(normal, light_direction), 0.0);
+}
+float CalcSpecular(vec3 reflection_direction, vec3 view_direction,
+                   float shininess) {
+  return pow(CalcDiffuse(reflection_direction, view_direction), shininess);
+}
 vec3 CalcLight(vec3 position, vec3 color, float strength) {
   if (strength == 0) return vec3(0);
-  vec3 ambient = strength * color;
+  float ambient = strength;
   vec3 norm;
   if (u_flat_shade)
     norm = normalize(f_normal_flat);
   else
     norm = normalize(f_normal);
-  vec3 light_dir = normalize(lightDir);
+  vec3 light_dir = normalize(norm - position);
   float diff = max(dot(norm, light_dir), 0.0);
 
-  vec3 diffuse = diff * color;
+  float diffuse = CalcDiffuse(norm, light_dir);
 
   vec3 viewDir = normalize(u_CameraPos - f_vertPos.xyz);
   vec3 reflectDir = reflect(-light_dir, norm);
 
-  float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-  vec3 specular = strength * spec * color;
+  float specular =
+      CalcSpecular(viewDir, reflectDir, specular_shininess) * strength;
 
-  return ambient + diffuse + specular;
+  return (diffuse + specular) * color;
 }
 void main() {
   if (u_do_lighting) {
     vec3 final_light = vec3(0);
-    int lights_count = 2;
+    int lights_count = 3;
     for (int i = 0; i < lights_count; i++)
       final_light += CalcLight(u_ligths[i].position, u_ligths[i].color,
                                u_ligths[i].strength);

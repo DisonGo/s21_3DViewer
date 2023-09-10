@@ -1,15 +1,16 @@
 
 #include "E/Point.h"
 namespace s21 {
-Point::Point(float x, float y, float z) : Point(Vector3D(x, y, z)) {
+Point::Point(float x, float y, float z) : Point(Vector3D(x, y, z)) {}
+
+Point::Point(const Vector3D &position) {
+  CreateMesh(position);
   vertices_size_ = 10;
 }
 
-Point::Point(const Vector3D &position) { CreateMesh(position); }
-
 void Point::Draw(GLenum type, Camera *camera) {
   Q_UNUSED(type);
-  if (!camera) return;
+  if (!camera || !program_) return;
   program_->Activate();
   float red = vertices_color_.redF();
   float green = vertices_color_.greenF();
@@ -24,6 +25,7 @@ void Point::Draw(GLenum type, Camera *camera) {
 
 void Point::CreateMesh(const Vector3D &position) {
   OBJ obj;
+  logger_.Log("Creating mesh.");
   float x = position.X(), y = position.Y(), z = position.Z();
   obj.vertices.push_back({x, y, z});
   obj.faces.push_back({{{0, 0, 0}}});

@@ -2,41 +2,18 @@
 #include "E/Light/LightObject.h"
 
 namespace s21 {
-// void LightObject::Draw(GLenum type, Camera* camera) {
-//   if (!program_ || !camera) return;
-//   program_->Activate();
-//   transform_.LoadModelMatrix(program_);
-//   camera->Matrix(*program_);
-//   float red = 1, green = 1, blue = 1;
-//   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
-//   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
-//   if (type == GL_POINTS) {
-//     if (point_display_method_ == PointDisplayType::kNone) return;
-//     red = vertices_color_.redF();
-//     green = vertices_color_.greenF();
-//     blue = vertices_color_.blueF();
-//     program_->Uniform1i("u_circlePoint", is_circle);
-//     program_->Uniform1f("u_pointSize", vertices_size_);
-//   }
-//   if (type == GL_LINES) {
-//     red = edges_color_.redF();
-//     green = edges_color_.greenF();
-//     blue = edges_color_.blueF();
-//     program_->Uniform1i("u_dashed", is_dashed);
-//     program_->Uniform1i("u_dashSize", 3);
-//     program_->Uniform1i("u_gapSize", 3);
-//     program_->Uniform1f("u_lineWidth", edges_thickness_);
-//   }
-//   if (type == GL_TRIANGLES) {
-//     red = vertices_color_.redF();
-//     green = vertices_color_.greenF();
-//     blue = vertices_color_.blueF();
-//   }
-//   program_->Uniform3f("u_prototype_color", red, green, blue);
-//   for (const auto& mesh : meshes_) mesh->Draw(type);
-//   program_->Uniform1i("u_dashed", false);
-//   program_->Uniform1i("u_circlePoint", false);
-// }
+void LightObject::Draw(GLenum type, Camera* camera) {
+  SyncPrograms();
+  light_point_.GetTrasform().SetTranslate(position_);
+  auto c = color_.ToVector<3, int>();
+  light_point_.SetVerticesColor({c[0], c[1], c[2]});
+  light_point_.Draw(type, camera);
+}
+
+void LightObject::Setup()
+{
+    light_point_.SetVerticesSize(20);
+}
 void LightObject::LoadInGLSLArray(Program& program,
                                   const std::string& array_name, size_t index) {
   if (array_name.empty()) return;
@@ -46,5 +23,9 @@ void LightObject::LoadInGLSLArray(Program& program,
   program.Uniform3f(prefix + "color", color_.X() / 256, color_.Y() / 256,
                     color_.Z() / 256);
   program.Uniform1f(prefix + "strength", strength_);
+}
+void LightObject::SyncPrograms() {
+  if (light_point_.GetProgram() != program_ && program_)
+    light_point_.SetProgram(*program_);
 }
 }  // namespace s21

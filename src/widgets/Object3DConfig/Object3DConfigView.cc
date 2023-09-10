@@ -89,7 +89,7 @@ void Object3DConfigView::SetValuesFromConfig() {
 
   auto base_color = object_spacer_->GetBaseColorValue();
   Vector3D base_color_vec(base_color.red(), base_color.green(),
-                           base_color.blue());
+                          base_color.blue());
   ui->BaseColorTriplet->SetValues(base_color_vec);
 }
 

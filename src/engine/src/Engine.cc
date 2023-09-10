@@ -83,12 +83,19 @@ void Engine::SetupObject3DFactory() {
   logger_.Log("Setup Object3D factory");
 }
 
-void Engine::SetupDefaultLight()
-{
-    auto light = new LightObject(Light({2,2,2},{255,0,0},0.3));
-    auto light2 = new LightObject(Light({2,2,-2},{0,255,0},0.2));
+void Engine::SetupDefaultLight() {
+  auto light = new LightObject(Light({2, 0, 0}, {255, 0, 0}, 0.3));
+  auto light2 = new LightObject(Light({0, 2, 0}, {0, 255, 0}, 0.3));
+  auto light3 = new LightObject(Light({0, 0, 2}, {0, 0, 255}, 0.3));
   lights_.push_back(light);
   lights_.push_back(light2);
+  lights_.push_back(light3);
+  DefaultObject3DImport(light, false);
+  DefaultObject3DImport(light2, false);
+  DefaultObject3DImport(light3, false);
+  e_object_model_.AddItem(static_cast<Light*>(light), nullptr, "Red Light");
+  e_object_model_.AddItem(static_cast<Light*>(light2), nullptr, "Green Light");
+  e_object_model_.AddItem(static_cast<Light*>(light3), nullptr, "Blue Light");
   logger_.Log("Setup default light");
 }
 
@@ -145,7 +152,7 @@ void Engine::Cycle() {
   if (!initialized_) return;
   glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  for (auto program: programs_)
+  for (auto program : programs_)
     if (program)
       for (size_t i = 0; i < lights_.size(); ++i)
         lights_[i]->LoadInGLSLArray(*program, "u_ligths", i);

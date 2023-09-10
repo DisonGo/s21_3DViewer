@@ -1,10 +1,8 @@
 #ifndef EOBJECTTREEITEM_H
 #define EOBJECTTREEITEM_H
-#include "E/Camera.h"
-#include "E/Object3D.h"
-#include "E/Transform.h"
-#include "Spacers/CameraSpacer.h"
-#include "Spacers/TransformSpacer.h"
+#include "E/EObject.h"
+#include "QList"
+#include "QVariant"
 namespace s21 {
 class EObjectTreeItem {
  public:

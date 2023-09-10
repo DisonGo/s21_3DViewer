@@ -97,6 +97,9 @@ std::string EObjectItemModel::GetTitle(EObjectType type) {
     case kMesh:
       return "Mesh";
       break;
+    case kLight:
+      return "Light";
+      break;
   }
 }
 void EObjectItemModel::FindAndSelectIndex(const QModelIndex &index) {
@@ -106,10 +109,7 @@ void EObjectItemModel::FindAndSelectIndex(const QModelIndex &index) {
   if (!item) return;
   auto obj_ptr = item->GetObjectPtr();
 
-  if (camera_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
-  if (transform_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
-  if (mesh_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
-  if (object3D_ptrs_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
+  if (all_objects_.contains(obj_ptr)) emit ObjectSelected(obj_ptr);
 }
 
 void EObjectItemModel::PrintIndexObject(const QModelIndex &index) {
@@ -157,10 +157,14 @@ void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
 
   beginRemoveRows(parent_index, row, row + delete_count);
   parent_ptr->RemoveChild(item);
-  if (all_objects_.contains(obj_ptr)) all_objects_.removeAll(obj_ptr);
-  if (camera_ptrs_.contains(obj_ptr)) camera_ptrs_.removeAll(obj_ptr);
-  if (object3D_ptrs_.contains(obj_ptr)) object3D_ptrs_.removeAll(obj_ptr);
-  if (transform_ptrs_.contains(obj_ptr)) transform_ptrs_.removeAll(obj_ptr);
+  if (all_objects_.contains(obj_ptr)) {
+    all_objects_.removeAll(obj_ptr);
+    if (camera_ptrs_.contains(obj_ptr)) camera_ptrs_.removeAll(obj_ptr);
+    if (object3D_ptrs_.contains(obj_ptr)) object3D_ptrs_.removeAll(obj_ptr);
+    if (transform_ptrs_.contains(obj_ptr)) transform_ptrs_.removeAll(obj_ptr);
+    if (light_ptrs_.contains(obj_ptr)) light_ptrs_.removeAll(obj_ptr);
+  }
+
   auto item_name = item->data(0).value<QString>().toStdString();
   auto log = std::string("Removed ") + item_name;
   logger_.Log(log.c_str());
@@ -190,6 +194,9 @@ void EObjectItemModel::PushObjectInVectors(EObject *item) {
       break;
     case kMesh:
       mesh_ptrs_ << static_cast<Mesh *>(item);
+      break;
+    case kLight:
+      light_ptrs_ << static_cast<Light *>(item);
       break;
   }
 }

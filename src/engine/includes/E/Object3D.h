@@ -50,6 +50,7 @@ class Object3D : public EObject {
   double GetEdgesThickness() { return edges_thickness_; };
   QColor GetVerticesColor() { return vertices_color_; };
   double GetVerticesSize() { return vertices_size_; };
+  Program* GetProgram() { return program_; };
   std::string GetFileName() { return file_name_; };
   unsigned long CountVertices(OBJImportStrategyType buffer_type);
   unsigned long CountIndices(OBJImportStrategyType buffer_type);
@@ -70,8 +71,6 @@ class Object3D : public EObject {
   PointDisplayType point_display_method_ = PointDisplayType::kNone;
   LineDisplayType line_display_type_ = kSolid;
 };
-
-
 
 }  // namespace s21
 

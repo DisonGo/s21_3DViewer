@@ -13,6 +13,7 @@
 #include <QVariantAnimation>
 
 #include "./ui_mainwindow.h"
+#include "Logger.h"
 namespace s21 {
 MainWindow::MainWindow(EngineSpacer& engine_spacer,
                        DrawConfigSpacer& draw_config_spacer,
@@ -113,13 +114,13 @@ void clearLayout(QLayout* layout, bool deleteWidgets = true) {
   }
 }
 void MainWindow::ImportFile(QString path) {
-//  if (!QFileInfo::exists(path)) {
-//    QErrorMessage* errorMessage = new QErrorMessage();
-//    errorMessage->setWindowTitle("Import error");
-//    errorMessage->showMessage("Choosen file doesn't exist");
-//    errorMessage->exec();
-//    return;
-//  }
+  //  if (!QFileInfo::exists(path)) {
+  //    QErrorMessage* errorMessage = new QErrorMessage();
+  //    errorMessage->setWindowTitle("Import error");
+  //    errorMessage->showMessage("Choosen file doesn't exist");
+  //    errorMessage->exec();
+  //    return;
+  //  }
   open_gl_widget_->makeCurrent();
   engine_spacer_.ImportOBJFile(path.toStdString());
   clearLayout(ui->ObjectWidgetHolder);
@@ -139,9 +140,15 @@ void MainWindow::ChooseBackColor() {
 void MainWindow::ShowObjectWidget(EObject* object) {
   static ConfigWidgetFactory widget_factory;
   clearLayout(ui->ObjectWidgetHolder);
+  auto log = std::string("Creating widget of type ") +
+             std::to_string(object->GetType());
+  logger_.Log(log.c_str());
   ConfigWidget* widget = widget_factory.CreateWidget(object, this);
   CameraSpacer* cam_spacer = nullptr;
-  if (!widget) return;
+  if (!widget) {
+    logger_.Log("Widget is null. Aborting.");
+    return;
+  };
   if (object->GetType() == kCamera)
     cam_spacer = static_cast<CameraConfigView*>(widget)->GetCameraSpacer();
   open_gl_widget_->SetCameraSpacer(cam_spacer);
