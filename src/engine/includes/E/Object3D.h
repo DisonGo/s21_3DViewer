@@ -63,7 +63,7 @@ class Object3D : public EObject {
   Logger logger_{"Object3D"};
   Program* program_{};
   Transform transform_;
-  QColor base_color_{227, 228, 230};
+  QColor base_color_{40, 40, 40};
   QColor edges_color_{255, 255, 255};
   double edges_thickness_{1};
   QColor vertices_color_{255, 125, 125};

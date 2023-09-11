@@ -59,6 +59,9 @@ void LightConfigView::Setup() {
 
   ui->LightColorTriplet->SetStep(1);
   ui->LightPositionTriplet->SetStep(1);
+  ui->LightStrengthSB->setSingleStep(0.001);
+  ui->LightStrengthSB->setDecimals(4);
+
   connect(ui->LightColorTriplet, &TripletWidget::InputsChanged, this,
           &LightConfigView::SetColor);
   connect(ui->LightPositionTriplet, &TripletWidget::InputsChanged, this,
