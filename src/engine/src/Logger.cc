@@ -66,8 +66,10 @@ std::string Logger::CreateMessage(const char* message, LogLevel level) {
   static size_t name_space_max_size_ = 1;
   name_space_max_size_ = std::max(name_space_max_size_, name_space_.size() + 2);
   char* c_msg = new char[c_msg_size];
+  auto namespace_str = name_space_ + "::";
+  const char* namespace_c_str = namespace_str.c_str();
   sprintf(c_msg, "%-10s %-*s %s", prefix_map.at(level),
-          (int)name_space_max_size_, (name_space_ + "::").c_str(), message);
+          (int)name_space_max_size_, namespace_c_str, message);
   auto msg = std::string(c_msg);
   delete[] c_msg;
   return msg;

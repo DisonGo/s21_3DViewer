@@ -17,6 +17,7 @@
 namespace s21 {
 enum class PointDisplayType { kNone = 0, kCircle, kSquare };
 enum LineDisplayType { kSolid = 0, kDashed };
+enum ObjectDisplayType { kWireframe = 0, kFlatShading, kSmoothShading };
 class Object3D : public EObject {
  public:
   Object3D() = default;

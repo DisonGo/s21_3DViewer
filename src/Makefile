@@ -32,6 +32,8 @@ tests: build
 	@./${BUILD_PATH}/exe/TESTING
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
+b: build_3D_Viewer
+
 
 open:
 	@./${EXE_PATH}

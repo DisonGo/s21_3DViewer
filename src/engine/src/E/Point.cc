@@ -20,12 +20,13 @@ void Point::Draw(GLenum type, Camera *camera) {
   program_->Uniform3f("u_prototype_color", red, green, blue);
   program_->Uniform1f("u_pointSize", vertices_size_);
   program_->Uniform1i("u_circlePoint", true);
+  // logger_.Log("Drawing point", Logger::LogLevel::kWarning);
   for (const auto &mesh : meshes_) mesh->Draw(GL_POINTS);
 }
 
 void Point::CreateMesh(const Vector3D &position) {
   OBJ obj;
-  logger_.Log("Creating mesh.");
+  logger_.Log("Creating mesh.", Logger::LogLevel::kWarning);
   float x = position.X(), y = position.Y(), z = position.Z();
   obj.vertices.push_back({x, y, z});
   obj.faces.push_back({{{0, 0, 0}}});
