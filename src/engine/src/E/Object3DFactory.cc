@@ -100,6 +100,9 @@ Object3DFactory &Object3DFactory::operator=(const Object3DFactory &other) {
     else if (type == s21::kVertexOnlyImport)
       imp_ptr = new OBJImportVertexOnlyStrategy(
           *static_cast<OBJImportVertexOnlyStrategy *>(importer.importer_ptr));
+    else if (type == s21::kNormalsImport)
+      imp_ptr = new OBJImportNormalsStrategy(
+          *static_cast<OBJImportNormalsStrategy *>(importer.importer_ptr));
     importers_.insert({type, {imp_ptr, importer.on}});
   }
   return *this;

@@ -44,7 +44,9 @@ void Mesh::Draw(GLenum type) {
     if (!MAP_CONTAINS(buffer_toggle_, import_type)) continue;
     if (buffer_toggle_.at(import_type) && vao) {
       if (import_type == s21::kTriangleImport && type != GL_TRIANGLES) continue;
-      if (import_type == s21::kWireframeImport && type != GL_LINES) continue;
+      if ((import_type == s21::kWireframeImport ||
+          import_type == s21::kNormalsImport) && type != GL_LINES)
+        continue;
       vao->Draw(type);
     }
   }

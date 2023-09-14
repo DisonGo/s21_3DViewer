@@ -7,11 +7,13 @@
 
 #include "E/Object3D.h"
 #include "Parsers/OBJParser.h"
+#include "Strategies/Import/OBJImportNormalsStrategy.h"
 #include "Strategies/Import/OBJImportStandartStrategy.h"
 #include "Strategies/Import/OBJImportStrategy.h"
 #include "Strategies/Import/OBJImportTriangleStrategy.h"
 #include "Strategies/Import/OBJImportVertexOnlyStrategy.h"
 #include "Strategies/Import/OBJImportWireframeStrategy.h"
+
 namespace s21 {
 class Object3DFactory {
   using ImporterBundle = struct Bundle {

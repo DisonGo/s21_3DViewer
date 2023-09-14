@@ -33,6 +33,8 @@ void MeshConfigView::SetValuesFromConfig() {
       mesh_spacer_->GetBufferToogleValue(s21::kWireframeImport));
   ui->vertexOnlyBufferCheckBox->setChecked(
       mesh_spacer_->GetBufferToogleValue(s21::kVertexOnlyImport));
+  ui->normalsBufferCheckBox->setChecked(
+      mesh_spacer_->GetBufferToogleValue(s21::kNormalsImport));
 }
 
 void MeshConfigView::SetBufferToggle(int value) {
@@ -46,6 +48,8 @@ void MeshConfigView::SetBufferToggle(int value) {
     mesh_spacer_->SetBufferToogleValue(s21::kWireframeImport, value);
   if (checkbox_ptr == ui->vertexOnlyBufferCheckBox)
     mesh_spacer_->SetBufferToogleValue(s21::kVertexOnlyImport, value);
+  if (checkbox_ptr == ui->normalsBufferCheckBox)
+    mesh_spacer_->SetBufferToogleValue(s21::kNormalsImport, value);
   emit UpdateRequest();
 }
 
@@ -58,6 +62,8 @@ void MeshConfigView::Setup() {
   connect(ui->wireframeBufferCheckBox, &QCheckBox::stateChanged, this,
           &MeshConfigView::SetBufferToggle);
   connect(ui->vertexOnlyBufferCheckBox, &QCheckBox::stateChanged, this,
+          &MeshConfigView::SetBufferToggle);
+  connect(ui->normalsBufferCheckBox, &QCheckBox::stateChanged,this,
           &MeshConfigView::SetBufferToggle);
 }
 }  // namespace s21

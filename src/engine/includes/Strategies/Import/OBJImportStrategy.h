@@ -12,7 +12,8 @@ enum OBJImportStrategyType {
   kStandartImport,
   kTriangleImport,
   kVertexOnlyImport,
-  kWireframeImport
+  kWireframeImport,
+  kNormalsImport
 };
 class OBJImportStrategy : public ImportStrategy {
  public:

@@ -80,6 +80,7 @@ void Engine::SetupObject3DFactory() {
   object3d_factory_.SetParser(new OBJParser);
   object3d_factory_.InstallImporter(new OBJImportWireframeStrategy);
   object3d_factory_.InstallImporter(new OBJImportTriangleStrategy);
+  object3d_factory_.InstallImporter(new OBJImportNormalsStrategy);
   logger_.Log("Setup Object3D factory");
 }
 
