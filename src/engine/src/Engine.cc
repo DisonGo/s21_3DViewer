@@ -80,44 +80,15 @@ void Engine::SetupObject3DFactory() {
   object3d_factory_.SetParser(new OBJParser);
   object3d_factory_.InstallImporter(new OBJImportWireframeStrategy);
   object3d_factory_.InstallImporter(new OBJImportTriangleStrategy);
-  object3d_factory_.InstallImporter(new OBJImportNormalsStrategy);
+  // object3d_factory_.InstallImporter(new OBJImportNormalsStrategy);
   logger_.Log("Setup Object3D factory");
 }
 
 void Engine::SetupDefaultLight() {
-  auto light = new LightObject(Light({2, 0, 0}, {255, 0, 0}, 1));
-  auto light2 = new LightObject(Light({0, 2, 0}, {0, 255, 0}, 1));
-  auto light3 = new LightObject(Light({0, 0, 2}, {0, 0, 255}, 1));
+  auto light = new LightObject(Light({2, 2, 1}, {230, 230, 230}, 3));
   lights_.push_back(light);
-  lights_.push_back(light2);
-  lights_.push_back(light3);
-  // DefaultObject3DImport(light, false);
-  auto program = Program::Default();
-  light->SetProgram(*program);
-  objects_3d_.push_back(light);
-  programs_.push_back(program);
-  std::string log("Default imported Object3D: ");
-  log += light->GetFileName();
-  logger_.Log(log.c_str());
-  program = Program::Default();
-  light2->SetProgram(*program);
-  objects_3d_.push_back(light2);
-  programs_.push_back(program);
-  log = "Default imported Object3D: ";
-  log += light2->GetFileName();
-  logger_.Log(log.c_str());
-  program = Program::Default();
-  light3->SetProgram(*program);
-  objects_3d_.push_back(light3);
-  programs_.push_back(program);
-  log = "Default imported Object3D: ";
-  log += light3->GetFileName();
-  logger_.Log(log.c_str());
-  // DefaultObject3DImport(light2, false);
-  // DefaultObject3DImport(light3, false);
-  e_object_model_.AddItem(static_cast<Light*>(light), nullptr, "Red Light");
-  e_object_model_.AddItem(static_cast<Light*>(light2), nullptr, "Green Light");
-  e_object_model_.AddItem(static_cast<Light*>(light3), nullptr, "Blue Light");
+  DefaultObject3DImport(light, false);
+  e_object_model_.AddItem(static_cast<Light*>(light), nullptr, "Light");
   logger_.Log("Setup default light");
 }
 

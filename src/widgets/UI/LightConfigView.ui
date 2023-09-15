@@ -54,7 +54,7 @@
      <item>
       <widget class="QLabel" name="LigthStrengthL">
        <property name="text">
-        <string>Size:</string>
+        <string>Strength:</string>
        </property>
       </widget>
      </item>

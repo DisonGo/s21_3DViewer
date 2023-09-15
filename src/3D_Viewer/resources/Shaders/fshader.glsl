@@ -36,7 +36,7 @@ uniform vec2 u_resolution;
 uniform vec3 u_prototype_color;
 
 uniform vec3 u_CameraPos;
-float specular_shininess = 8;
+float specular_shininess = 32;
 vec4 p_color = vec4(u_prototype_color, 1);
 
 void DecidePointDraw() {
@@ -111,7 +111,7 @@ vec3 CalcPointLight(PointLight light, vec3 fragPos, vec3 viewDir,
   vec3 diffuse = light.diffuse * diff;
   vec3 specular = light.specular * spec;
 
-  return (diffuse + specular) * attenuation * strength;
+  return (ambient + diffuse + specular) * attenuation * strength;
 }
 
 vec4 SoftLightBlend(vec4 color1, vec4 color2) {
@@ -127,7 +127,7 @@ void main() {
     vec3 final_light = vec3(0);
     vec4 total_ambient = vec4(0);
     vec3 viewDir = normalize(f_vertPos.xyz - u_CameraPos);
-    int lights_count = 1;
+    int lights_count = 3;
     for (int i = 0; i < lights_count; i++) {
       PointLight p_light = PointLight(
           u_ligths[i].position, 1, 0.045, 0.0075, u_ligths[i].color * 0.2,
