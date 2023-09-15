@@ -42,18 +42,12 @@ Object3D& Object3D::operator=(Object3D&& other) {
 
 void Object3D::Draw(GLenum type, Camera* camera) {
   if (!program_ || !camera) return;
-  // BUG Points stoped rendering.
   program_->Activate();
   transform_.LoadModelMatrix(program_);
   camera->Matrix(*program_);
   float red = 1, green = 1, blue = 1;
   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
-//  auto cam_pos = camera->GetPosition();
-//  auto cam_ornt = camera->GetOrientation();
-//  if (camera->GetMode() == Camera::CameraMode::kFree) cam_ornt *= -1;
-//  program_->Uniform3f("u_lightPos", cam_pos.X(), cam_pos.Y(), cam_pos.Z());
-//  program_->Uniform3f("u_lightDir", cam_ornt.X(), cam_ornt.Y(), cam_ornt.Z());
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     program_->Uniform1i("u_circlePoint", is_circle);
@@ -69,8 +63,8 @@ void Object3D::Draw(GLenum type, Camera* camera) {
     blue = edges_color_.blueF();
   }
   if (type == GL_TRIANGLES) {
-    program_->Uniform1i("u_flat_shade", is_circle);
-    program_->Uniform1i("u_do_lighting", true);
+    program_->Uniform1i("u_flat_shade", object_display_type_ == kFlatShading);
+    program_->Uniform1i("u_do_lighting", object_display_type_ != kWireframe);
     red = base_color_.redF();
     green = base_color_.greenF();
     blue = base_color_.blueF();
@@ -123,14 +117,18 @@ void Object3D::SetVerticesColor(QColor new_color) {
 
 void Object3D::SetVerticesSize(double new_size) { vertices_size_ = new_size; }
 
-void Object3D::SetDisplayMethod(PointDisplayType new_method) {
-  point_display_method_ = new_method;
+void Object3D::SetDisplayMethod(PointDisplayType new_type) {
+  point_display_method_ = new_type;
 }
 
 void Object3D::SetLineDisplayType(LineDisplayType new_type) {
   line_display_type_ = new_type;
 }
-
+void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
+  object_display_type_ = new_type;
+  auto buffer_to_except = new_type == kWireframe ? kWireframeImport : kTriangleImport;
+  for (const auto& mesh : meshes_) mesh->SetBufferExceptToggle(buffer_to_except, true);
+}
 void Object3D::SetFileName(std::string file_name) { file_name_ = file_name; }
 
 unsigned long Object3D::CountVertices(OBJImportStrategyType buffer_type) {

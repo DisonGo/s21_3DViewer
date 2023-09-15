@@ -43,10 +43,14 @@ void Mesh::Draw(GLenum type) {
   for (auto const& [import_type, vao] : VAO_map_) {
     if (!MAP_CONTAINS(buffer_toggle_, import_type)) continue;
     if (buffer_toggle_.at(import_type) && vao) {
-      if (import_type == s21::kTriangleImport && type != GL_TRIANGLES) continue;
-      if ((import_type == s21::kWireframeImport ||
-          import_type == s21::kNormalsImport) && type != GL_LINES)
-        continue;
+      if (type != GL_POINTS) {
+        if (import_type == s21::kTriangleImport && type != GL_TRIANGLES)
+          continue;
+        if ((import_type == s21::kWireframeImport ||
+             import_type == s21::kNormalsImport) &&
+            type != GL_LINES)
+          continue;
+      }
       vao->Draw(type);
     }
   }
@@ -71,6 +75,11 @@ void Mesh::Import(const s21::OBJ& obj, s21::OBJImportStrategy* importer) {
 void Mesh::SetBufferToggle(OBJImportStrategyType type, bool value) {
   if (!MAP_CONTAINS(buffer_toggle_, type)) return;
   buffer_toggle_.find(type)->second = value;
+}
+
+void Mesh::SetBufferExceptToggle(OBJImportStrategyType type, bool value) {
+  for (auto& [import_type, toggle] : buffer_toggle_)
+    toggle = import_type != type ? !value : value;
 }
 
 bool Mesh::GetBufferToggle(OBJImportStrategyType type) {

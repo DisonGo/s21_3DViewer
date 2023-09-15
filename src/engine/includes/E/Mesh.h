@@ -29,6 +29,7 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   void Draw(GLenum type);
   void Import(const OBJ& obj, OBJImportStrategy* importer);
   void SetBufferToggle(OBJImportStrategyType type, bool value);
+  void SetBufferExceptToggle(OBJImportStrategyType type, bool value);
   bool GetBufferToggle(OBJImportStrategyType type);
   unsigned long GetVertices(OBJImportStrategyType buffer_type);
   unsigned long GetIndices(OBJImportStrategyType buffer_type);

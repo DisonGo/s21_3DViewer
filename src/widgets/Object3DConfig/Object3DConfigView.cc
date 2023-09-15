@@ -52,6 +52,9 @@ void Object3DConfigView::SetupConnects() {
   for (auto &but : ui->LineTypeG->buttons())
     connect(but, &QRadioButton::toggled, this,
             &Object3DConfigView::SetLineType);
+  for (auto &but : ui->DisplayTypeG->buttons())
+    connect(but, &QRadioButton::toggled, this,
+            &Object3DConfigView::SetDisplayType);
   connect(ui->LineWidthSB, &QDoubleSpinBox::valueChanged, this,
           &Object3DConfigView::SetLineWidth);
   connect(ui->PointSizeSB, &QDoubleSpinBox::valueChanged, this,
@@ -67,6 +70,7 @@ void Object3DConfigView::SetValuesFromConfig() {
 
   auto line_type = object_spacer_->GetUITypeValue();
   auto point_type = object_spacer_->GetDisplayMethodValue();
+  auto display_type = object_spacer_->GetDisplayTypeValue();
 
   ui->PointTypeNoneB->setChecked(point_type == s21::PointDisplayType::kNone);
   ui->PointTypeCircleB->setChecked(point_type ==
@@ -76,6 +80,10 @@ void Object3DConfigView::SetValuesFromConfig() {
 
   ui->LineTypeSolidB->setChecked(line_type == s21::kSolid);
   ui->LineTypeDashedB->setChecked(line_type == s21::kDashed);
+
+  ui->DisplayTypeWireframeB->setChecked(display_type == kWireframe);
+  ui->DisplayTypeFlatB->setChecked(display_type == kFlatShading);
+  ui->DisplayTypeSmoothB->setChecked(display_type == kSmoothShading);
 
   auto line_color = object_spacer_->GetEdgesColorValue();
   Vector3D line_color_vec(line_color.red(), line_color.green(),
@@ -141,6 +149,19 @@ void Object3DConfigView::SetPointType(bool checked) {
     object_spacer_->SetDisplayMethodValue(s21::PointDisplayType::kCircle);
   if (widget_ptr == ui->PointTypeSquareB)
     object_spacer_->SetDisplayMethodValue(s21::PointDisplayType::kSquare);
+  emit UpdateRequest();
+}
+
+void Object3DConfigView::SetDisplayType(bool checked) {
+  Q_UNUSED(checked)
+  if (!object_spacer_) return;
+  auto widget_ptr = static_cast<QRadioButton *>(sender());
+  if (widget_ptr == ui->DisplayTypeWireframeB)
+    object_spacer_->SetDisplayTypeValue(s21::kWireframe);
+  if (widget_ptr == ui->DisplayTypeFlatB)
+    object_spacer_->SetDisplayTypeValue(s21::kFlatShading);
+  if (widget_ptr == ui->DisplayTypeSmoothB)
+    object_spacer_->SetDisplayTypeValue(s21::kSmoothShading);
   emit UpdateRequest();
 }
 

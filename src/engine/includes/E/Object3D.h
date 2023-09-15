@@ -38,14 +38,16 @@ class Object3D : public EObject {
   void SetEdgesThickness(double new_thickness);
   void SetVerticesColor(QColor new_color);
   void SetVerticesSize(double new_size);
-  void SetDisplayMethod(PointDisplayType new_method);
+  void SetDisplayMethod(PointDisplayType new_type);
   void SetLineDisplayType(LineDisplayType new_type);
+  void SetObjectDisplayType(ObjectDisplayType new_type);
   void SetFileName(std::string file_name);
   Mesh& GetMesh(size_t index) { return *meshes_.at(index); };
   const std::vector<std::shared_ptr<Mesh>>& GetMeshes() { return meshes_; };
   Transform& GetTrasform() { return transform_; };
   PointDisplayType GetPointDisplayMethod() { return point_display_method_; };
   LineDisplayType GetLineDisplayType() { return line_display_type_; };
+  ObjectDisplayType GetObjectDisplayType() { return object_display_type_; };
   QColor GetBaseColor() { return base_color_; };
   QColor GetEdgesColor() { return edges_color_; };
   double GetEdgesThickness() { return edges_thickness_; };
@@ -71,6 +73,7 @@ class Object3D : public EObject {
   double vertices_size_{1};
   PointDisplayType point_display_method_ = PointDisplayType::kNone;
   LineDisplayType line_display_type_ = kSolid;
+  ObjectDisplayType object_display_type_ = kFlatShading;
 };
 
 }  // namespace s21

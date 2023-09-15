@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <iostream>
 // BUG Sometimes crashes when a lot of log messages in a short time
+// Probably bc of delete[] c_str in CreateMessage method.
 using std::cout;
 #ifndef _WIN32
 constexpr const char* RESET = "\033[0m";

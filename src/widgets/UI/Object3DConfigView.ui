@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>295</width>
-    <height>381</height>
+    <width>355</width>
+    <height>417</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -305,6 +305,47 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QLabel" name="DisplayTypeL">
+       <property name="text">
+        <string>Display type:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QRadioButton" name="DisplayTypeWireframeB">
+         <property name="text">
+          <string>Wireframe</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">DisplayTypeG</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="DisplayTypeFlatB">
+         <property name="text">
+          <string>Flat shading</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">DisplayTypeG</string>
+         </attribute>
+        </widget>
+       </item>
+       <item>
+        <widget class="QRadioButton" name="DisplayTypeSmoothB">
+         <property name="text">
+          <string>Smooth shading</string>
+         </property>
+         <attribute name="buttonGroup">
+          <string notr="true">DisplayTypeG</string>
+         </attribute>
+        </widget>
+       </item>
+      </layout>
+     </item>
     </layout>
    </item>
   </layout>
@@ -320,7 +361,8 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="LineTypeG"/>
   <buttongroup name="PointTypeG"/>
+  <buttongroup name="LineTypeG"/>
+  <buttongroup name="DisplayTypeG"/>
  </buttongroups>
 </ui>

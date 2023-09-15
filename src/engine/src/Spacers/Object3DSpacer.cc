@@ -41,3 +41,10 @@ void s21::Object3DSpacer::SetUITypeValue(LineDisplayType new_type) {
   object_.SetLineDisplayType(new_type);
   emit ConfigUpdated();
 }
+
+void s21::Object3DSpacer::SetDisplayTypeValue(ObjectDisplayType new_type)
+{
+    if (object_.GetObjectDisplayType() == new_type) return;
+    object_.SetObjectDisplayType(new_type);
+    emit ConfigUpdated();
+}

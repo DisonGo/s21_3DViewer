@@ -127,7 +127,7 @@ void main() {
     vec3 final_light = vec3(0);
     vec4 total_ambient = vec4(0);
     vec3 viewDir = normalize(f_vertPos.xyz - u_CameraPos);
-    int lights_count = 3;
+    int lights_count = 1;
     for (int i = 0; i < lights_count; i++) {
       PointLight p_light = PointLight(
           u_ligths[i].position, 1, 0.045, 0.0075, u_ligths[i].color * 0.2,
@@ -135,14 +135,11 @@ void main() {
 
       final_light +=
           CalcPointLight(p_light, f_vertPos.xyz, viewDir, u_ligths[i].strength);
-      // final_light += CalcLight(u_ligths[i].position, u_ligths[i].color,
-      //                          u_ligths[i].strength);
-      // total_ambient += CalcAmbient(u_ligths[i].color, u_ligths[i].strength);
     }
     FragColor = vec4(final_light, 1) * p_color;
   } else {
     FragColor = p_color;
   }
-  DecidePointDraw();
   DecideLineDraw();
+  DecidePointDraw();
 }

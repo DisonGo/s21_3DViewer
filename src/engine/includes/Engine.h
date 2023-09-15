@@ -41,7 +41,6 @@ class Engine : protected QOpenGLFunctions {
   void SetCurrentCamera(Camera* camera);
 
  private:
-  // TODO Add realization of move/copy constructors
   void Wipe3DObjects();
   void SetupFocusPoint();
   void CheckOpenGLSettings();
