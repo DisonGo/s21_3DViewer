@@ -11,7 +11,7 @@
 #include "Spacers/EngineSpacer.h"
 int main(int argc, char *argv[]) {
   QSurfaceFormat format;
-  s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kBasic);
+  // s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kBasic);
   format.setDepthBufferSize(16);
   format.setStencilBufferSize(4);
   format.setSwapBehavior(QSurfaceFormat::TripleBuffer);
@@ -26,6 +26,8 @@ int main(int argc, char *argv[]) {
   s21::ImageSaverControler saver_controler(image_saver);
 
   s21::DrawConfig config;
+  // config.lines = false;
+  // config.triangles = false;
   s21::DrawConfigSpacer config_spacer(config);
 
   s21::Engine engine(config);

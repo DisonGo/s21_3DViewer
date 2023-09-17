@@ -43,7 +43,7 @@ class Transform : public EObject, protected QOpenGLFunctions {
   godison::matrices::Matrix4x4 model_scale_;
   godison::matrices::Matrix4x4 model_rot_;
   godison::matrices::Matrix4x4 model_translate_;
-  bool awaitingLoadInProgram_ = false;
+  bool awaiting_load_in_program_ = false;
 };
 }  // namespace s21
 

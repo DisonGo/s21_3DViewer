@@ -48,31 +48,28 @@ Program& Program::operator=(Program&& other) {
   return *this;
 }
 
-void Program::Uniform1i(const char* name, int a) {
+void Program::Uniform1i(const std::string& name, int a) {
   glUniform1i(GetUniform(name), a);
 }
 
-void Program::Uniform1f(const char* name, float a) {
+void Program::Uniform1f(const std::string& name, float a) {
   glUniform1f(GetUniform(name), a);
 }
 
-void Program::Uniform2f(const char* name, float a, float b) {
+void Program::Uniform2f(const std::string& name, float a, float b) {
   glUniform2f(GetUniform(name), a, b);
 }
 
-void Program::Uniform3f(const char* name, float a, float b, float c) {
+void Program::Uniform3f(const std::string& name, float a, float b, float c) {
   glUniform3f(GetUniform(name), a, b, c);
 }
 
-void Program::UniformMatrix4fv(const char* name, int count, bool normalize,
-                               const float* data) {
+void Program::UniformMatrix4fv(const std::string& name, int count,
+                               bool normalize, const float* data) {
   glUniformMatrix4fv(GetUniform(name), count, normalize, data);
 }
 
-void Program::LineWidth(float width)
-{
-  glLineWidth(width);
-}
+void Program::LineWidth(float width) { glLineWidth(width); }
 
 void Program::CopyProgram(const Program& other) {
   GLsizei binarySize;

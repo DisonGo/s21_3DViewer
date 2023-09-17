@@ -17,10 +17,12 @@ std::vector<VertexData> OBJImportVertexOnlyStrategy::GetVertexDataArray(
     const OBJ& obj) const {
   std::vector<VertexData> new_arr;
   size_t size = obj.vertices.size();
+  // if (obj.vertices.size() != obj.normals.size())
+  //   throw "vertices.size != normals.size";
   for (auto& face : obj.faces) {
     for (auto& indices : face.indices) {
-      GLuint index = indices.v_index;
-      if (index < size) new_arr.push_back({obj.vertices.at(index)});
+      GLuint v_i = indices.v_index;
+      if (v_i < size) new_arr.push_back({obj.vertices.at(v_i), {0, 0, 0}});
     }
   }
   return new_arr;

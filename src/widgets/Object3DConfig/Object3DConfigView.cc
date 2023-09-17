@@ -20,12 +20,15 @@ void Object3DConfigView::Setup() {
   ui->setupUi(this);
   ui->LineColorTriplet->SetTexts("r:", "g:", "b:");
   ui->PointColorTriplet->SetTexts("r:", "g:", "b:");
+  ui->BaseColorTriplet->SetTexts("r:", "g:", "b:");
 
   ui->LineColorTriplet->SetRange(0, 255);
   ui->PointColorTriplet->SetRange(0, 255);
+  ui->BaseColorTriplet->SetRange(0, 255);
 
   ui->LineColorTriplet->SetStep(1);
   ui->PointColorTriplet->SetStep(1);
+  ui->BaseColorTriplet->SetStep(1);
   SetupConnects();
 }
 
@@ -41,12 +44,17 @@ void Object3DConfigView::SetupConnects() {
           &Object3DConfigView::SetColor);
   connect(ui->PointColorTriplet, &TripletWidget::InputsChanged, this,
           &Object3DConfigView::SetColor);
+  connect(ui->BaseColorTriplet, &TripletWidget::InputsChanged, this,
+          &Object3DConfigView::SetColor);
   for (auto &but : ui->PointTypeG->buttons())
     connect(but, &QRadioButton::toggled, this,
             &Object3DConfigView::SetPointType);
   for (auto &but : ui->LineTypeG->buttons())
     connect(but, &QRadioButton::toggled, this,
             &Object3DConfigView::SetLineType);
+  for (auto &but : ui->DisplayTypeG->buttons())
+    connect(but, &QRadioButton::toggled, this,
+            &Object3DConfigView::SetDisplayType);
   connect(ui->LineWidthSB, &QDoubleSpinBox::valueChanged, this,
           &Object3DConfigView::SetLineWidth);
   connect(ui->PointSizeSB, &QDoubleSpinBox::valueChanged, this,
@@ -62,6 +70,7 @@ void Object3DConfigView::SetValuesFromConfig() {
 
   auto line_type = object_spacer_->GetUITypeValue();
   auto point_type = object_spacer_->GetDisplayMethodValue();
+  auto display_type = object_spacer_->GetDisplayTypeValue();
 
   ui->PointTypeNoneB->setChecked(point_type == s21::PointDisplayType::kNone);
   ui->PointTypeCircleB->setChecked(point_type ==
@@ -72,6 +81,10 @@ void Object3DConfigView::SetValuesFromConfig() {
   ui->LineTypeSolidB->setChecked(line_type == s21::kSolid);
   ui->LineTypeDashedB->setChecked(line_type == s21::kDashed);
 
+  ui->DisplayTypeWireframeB->setChecked(display_type == kWireframe);
+  ui->DisplayTypeFlatB->setChecked(display_type == kFlatShading);
+  ui->DisplayTypeSmoothB->setChecked(display_type == kSmoothShading);
+
   auto line_color = object_spacer_->GetEdgesColorValue();
   Vector3D line_color_vec(line_color.red(), line_color.green(),
                           line_color.blue());
@@ -81,6 +94,11 @@ void Object3DConfigView::SetValuesFromConfig() {
   Vector3D point_color_vec(point_color.red(), point_color.green(),
                            point_color.blue());
   ui->PointColorTriplet->SetValues(point_color_vec);
+
+  auto base_color = object_spacer_->GetBaseColorValue();
+  Vector3D base_color_vec(base_color.red(), base_color.green(),
+                          base_color.blue());
+  ui->BaseColorTriplet->SetValues(base_color_vec);
 }
 
 void Object3DConfigView::SetColor(const Vector3D &color) {
@@ -101,6 +119,10 @@ void Object3DConfigView::SetColor(const Vector3D &color) {
   }
   if (widget_ptr == ui->PointColorTriplet) {
     object_spacer_->SetVerticesColorValue(new_color);
+    widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
+  }
+  if (widget_ptr == ui->BaseColorTriplet) {
+    object_spacer_->SetBaseColorValue(new_color);
     widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
   }
   emit UpdateRequest();
@@ -127,6 +149,19 @@ void Object3DConfigView::SetPointType(bool checked) {
     object_spacer_->SetDisplayMethodValue(s21::PointDisplayType::kCircle);
   if (widget_ptr == ui->PointTypeSquareB)
     object_spacer_->SetDisplayMethodValue(s21::PointDisplayType::kSquare);
+  emit UpdateRequest();
+}
+
+void Object3DConfigView::SetDisplayType(bool checked) {
+  Q_UNUSED(checked)
+  if (!object_spacer_) return;
+  auto widget_ptr = static_cast<QRadioButton *>(sender());
+  if (widget_ptr == ui->DisplayTypeWireframeB)
+    object_spacer_->SetDisplayTypeValue(s21::kWireframe);
+  if (widget_ptr == ui->DisplayTypeFlatB)
+    object_spacer_->SetDisplayTypeValue(s21::kFlatShading);
+  if (widget_ptr == ui->DisplayTypeSmoothB)
+    object_spacer_->SetDisplayTypeValue(s21::kSmoothShading);
   emit UpdateRequest();
 }
 

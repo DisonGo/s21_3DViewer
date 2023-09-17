@@ -8,6 +8,7 @@
 #include "DrawConfig.h"
 #include "E/Camera.h"
 #include "E/EObjectItemModel.h"
+#include "E/Light/LightObject.h"
 #include "E/Object3D.h"
 #include "E/Object3DFactory.h"
 #include "E/Plane.h"
@@ -40,12 +41,13 @@ class Engine : protected QOpenGLFunctions {
   void SetCurrentCamera(Camera* camera);
 
  private:
-  // TODO Add realization of move/copy constructors
   void Wipe3DObjects();
   void SetupFocusPoint();
   void CheckOpenGLSettings();
   void SetupDefaultCameras();
   void SetupObject3DFactory();
+  void SetupDefaultLight();
+  void CreateAndAddProgramToObject3D(Object3D& object);
   void DrawGeometry(GLenum type);
   void RemoveObject(EObject* object);
   void DefaultObject3DImport(Object3D* object, bool add_to_delete_queue = true);
@@ -60,6 +62,7 @@ class Engine : protected QOpenGLFunctions {
   DrawConfig& draw_config_;
   EObjectItemModel e_object_model_;  // TODO copy/move
   Object3DFactory object3d_factory_;
+  std::vector<LightObject*> lights_;
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;
   std::vector<Object3D*> objects_3d_;

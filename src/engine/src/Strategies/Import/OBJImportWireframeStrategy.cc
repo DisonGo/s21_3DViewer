@@ -17,7 +17,8 @@ VAO OBJImportWireframeStrategy::Import(const OBJ& obj) const {
 std::vector<VertexData> OBJImportWireframeStrategy::GetVertexDataArray(
     const OBJ& obj) const {
   std::vector<VertexData> new_arr;
-  for (auto& vertex : obj.vertices) new_arr.push_back({vertex});
+  auto vert_size = obj.vertices.size();
+  for (auto& vertex : obj.vertices) new_arr.push_back({vertex, {0, 0, 0}});
   return new_arr;
 }
 std::vector<Face> OBJImportWireframeStrategy::GetWireFrameIndexArray(

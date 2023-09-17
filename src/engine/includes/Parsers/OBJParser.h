@@ -25,10 +25,14 @@ class OBJParser : public BaseParser {
                  size_t vertex_index);
   void CenterVertices(vector<Vertex> &vertices, Vertex center);
   void ElevateVerticesToGround(vector<Vertex> &vertices);
-  void FetchVerticesByFaces(const vector<Vertex> &source,
-                            vector<Vertex> &output, vector<Face> &faces);
+  void FetchVertexDataByFaces(const OBJ &source, OBJ &output,
+                              std::vector<Face> &faces);
+  void FetchNormalsByFaces(const std::vector<Normal> &source,
+                           std::vector<Normal> &output,
+                           std::vector<Face> &faces);
   void NormalizeVertices(vector<Vertex> &vertices, float normalizeSize);
   vector<OBJ> CalculateObjects(OBJ &all_data, vector<Object> objects);
+  void GenerateNormals(OBJ &obj);
   TagCounters CountTags(const string filePath);
   Logger logger_{"OBJParser"};
 };

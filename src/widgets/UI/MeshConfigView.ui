@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>155</width>
-    <height>148</height>
+    <width>153</width>
+    <height>168</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -51,17 +51,17 @@
        <property name="horizontalSpacing">
         <number>13</number>
        </property>
-       <item row="0" column="1">
-        <widget class="QLabel" name="standartBufferLabel">
-         <property name="text">
-          <string>Standart buffer</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QCheckBox" name="standartBufferCheckBox">
          <property name="enabled">
           <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="standartBufferLabel">
+         <property name="text">
+          <string>Standart buffer</string>
          </property>
         </widget>
        </item>
@@ -98,6 +98,16 @@
           <string>Vertex only buffer</string>
          </property>
         </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="normalsBufferLabel">
+         <property name="text">
+          <string>Normals buffer</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QCheckBox" name="normalsBufferCheckBox"/>
        </item>
       </layout>
      </item>

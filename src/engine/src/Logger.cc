@@ -3,7 +3,8 @@
 #include <QDebug>
 #include <cstdio>
 #include <iostream>
-
+// BUG Sometimes crashes when a lot of log messages in a short time
+// Probably bc of delete[] c_str in CreateMessage method.
 using std::cout;
 #ifndef _WIN32
 constexpr const char* RESET = "\033[0m";
@@ -46,15 +47,14 @@ Logger::LogLevel Logger::active_log_level_ = static_cast<LogLevel>(
 void Logger::Log(const char* message, LogLevel level, LogWriter writer) {
   if (!IsLogLevelActive(level)) return;
   auto str = CreateMessage(message, level);
-  auto msg = str.c_str();
+
 #ifndef _WIN32
   if (writer == LogWriter::kCout)
-    cout << level_color_map.at(level) << msg << RESET << "\n";
-    //  if (writer == LogWriter::kQDebug) qDebug() << dye::red(msg) << msg;
+    cout << level_color_map.at(level) << str << RESET << "\n";
 #else
+  auto msg = str.c_str();
   if (writer == LogWriter::kCout)
     cout << dye::colorize(msg, level_color_map.at(level)) << "\n";
-    //  if (writer == LogWriter::kQDebug) qDebug() << dye::red(msg) << msg;
 #endif
 }
 
@@ -67,10 +67,11 @@ std::string Logger::CreateMessage(const char* message, LogLevel level) {
   static size_t name_space_max_size_ = 1;
   name_space_max_size_ = std::max(name_space_max_size_, name_space_.size() + 2);
   char* c_msg = new char[c_msg_size];
-  sprintf(c_msg, "%-10s %-*s %s", prefix_map.at(level),
-          (int)name_space_max_size_, (name_space_ + "::").c_str(), message);
+  auto namespace_str = name_space_ + "::";
+  const char* namespace_c_str = namespace_str.c_str();
+  std::sprintf(c_msg, "%-10s %-*s %s", prefix_map.at(level),
+               (int)name_space_max_size_, namespace_c_str, message);
   auto msg = std::string(c_msg);
-  delete[] c_msg;
   return msg;
 }
 

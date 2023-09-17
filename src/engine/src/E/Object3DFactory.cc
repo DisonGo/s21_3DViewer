@@ -45,6 +45,12 @@ Object3D Object3DFactory::GetObject(const char *file_path) {
       for (const auto &data : datas)
         for (const auto &[type, importer] : importers_)
           if (importer.on) object.UploadMesh(data, importer.importer_ptr);
+    } catch (const std::exception &e) {
+      auto log = "Failed to generate Object3D e: " + std::string(e.what());
+      logger_.Log(log.c_str(), Logger::LogLevel::kError);
+    } catch (const char *e) {
+      auto log = "Failed to generate Object3D char: " + std::string(e);
+      logger_.Log(log.c_str(), Logger::LogLevel::kError);
     } catch (...) {
       logger_.Log("Failed to generate Object3D", Logger::LogLevel::kError);
     }
@@ -94,6 +100,9 @@ Object3DFactory &Object3DFactory::operator=(const Object3DFactory &other) {
     else if (type == s21::kVertexOnlyImport)
       imp_ptr = new OBJImportVertexOnlyStrategy(
           *static_cast<OBJImportVertexOnlyStrategy *>(importer.importer_ptr));
+    else if (type == s21::kNormalsImport)
+      imp_ptr = new OBJImportNormalsStrategy(
+          *static_cast<OBJImportNormalsStrategy *>(importer.importer_ptr));
     importers_.insert({type, {imp_ptr, importer.on}});
   }
   return *this;

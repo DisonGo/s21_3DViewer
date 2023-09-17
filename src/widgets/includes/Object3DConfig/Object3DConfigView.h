@@ -30,6 +30,7 @@ class Object3DConfigView : public ConfigWidget {
   void SetColor(const Vector3D& color);
   void SetLineType(bool checked);
   void SetPointType(bool checked);
+  void SetDisplayType(bool checked);
   void SetLineWidth(double width);
   void SetPointSize(double size);
 };

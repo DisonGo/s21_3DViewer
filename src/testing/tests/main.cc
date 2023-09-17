@@ -5,7 +5,6 @@
 #include "Parsers/OBJParser.h"
 
 s21::OBJParser parser;
-
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 std::string path_inside_src = "/testing/tests/test_resource/";
@@ -82,6 +81,11 @@ TEST(viewer_3d, no_files) {
 }
 
 int main() {
+  s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kBasic);
+  s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kInfo);
+  s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kWarning);
+  s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kError);
+  s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kCritical);
   ::testing::InitGoogleTest();
   return RUN_ALL_TESTS();
 }

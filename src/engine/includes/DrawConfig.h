@@ -12,7 +12,7 @@ class DrawConfig {
   ~DrawConfig() = default;
   bool points = true;
   bool lines = true;
-  bool triangles = false;
+  bool triangles = true;
   bool triangles_strip = false;
   QColor back_color = QColor(1, 10, 27);
 };

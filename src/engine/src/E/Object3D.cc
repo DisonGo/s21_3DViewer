@@ -5,6 +5,7 @@ Object3D& Object3D::operator=(const Object3D& other) {
   if (this == &other) return *this;
   file_name_ = other.file_name_;
   transform_ = other.transform_;
+  base_color_ = other.base_color_;
   edges_color_ = other.edges_color_;
   edges_thickness_ = other.edges_thickness_;
   vertices_color_ = other.vertices_color_;
@@ -23,6 +24,7 @@ Object3D& Object3D::operator=(Object3D&& other) {
   if (this == &other) return *this;
   file_name_ = other.file_name_;
   transform_ = other.transform_;
+  base_color_ = other.base_color_;
   edges_color_ = other.edges_color_;
   edges_thickness_ = other.edges_thickness_;
   vertices_color_ = other.vertices_color_;
@@ -49,6 +51,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   if (type == GL_POINTS) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     program_->Uniform1i("u_circlePoint", is_circle);
+
     red = vertices_color_.redF();
     green = vertices_color_.greenF();
     blue = vertices_color_.blueF();
@@ -59,7 +62,13 @@ void Object3D::Draw(GLenum type, Camera* camera) {
     green = edges_color_.greenF();
     blue = edges_color_.blueF();
   }
-  if (type == GL_TRIANGLES) red = green = blue = 0.8;
+  if (type == GL_TRIANGLES) {
+    program_->Uniform1i("u_flat_shade", object_display_type_ == kFlatShading);
+    program_->Uniform1i("u_do_lighting", object_display_type_ != kWireframe);
+    red = base_color_.redF();
+    green = base_color_.greenF();
+    blue = base_color_.blueF();
+  }
 
   program_->Uniform1f("u_pointSize", vertices_size_);
   program_->Uniform1i("u_dashSize", 3);
@@ -68,8 +77,8 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   program_->LineWidth(edges_thickness_);
 
   for (const auto& mesh : meshes_) mesh->Draw(type);
-
-  program_->LineWidth(1);
+  program_->Uniform1i("u_flat_shade", false);
+  program_->Uniform1i("u_do_lighting", false);
   program_->Uniform1i("u_dashed", false);
   program_->Uniform1i("u_circlePoint", false);
 }
@@ -93,6 +102,9 @@ void Object3D::SetTransform(const Transform& transform) {
   transform_ = transform;
   transform_.UpdateModel();
 }
+
+void Object3D::SetBaseColor(QColor new_color) { base_color_ = new_color; }
+
 void Object3D::SetEdgesColor(QColor new_color) { edges_color_ = new_color; }
 
 void Object3D::SetEdgesThickness(double new_thickness) {
@@ -105,14 +117,20 @@ void Object3D::SetVerticesColor(QColor new_color) {
 
 void Object3D::SetVerticesSize(double new_size) { vertices_size_ = new_size; }
 
-void Object3D::SetDisplayMethod(PointDisplayType new_method) {
-  point_display_method_ = new_method;
+void Object3D::SetDisplayMethod(PointDisplayType new_type) {
+  point_display_method_ = new_type;
 }
 
 void Object3D::SetLineDisplayType(LineDisplayType new_type) {
   line_display_type_ = new_type;
 }
-
+void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
+  object_display_type_ = new_type;
+  auto buffer_to_except =
+      new_type == kWireframe ? kWireframeImport : kTriangleImport;
+  for (const auto& mesh : meshes_)
+    mesh->SetBufferExceptToggle(buffer_to_except, true);
+}
 void Object3D::SetFileName(std::string file_name) { file_name_ = file_name; }
 
 unsigned long Object3D::CountVertices(OBJImportStrategyType buffer_type) {

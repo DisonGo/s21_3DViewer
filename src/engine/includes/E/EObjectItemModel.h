@@ -1,10 +1,17 @@
 #ifndef EOBJECTITEMMODEL_H
 #define EOBJECTITEMMODEL_H
 
+#include <Logger.h>
+
 #include <QAbstractItemModel>
 #include <QModelIndex>
 #include <QVariant>
-#include <Logger.h>
+
+#include "E/Camera.h"
+#include "E/Light/Light.h"
+#include "E/Mesh.h"
+#include "E/Object3D.h"
+#include "E/Transform.h"
 #include "EObjectTreeItem.h"
 using std::string;
 using std::vector;
@@ -50,6 +57,7 @@ class EObjectItemModel : public QAbstractItemModel {
   QVector<Object3D *> object3D_ptrs_;
   QVector<Transform *> transform_ptrs_;
   QVector<Mesh *> mesh_ptrs_;
+  QVector<Light *> light_ptrs_;
 
   std::string GetTitle(EObjectType type);
 };

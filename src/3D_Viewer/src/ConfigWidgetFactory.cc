@@ -2,7 +2,11 @@
 namespace s21 {
 ConfigWidget *ConfigWidgetFactory::CreateWidget(s21::EObject *object,
                                                 QWidget *parent) {
-  if (!object) return CreatekNone(parent);
+  if (!object) {
+    Logger logger{"ConfigWidgetFactory"};
+    logger.Log("Object ptr is null. Returning kNone");
+    return CreatekNone(parent);
+  }
   ConfigWidget *widget = nullptr;
   auto type = object->GetType();
   if (type == s21::kNone) widget = CreatekNone(parent);
@@ -10,6 +14,8 @@ ConfigWidget *ConfigWidgetFactory::CreateWidget(s21::EObject *object,
   if (type == s21::kTransform) widget = CreatekTransform(object, parent);
   if (type == s21::kMesh) widget = CreatekMesh(object, parent);
   if (type == s21::kObject3D) widget = CreatekObject3D(object, parent);
+  if (type == s21::kLightObject) widget = CreatekLight(object, parent);
+  // FIXME It should be kLigth instead of kLightObject
   if (widget) {
     widget->setAttribute(Qt::WA_DeleteOnClose);
     widget->setObjectName("ConfigView");
@@ -49,6 +55,14 @@ ConfigWidget *ConfigWidgetFactory::CreatekObject3D(s21::EObject *object,
   auto obj_ptr = static_cast<s21::Object3D *>(object);
   auto spacer = new s21::Object3DSpacer(*obj_ptr, parent);
   auto view = new Object3DConfigView(spacer, parent);
+  return view;
+}
+
+ConfigWidget *ConfigWidgetFactory::CreatekLight(s21::EObject *object,
+                                                QWidget *parent) {
+  auto obj_ptr = static_cast<s21::Light *>(object);
+  auto spacer = new s21::LightSpacer(*obj_ptr, parent);
+  auto view = new LightConfigView(spacer, parent);
   return view;
 }
 }  // namespace s21

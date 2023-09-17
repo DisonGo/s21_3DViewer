@@ -7,7 +7,7 @@ bool Transform::operator==(const Transform &a) const {
 void Transform::UpdateScale() {
   model_scale_.SetToIdentity();
   model_scale_.Scale(scale_);
-  awaitingLoadInProgram_ = true;
+  awaiting_load_in_program_ = true;
 }
 
 void Transform::UpdateRotation() {
@@ -19,13 +19,13 @@ void Transform::UpdateRotation() {
   rot_y.Rotate(rotation_.Y(), {0, 1, 0});
   rot_z.Rotate(rotation_.Z(), {0, 0, 1});
   model_rot_ = rot_x * rot_y * rot_z;
-  awaitingLoadInProgram_ = true;
+  awaiting_load_in_program_ = true;
 }
 
 void Transform::UpdateTranslate() {
   model_translate_.SetToIdentity();
   model_translate_.Translate(translate_);
-  awaitingLoadInProgram_ = true;
+  awaiting_load_in_program_ = true;
 }
 
 void Transform::UpdateModel() {
@@ -34,11 +34,13 @@ void Transform::UpdateModel() {
   UpdateTranslate();
 }
 void Transform::LoadModelMatrix(Program *program) {
-  if (!awaitingLoadInProgram_) return;
+  if (!awaiting_load_in_program_) return;
   if (!program) return;
-  program->UniformMatrix4fv(
-      "u_modelMatrix", 1, GL_FALSE,
-      (model_scale_ * model_rot_ * model_translate_).RawConstData());
-  awaitingLoadInProgram_ = false;
+  auto model_mat = model_scale_ * model_rot_ * model_translate_;
+  program->UniformMatrix4fv("u_modelMatrix", 1, GL_FALSE,
+                            model_mat.RawConstData());
+  program->UniformMatrix4fv("u_modelMatrixInvTrans", 1, GL_FALSE,
+                            model_mat.Invert().Transpose().RawConstData());
+  awaiting_load_in_program_ = false;
 }
 }  // namespace s21

@@ -1,9 +1,10 @@
 #ifndef GLOBJECT_H
 #define GLOBJECT_H
 #define GL_SILENCE_DEPRECATION
+#include <Logger.h>
+
 #include <QOpenGLExtraFunctions>
 #include <QOpenGLFunctions>
-#include <Logger.h>
 namespace s21 {
 class GLObject : public QOpenGLExtraFunctions {
  public:
