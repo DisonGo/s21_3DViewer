@@ -44,7 +44,7 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   map<OBJImportStrategyType, bool> buffer_toggle_{{kStandartImport, false},
                                                   {kWireframeImport, false},
                                                   {kTriangleImport, true},
-                                                  {kNormalsImport, true},
+                                                  {kNormalsImport, false},
                                                   {kVertexOnlyImport, false}};
   map<OBJImportStrategyType, VAO*> VAO_map_;
 };

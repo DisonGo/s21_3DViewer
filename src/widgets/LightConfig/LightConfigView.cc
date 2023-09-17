@@ -58,7 +58,7 @@ void LightConfigView::Setup() {
   ui->LightPositionTriplet->SetRange(-100000, 100000);
 
   ui->LightColorTriplet->SetStep(1);
-  ui->LightPositionTriplet->SetStep(1);
+  ui->LightPositionTriplet->SetStep(0.1);
   ui->LightStrengthSB->setSingleStep(0.1);
   ui->LightStrengthSB->setMaximum(100);
 

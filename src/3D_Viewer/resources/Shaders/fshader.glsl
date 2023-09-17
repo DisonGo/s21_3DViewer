@@ -18,7 +18,8 @@ struct PointLight {
 };
 
 flat in vec4 f_startPos;
-in vec4 f_vertPos;
+in vec3 f_vertPos;
+flat in vec3 f_vertPos_flat;
 in vec3 f_normal;
 flat in vec3 f_normal_flat;
 out vec4 FragColor;
@@ -36,7 +37,7 @@ uniform vec2 u_resolution;
 uniform vec3 u_prototype_color;
 
 uniform vec3 u_CameraPos;
-float specular_shininess = 32;
+float specular_shininess = 8;
 vec4 p_color = vec4(u_prototype_color, 1);
 
 void DecidePointDraw() {
@@ -91,19 +92,17 @@ vec3 CalcPointLight(PointLight light, vec3 fragPos, vec3 viewDir,
   float linear = 1;
   float quadratic = 1;
   vec3 norm;
-  if (u_flat_shade)
-    norm = normalize(f_normal_flat);
-  else
-    norm = normalize(f_normal);
-  vec3 lightDir = normalize(fragPos - light.position);
+  norm = normalize(u_flat_shade ? f_normal_flat : f_normal);
+  vec3 lightDir = normalize(light.position - fragPos);
   // diffuse shading
   float diff = CalcDiffuse(norm, lightDir);
   // specular shading
-
+  float angle = acos(dot(norm, lightDir));
+  if (degrees(abs(angle)) >= 90) return vec3(0);
   float spec =
       CalcSpecular(viewDir, reflect(-lightDir, norm), specular_shininess);
   // attenuation
-  float distance = length(fragPos - light.position);
+  float distance = length(light.position - fragPos);
   float attenuation = 1.0 / (light.constant + light.linear * distance +
                              light.quadratic * (distance * distance));
   // combine results
@@ -126,7 +125,8 @@ void main() {
   if (u_do_lighting) {
     vec3 final_light = vec3(0);
     vec4 total_ambient = vec4(0);
-    vec3 viewDir = normalize(f_vertPos.xyz - u_CameraPos);
+    vec3 vPos = u_flat_shade ? f_vertPos_flat : f_vertPos;
+    vec3 viewDir = normalize(u_CameraPos - vPos);
     int lights_count = 1;
     for (int i = 0; i < lights_count; i++) {
       PointLight p_light = PointLight(
@@ -134,7 +134,7 @@ void main() {
           u_ligths[i].color, u_ligths[i].color * 1.1);
 
       final_light +=
-          CalcPointLight(p_light, f_vertPos.xyz, viewDir, u_ligths[i].strength);
+          CalcPointLight(p_light, vPos, viewDir, u_ligths[i].strength);
     }
     FragColor = vec4(final_light, 1) * p_color;
   } else {

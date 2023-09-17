@@ -1,8 +1,9 @@
 #ifndef EBO_H
 #define EBO_H
+#include <Logger.h>
+
 #include "GL/GLBuffer.h"
 #include "Types/Face.h"
-#include <Logger.h>
 namespace s21 {
 class EBO : public GLBuffer {
   friend class VAO;
@@ -14,6 +15,7 @@ class EBO : public GLBuffer {
   void BindIndices(std::vector<Face> indices);
   GLenum GetType() const override { return type; };
   GLenum type = GL_ELEMENT_ARRAY_BUFFER;
+
  private:
   Logger logger_{"EBO"};
 };

@@ -54,12 +54,11 @@ void OBJParser::ElevateVerticesToGround(std::vector<Vertex>& vertices) {
   for (auto& vertex : vertices) vertex.y += min;
 }
 
-void OBJParser::FetchVertexDataByFaces(const OBJ& source,
-                                     OBJ& output,
-                                     std::vector<Face>& faces) {
+void OBJParser::FetchVertexDataByFaces(const OBJ& source, OBJ& output,
+                                       std::vector<Face>& faces) {
   std::set<const Vertex*> existing_vertices;
   std::map<size_t, size_t> v_indices_map;
-//  std::map<size_t, size_t> n_indices_map;
+  //  std::map<size_t, size_t> n_indices_map;
   std::vector<Face> calibrated_faces;
 
   const auto faces_size = faces.size();
@@ -75,15 +74,15 @@ void OBJParser::FetchVertexDataByFaces(const OBJ& source,
       if (vertex_dont_exists) {
         existing_vertices.insert(vertex);
         v_indices_map.insert({index.v_index, output.vertices.size()});
-//        n_indices_map.insert({index.n_index, output.normals.size()});
+        //        n_indices_map.insert({index.n_index, output.normals.size()});
         output.vertices.push_back(*vertex);
         output.normals.push_back(source.normals[index.v_index]);
       }
     }
     // Map used indices to new vertex array
     for (auto& index : calibrated_faces[i].indices) {
-        index.v_index = v_indices_map.at(index.v_index);
-//        index.n_index = n_indices_map.at(index.n_index);
+      index.v_index = v_indices_map.at(index.v_index);
+      //        index.n_index = n_indices_map.at(index.n_index);
     }
   }
   faces = std::move(calibrated_faces);
@@ -165,7 +164,7 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
     data.faces = std::vector<Face>(faces.begin() + object.i_start,
                                    faces.begin() + object.i_end);
     FetchVertexDataByFaces(all_data, data, data.faces);
-//    FetchNormalsByFaces(all_data.normals, data.normals, data.faces);
+    //    FetchNormalsByFaces(all_data.normals, data.normals, data.faces);
     datas.push_back(data);
   }
   return datas;

@@ -15,7 +15,7 @@ class VBO : public GLBuffer {
   GLenum GetType() const override { return type; };
   GLenum type = GL_ARRAY_BUFFER;
   size_t GetSize() { return size_; };
-  
+
  private:
   Logger logger_{"VBO"};
 };

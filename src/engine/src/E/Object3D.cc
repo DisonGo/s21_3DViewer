@@ -126,8 +126,10 @@ void Object3D::SetLineDisplayType(LineDisplayType new_type) {
 }
 void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
   object_display_type_ = new_type;
-  auto buffer_to_except = new_type == kWireframe ? kWireframeImport : kTriangleImport;
-  for (const auto& mesh : meshes_) mesh->SetBufferExceptToggle(buffer_to_except, true);
+  auto buffer_to_except =
+      new_type == kWireframe ? kWireframeImport : kTriangleImport;
+  for (const auto& mesh : meshes_)
+    mesh->SetBufferExceptToggle(buffer_to_except, true);
 }
 void Object3D::SetFileName(std::string file_name) { file_name_ = file_name; }
 

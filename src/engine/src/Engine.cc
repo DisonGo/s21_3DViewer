@@ -80,7 +80,7 @@ void Engine::SetupObject3DFactory() {
   object3d_factory_.SetParser(new OBJParser);
   object3d_factory_.InstallImporter(new OBJImportWireframeStrategy);
   object3d_factory_.InstallImporter(new OBJImportTriangleStrategy);
-  // object3d_factory_.InstallImporter(new OBJImportNormalsStrategy);
+  object3d_factory_.InstallImporter(new OBJImportNormalsStrategy);
   logger_.Log("Setup Object3D factory");
 }
 
@@ -251,7 +251,7 @@ void Engine::Initialize() {
   initializeOpenGLFunctions();
   CheckOpenGLSettings();
   glEnable(GL_PROGRAM_POINT_SIZE);
-  // glEnable(GL_CULL_FACE);
+  glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

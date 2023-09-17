@@ -6,8 +6,8 @@
 namespace s21 {
 class LightObject : public Object3D, public Light {
  public:
-  LightObject() : Object3D(), Light(){Setup();};
-  LightObject(const Light& light) : Object3D(), Light(light){Setup();};
+  LightObject() : Object3D(), Light() { Setup(); };
+  LightObject(const Light& light) : Object3D(), Light(light) { Setup(); };
   virtual EObjectType GetType() const override { return type_; };
   void LoadInGLSLArray(Program& program, const std::string& array_name,
                        size_t index);
