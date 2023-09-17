@@ -22,7 +22,7 @@ std::vector<VertexData> OBJImportStandartStrategy::GetVertexDataArray(
   auto norm_size = obj.normals.size();
   bool uneven = vert_size != norm_size;
   if (uneven) {
-    for (auto& vertex : obj.vertices) new_arr.push_back({vertex, {1, 1, 1}});
+    for (auto& vertex : obj.vertices) new_arr.push_back({vertex, {0, 0, 0}});
   } else {
     for (size_t i = 0; i < vert_size; ++i)
       new_arr.push_back({obj.vertices[i], obj.normals[i]});

@@ -85,19 +85,25 @@ void Engine::SetupObject3DFactory() {
 }
 
 void Engine::SetupDefaultLight() {
-  auto light = new LightObject(Light({2, 2, 1}, {230, 230, 230}, 3));
+  auto point = new Point;
+  DefaultObject3DImport(point);
+
+  auto light = new LightObject(Light({2, 2, 1}, {230, 230, 230}, 3), *point);
   lights_.push_back(light);
-  DefaultObject3DImport(light, false);
   e_object_model_.AddItem(static_cast<Light*>(light), nullptr, "Light");
   logger_.Log("Setup default light");
 }
 
+void Engine::CreateAndAddProgramToObject3D(Object3D& object) {
+  auto program = Program::Default();
+  programs_.push_back(program);
+  object.SetProgram(*program);
+}
+
 void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   if (!object) return;
-  auto program = Program::Default();
-  object->SetProgram(*program);
+  CreateAndAddProgramToObject3D(*object);
   objects_3d_.push_back(object);
-  programs_.push_back(program);
   if (add_to_delete_queue) engine_objects_.push_back(object);
   std::string log("Default imported Object3D: ");
   log += object->GetFileName();
@@ -268,6 +274,9 @@ void Engine::DrawGeometry(GLenum type) {
   if (!initialized_) return;
   if (!current_camera_) return;
   focus_point_->GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
+  for (auto light : lights_)
+    if (light) light->Draw(type, current_camera_);
+
   for (auto object : objects_3d_)
     if (object) object->Draw(type, current_camera_);
 }

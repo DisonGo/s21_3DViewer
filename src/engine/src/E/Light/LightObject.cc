@@ -3,7 +3,6 @@
 
 namespace s21 {
 void LightObject::Draw(GLenum type, Camera* camera) {
-  SyncPrograms();
   light_point_.GetTrasform().SetTranslate(position_);
   auto c = color_.ToVector<3, int>();
   light_point_.SetVerticesColor({c[0], c[1], c[2]});
@@ -20,9 +19,5 @@ void LightObject::LoadInGLSLArray(Program& program,
   program.Uniform3f(prefix + "color", color_.X() / 256, color_.Y() / 256,
                     color_.Z() / 256);
   program.Uniform1f(prefix + "strength", strength_);
-}
-void LightObject::SyncPrograms() {
-  if (light_point_.GetProgram() != program_ && program_)
-    light_point_.SetProgram(*program_);
 }
 }  // namespace s21

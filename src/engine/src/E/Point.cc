@@ -30,9 +30,9 @@ void Point::CreateMesh(const Vector3D &position) {
   float x = position.X(), y = position.Y(), z = position.Z();
   obj.vertices.push_back({x, y, z});
   obj.faces.push_back({{{0, 0, 0}}});
-  auto importer = new OBJImportVertexOnlyStrategy;
+  auto importer = new OBJImportStandartStrategy;
   UploadMesh(obj, importer);
-  GetMesh(0).SetBufferToggle(s21::kVertexOnlyImport, true);
+  GetMesh(0).SetBufferExceptToggle(s21::kStandartImport, true);
   delete importer;
 }
 

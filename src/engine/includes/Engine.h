@@ -47,6 +47,7 @@ class Engine : protected QOpenGLFunctions {
   void SetupDefaultCameras();
   void SetupObject3DFactory();
   void SetupDefaultLight();
+  void CreateAndAddProgramToObject3D(Object3D& object);
   void DrawGeometry(GLenum type);
   void RemoveObject(EObject* object);
   void DefaultObject3DImport(Object3D* object, bool add_to_delete_queue = true);

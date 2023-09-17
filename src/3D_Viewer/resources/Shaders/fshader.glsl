@@ -98,7 +98,7 @@ vec3 CalcPointLight(PointLight light, vec3 fragPos, vec3 viewDir,
   float diff = CalcDiffuse(norm, lightDir);
   // specular shading
   float angle = acos(dot(norm, lightDir));
-  if (degrees(abs(angle)) >= 90) return vec3(0);
+  if (degrees(abs(angle)) >= 105) return vec3(0);
   float spec =
       CalcSpecular(viewDir, reflect(-lightDir, norm), specular_shininess);
   // attenuation

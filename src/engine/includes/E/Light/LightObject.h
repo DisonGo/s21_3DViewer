@@ -6,22 +6,24 @@
 namespace s21 {
 class LightObject : public Object3D, public Light {
  public:
-  LightObject() : Object3D(), Light() { Setup(); };
-  LightObject(const Light& light) : Object3D(), Light(light) { Setup(); };
+  LightObject(const Light& light, Point& light_point)
+      : Object3D(), Light(light), light_point_(light_point) {
+    Setup();
+  };
+  LightObject(Point& light_point) : LightObject(Light(), light_point){};
   virtual EObjectType GetType() const override { return type_; };
   void LoadInGLSLArray(Program& program, const std::string& array_name,
                        size_t index);
-  void SetLight(const Light& light) { *this = light; }
+  void SetLight(const Light& light) { *static_cast<Light*>(this) = light; }
   Light GetLight() { return *static_cast<Light*>(this); }
+  void Draw(GLenum type, Camera* camera) override;
 
  protected:
   EObjectType type_ = kLightObject;
-  void SyncPrograms();
-  void Draw(GLenum type, Camera* camera) override;
 
  private:
   void Setup();
-  Point light_point_{position_};
+  Point& light_point_;
 };
 
 }  // namespace s21

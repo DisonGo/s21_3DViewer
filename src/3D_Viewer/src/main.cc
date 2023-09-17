@@ -26,6 +26,8 @@ int main(int argc, char *argv[]) {
   s21::ImageSaverControler saver_controler(image_saver);
 
   s21::DrawConfig config;
+  // config.lines = false;
+  // config.triangles = false;
   s21::DrawConfigSpacer config_spacer(config);
 
   s21::Engine engine(config);
