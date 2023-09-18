@@ -29,8 +29,8 @@ Engine::~Engine() {
 
 void Engine::SetupFocusPoint() {
   focus_point_ = new Point();
-  auto object_3d = static_cast<Object3D*>(focus_point_);
-  DefaultObject3DImport(object_3d);
+  AddToWhitelist(focus_point_);
+  DefaultObject3DImport(focus_point_);
   logger_.Log("Setup focus point");
 }
 
@@ -85,15 +85,20 @@ void Engine::SetupObject3DFactory() {
 }
 
 void Engine::SetupDefaultLight() {
-  auto point = new Point;
-  DefaultObject3DImport(point);
-
-  auto light = new LightObject(Light({2, 2, 1}, {230, 230, 230}, 3), *point);
-  lights_.push_back(light);
-  e_object_model_.AddItem(static_cast<Light*>(light), nullptr, "Light");
+  CreateLightObject(Light({2, 2, 1}, {230, 230, 230}, 3), "Light");
   logger_.Log("Setup default light");
 }
-
+void Engine::CreateLightObject(const Light& light, const std::string& name) {
+  Point* point = new Point();
+  CreateAndAddProgramToObject3D(*point);
+  engine_objects_.push_back(point);
+  LightObject* lightObject = new LightObject(light, *point);
+  lights_.push_back(lightObject);
+  e_object_model_.AddItem(static_cast<Light*>(lightObject), nullptr, name);
+  objects_3d_.push_back(lightObject);
+  AddToWhitelist(point);
+  AddToWhitelist(static_cast<Object3D*>(lightObject));
+}
 void Engine::CreateAndAddProgramToObject3D(Object3D& object) {
   auto program = Program::Default();
   programs_.push_back(program);
@@ -105,14 +110,21 @@ void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   CreateAndAddProgramToObject3D(*object);
   objects_3d_.push_back(object);
   if (add_to_delete_queue) engine_objects_.push_back(object);
-  std::string log("Default imported Object3D: ");
-  log += object->GetFileName();
-  logger_.Log(log);
+  logger_.Log("Default imported Object3D: " + object->GetFileName());
+}
+void Engine::AddToWhitelist(EObject* object) {
+  whitelist_objects_.insert(object);
 }
 
+void Engine::RemoveFromWhitelist(EObject* object) {
+  whitelist_objects_.erase(object);
+}
+bool Engine::IsWhitelisted(EObject* object) const {
+  return whitelist_objects_.count(object) > 0;
+}
 void Engine::RemoveObject(EObject* object) {
   if (!object) return;
-  if (object == focus_point_) return;
+  if (IsWhitelisted(object)) return;
   auto type = object->GetType();
   if (type == s21::kObject3D) ERASE_FROM_VECTOR(objects_3d_, object);
   if (type == s21::kCamera) ERASE_FROM_VECTOR(cameras_, object);
@@ -274,9 +286,6 @@ void Engine::DrawGeometry(GLenum type) {
   if (!initialized_) return;
   if (!current_camera_) return;
   focus_point_->GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
-  for (auto light : lights_)
-    if (light) light->Draw(type, current_camera_);
-
   for (auto object : objects_3d_)
     if (object) object->Draw(type, current_camera_);
 }

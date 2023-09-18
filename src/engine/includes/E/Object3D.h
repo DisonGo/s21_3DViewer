@@ -73,7 +73,7 @@ class Object3D : public EObject {
   double vertices_size_{1};
   PointDisplayType point_display_method_ = PointDisplayType::kNone;
   LineDisplayType line_display_type_ = kSolid;
-  ObjectDisplayType object_display_type_ = kFlatShading;
+  ObjectDisplayType object_display_type_ = kSmoothShading;
 };
 
 }  // namespace s21

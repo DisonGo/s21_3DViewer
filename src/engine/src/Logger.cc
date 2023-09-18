@@ -75,7 +75,8 @@ std::string Logger::CreateMessage(const std::string& message, LogLevel level) {
   std::sprintf(c_msg, "%-10s %-*s %s", prefix_map.at(level),
                (int)name_space_max_size_, namespace_str.c_str(),
                message.c_str());
-  auto msg = std::string(c_msg);
+  auto msg = std::string().assign(c_msg);
+  delete[] c_msg;
   return msg;
 }
 

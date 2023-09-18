@@ -97,8 +97,13 @@ vec3 CalcPointLight(PointLight light, vec3 fragPos, vec3 viewDir,
   // diffuse shading
   float diff = CalcDiffuse(norm, lightDir);
   // specular shading
-  float angle = acos(dot(norm, lightDir));
-  if (degrees(abs(angle)) >= 105) return vec3(0);
+  float min_angle = 90;
+  float max_angle = 105;
+  float angle_range_diff = max_angle - min_angle;
+  float angle = degrees(abs(acos(dot(norm, lightDir))));
+  float fade =
+      (angle_range_diff - (clamp(angle, min_angle, max_angle) - min_angle)) /
+      angle_range_diff;
   float spec =
       CalcSpecular(viewDir, reflect(-lightDir, norm), specular_shininess);
   // attenuation
@@ -110,7 +115,7 @@ vec3 CalcPointLight(PointLight light, vec3 fragPos, vec3 viewDir,
   vec3 diffuse = light.diffuse * diff;
   vec3 specular = light.specular * spec;
 
-  return (ambient + diffuse + specular) * attenuation * strength;
+  return (ambient + diffuse + specular) * attenuation * strength * fade;
 }
 
 vec4 SoftLightBlend(vec4 color1, vec4 color2) {
@@ -127,7 +132,7 @@ void main() {
     vec4 total_ambient = vec4(0);
     vec3 vPos = u_flat_shade ? f_vertPos_flat : f_vertPos;
     vec3 viewDir = normalize(u_CameraPos - vPos);
-    int lights_count = 1;
+    int lights_count = 2;
     for (int i = 0; i < lights_count; i++) {
       PointLight p_light = PointLight(
           u_ligths[i].position, 1, 0.045, 0.0075, u_ligths[i].color * 0.2,

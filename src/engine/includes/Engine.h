@@ -4,6 +4,7 @@
 #include <Logger.h>
 
 #include <QOpenGLFunctions>
+#include <set>
 
 #include "DrawConfig.h"
 #include "E/Camera.h"
@@ -47,11 +48,15 @@ class Engine : protected QOpenGLFunctions {
   void SetupDefaultCameras();
   void SetupObject3DFactory();
   void SetupDefaultLight();
+  void CreateLightObject(const Light& light,
+                         const std::string& name = {"Light"});
   void CreateAndAddProgramToObject3D(Object3D& object);
   void DrawGeometry(GLenum type);
   void RemoveObject(EObject* object);
   void DefaultObject3DImport(Object3D* object, bool add_to_delete_queue = true);
-
+  void AddToWhitelist(EObject* object);
+  void RemoveFromWhitelist(EObject* object);
+  bool IsWhitelisted(EObject* object) const;
   Object3D* GenerateObject(std::string file_path);
 
   bool initialized_ = false;
@@ -67,6 +72,7 @@ class Engine : protected QOpenGLFunctions {
   std::vector<Camera*> cameras_;
   std::vector<Object3D*> objects_3d_;
   std::vector<Program*> programs_;
+  std::set<EObject*> whitelist_objects_;
 };
 }  // namespace s21
 
