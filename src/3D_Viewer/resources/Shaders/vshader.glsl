@@ -1,11 +1,13 @@
 #version 410 core
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 aNormal;
+layout(location = 2) in vec2 aUV;
 flat out vec4 f_startPos;
 out vec3 f_vertPos;
 flat out vec3 f_vertPos_flat;
 out vec3 f_normal;
 flat out vec3 f_normal_flat;
+out vec2 f_UV;
 uniform mat4 u_camMatrix;
 uniform mat4 u_modelMatrix;
 uniform mat4 u_modelMatrixInvTrans;
@@ -23,7 +25,7 @@ void main() {
   gl_Position = mvp_vec;
   gl_PointSize = u_pointSize;
   f_startPos = mvp_vec;
-
+  f_UV = aUV;
   f_normal_flat = f_normal =
       normalize((u_modelMatrixInvTrans * vec4(aNormal, 1)).xyz);
 }
