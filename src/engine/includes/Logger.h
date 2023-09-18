@@ -2,6 +2,7 @@
 #define LOGGER_H
 #include <map>
 #include <string>
+
 #define BIT(x) static_cast<int>(x)
 namespace s21 {
 class Logger {
@@ -17,7 +18,7 @@ class Logger {
     kCritical = 1 << 4
   };
   enum class LogWriter { kCout, kQDebug };
-  void Log(const char* message, LogLevel level = LogLevel::kBasic,
+  void Log(const std::string& message, LogLevel level = LogLevel::kBasic,
            LogWriter writer = LogWriter::kCout);
   void SetNameSpace(const std::string& name_space);
   static bool IsLogLevelActive(LogLevel level) {
@@ -37,7 +38,7 @@ class Logger {
  private:
   static LogLevel active_log_level_;
   std::string name_space_ = "";
-  std::string CreateMessage(const char* message, LogLevel level);
+  std::string CreateMessage(const std::string& message, LogLevel level);
 };
 
 }  // namespace s21

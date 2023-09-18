@@ -27,7 +27,7 @@ std::vector<VertexData> OBJImportTriangleStrategy::GetVertexDataArray(
     auto log = std::string("Vertices size: ") + std::to_string(vert_size);
     auto log2 =
         std::string("Normals size: ") + std::to_string(obj.normals.size());
-    logger.Log(log.c_str(), Logger::LogLevel::kError);
+    logger.Log(log, Logger::LogLevel::kError);
     logger.Log(log2.c_str(), Logger::LogLevel::kError);
     throw "vertices.size != normals.size";
   }

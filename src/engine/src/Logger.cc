@@ -44,9 +44,9 @@ namespace s21 {
 Logger::LogLevel Logger::active_log_level_ = static_cast<LogLevel>(
     BIT(LogLevel::kBasic) | BIT(LogLevel::kInfo) | BIT(LogLevel::kWarning) |
     BIT(LogLevel::kError) | BIT(LogLevel::kCritical));
-void Logger::Log(const char* message, LogLevel level, LogWriter writer) {
+void Logger::Log(const std::string& message, LogLevel level, LogWriter writer) {
   if (!IsLogLevelActive(level)) return;
-  auto str = CreateMessage(message, level);
+  auto str = CreateMessage(message.c_str(), level);
 
 #ifndef _WIN32
   if (writer == LogWriter::kCout)
@@ -62,15 +62,19 @@ void Logger::SetNameSpace(const std::string& name_space) {
   name_space_ = name_space;
 }
 
-std::string Logger::CreateMessage(const char* message, LogLevel level) {
-  size_t c_msg_size = strlen(message) + 30;
-  static size_t name_space_max_size_ = 1;
-  name_space_max_size_ = std::max(name_space_max_size_, name_space_.size() + 2);
-  char* c_msg = new char[c_msg_size];
+std::string Logger::CreateMessage(const std::string& message, LogLevel level) {
   auto namespace_str = name_space_ + "::";
-  const char* namespace_c_str = namespace_str.c_str();
+
+  static size_t name_space_max_size_ = 1;
+  name_space_max_size_ =
+      std::max(name_space_max_size_, name_space_.length() + 2);
+
+  size_t c_msg_size = message.length() + namespace_str.length() + 30;
+  char* c_msg = new char[c_msg_size];
+
   std::sprintf(c_msg, "%-10s %-*s %s", prefix_map.at(level),
-               (int)name_space_max_size_, namespace_c_str, message);
+               (int)name_space_max_size_, namespace_str.c_str(),
+               message.c_str());
   auto msg = std::string(c_msg);
   return msg;
 }

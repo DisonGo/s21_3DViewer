@@ -107,7 +107,7 @@ void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   if (add_to_delete_queue) engine_objects_.push_back(object);
   std::string log("Default imported Object3D: ");
   log += object->GetFileName();
-  logger_.Log(log.c_str());
+  logger_.Log(log);
 }
 
 void Engine::RemoveObject(EObject* object) {
@@ -123,7 +123,7 @@ void Engine::RemoveObject(EObject* object) {
   delete object;
   std::string log("Removed object: ");
   log += std::to_string(reinterpret_cast<uintptr_t>(object));
-  logger_.Log(log.c_str());
+  logger_.Log(log);
 }
 
 void Engine::Wipe3DObjects() {

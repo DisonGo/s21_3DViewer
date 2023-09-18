@@ -142,7 +142,7 @@ void MainWindow::ShowObjectWidget(EObject* object) {
   clearLayout(ui->ObjectWidgetHolder);
   auto log = std::string("Creating widget of type ") +
              std::to_string(object->GetType());
-  logger_.Log(log.c_str());
+  logger_.Log(log);
   ConfigWidget* widget = widget_factory.CreateWidget(object, this);
   CameraSpacer* cam_spacer = nullptr;
   if (!widget) {

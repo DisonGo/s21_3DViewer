@@ -33,7 +33,7 @@ class GLBuffer : public GLObject {
     glBindBuffer(GL_COPY_READ_BUFFER, 0);
     auto log = std::string("Copying buffer " + std::to_string(other.ID_) +
                            " into " + std::to_string(ID_));
-    logger_.Log(log.c_str());
+    logger_.Log(log);
   };
   ~GLBuffer() { glDeleteBuffers(1, &ID_); };
   void Bind() override { glBindBuffer(GetType(), ID_); };

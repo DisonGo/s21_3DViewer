@@ -133,7 +133,7 @@ void EObjectItemModel::AddItem(EObject *item, EObjectTreeItem *parent,
   PushObjectInVectors(item);
   endInsertRows();
   auto log = std::string("Added ") + Title;
-  logger_.Log(log.c_str());
+  logger_.Log(log);
   if (type == kObject3D) {
     auto object3d = static_cast<Object3D *>(item);
     AddItem(&object3d->GetTrasform(), new_item);
@@ -167,7 +167,7 @@ void EObjectItemModel::DeleteItem(EObjectTreeItem *item) {
 
   auto item_name = item->data(0).value<QString>().toStdString();
   auto log = std::string("Removed ") + item_name;
-  logger_.Log(log.c_str());
+  logger_.Log(log);
   delete item;
   endRemoveRows();
 }

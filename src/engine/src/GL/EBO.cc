@@ -23,7 +23,7 @@ void EBO::BindIndices(std::vector<Face> indices) {
   auto log = std::string("Allocating ") + std::to_string(size_) +
              " elements with total size of " + std::to_string(allocated_) +
              " bytes";
-  logger_.Log(log.c_str());
+  logger_.Log(log);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, allocated_, ind.data(), GL_STATIC_DRAW);
 }
 }  // namespace s21

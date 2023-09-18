@@ -47,10 +47,10 @@ Object3D Object3DFactory::GetObject(const char *file_path) {
           if (importer.on) object.UploadMesh(data, importer.importer_ptr);
     } catch (const std::exception &e) {
       auto log = "Failed to generate Object3D e: " + std::string(e.what());
-      logger_.Log(log.c_str(), Logger::LogLevel::kError);
+      logger_.Log(log, Logger::LogLevel::kError);
     } catch (const char *e) {
       auto log = "Failed to generate Object3D char: " + std::string(e);
-      logger_.Log(log.c_str(), Logger::LogLevel::kError);
+      logger_.Log(log, Logger::LogLevel::kError);
     } catch (...) {
       logger_.Log("Failed to generate Object3D", Logger::LogLevel::kError);
     }
