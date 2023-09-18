@@ -40,9 +40,9 @@ class GLBuffer : public GLObject {
   void Unbind() override { glBindBuffer(GetType(), 0); };
   void Delete() override { glDeleteBuffers(1, &ID_); };
   virtual GLenum GetType() const { return type; };
-  GLenum type = GL_ELEMENT_ARRAY_BUFFER;
 
  protected:
+  GLenum type = GL_ELEMENT_ARRAY_BUFFER;
   size_t allocated_ = 0;
   size_t size_ = 0;
 

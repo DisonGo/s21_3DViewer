@@ -8,6 +8,8 @@
 #include <QFileInfo>
 #include <QRandomGenerator>
 #include <functional>
+
+#include "GL/Texture.h"
 using godison::shapes::Polygon;
 using godison::vectors::Vector3D;
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
@@ -282,6 +284,10 @@ void Engine::Initialize() {
   SetupFocusPoint();
   SetupDefaultLight();
   initialized_ = true;
+  Texture planksTex(
+      "/Users/evverenn/Desktop/Projects/Junk/3D_Viewer/src/3D_Viewer/resources/"
+      "pop_cat.png",
+      GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
   logger_.Log("Engine initialized");
 }
 

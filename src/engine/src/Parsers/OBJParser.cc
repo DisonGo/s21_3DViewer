@@ -283,6 +283,11 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   //    std::cout << norm.x << " " <<  norm.y << " " << norm.z << "\n";
 
   // Cleaning
+  std::string log = counter.vtC > counter.vC    ? "vt > v"
+                    : counter.vtC == counter.vC ? "vt == v"
+                                                : "vt < v";
+  if (counter.vtC == 0) log = "No vt";
+  logger_.Log(log, Logger::LogLevel::kInfo);
   delete[] vertices;
   delete[] normals;
   delete[] textureCoords;
