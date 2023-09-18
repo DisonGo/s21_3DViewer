@@ -163,10 +163,13 @@ void Engine::Cycle() {
   if (!initialized_) return;
   glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  for (auto program : programs_)
-    if (program)
+  for (auto program : programs_) {
+    if (program) {
       for (size_t i = 0; i < lights_.size(); ++i)
         lights_[i]->LoadInGLSLArray(*program, "u_ligths", i);
+      program->Uniform1i("u_light_count", lights_.size());
+    }
+  }
   if (draw_config_.points) DrawGeometry(GL_POINTS);
   if (draw_config_.lines) DrawGeometry(GL_LINES);
   if (draw_config_.triangles) DrawGeometry(GL_TRIANGLES);

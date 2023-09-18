@@ -27,9 +27,9 @@ uniform bool u_circlePoint;
 uniform bool u_dashed;
 uniform bool u_flat_shade;
 uniform bool u_do_lighting;
-uniform vec3 u_lightPos;
 
 uniform Light[10] u_ligths;
+uniform int u_light_count;
 uniform float u_dashSize;
 uniform float u_gapSize;
 
@@ -132,8 +132,7 @@ void main() {
     vec4 total_ambient = vec4(0);
     vec3 vPos = u_flat_shade ? f_vertPos_flat : f_vertPos;
     vec3 viewDir = normalize(u_CameraPos - vPos);
-    int lights_count = 2;
-    for (int i = 0; i < lights_count; i++) {
+    for (int i = 0; i < u_light_count; i++) {
       PointLight p_light = PointLight(
           u_ligths[i].position, 1, 0.045, 0.0075, u_ligths[i].color * 0.2,
           u_ligths[i].color, u_ligths[i].color * 1.1);
