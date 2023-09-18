@@ -23,6 +23,7 @@ flat in vec3 f_vertPos_flat;
 in vec3 f_normal;
 flat in vec3 f_normal_flat;
 out vec4 FragColor;
+in vec2 f_UV;
 uniform bool u_circlePoint;
 uniform bool u_dashed;
 uniform bool u_flat_shade;

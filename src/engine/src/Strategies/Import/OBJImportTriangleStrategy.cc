@@ -10,6 +10,8 @@ VAO OBJImportTriangleStrategy::Import(const OBJ& obj) const {
   vao.LinkAttrib(vbo, 0, 3, GL_FLOAT, sizeof(VertexData), NULL);
   vao.LinkAttrib(vbo, 1, 3, GL_FLOAT, sizeof(VertexData),
                  (void*)(3 * sizeof(float)));
+  vao.LinkAttrib(vbo, 2, 2, GL_FLOAT, sizeof(VertexData),
+                 (void*)(2 * sizeof(float)));
   vao.SetIndicesN(ebo.GetSize());
   vao.SetVerticesN(vbo.GetSize());
   vao.Unbind();
@@ -22,17 +24,21 @@ std::vector<VertexData> OBJImportTriangleStrategy::GetVertexDataArray(
   std::vector<VertexData> new_arr;
   //  for (auto& vertex : obj.vertices) new_arr.push_back({vertex});
   auto vert_size = obj.vertices.size();
-  if (vert_size != obj.normals.size()) {
+  if (vert_size != obj.normals.size() ||
+      (vert_size != obj.texture_coords.size() && !obj.texture_coords.size())) {
     static Logger logger("OBJImportTriangleStrategy");
-    auto log = std::string("Vertices size: ") + std::to_string(vert_size);
-    auto log2 =
-        std::string("Normals size: ") + std::to_string(obj.normals.size());
-    logger.Log(log, Logger::LogLevel::kError);
-    logger.Log(log2.c_str(), Logger::LogLevel::kError);
-    throw "vertices.size != normals.size";
+    logger.Log(std::string("Vertices size: ") + std::to_string(vert_size),
+               Logger::LogLevel::kError);
+    logger.Log(
+        std::string("Normals size: ") + std::to_string(obj.normals.size()),
+        Logger::LogLevel::kError);
+    logger.Log(std::string("Texture coords size: ") +
+                   std::to_string(obj.texture_coords.size()),
+               Logger::LogLevel::kError);
+    throw "vertices.size != normals.size != text_coords.size";
   }
   for (size_t i = 0; i < vert_size; ++i)
-    new_arr.push_back({obj.vertices[i], obj.normals[i]});
+    new_arr.push_back({obj.vertices[i], obj.normals[i], obj.texture_coords[i]});
   return new_arr;
 }
 std::vector<Face> OBJImportTriangleStrategy::GetTriangleIndexArray(

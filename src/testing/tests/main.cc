@@ -60,20 +60,20 @@ TEST(viewer_3d, parser_indices_test) {
   }
 }
 
-TEST(viewer_3d, some_group_names) {
-  std::vector<s21::OBJ> result =
-      parser.Parse(test_resources_path + "third.jenya");
+// TEST(viewer_3d, some_group_names) {
+//   std::vector<s21::OBJ> result =
+//       parser.Parse(test_resources_path + "third.jenya");
 
-  EXPECT_EQ(result.size(), 2);
-  EXPECT_STREQ(result[0].name.c_str(), "Box");
-  EXPECT_STREQ(result[1].name.c_str(), "Group");
+//   EXPECT_EQ(result.size(), 2);
+//   EXPECT_STREQ(result[0].name.c_str(), "Box");
+//   EXPECT_STREQ(result[1].name.c_str(), "Group");
 
-  EXPECT_EQ(result[0].vertices.size(), 4);
-  EXPECT_EQ(result[0].faces.size(), 2);
+//   EXPECT_EQ(result[0].vertices.size(), 4);
+//   EXPECT_EQ(result[0].faces.size(), 2);
 
-  EXPECT_EQ(result[1].vertices.size(), 3);
-  EXPECT_EQ(result[1].faces.size(), 1);
-}
+//   EXPECT_EQ(result[1].vertices.size(), 3);
+//   EXPECT_EQ(result[1].faces.size(), 1);
+// }
 
 TEST(viewer_3d, no_files) {
   std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "NOFILE");

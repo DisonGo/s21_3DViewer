@@ -27,9 +27,6 @@ class OBJParser : public BaseParser {
   void ElevateVerticesToGround(vector<Vertex> &vertices);
   void FetchVertexDataByFaces(const OBJ &source, OBJ &output,
                               std::vector<Face> &faces);
-  void FetchNormalsByFaces(const std::vector<Normal> &source,
-                           std::vector<Normal> &output,
-                           std::vector<Face> &faces);
   void NormalizeVertices(vector<Vertex> &vertices, float normalizeSize);
   vector<OBJ> CalculateObjects(OBJ &all_data, vector<Object> objects);
   void GenerateNormals(OBJ &obj);

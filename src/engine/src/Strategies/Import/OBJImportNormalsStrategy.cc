@@ -34,9 +34,10 @@ std::vector<VertexData> OBJImportNormalsStrategy::GetVertexDataArray(
     Vector3D normal{obj.normals[i].x, obj.normals[i].y, obj.normals[i].z};
 
     auto second_vert = vertex + normal.Normalized() * 0.01;
-    new_arr.push_back({{vertex.X(), vertex.Y(), vertex.Z()}, {0, 0, 0}});
     new_arr.push_back(
-        {{second_vert[0], second_vert[1], second_vert[2]}, {0, 0, 0}});
+        {{vertex.X(), vertex.Y(), vertex.Z()}, {0, 0, 0}, {0, 0}});
+    new_arr.push_back(
+        {{second_vert[0], second_vert[1], second_vert[2]}, {0, 0, 0}, {0, 0}});
   }
   return new_arr;
 }

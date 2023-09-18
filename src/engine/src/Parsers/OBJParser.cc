@@ -57,58 +57,54 @@ void OBJParser::ElevateVerticesToGround(std::vector<Vertex>& vertices) {
 void OBJParser::FetchVertexDataByFaces(const OBJ& source, OBJ& output,
                                        std::vector<Face>& faces) {
   std::set<const Vertex*> existing_vertices;
+  std::set<const TextureCoord*> existing_uvs;
   std::map<size_t, size_t> v_indices_map;
-  //  std::map<size_t, size_t> n_indices_map;
   std::vector<Face> calibrated_faces;
 
   const auto faces_size = faces.size();
+  bool fetch_by_vertices =
+      source.texture_coords.size() < source.vertices.size();
 
   for (size_t i = 0; i < faces_size; ++i) {
     calibrated_faces.push_back(faces[i]);
-
     for (auto& index : calibrated_faces[i].indices) {
-      // Fetch only unique vertices
-      auto vertex = &source.vertices[index.v_index];
-      bool vertex_dont_exists =
-          existing_vertices.find(vertex) == existing_vertices.end();
-      if (vertex_dont_exists) {
-        existing_vertices.insert(vertex);
-        v_indices_map.insert({index.v_index, output.vertices.size()});
-        //        n_indices_map.insert({index.n_index, output.normals.size()});
-        output.vertices.push_back(*vertex);
-        output.normals.push_back(source.normals[index.v_index]);
+      if (fetch_by_vertices) {
+        auto vertex = &source.vertices[index.v_index];
+        bool vertex_found =
+            existing_vertices.find(vertex) != existing_vertices.end();
+        if (!vertex_found) {
+          existing_vertices.insert(vertex);
+          v_indices_map.insert({index.v_index, output.vertices.size()});
+          output.vertices.push_back(source.vertices[index.v_index]);
+          output.normals.push_back(source.normals[index.v_index]);
+        }
+      } else {
+        auto uv = &source.texture_coords[index.t_index];
+        bool uv_found = existing_uvs.find(uv) != existing_uvs.end();
+        if (!uv_found) {
+          existing_uvs.insert(uv);
+          v_indices_map.insert({index.t_index, output.vertices.size()});
+          output.texture_coords.push_back(*uv);
+          output.vertices.push_back(source.vertices[index.v_index]);
+          output.normals.push_back(source.normals[index.v_index]);
+        }
       }
     }
-    // Map used indices to new vertex array
     for (auto& index : calibrated_faces[i].indices) {
-      index.v_index = v_indices_map.at(index.v_index);
-      //        index.n_index = n_indices_map.at(index.n_index);
+      auto ind = fetch_by_vertices ? index.v_index : index.t_index;
+      index.v_index = v_indices_map.at(ind);
     }
   }
-  faces = std::move(calibrated_faces);
-}
-void OBJParser::FetchNormalsByFaces(const std::vector<Normal>& source,
-                                    std::vector<Normal>& output,
-                                    std::vector<Face>& faces) {
-  std::map<size_t, size_t> v_indices_map;
-  std::vector<Face> calibrated_faces;
+  // logger_.Log(
+  //     "Calibrated vertices arr size:" +
+  //     std::to_string(output.vertices.size()), Logger::LogLevel::kInfo);
+  // logger_.Log(
+  //     "Calibrated normals arr size:" + std::to_string(output.normals.size()),
+  //     Logger::LogLevel::kInfo);
+  // logger_.Log("Calibrated texture_coords arr size:" +
+  //                 std::to_string(output.texture_coords.size()),
+  //             Logger::LogLevel::kInfo);
 
-  const auto faces_size = faces.size();
-
-  for (size_t i = 0; i < faces_size; ++i) {
-    calibrated_faces.push_back(faces[i]);
-
-    for (auto& index : calibrated_faces[i].indices) {
-      // Fetch only unique vertices
-
-      auto normal = &source[index.n_index];
-      v_indices_map.insert({index.n_index, output.size()});
-      output.push_back(*normal);
-    }
-    // Map used indices to new normal array
-    for (auto& index : calibrated_faces[i].indices)
-      index.n_index = v_indices_map.at(index.n_index);
-  }
   faces = std::move(calibrated_faces);
 }
 
@@ -164,7 +160,6 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
     data.faces = std::vector<Face>(faces.begin() + object.i_start,
                                    faces.begin() + object.i_end);
     FetchVertexDataByFaces(all_data, data, data.faces);
-    //    FetchNormalsByFaces(all_data.normals, data.normals, data.faces);
     datas.push_back(data);
   }
   return datas;
@@ -274,13 +269,7 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
   CenterVertices(obj.vertices, {0, 0, 0});
   NormalizeVertices(obj.vertices, 2);
-  //  ElevateVerticesToGround(obj.vertices);
   GenerateNormals(obj);
-
-  //  for (auto& vert : obj.vertices)
-  //    std::cout << vert << "\n";
-  //  for (auto& norm : obj.normals)
-  //    std::cout << norm.x << " " <<  norm.y << " " << norm.z << "\n";
 
   // Cleaning
   std::string log = counter.vtC > counter.vC    ? "vt > v"
