@@ -22,6 +22,7 @@ class Object3DSpacer : public QObject {
   double GetEdgesThicknessValue() { return object_.GetEdgesThickness(); };
   QColor GetVerticesColorValue() { return object_.GetVerticesColor(); };
   double GetVerticesSizeValue() { return object_.GetVerticesSize(); };
+  bool GetTextureToggle() {return object_.GetTextureToggle();};
 
   void SetBaseColorValue(QColor new_color);
   void SetEdgesColorValue(QColor new_color);
@@ -31,6 +32,7 @@ class Object3DSpacer : public QObject {
   void SetDisplayMethodValue(PointDisplayType new_method);
   void SetUITypeValue(LineDisplayType new_type);
   void SetDisplayTypeValue(ObjectDisplayType new_type);
+  void SetTextureToggle(bool on);
  signals:
   void ConfigUpdated();
 

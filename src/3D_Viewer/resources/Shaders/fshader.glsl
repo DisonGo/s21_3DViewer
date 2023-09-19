@@ -38,6 +38,10 @@ uniform vec2 u_resolution;
 uniform vec3 u_prototype_color;
 
 uniform vec3 u_CameraPos;
+
+uniform sampler2D u_tex_1;
+uniform bool u_texture_on;
+
 float specular_shininess = 8;
 vec4 p_color = vec4(u_prototype_color, 1);
 
@@ -141,9 +145,13 @@ void main() {
       final_light +=
           CalcPointLight(p_light, vPos, viewDir, u_ligths[i].strength);
     }
-    FragColor = vec4(final_light, 1) * p_color;
+    if (u_texture_on)
+      FragColor = texture(u_tex_1, f_UV) * vec4(final_light, 1);
+    else
+      FragColor = p_color * vec4(final_light, 1);
+
   } else {
-    FragColor = p_color;
+    FragColor = u_texture_on ? texture(u_tex_1, f_UV) : p_color;
   }
   DecideLineDraw();
   DecidePointDraw();

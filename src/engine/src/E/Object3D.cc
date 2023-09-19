@@ -45,6 +45,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   program_->Activate();
   transform_.LoadModelMatrix(program_);
   camera->Matrix(*program_);
+  program_->Uniform1i("u_texture_on", texture_on_);
   float red = 1, green = 1, blue = 1;
   auto is_circle = point_display_method_ == PointDisplayType::kCircle;
   auto is_dashed = line_display_type_ == LineDisplayType::kDashed;
@@ -64,7 +65,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   }
   if (type == GL_TRIANGLES) {
     program_->Uniform1i("u_flat_shade", object_display_type_ == kFlatShading);
-    program_->Uniform1i("u_do_lighting", object_display_type_ != kWireframe);
+    program_->Uniform1i("u_do_lighting", false);
     red = base_color_.redF();
     green = base_color_.greenF();
     blue = base_color_.blueF();
@@ -126,13 +127,17 @@ void Object3D::SetLineDisplayType(LineDisplayType new_type) {
 }
 void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
   object_display_type_ = new_type;
-  auto buffer_to_except =
-      new_type == kWireframe ? kWireframeImport : kTriangleImport;
+  bool is_wireframe = new_type == kWireframe;
+  auto buffer_to_except = is_wireframe ? kWireframeImport : kTriangleImport;
+  static bool texture_was = true;
+  if (!is_wireframe) texture_was = texture_on_;
+  if (texture_was) SetTextureToggle(!is_wireframe);
+
   for (const auto& mesh : meshes_)
     mesh->SetBufferExceptToggle(buffer_to_except, true);
 }
 void Object3D::SetFileName(std::string file_name) { file_name_ = file_name; }
-
+void Object3D::SetTextureToggle(bool on) { texture_on_ = on; }
 unsigned long Object3D::CountVertices(OBJImportStrategyType buffer_type) {
   unsigned long count = 0;
   for (auto& mesh : meshes_) count += mesh->GetVertices(buffer_type);

@@ -6,12 +6,14 @@ Point::Point(float x, float y, float z) : Point(Vector3D(x, y, z)) {}
 Point::Point(const Vector3D &position) {
   CreateMesh(position);
   vertices_size_ = 10;
+  texture_on_ = false;
 }
 
 void Point::Draw(GLenum type, Camera *camera) {
   Q_UNUSED(type);
   if (!camera || !program_) return;
   program_->Activate();
+  program_->Uniform1i("u_texture_on", texture_on_);
   float red = vertices_color_.redF();
   float green = vertices_color_.greenF();
   float blue = vertices_color_.blueF();

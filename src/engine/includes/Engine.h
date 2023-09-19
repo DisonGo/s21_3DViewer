@@ -14,6 +14,7 @@
 #include "E/Object3DFactory.h"
 #include "E/Plane.h"
 #include "E/Point.h"
+#include "GL/Texture.h"
 #include "Parsers/OBJParser.h"
 #include "Shaders/Program.h"
 
@@ -33,6 +34,8 @@ class Engine : protected QOpenGLFunctions {
   ~Engine();
   void Initialize();
   void ImportOBJFile(std::string file_path);
+  void ImportTextureFile(std::string file_path);
+  void UnloadTexture();
   void Cycle();
 
   EObjectItemModel& GetEObjectItemModel() { return e_object_model_; };
@@ -58,12 +61,12 @@ class Engine : protected QOpenGLFunctions {
   void RemoveFromWhitelist(EObject* object);
   bool IsWhitelisted(EObject* object) const;
   Object3D* GenerateObject(std::string file_path);
-
   bool initialized_ = false;
   bool single_object_mode_ = true;
   Logger logger_{"Engine"};
   Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
+  Texture* global_texture_ = nullptr;
   DrawConfig& draw_config_;
   EObjectItemModel e_object_model_;  // TODO copy/move
   Object3DFactory object3d_factory_;
@@ -74,6 +77,7 @@ class Engine : protected QOpenGLFunctions {
   std::vector<Program*> programs_;
   std::set<EObject*> whitelist_objects_;
 };
+
 }  // namespace s21
 
 #endif  // ENGINE_H

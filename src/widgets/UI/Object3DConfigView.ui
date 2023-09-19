@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>355</width>
-    <height>417</height>
+    <width>364</width>
+    <height>449</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -346,6 +346,20 @@
        </item>
       </layout>
      </item>
+     <item>
+      <widget class="QLabel" name="TextureL">
+       <property name="text">
+        <string>Texture:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="texture_toggleCB">
+       <property name="text">
+        <string>Texture on</string>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
@@ -361,8 +375,8 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="PointTypeG"/>
   <buttongroup name="LineTypeG"/>
+  <buttongroup name="PointTypeG"/>
   <buttongroup name="DisplayTypeG"/>
  </buttongroups>
 </ui>

@@ -18,6 +18,12 @@ struct OBJ {
   vector<Normal> normals;
   vector<Face> faces;
   vector<TextureCoord> texture_coords;
+  inline bool HasUvs() const { return !texture_coords.empty(); }
+  inline bool Balanced() const {
+    bool balanced_v_n = vertices.size() == normals.size();
+    bool balanced_v_t = vertices.size() == texture_coords.size();
+    return HasUvs() ? balanced_v_n && balanced_v_t : balanced_v_n;
+  }
 };
 }  // namespace s21
 #endif  // BASEOBJ_H

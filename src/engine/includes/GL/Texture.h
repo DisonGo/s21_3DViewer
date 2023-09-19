@@ -13,6 +13,10 @@ class Texture : public GLObject {
   void Bind() override { glBindTexture(type_, ID_); };
   void Unbind() override { glBindTexture(type_, 0); };
   void Delete() override { glDeleteTextures(1, &ID_); };
+  ~Texture() {
+    Unbind();
+    Delete();
+  };
 
  protected:
   GLenum type_;

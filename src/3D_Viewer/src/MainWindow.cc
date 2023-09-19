@@ -83,6 +83,10 @@ void MainWindow::SetupView() {
   connect(ui->screenshot_b, SIGNAL(clicked()), this, SLOT(SaveScreenshot()));
   connect(&engine_spacer_, &EngineSpacer::ObjectImported, this,
           &MainWindow::PrintImported);
+  connect(ui->unload_texture_b, &QPushButton::pressed, &engine_spacer_,
+          &EngineSpacer::UnloadTexture);
+  connect(ui->select_texture_b, &QPushButton::pressed, this,
+          &MainWindow::SelectTexture);
 }
 
 void MainWindow::LoadSettings() {
@@ -182,6 +186,16 @@ void MainWindow::SetupEObjectTreeView() {
   connect(eObjectModel, &EObjectItemModel::ObjectSelected, this,
           &MainWindow::ShowObjectWidget);
   object_tree_->setModel(eObjectModel);
+}
+
+void MainWindow::SelectTexture() {
+  QString name = qgetenv("USER");
+  if (name.isEmpty()) name = qgetenv("USERNAME");
+  QString filename = QFileDialog::getOpenFileName(
+      this, tr("Open File"), "/Users/" + name,
+      "BMP Files (*.bmp);;JPEG Files (*.jpg);;PNG Files(*.png)");
+  if (filename.isEmpty()) return;
+  engine_spacer_.ImportTextureFile(filename.toStdString());
 }
 
 void MainWindow::PrintImported(unsigned long vertices_n,
