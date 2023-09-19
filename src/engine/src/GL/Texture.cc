@@ -39,7 +39,7 @@ void Texture::LoadInProgram(Program& program, const std::string& uniform_name) {
 bool Texture::CheckImageErrors(int width_img, int height_img) {
   bool size_is_negative = width_img <= 0 || height_img <= 0;
   bool size_is_too_large =
-      (width_img >= image_max_size_ || height_img >= image_max_size_);
+      (width_img > image_max_size_ || height_img > image_max_size_);
   bool size_error = size_is_negative || size_is_too_large;
 
   bool orientation_error = width_img != height_img;

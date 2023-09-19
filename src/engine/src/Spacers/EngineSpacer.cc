@@ -11,6 +11,14 @@ void EngineSpacer::ImportOBJFile(std::string file_path) {
   auto name = engine_.GetObject3DFileName(1);
   emit ObjectImported(stats.first, stats.second, name);
 }
+void EngineSpacer::ImportTextureFile(std::string file_path) {
+    engine_.ImportTextureFile(file_path);
+}
+
+void EngineSpacer::UnloadTexture()
+{
+    engine_.UnloadTexture();
+}
 
 EObjectItemModel &EngineSpacer::GetEObjectItemModel() {
   return engine_.GetEObjectItemModel();

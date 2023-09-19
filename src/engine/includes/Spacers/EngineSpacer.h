@@ -7,13 +7,16 @@ class EngineSpacer : public QObject {
  public:
   EngineSpacer(Engine& engine, QObject* parent = nullptr)
       : QObject(parent), engine_(engine){};
+ public slots:
   void InitializeEngine();
   void RequestRenderCycle();
   void ImportOBJFile(std::string file_path);
+  void ImportTextureFile(std::string file_path);
+  void UnloadTexture();
   EObjectItemModel& GetEObjectItemModel();
   Camera* GetCurrentCamera();
   void SetCurrentCamera(Camera* camera);
- signals:
+signals:
   void ConfigUpdated();
   void ObjectImported(unsigned long vertices_n, unsigned long indices_n,
                       std::string file_name);

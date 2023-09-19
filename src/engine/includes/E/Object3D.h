@@ -42,6 +42,7 @@ class Object3D : public EObject {
   void SetLineDisplayType(LineDisplayType new_type);
   void SetObjectDisplayType(ObjectDisplayType new_type);
   void SetFileName(std::string file_name);
+  void SetTextureToggle(bool on);
   Mesh& GetMesh(size_t index) { return *meshes_.at(index); };
   const std::vector<std::shared_ptr<Mesh>>& GetMeshes() { return meshes_; };
   Transform& GetTrasform() { return transform_; };
@@ -55,6 +56,7 @@ class Object3D : public EObject {
   double GetVerticesSize() { return vertices_size_; };
   Program* GetProgram() { return program_; };
   std::string GetFileName() { return file_name_; };
+  bool GetTextureToggle() { return texture_on_; };
   unsigned long CountVertices(OBJImportStrategyType buffer_type);
   unsigned long CountIndices(OBJImportStrategyType buffer_type);
 
@@ -71,6 +73,7 @@ class Object3D : public EObject {
   double edges_thickness_{1};
   QColor vertices_color_{255, 125, 125};
   double vertices_size_{1};
+  bool texture_on_ = true;
   PointDisplayType point_display_method_ = PointDisplayType::kNone;
   LineDisplayType line_display_type_ = kSolid;
   ObjectDisplayType object_display_type_ = kSmoothShading;

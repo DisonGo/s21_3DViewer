@@ -59,6 +59,7 @@ void Object3DConfigView::SetupConnects() {
           &Object3DConfigView::SetLineWidth);
   connect(ui->PointSizeSB, &QDoubleSpinBox::valueChanged, this,
           &Object3DConfigView::SetPointSize);
+  connect(ui->texture_toggleCB, &QCheckBox::stateChanged, this, &Object3DConfigView::SetTextureToggle);
 }
 
 void Object3DConfigView::SetValuesFromConfig() {
@@ -99,6 +100,7 @@ void Object3DConfigView::SetValuesFromConfig() {
   Vector3D base_color_vec(base_color.red(), base_color.green(),
                           base_color.blue());
   ui->BaseColorTriplet->SetValues(base_color_vec);
+  ui->texture_toggleCB->setChecked(object_spacer_->GetTextureToggle());
 }
 
 void Object3DConfigView::SetColor(const Vector3D &color) {
@@ -175,5 +177,12 @@ void Object3DConfigView::SetPointSize(double size) {
   if (!object_spacer_) return;
   object_spacer_->SetVerticesSizeValue(size);
   emit UpdateRequest();
+}
+
+void Object3DConfigView::SetTextureToggle(int state)
+{
+    if (!object_spacer_) return;
+    object_spacer_->SetTextureToggle((bool) state);
+    emit UpdateRequest();
 }
 }  // namespace s21

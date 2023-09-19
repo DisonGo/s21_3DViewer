@@ -62,8 +62,9 @@ void OBJParser::FetchVertexDataByFaces(const OBJ& source, OBJ& output,
   std::vector<Face> calibrated_faces;
 
   const auto faces_size = faces.size();
+  bool has_uvs = source.HasUvs();
   bool fetch_by_vertices =
-      source.texture_coords.size() < source.vertices.size();
+      source.vertices.size() < source.texture_coords.size();
 
   for (size_t i = 0; i < faces_size; ++i) {
     calibrated_faces.push_back(faces[i]);
@@ -75,8 +76,11 @@ void OBJParser::FetchVertexDataByFaces(const OBJ& source, OBJ& output,
         if (!vertex_found) {
           existing_vertices.insert(vertex);
           v_indices_map.insert({index.v_index, output.vertices.size()});
-          output.vertices.push_back(source.vertices[index.v_index]);
-          output.normals.push_back(source.normals[index.v_index]);
+          output.vertices.emplace_back(source.vertices[index.v_index]);
+          if (has_uvs)
+            output.texture_coords.emplace_back(
+                source.texture_coords[index.t_index]);
+          output.normals.emplace_back(source.normals[index.v_index]);
         }
       } else {
         auto uv = &source.texture_coords[index.t_index];
@@ -84,9 +88,9 @@ void OBJParser::FetchVertexDataByFaces(const OBJ& source, OBJ& output,
         if (!uv_found) {
           existing_uvs.insert(uv);
           v_indices_map.insert({index.t_index, output.vertices.size()});
-          output.texture_coords.push_back(*uv);
-          output.vertices.push_back(source.vertices[index.v_index]);
-          output.normals.push_back(source.normals[index.v_index]);
+          output.texture_coords.emplace_back(*uv);
+          output.vertices.emplace_back(source.vertices[index.v_index]);
+          output.normals.emplace_back(source.normals[index.v_index]);
         }
       }
     }
@@ -149,12 +153,17 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
     logger_.Log("Vector of objects if empty", Logger::LogLevel::kWarning);
     return datas;
   }
-  if (objects.size() == 1) {
-    all_data.name = objects.front().name;
-    datas.push_back(std::move(all_data));
-    return datas;
-  }
+  // if (objects.size() == 1) {
+  //   all_data.name = objects.front().name;
+  //   datas.push_back(std::move(all_data));
+  //   return datas;
+  // }
   for (auto& object : objects) {
+    if (object.i_start > object.i_end) {
+      logger_.Log(object.name + ": Invalid group: start > end",
+                  Logger::LogLevel::kError);
+      continue;
+    }
     OBJ data;
     data.name = object.name;
     data.faces = std::vector<Face>(faces.begin() + object.i_start,

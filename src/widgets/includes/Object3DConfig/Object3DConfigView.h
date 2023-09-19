@@ -33,6 +33,7 @@ class Object3DConfigView : public ConfigWidget {
   void SetDisplayType(bool checked);
   void SetLineWidth(double width);
   void SetPointSize(double size);
+  void SetTextureToggle(int state);
 };
 }  // namespace s21
 #endif  // OBJECT3DCONFIGVIEW_H

@@ -9,7 +9,6 @@
 #include <QRandomGenerator>
 #include <functional>
 
-#include "GL/Texture.h"
 using godison::shapes::Polygon;
 using godison::vectors::Vector3D;
 #define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
@@ -112,6 +111,7 @@ void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   CreateAndAddProgramToObject3D(*object);
   objects_3d_.push_back(object);
   if (add_to_delete_queue) engine_objects_.push_back(object);
+  object->SetTextureToggle(global_texture_ != nullptr);
   logger_.Log("Default imported Object3D: " + object->GetFileName());
 }
 void Engine::AddToWhitelist(EObject* object) {
@@ -149,7 +149,17 @@ void Engine::Wipe3DObjects() {
 Object3D* Engine::GenerateObject(std::string file_path) {
   return new Object3D(object3d_factory_.GetObject(file_path.c_str()));
 }
-
+void Engine::UnloadTexture() {
+  {
+    if (global_texture_) {
+      global_texture_->Unbind();
+      delete global_texture_;
+    }
+    global_texture_ = nullptr;
+    for (auto object : objects_3d_)
+      if (object && !IsWhitelisted(object)) object->SetTextureToggle(false);
+  }
+}
 void Engine::ImportOBJFile(std::string file_path) {
   if (!initialized_) return;
   Object3D* object_3d = GenerateObject(file_path);
@@ -160,22 +170,36 @@ void Engine::ImportOBJFile(std::string file_path) {
   e_object_model_.AddItem(object_3d, nullptr,
                           fileInfo.baseName().toStdString());
 }
-
+void Engine::ImportTextureFile(std::string file_path) {
+  UnloadTexture();
+  global_texture_ =
+      new Texture(file_path, GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
+  for (auto object : objects_3d_)
+    if (object && !IsWhitelisted(object) &&
+        object->GetObjectDisplayType() != kWireframe)
+      object->SetTextureToggle(true);
+}
 void Engine::Cycle() {
   if (!initialized_) return;
   glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  for (auto program : programs_) {
-    if (program) {
-      for (size_t i = 0; i < lights_.size(); ++i)
-        lights_[i]->LoadInGLSLArray(*program, "u_ligths", i);
-      program->Uniform1i("u_light_count", lights_.size());
+  for (auto object : objects_3d_) {
+    auto program = object->GetProgram();
+    if (!program) continue;
+    for (size_t i = 0; i < lights_.size(); ++i)
+      lights_[i]->LoadInGLSLArray(*program, "u_ligths", i);
+    program->Uniform1i("u_light_count", lights_.size());
+    if (!IsWhitelisted(object) && global_texture_) {
+      program->Uniform1i("u_texture_on", true);
+      global_texture_->LoadInProgram(*program, "u_tex_1");
     }
   }
+  if (global_texture_) global_texture_->Bind();
   if (draw_config_.points) DrawGeometry(GL_POINTS);
   if (draw_config_.lines) DrawGeometry(GL_LINES);
   if (draw_config_.triangles) DrawGeometry(GL_TRIANGLES);
   if (draw_config_.triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
+  if (global_texture_) global_texture_->Unbind();
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
@@ -186,7 +210,7 @@ std::string Engine::GetObject3DFileName(size_t index) {
     auto object = objects_3d_.at(index);
     if (object) name = object->GetFileName();
   } catch (...) {
-    qDebug() << "Object doesn't exist";
+    logger_.Log("Object doesn't exist", Logger::LogLevel::kError);
     name = "";
   }
   return name;
@@ -284,10 +308,15 @@ void Engine::Initialize() {
   SetupFocusPoint();
   SetupDefaultLight();
   initialized_ = true;
-  Texture planksTex(
-      "/Users/evverenn/Desktop/Projects/Junk/3D_Viewer/src/3D_Viewer/resources/"
-      "pop_cat.png",
+
+  global_texture_ = new Texture(
+      "/opt/goinfre/evverenn/Download/objects_2/Reptile Alien "
+      "Creature-OBJ/Monster_Color.png",
       GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
+  // global_texture_ = new Texture(
+  //     "/Users/evverenn/Desktop/Projects/Junk/3D_Viewer/src/3D_Viewer/resources/"
+  //     "pop_cat.png",
+  //     GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
   logger_.Log("Engine initialized");
 }
 
