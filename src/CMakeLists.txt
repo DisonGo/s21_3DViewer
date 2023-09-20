@@ -16,7 +16,7 @@ set(CURRENT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -DMYPATH=${CMAKE_SOURCE_DIR}")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
-add_definitions(-DSTB_IMAGE_IMPLEMENTATION)
+# add_definitions(-DSTB_IMAGE_IMPLEMENTATION)
 #-DMYPATH=" ${CMAKE_SOURCE_DIR}
 
 include(FetchContent)
@@ -38,4 +38,5 @@ add_subdirectory(gifImage)
 add_subdirectory(widgets)
 add_subdirectory(godison)
 add_subdirectory(testing)
+add_subdirectory(soil)
 

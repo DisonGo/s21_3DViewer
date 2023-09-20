@@ -48,9 +48,13 @@ void s21::Object3DSpacer::SetDisplayTypeValue(ObjectDisplayType new_type) {
   emit ConfigUpdated();
 }
 
-void s21::Object3DSpacer::SetTextureToggle(bool on)
-{
-    if (object_.GetTextureToggle() == on) return;
-    object_.SetTextureToggle(on);
-    emit ConfigUpdated();
+void s21::Object3DSpacer::SetTextureToggle(bool on) {
+  if (object_.GetTextureToggle() == on) return;
+  object_.SetTextureToggle(on);
+  emit ConfigUpdated();
+}
+void s21::Object3DSpacer::SetLightingToggle(bool on) {
+  if (object_.GetLightingToggle() == on) return;
+  object_.SetLightingToggle(on);
+  emit ConfigUpdated();
 }

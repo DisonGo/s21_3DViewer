@@ -59,7 +59,10 @@ void Object3DConfigView::SetupConnects() {
           &Object3DConfigView::SetLineWidth);
   connect(ui->PointSizeSB, &QDoubleSpinBox::valueChanged, this,
           &Object3DConfigView::SetPointSize);
-  connect(ui->texture_toggleCB, &QCheckBox::stateChanged, this, &Object3DConfigView::SetTextureToggle);
+  connect(ui->texture_toggleCB, &QCheckBox::stateChanged, this,
+          &Object3DConfigView::SetTextureToggle);
+  connect(ui->lighting_toggleCB, &QCheckBox::stateChanged, this,
+          &Object3DConfigView::SetLightingToggle);
 }
 
 void Object3DConfigView::SetValuesFromConfig() {
@@ -101,6 +104,7 @@ void Object3DConfigView::SetValuesFromConfig() {
                           base_color.blue());
   ui->BaseColorTriplet->SetValues(base_color_vec);
   ui->texture_toggleCB->setChecked(object_spacer_->GetTextureToggle());
+  ui->lighting_toggleCB->setChecked(object_spacer_->GetLightingToggle());
 }
 
 void Object3DConfigView::SetColor(const Vector3D &color) {
@@ -179,10 +183,15 @@ void Object3DConfigView::SetPointSize(double size) {
   emit UpdateRequest();
 }
 
-void Object3DConfigView::SetTextureToggle(int state)
-{
-    if (!object_spacer_) return;
-    object_spacer_->SetTextureToggle((bool) state);
-    emit UpdateRequest();
+void Object3DConfigView::SetTextureToggle(int state) {
+  if (!object_spacer_) return;
+  object_spacer_->SetTextureToggle((bool)state);
+  emit UpdateRequest();
+}
+
+void Object3DConfigView::SetLightingToggle(int state) {
+  if (!object_spacer_) return;
+  object_spacer_->SetLightingToggle((bool)state);
+  emit UpdateRequest();
 }
 }  // namespace s21
