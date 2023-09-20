@@ -64,7 +64,7 @@ void OBJParser::FetchVertexDataByFaces(const OBJ& source, OBJ& output,
   const auto faces_size = faces.size();
   bool has_uvs = source.HasUvs();
   bool fetch_by_vertices =
-      source.vertices.size() < source.texture_coords.size();
+      source.vertices.size() > source.texture_coords.size();
 
   for (size_t i = 0; i < faces_size; ++i) {
     calibrated_faces.push_back(faces[i]);

@@ -65,7 +65,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   }
   if (type == GL_TRIANGLES) {
     program_->Uniform1i("u_flat_shade", object_display_type_ == kFlatShading);
-    program_->Uniform1i("u_do_lighting", false);
+    program_->Uniform1i("u_do_lighting", object_display_type_ != kWireframe);
     red = base_color_.redF();
     green = base_color_.greenF();
     blue = base_color_.blueF();
