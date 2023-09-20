@@ -22,7 +22,7 @@ class OBJParser : public BaseParser {
     bool IsEmpty() const { return i_end == i_start; }
   };
   void ParseFace(const string values, Face *faces, size_t &index,
-                 size_t vertex_index);
+                 TagCounters& counter);
   void CenterVertices(vector<Vertex> &vertices, Vertex center);
   void ElevateVerticesToGround(vector<Vertex> &vertices);
   void FetchVertexDataByFaces(const OBJ &source, OBJ &output,

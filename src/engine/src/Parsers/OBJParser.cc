@@ -26,10 +26,10 @@ TagCounters OBJParser::CountTags(const string filePath) {
 }
 
 void OBJParser::ParseFace(const string values, Face* faces, size_t& index,
-                          size_t vertex_index) {
+                          TagCounters& counter) {
   FaceVertex* vertices = nullptr;
   size_t vCount = 0;
-  vertices = ParsePolygon(values, vCount, vertex_index);
+  vertices = ParsePolygon(values, vCount, counter);
   faces[index].indices.insert(faces[index].indices.end(), vertices,
                               vertices + vCount);
   ++index;
@@ -175,9 +175,8 @@ std::vector<OBJ> OBJParser::CalculateObjects(OBJ& all_data,
 }
 void OBJParser::GenerateNormals(OBJ& obj) {
   if (obj.vertices.empty()) return;
-  if (obj.normals.size() == obj.vertices.size()) return;
-  logger_.Log("Bad normals array. Generating new array",
-              Logger::LogLevel::kWarning);
+  // if (obj.normals.size() == obj.vertices.size()) return;
+  logger_.Log("Generating normals array", Logger::LogLevel::kWarning);
   obj.normals.clear();
   obj.normals = vector<Normal>(obj.vertices.size());
   for (const auto& face : obj.faces) {
@@ -257,7 +256,7 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
     } else if (tag == "vn") {
       normals[counter.vnC++] = ParseNormal(values);
     } else if (tag == "f") {
-      ParseFace(values, faces, counter.fC, counter.vC);
+      ParseFace(values, faces, counter.fC, counter);
     } else if (tag == "o" || tag == "g") {
       current_object.i_end = counter.fC;
       if (!current_object.IsEmpty()) objects.push_back(current_object);

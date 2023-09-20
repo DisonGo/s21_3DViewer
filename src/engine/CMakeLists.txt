@@ -18,6 +18,7 @@ add_library(${LIB_NAME} STATIC
 )
 target_link_libraries(${LIB_NAME} PRIVATE
     godison
+    SOIL
     Qt${QT_VERSION_MAJOR}::Gui
     Qt${QT_VERSION_MAJOR}::OpenGL
     Qt${QT_VERSION_MAJOR}::OpenGLWidgets

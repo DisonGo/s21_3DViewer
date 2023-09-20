@@ -193,7 +193,7 @@ void MainWindow::SelectTexture() {
   if (name.isEmpty()) name = qgetenv("USERNAME");
   QString filename = QFileDialog::getOpenFileName(
       this, tr("Open File"), "/Users/" + name,
-      "BMP Files (*.bmp);;JPEG Files (*.jpg);;PNG Files(*.png)");
+      "BMP Files (*.bmp);;JPEG Files (*.jp*g);;PNG Files(*.png)");
   if (filename.isEmpty()) return;
   engine_spacer_.ImportTextureFile(filename.toStdString());
 }

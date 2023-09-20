@@ -65,7 +65,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   }
   if (type == GL_TRIANGLES) {
     program_->Uniform1i("u_flat_shade", object_display_type_ == kFlatShading);
-    program_->Uniform1i("u_do_lighting", object_display_type_ != kWireframe);
+    program_->Uniform1i("u_do_lighting", lighting_on_);
     red = base_color_.redF();
     green = base_color_.greenF();
     blue = base_color_.blueF();
@@ -130,6 +130,7 @@ void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
   bool is_wireframe = new_type == kWireframe;
   auto buffer_to_except = is_wireframe ? kWireframeImport : kTriangleImport;
   static bool texture_was = true;
+  SetLightingToggle(!is_wireframe);
   if (!is_wireframe) texture_was = texture_on_;
   if (texture_was) SetTextureToggle(!is_wireframe);
 
@@ -138,6 +139,7 @@ void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
 }
 void Object3D::SetFileName(std::string file_name) { file_name_ = file_name; }
 void Object3D::SetTextureToggle(bool on) { texture_on_ = on; }
+void Object3D::SetLightingToggle(bool on) { lighting_on_ = on; }
 unsigned long Object3D::CountVertices(OBJImportStrategyType buffer_type) {
   unsigned long count = 0;
   for (auto& mesh : meshes_) count += mesh->GetVertices(buffer_type);
