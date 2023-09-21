@@ -3,6 +3,7 @@ BUILD_PATH 			= ../build
 EXE_DIR 			= /exe
 PROJECT_EXE_PATH 	= ${PROJECT_NAME}.app/Contents/MacOS
 EXE_PATH 			= ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH}/${PROJECT_NAME}
+EXE_PATH_DEBUG 			= ${BUILD_PATH}_debug${EXE_DIR}/${PROJECT_EXE_PATH}/${PROJECT_NAME}
 UNAME_S				:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	OPEN_CMD = xdg-open
@@ -14,11 +15,16 @@ endif
 all: install tests open
 build:
 	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Release" -Wno-dev -B ${BUILD_PATH} .
+build_d:
+	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -Wno-dev -B ${BUILD_PATH}_debug .
 build_3D_Viewer:
 	@cmake --build ${BUILD_PATH} --target 3D_Viewer --parallel 8
-build_debug:
-	@cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE="Debug" -Wno-dev -B ${BUILD_PATH} .
-
+build_3D_Viewer_debug:
+	@cmake --build ${BUILD_PATH}_debug --target 3D_Viewer --parallel 8
+open:
+	@./${EXE_PATH}
+open_d:
+	@./${EXE_PATH}
 
 install: build build_3D_Viewer
 
@@ -33,10 +39,10 @@ tests: build
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
 b: build_3D_Viewer
+b_d: build_3D_Viewer_debug
 
 
-open:
-	@./${EXE_PATH}
+
 dist: install
 	@cd ${BUILD_PATH}${EXE_DIR}/ && tar czf ../../src/${PROJECT_NAME}.tgz ./*
 leaks: build_debug build_3D_Viewer

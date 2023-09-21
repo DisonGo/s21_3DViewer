@@ -86,7 +86,7 @@ void Engine::SetupObject3DFactory() {
 }
 
 void Engine::SetupDefaultLight() {
-  CreateLightObject(Light({2, 2, 1}, {230, 230, 230}, 3), "Light");
+  CreateLightObject(Light({0, 5, 0}, {230, 230, 230}, 1.5), "Light");
   logger_.Log("Setup default light");
 }
 void Engine::CreateLightObject(const Light& light, const std::string& name) {
@@ -308,15 +308,6 @@ void Engine::Initialize() {
   SetupFocusPoint();
   SetupDefaultLight();
   initialized_ = true;
-
-  global_texture_ = new Texture(
-      "/opt/goinfre/evverenn/Download/objects_2/Reptile Alien "
-      "Creature-OBJ/Monster_Color.png",
-      GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
-  // global_texture_ = new Texture(
-  //     "/Users/evverenn/Desktop/Projects/Junk/3D_Viewer/src/3D_Viewer/resources/"
-  //     "pop_cat.png",
-  //     GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
   logger_.Log("Engine initialized");
 }
 
