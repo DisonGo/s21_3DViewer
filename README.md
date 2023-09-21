@@ -1,7 +1,7 @@
 # 3D_Viewer 
 Implementation of software for viewing wireframe 3D objects.
 
-<br><img src="readme/3dviewer.png">
+<br><img src="readme/amogus.jpg">
 ## Build
 ### Preparation
    To start build you need to move to `./src` dir.

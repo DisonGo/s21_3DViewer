@@ -278,7 +278,6 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   CenterVertices(obj.vertices, {0, 0, 0});
   NormalizeVertices(obj.vertices, 2);
   GenerateNormals(obj);
-
   // Cleaning
   std::string log = counter.vtC > counter.vC    ? "vt > v"
                     : counter.vtC == counter.vC ? "vt == v"

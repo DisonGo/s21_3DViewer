@@ -24,6 +24,12 @@ struct OBJ {
     bool balanced_v_t = vertices.size() == texture_coords.size();
     return HasUvs() ? balanced_v_n && balanced_v_t : balanced_v_n;
   }
+  void Print() {
+    for (auto& vertex : vertices) std::cout << vertex << "\n";
+    for (auto& t_coords : texture_coords) std::cout << t_coords << "\n";
+    for (auto& normal : normals) std::cout << normal << "\n";
+    for (auto& face : faces) std::cout << face << "\n";
+  }
 };
 }  // namespace s21
 #endif  // BASEOBJ_H
