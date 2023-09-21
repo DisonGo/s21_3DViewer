@@ -18,6 +18,8 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 # add_definitions(-DSTB_IMAGE_IMPLEMENTATION)
 #-DMYPATH=" ${CMAKE_SOURCE_DIR}
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
 
 include(FetchContent)
 FetchContent_Declare(
