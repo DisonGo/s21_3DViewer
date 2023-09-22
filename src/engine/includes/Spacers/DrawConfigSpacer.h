@@ -14,7 +14,9 @@ class DrawConfigSpacer : public QObject {
   bool GetTriangles() const { return config_.triangles; };
   bool GetTrianglesStrip() const { return config_.triangles_strip; };
 
-  const QColor& GetBackColor() const { return config_.back_color; };
+  const godison::vectors::Vector3D& GetBackColor() const {
+    return config_.back_color;
+  };
  public slots:
 
   void SetPoints(int newPoints) { config_.points = (bool)newPoints; };
@@ -25,7 +27,7 @@ class DrawConfigSpacer : public QObject {
   void SetTrianglesStrip(int newTrianglesStrip) {
     config_.triangles_strip = (bool)newTrianglesStrip;
   };
-  void SetBackColor(const QColor& newBackColor) {
+  void SetBackColor(const godison::vectors::Vector3D& newBackColor) {
     config_.back_color = newBackColor;
   };
 

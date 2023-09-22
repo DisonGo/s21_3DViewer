@@ -14,12 +14,12 @@ void Point::Draw(GLenum type, Camera *camera) {
   if (!camera || !program_) return;
   program_->Activate();
   program_->Uniform1i("u_texture_on", texture_on_);
-  float red = vertices_color_.redF();
-  float green = vertices_color_.greenF();
-  float blue = vertices_color_.blueF();
+  float red = vertices_color_.X();
+  float green = vertices_color_.Y();
+  float blue = vertices_color_.Z();
   transform_.LoadModelMatrix(program_);
   camera->Matrix(*program_);
-  program_->Uniform3f("u_prototype_color", red, green, blue);
+  program_->Uniform3f("u_prototype_color", red / 255, green / 255, blue / 255);
   program_->Uniform1f("u_pointSize", vertices_size_);
   program_->Uniform1i("u_circlePoint", true);
   // logger_.Log("Drawing point", Logger::LogLevel::kWarning);

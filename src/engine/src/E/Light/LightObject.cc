@@ -4,8 +4,7 @@
 namespace s21 {
 void LightObject::Draw(GLenum type, Camera* camera) {
   light_point_.GetTrasform().SetTranslate(position_);
-  auto c = color_.ToVector<3, int>();
-  light_point_.SetVerticesColor({c[0], c[1], c[2]});
+  light_point_.SetVerticesColor(color_);
   light_point_.Draw(type, camera);
 }
 

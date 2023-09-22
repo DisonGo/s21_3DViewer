@@ -1,7 +1,6 @@
 #ifndef DRAWCONFIG_H
 #define DRAWCONFIG_H
-#include <QColor>
-#include <QDebug>
+#include "godison/Vectors.h"
 namespace s21 {
 class DrawConfig {
  public:
@@ -14,7 +13,7 @@ class DrawConfig {
   bool lines = true;
   bool triangles = true;
   bool triangles_strip = false;
-  QColor back_color = QColor(1, 10, 27);
+  godison::vectors::Vector3D back_color{1, 10, 27};
 };
 }  // namespace s21
 #endif  // DRAWCONFIG_H

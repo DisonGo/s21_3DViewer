@@ -8,14 +8,14 @@
 using std::cout;
 #ifndef _WIN32
 constexpr const char* RESET = "\033[0m";
-constexpr const char* BLACK = "\033[30m";
+// constexpr const char* BLACK = "\033[30m";
 constexpr const char* RED = "\033[31m";
 constexpr const char* DARK_RED = "\033[31;2m";
-constexpr const char* GREEN = "\033[32m";
+// constexpr const char* GREEN = "\033[32m";
 constexpr const char* YELLOW = "\033[33m";
 constexpr const char* BLUE = "\033[34m";
-constexpr const char* MAGENTA = "\033[35m";
-constexpr const char* CYAN = "\033[36m";
+// constexpr const char* MAGENTA = "\033[35m";
+// constexpr const char* CYAN = "\033[36m";
 constexpr const char* WHITE = "\033[37m";
 static const std::map<s21::Logger::LogLevel, const char*> level_color_map = {
     {s21::Logger::LogLevel::kBasic, WHITE},

@@ -89,20 +89,11 @@ void Object3DConfigView::SetValuesFromConfig() {
   ui->DisplayTypeFlatB->setChecked(display_type == kFlatShading);
   ui->DisplayTypeSmoothB->setChecked(display_type == kSmoothShading);
 
-  auto line_color = object_spacer_->GetEdgesColorValue();
-  Vector3D line_color_vec(line_color.red(), line_color.green(),
-                          line_color.blue());
-  ui->LineColorTriplet->SetValues(line_color_vec);
+  ui->LineColorTriplet->SetValues(object_spacer_->GetEdgesColorValue());
 
-  auto point_color = object_spacer_->GetVerticesColorValue();
-  Vector3D point_color_vec(point_color.red(), point_color.green(),
-                           point_color.blue());
-  ui->PointColorTriplet->SetValues(point_color_vec);
+  ui->PointColorTriplet->SetValues(object_spacer_->GetVerticesColorValue());
 
-  auto base_color = object_spacer_->GetBaseColorValue();
-  Vector3D base_color_vec(base_color.red(), base_color.green(),
-                          base_color.blue());
-  ui->BaseColorTriplet->SetValues(base_color_vec);
+  ui->BaseColorTriplet->SetValues(object_spacer_->GetBaseColorValue());
   ui->texture_toggleCB->setChecked(object_spacer_->GetTextureToggle());
   ui->lighting_toggleCB->setChecked(object_spacer_->GetLightingToggle());
 }

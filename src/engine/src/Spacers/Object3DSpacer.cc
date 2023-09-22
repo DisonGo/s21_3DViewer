@@ -1,12 +1,14 @@
 #include "Spacers/Object3DSpacer.h"
 
-void s21::Object3DSpacer::SetEdgesColorValue(QColor new_color) {
+void s21::Object3DSpacer::SetEdgesColorValue(
+    godison::vectors::Vector3D new_color) {
   if (object_.GetEdgesColor() == new_color) return;
   object_.SetEdgesColor(new_color);
   emit ConfigUpdated();
 }
 
-void s21::Object3DSpacer::SetBaseColorValue(QColor new_color) {
+void s21::Object3DSpacer::SetBaseColorValue(
+    godison::vectors::Vector3D new_color) {
   if (object_.GetBaseColor() == new_color) return;
   object_.SetBaseColor(new_color);
   emit ConfigUpdated();
@@ -18,7 +20,8 @@ void s21::Object3DSpacer::SetEdgesThicknessValue(double new_thickness) {
   emit ConfigUpdated();
 }
 
-void s21::Object3DSpacer::SetVerticesColorValue(QColor new_color) {
+void s21::Object3DSpacer::SetVerticesColorValue(
+    godison::vectors::Vector3D new_color) {
   if (object_.GetVerticesColor() == new_color) return;
   object_.SetVerticesColor(new_color);
   emit ConfigUpdated();

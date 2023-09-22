@@ -11,7 +11,7 @@
 
 using godison::shapes::Polygon;
 using godison::vectors::Vector3D;
-#define GET_VEC_COLOR(x) x.redF(), x.greenF(), x.blueF()
+#define GET_VEC_COLOR(x) x.X() / 255, x.Y() / 255, x.Z() / 255
 #define ERASE_FROM_VECTOR(vec, x) \
   vec.erase(std::remove(vec.begin(), vec.end(), x), vec.end())
 namespace s21 {
