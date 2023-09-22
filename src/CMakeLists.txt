@@ -28,6 +28,12 @@ FetchContent_Declare(
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+FetchContent_Declare(
+  godison
+  GIT_REPOSITORY https://github.com/DisonGo/godison.git
+  GIT_TAG        main
+)
+FetchContent_MakeAvailable(godison)
 enable_testing()
 include_directories(${GTEST_INCLUDE_DIR})
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
@@ -38,7 +44,6 @@ add_subdirectory(3D_Viewer)
 add_subdirectory(engine)
 add_subdirectory(gifImage)
 add_subdirectory(widgets)
-add_subdirectory(godison)
 add_subdirectory(testing)
 add_subdirectory(soil)
 
