@@ -7,7 +7,7 @@ set(VIEWER_UIS
 
 )
 set(VIEWER_RES
-    resources/res.qrc
+    ../../resources/res.qrc
 )
 set(CMAKE_AUTOUIC_SEARCH_PATHS ./UI)
 set(PROJECT_SOURCES
