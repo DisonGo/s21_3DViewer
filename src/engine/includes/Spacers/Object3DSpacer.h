@@ -15,6 +15,7 @@ class Object3DSpacer : public QObject {
     object_.SetMaterial(new_material);
     emit ConfigUpdated();
   };
+  void SetObjectDisplayType(ObjectDisplayType new_type);
  signals:
   void ConfigUpdated();
 

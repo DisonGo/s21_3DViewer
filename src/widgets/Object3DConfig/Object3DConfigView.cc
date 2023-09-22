@@ -67,16 +67,16 @@ void Object3DConfigView::SetupConnects() {
 
 void Object3DConfigView::SetValuesFromConfig() {
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   ui->LineWidthSB->setValue(mat.edges_thickness);
   ui->PointSizeSB->setValue(mat.vertices_size);
 
-  ui->PointTypeNoneB->setChecked(mat.point_display_method == s21::kNoPoint);
-  ui->PointTypeCircleB->setChecked(mat.point_display_method == s21::kCircle);
-  ui->PointTypeSquareB->setChecked(mat.point_display_method == s21::kSquare);
+  ui->PointTypeNoneB->setChecked(mat.point_display_method == kNoPoint);
+  ui->PointTypeCircleB->setChecked(mat.point_display_method == kCircle);
+  ui->PointTypeSquareB->setChecked(mat.point_display_method == kSquare);
 
-  ui->LineTypeSolidB->setChecked(mat.line_display_type == s21::kSolid);
-  ui->LineTypeDashedB->setChecked(mat.line_display_type == s21::kDashed);
+  ui->LineTypeSolidB->setChecked(mat.line_display_type == kSolid);
+  ui->LineTypeDashedB->setChecked(mat.line_display_type == kDashed);
 
   ui->DisplayTypeWireframeB->setChecked(mat.object_display_type == kWireframe);
   ui->DisplayTypeFlatB->setChecked(mat.object_display_type == kFlatShading);
@@ -94,25 +94,23 @@ void Object3DConfigView::SetValuesFromConfig() {
 void Object3DConfigView::SetColor(const Vector3D &color) {
   if (!object_spacer_) return;
 
-  auto new_color = QColor(color.X(), color.Y(), color.Z());
-
   auto widget_ptr = static_cast<TripletWidget *>(sender());
 
   auto style = QString("background: rgba(%1,%2,%3,0.3);")
                    .arg(color.X())
                    .arg(color.Y())
                    .arg(color.Z());
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   if (widget_ptr == ui->LineColorTriplet) {
-    mat.edges_color = new_color;
+    mat.edges_color = color;
     widget_ptr->setStyleSheet("#LineColorTriplet{" + style + "}");
   }
   if (widget_ptr == ui->PointColorTriplet) {
-    mat.vertices_color = new_color;
+    mat.vertices_color = color;
     widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
   }
   if (widget_ptr == ui->BaseColorTriplet) {
-    mat.base_color = new_color;
+    mat.base_color = color;
     widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
   }
   emit UpdateRequest();
@@ -121,7 +119,7 @@ void Object3DConfigView::SetColor(const Vector3D &color) {
 void Object3DConfigView::SetLineType(bool checked) {
   Q_UNUSED(checked)
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   auto widget_ptr = static_cast<QRadioButton *>(sender());
   if (widget_ptr == ui->LineTypeSolidB) mat.line_display_type = s21::kSolid;
   if (widget_ptr == ui->LineTypeDashedB) mat.line_display_type = s21::kDashed;
@@ -131,7 +129,7 @@ void Object3DConfigView::SetLineType(bool checked) {
 void Object3DConfigView::SetPointType(bool checked) {
   Q_UNUSED(checked)
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   auto widget_ptr = static_cast<QRadioButton *>(sender());
   if (widget_ptr == ui->PointTypeNoneB)
     mat.point_display_method = s21::kNoPoint;
@@ -145,41 +143,41 @@ void Object3DConfigView::SetPointType(bool checked) {
 void Object3DConfigView::SetDisplayType(bool checked) {
   Q_UNUSED(checked)
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+
   auto widget_ptr = static_cast<QRadioButton *>(sender());
   if (widget_ptr == ui->DisplayTypeWireframeB)
-    mat.object_display_type = s21::kWireframe;
+    object_spacer_->SetObjectDisplayType(s21::kWireframe);
   if (widget_ptr == ui->DisplayTypeFlatB)
-    mat.object_display_type = s21::kFlatShading;
+    object_spacer_->SetObjectDisplayType(s21::kFlatShading);
   if (widget_ptr == ui->DisplayTypeSmoothB)
-    mat.object_display_type = s21::kSmoothShading;
+    object_spacer_->SetObjectDisplayType(s21::kSmoothShading);
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetLineWidth(double width) {
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   mat.edges_thickness = width;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetPointSize(double size) {
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   mat.vertices_size = size;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetTextureToggle(int state) {
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   mat.texture_on = state;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetLightingToggle(int state) {
   if (!object_spacer_) return;
-  auto mat = object_spacer_->GetMaterial();
+  auto &mat = object_spacer_->GetMaterial();
   mat.lighting_on = state;
   emit UpdateRequest();
 }
