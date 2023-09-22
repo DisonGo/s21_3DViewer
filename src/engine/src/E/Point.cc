@@ -16,10 +16,10 @@ void Point::Draw(GLenum type, Camera *camera) {
   if (!camera) return;
   material_.Activate();
   material_.LoadMaterial();
-  material_.LoadPrototypeColor(GL_POINTS);
+  material_.LoadPrototypeSettings(GL_POINTS);
   material_.LoadCamera(*camera);
   material_.LoadModelMatrix(transform_);
-  for (const auto& mesh : meshes_) mesh->Draw(type);
+  for (const auto &mesh : meshes_) mesh->Draw(type);
   material_.ResetBools();
 }
 

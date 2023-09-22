@@ -24,7 +24,7 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   if (!camera) return;
   material_.Activate();
   material_.LoadMaterial();
-  material_.LoadPrototypeColor(type);
+  material_.LoadPrototypeSettings(type);
   material_.LoadCamera(*camera);
   material_.LoadModelMatrix(transform_);
   for (const auto& mesh : meshes_) mesh->Draw(type);
@@ -52,11 +52,12 @@ void Object3D::SetTransform(const Transform& transform) {
 }
 
 void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
+  
   material_.object_display_type = new_type;
   bool is_wireframe = new_type == kWireframe;
   auto buffer_to_except = is_wireframe ? kWireframeImport : kTriangleImport;
   static bool texture_was = true;
-  material_.lighting_on =  !is_wireframe;
+  material_.lighting_on = !is_wireframe;
   if (!is_wireframe) texture_was = material_.texture_on;
   if (texture_was) material_.texture_on = !is_wireframe;
 

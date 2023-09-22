@@ -5,7 +5,9 @@
 #include "GL/Texture.h"
 #include "Shaders/Program.h"
 #include "godison/Vectors.h"
+#include "map"
 #include "memory.h"
+
 namespace s21 {
 enum PointDisplayType { kNoPoint = 0, kCircle, kSquare };
 enum LineDisplayType { kSolid = 0, kDashed };
@@ -47,7 +49,7 @@ class Material {
   void LoadMaterial();
   void LoadCamera(Camera& camera);
   void LoadModelMatrix(Transform& transform);
-  void LoadPrototypeColor(GLenum type);
+  void LoadPrototypeSettings(GLenum type);
   void LoadTexture(Texture& texture, const std::string& uniform);
   void ResetBools();
   void Activate();
@@ -70,6 +72,16 @@ class Material {
     line_display_type = other.line_display_type;
     object_display_type = other.object_display_type;
   }
+  using prototype_type = GLenum;
+  std::map<prototype_type, std::map<std::string, bool>> bool_uniforms_{
+      {GL_POINTS, {{"u_circlePoint", true}}},
+      {GL_LINES, {{"u_dashed", true}}},
+      {GL_TRIANGLES,
+       {{
+           {"u_texture_on", true},
+           {"u_do_lighting", true},
+           {"u_flat_shade", true},
+       }}}};
   std::shared_ptr<Program> program_;
 };
 }  // namespace s21
