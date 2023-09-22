@@ -53,7 +53,6 @@ class Engine : protected QOpenGLFunctions {
   void SetupDefaultLight();
   void CreateLightObject(const Light& light,
                          const std::string& name = {"Light"});
-  void CreateAndAddProgramToObject3D(Object3D& object);
   void DrawGeometry(GLenum type);
   void RemoveObject(EObject* object);
   void DefaultObject3DImport(Object3D* object, bool add_to_delete_queue = true);
@@ -74,7 +73,6 @@ class Engine : protected QOpenGLFunctions {
   std::vector<EObject*> engine_objects_;
   std::vector<Camera*> cameras_;
   std::vector<Object3D*> objects_3d_;
-  std::vector<Program*> programs_;
   std::set<EObject*> whitelist_objects_;
 };
 
