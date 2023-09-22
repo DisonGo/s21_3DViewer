@@ -5,25 +5,22 @@ Point::Point(float x, float y, float z) : Point(Vector3D(x, y, z)) {}
 
 Point::Point(const Vector3D &position) {
   CreateMesh(position);
-  vertices_size_ = 10;
-  texture_on_ = false;
+  material_.vertices_size = 10;
+  material_.texture_on = false;
+  material_.lighting_on = false;
+  material_.point_display_method = kCircle;
 }
 
 void Point::Draw(GLenum type, Camera *camera) {
   Q_UNUSED(type);
-  if (!camera || !program_) return;
-  program_->Activate();
-  program_->Uniform1i("u_texture_on", texture_on_);
-  float red = vertices_color_.X();
-  float green = vertices_color_.Y();
-  float blue = vertices_color_.Z();
-  transform_.LoadModelMatrix(program_);
-  camera->Matrix(*program_);
-  program_->Uniform3f("u_prototype_color", red / 255, green / 255, blue / 255);
-  program_->Uniform1f("u_pointSize", vertices_size_);
-  program_->Uniform1i("u_circlePoint", true);
-  // logger_.Log("Drawing point", Logger::LogLevel::kWarning);
-  for (const auto &mesh : meshes_) mesh->Draw(GL_POINTS);
+  if (!camera) return;
+  material_.Activate();
+  material_.LoadMaterial();
+  material_.LoadPrototypeColor(GL_POINTS);
+  material_.LoadCamera(*camera);
+  material_.LoadModelMatrix(transform_);
+  for (const auto& mesh : meshes_) mesh->Draw(type);
+  material_.ResetBools();
 }
 
 void Point::CreateMesh(const Vector3D &position) {

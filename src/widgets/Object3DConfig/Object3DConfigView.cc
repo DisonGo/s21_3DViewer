@@ -67,35 +67,28 @@ void Object3DConfigView::SetupConnects() {
 
 void Object3DConfigView::SetValuesFromConfig() {
   if (!object_spacer_) return;
-  auto line_width = object_spacer_->GetEdgesThicknessValue();
-  auto point_size = object_spacer_->GetVerticesSizeValue();
-  ui->LineWidthSB->setValue(line_width);
-  ui->PointSizeSB->setValue(point_size);
+  auto mat = object_spacer_->GetMaterial();
+  ui->LineWidthSB->setValue(mat.edges_thickness);
+  ui->PointSizeSB->setValue(mat.vertices_size);
 
-  auto line_type = object_spacer_->GetUITypeValue();
-  auto point_type = object_spacer_->GetDisplayMethodValue();
-  auto display_type = object_spacer_->GetDisplayTypeValue();
+  ui->PointTypeNoneB->setChecked(mat.point_display_method == s21::kNoPoint);
+  ui->PointTypeCircleB->setChecked(mat.point_display_method == s21::kCircle);
+  ui->PointTypeSquareB->setChecked(mat.point_display_method == s21::kSquare);
 
-  ui->PointTypeNoneB->setChecked(point_type == s21::PointDisplayType::kNone);
-  ui->PointTypeCircleB->setChecked(point_type ==
-                                   s21::PointDisplayType::kCircle);
-  ui->PointTypeSquareB->setChecked(point_type ==
-                                   s21::PointDisplayType::kSquare);
+  ui->LineTypeSolidB->setChecked(mat.line_display_type == s21::kSolid);
+  ui->LineTypeDashedB->setChecked(mat.line_display_type == s21::kDashed);
 
-  ui->LineTypeSolidB->setChecked(line_type == s21::kSolid);
-  ui->LineTypeDashedB->setChecked(line_type == s21::kDashed);
+  ui->DisplayTypeWireframeB->setChecked(mat.object_display_type == kWireframe);
+  ui->DisplayTypeFlatB->setChecked(mat.object_display_type == kFlatShading);
+  ui->DisplayTypeSmoothB->setChecked(mat.object_display_type == kSmoothShading);
 
-  ui->DisplayTypeWireframeB->setChecked(display_type == kWireframe);
-  ui->DisplayTypeFlatB->setChecked(display_type == kFlatShading);
-  ui->DisplayTypeSmoothB->setChecked(display_type == kSmoothShading);
+  ui->LineColorTriplet->SetValues(mat.edges_color);
 
-  ui->LineColorTriplet->SetValues(object_spacer_->GetEdgesColorValue());
+  ui->PointColorTriplet->SetValues(mat.vertices_color);
 
-  ui->PointColorTriplet->SetValues(object_spacer_->GetVerticesColorValue());
-
-  ui->BaseColorTriplet->SetValues(object_spacer_->GetBaseColorValue());
-  ui->texture_toggleCB->setChecked(object_spacer_->GetTextureToggle());
-  ui->lighting_toggleCB->setChecked(object_spacer_->GetLightingToggle());
+  ui->BaseColorTriplet->SetValues(mat.base_color);
+  ui->texture_toggleCB->setChecked(mat.texture_on);
+  ui->lighting_toggleCB->setChecked(mat.lighting_on);
 }
 
 void Object3DConfigView::SetColor(const Vector3D &color) {
@@ -109,17 +102,17 @@ void Object3DConfigView::SetColor(const Vector3D &color) {
                    .arg(color.X())
                    .arg(color.Y())
                    .arg(color.Z());
-
+  auto mat = object_spacer_->GetMaterial();
   if (widget_ptr == ui->LineColorTriplet) {
-    object_spacer_->SetEdgesColorValue(new_color);
+    mat.edges_color = new_color;
     widget_ptr->setStyleSheet("#LineColorTriplet{" + style + "}");
   }
   if (widget_ptr == ui->PointColorTriplet) {
-    object_spacer_->SetVerticesColorValue(new_color);
+    mat.vertices_color = new_color;
     widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
   }
   if (widget_ptr == ui->BaseColorTriplet) {
-    object_spacer_->SetBaseColorValue(new_color);
+    mat.base_color = new_color;
     widget_ptr->setStyleSheet("#PointColorTriplet{" + style + "}");
   }
   emit UpdateRequest();
@@ -128,61 +121,66 @@ void Object3DConfigView::SetColor(const Vector3D &color) {
 void Object3DConfigView::SetLineType(bool checked) {
   Q_UNUSED(checked)
   if (!object_spacer_) return;
+  auto mat = object_spacer_->GetMaterial();
   auto widget_ptr = static_cast<QRadioButton *>(sender());
-  if (widget_ptr == ui->LineTypeSolidB)
-    object_spacer_->SetUITypeValue(s21::kSolid);
-  if (widget_ptr == ui->LineTypeDashedB)
-    object_spacer_->SetUITypeValue(s21::kDashed);
+  if (widget_ptr == ui->LineTypeSolidB) mat.line_display_type = s21::kSolid;
+  if (widget_ptr == ui->LineTypeDashedB) mat.line_display_type = s21::kDashed;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetPointType(bool checked) {
   Q_UNUSED(checked)
   if (!object_spacer_) return;
+  auto mat = object_spacer_->GetMaterial();
   auto widget_ptr = static_cast<QRadioButton *>(sender());
   if (widget_ptr == ui->PointTypeNoneB)
-    object_spacer_->SetDisplayMethodValue(s21::PointDisplayType::kNone);
+    mat.point_display_method = s21::kNoPoint;
   if (widget_ptr == ui->PointTypeCircleB)
-    object_spacer_->SetDisplayMethodValue(s21::PointDisplayType::kCircle);
+    mat.point_display_method = s21::kCircle;
   if (widget_ptr == ui->PointTypeSquareB)
-    object_spacer_->SetDisplayMethodValue(s21::PointDisplayType::kSquare);
+    mat.point_display_method = s21::kSquare;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetDisplayType(bool checked) {
   Q_UNUSED(checked)
   if (!object_spacer_) return;
+  auto mat = object_spacer_->GetMaterial();
   auto widget_ptr = static_cast<QRadioButton *>(sender());
   if (widget_ptr == ui->DisplayTypeWireframeB)
-    object_spacer_->SetDisplayTypeValue(s21::kWireframe);
+    mat.object_display_type = s21::kWireframe;
   if (widget_ptr == ui->DisplayTypeFlatB)
-    object_spacer_->SetDisplayTypeValue(s21::kFlatShading);
+    mat.object_display_type = s21::kFlatShading;
   if (widget_ptr == ui->DisplayTypeSmoothB)
-    object_spacer_->SetDisplayTypeValue(s21::kSmoothShading);
+    mat.object_display_type = s21::kSmoothShading;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetLineWidth(double width) {
   if (!object_spacer_) return;
-  object_spacer_->SetEdgesThicknessValue(width);
+  auto mat = object_spacer_->GetMaterial();
+  mat.edges_thickness = width;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetPointSize(double size) {
   if (!object_spacer_) return;
-  object_spacer_->SetVerticesSizeValue(size);
+  auto mat = object_spacer_->GetMaterial();
+  mat.vertices_size = size;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetTextureToggle(int state) {
   if (!object_spacer_) return;
-  object_spacer_->SetTextureToggle((bool)state);
+  auto mat = object_spacer_->GetMaterial();
+  mat.texture_on = state;
   emit UpdateRequest();
 }
 
 void Object3DConfigView::SetLightingToggle(int state) {
   if (!object_spacer_) return;
-  object_spacer_->SetLightingToggle((bool)state);
+  auto mat = object_spacer_->GetMaterial();
+  mat.lighting_on = state;
   emit UpdateRequest();
 }
 }  // namespace s21

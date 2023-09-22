@@ -22,8 +22,6 @@ Engine::Engine(DrawConfig& config) : draw_config_(config) {
 Engine::~Engine() {
   for (auto obj : engine_objects_)
     if (obj) delete obj;
-  for (auto program : programs_)
-    if (program) delete program;
   for (auto light : lights_)
     if (light) delete light;
 }
@@ -91,7 +89,6 @@ void Engine::SetupDefaultLight() {
 }
 void Engine::CreateLightObject(const Light& light, const std::string& name) {
   Point* point = new Point();
-  CreateAndAddProgramToObject3D(*point);
   engine_objects_.push_back(point);
   LightObject* lightObject = new LightObject(light, *point);
   lights_.push_back(lightObject);
@@ -100,18 +97,12 @@ void Engine::CreateLightObject(const Light& light, const std::string& name) {
   AddToWhitelist(point);
   AddToWhitelist(static_cast<Object3D*>(lightObject));
 }
-void Engine::CreateAndAddProgramToObject3D(Object3D& object) {
-  auto program = Program::Default();
-  programs_.push_back(program);
-  object.SetProgram(*program);
-}
 
 void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   if (!object) return;
-  CreateAndAddProgramToObject3D(*object);
   objects_3d_.push_back(object);
   if (add_to_delete_queue) engine_objects_.push_back(object);
-  object->SetTextureToggle(global_texture_ != nullptr);
+  object->GetMaterial().texture_on = (global_texture_ != nullptr);
   logger_.Log("Default imported Object3D: " + object->GetFileName());
 }
 void Engine::AddToWhitelist(EObject* object) {
@@ -157,7 +148,8 @@ void Engine::UnloadTexture() {
     }
     global_texture_ = nullptr;
     for (auto object : objects_3d_)
-      if (object && !IsWhitelisted(object)) object->SetTextureToggle(false);
+      if (object && !IsWhitelisted(object))
+        object->GetMaterial().texture_on = false;
   }
 }
 void Engine::ImportOBJFile(std::string file_path) {
@@ -175,23 +167,24 @@ void Engine::ImportTextureFile(std::string file_path) {
   global_texture_ =
       new Texture(file_path, GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
   for (auto object : objects_3d_)
-    if (object && !IsWhitelisted(object) &&
-        object->GetObjectDisplayType() != kWireframe)
-      object->SetTextureToggle(true);
+    if (object && !IsWhitelisted(object)) {
+      auto mat = object->GetMaterial();
+      mat.texture_on = (mat.object_display_type != kWireframe);
+    }
 }
 void Engine::Cycle() {
   if (!initialized_) return;
   glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   for (auto object : objects_3d_) {
-    auto program = object->GetProgram();
-    if (!program) continue;
+    auto mat = object->GetMaterial();
+    auto program = mat.GetProgram();
     for (size_t i = 0; i < lights_.size(); ++i)
-      lights_[i]->LoadInGLSLArray(*program, "u_ligths", i);
-    program->Uniform1i("u_light_count", lights_.size());
+      lights_[i]->LoadInGLSLArray(mat, "u_ligths", i);
+    mat.SetIntUniform(lights_.size(), "u_light_count");
     if (!IsWhitelisted(object) && global_texture_) {
-      program->Uniform1i("u_texture_on", true);
-      global_texture_->LoadInProgram(*program, "u_tex_1");
+      mat.SetBoolUniform(true, "u_texture_on");
+      mat.LoadTexture(*global_texture_, "u_tex_1");
     }
   }
   if (global_texture_) global_texture_->Bind();
@@ -254,8 +247,6 @@ Engine& Engine::operator=(const Engine& other) {
         objects_3d_.push_back(new Object3D(*obj));
       }
     }
-  for (auto& obj : other.programs_)
-    if (obj) programs_.push_back(new Program(*obj));
   for (auto& obj : other.lights_)
     if (obj) lights_.push_back(new LightObject(*obj));
 
@@ -273,18 +264,14 @@ Engine& Engine::operator=(Engine&& other) {
   current_camera_ = nullptr;
   for (auto& obj : engine_objects_)
     if (obj) delete obj;
-  for (auto program : programs_)
-    if (program) delete program;
   for (auto light : lights_)
     if (light) delete light;
   engine_objects_.clear();
   cameras_.clear();
   objects_3d_.clear();
-  programs_.clear();
   draw_config_ = other.draw_config_;
   std::swap(focus_point_, other.focus_point_);
   std::swap(current_camera_, other.current_camera_);
-  std::swap(programs_, other.programs_);
   std::swap(lights_, other.lights_);
   std::swap(objects_3d_, other.objects_3d_);
   std::swap(cameras_, other.cameras_);
