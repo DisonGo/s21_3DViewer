@@ -17,7 +17,8 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra -DMYPATH=${CMAKE_SOURCE_DIR}")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 # add_definitions(-DSTB_IMAGE_IMPLEMENTATION)
-#-DMYPATH=" ${CMAKE_SOURCE_DIR}
+add_definitions(-DGL_SILENCE_DEPRECATION)
+add_definitions(-DGODISON_QT_MODULE)
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 

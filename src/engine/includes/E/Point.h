@@ -14,7 +14,7 @@ class Point : public Object3D {
  private:
   Logger logger_{"Point"};
   void CreateMesh(const Vector3D& position);
-  QColor point_color_{255, 0, 0};
+  Vector3D point_color_{255, 0, 0};
 };
 }  // namespace s21
 #endif  // POINT_H

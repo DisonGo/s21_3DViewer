@@ -17,18 +17,24 @@ class Object3DSpacer : public QObject {
   ObjectDisplayType GetDisplayTypeValue() {
     return object_.GetObjectDisplayType();
   };
-  QColor GetBaseColorValue() { return object_.GetBaseColor(); };
-  QColor GetEdgesColorValue() { return object_.GetEdgesColor(); };
+  godison::vectors::Vector3D GetBaseColorValue() {
+    return object_.GetBaseColor();
+  };
+  godison::vectors::Vector3D GetEdgesColorValue() {
+    return object_.GetEdgesColor();
+  };
   double GetEdgesThicknessValue() { return object_.GetEdgesThickness(); };
-  QColor GetVerticesColorValue() { return object_.GetVerticesColor(); };
+  godison::vectors::Vector3D GetVerticesColorValue() {
+    return object_.GetVerticesColor();
+  };
   double GetVerticesSizeValue() { return object_.GetVerticesSize(); };
-  bool GetTextureToggle() {return object_.GetTextureToggle();};
-  bool GetLightingToggle() {return object_.GetLightingToggle();};
+  bool GetTextureToggle() { return object_.GetTextureToggle(); };
+  bool GetLightingToggle() { return object_.GetLightingToggle(); };
 
-  void SetBaseColorValue(QColor new_color);
-  void SetEdgesColorValue(QColor new_color);
+  void SetBaseColorValue(godison::vectors::Vector3D new_color);
+  void SetEdgesColorValue(godison::vectors::Vector3D new_color);
   void SetEdgesThicknessValue(double new_thickness);
-  void SetVerticesColorValue(QColor new_color);
+  void SetVerticesColorValue(godison::vectors::Vector3D new_color);
   void SetVerticesSizeValue(double new_size);
   void SetDisplayMethodValue(PointDisplayType new_method);
   void SetUITypeValue(LineDisplayType new_type);

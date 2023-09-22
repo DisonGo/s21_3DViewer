@@ -42,7 +42,8 @@ void MainWindow::SaveSettings() {
     settings_.setValue("path", file_path);
   }
   settings_.endArray();
-  settings_.setValue("back_color", draw_config_spacer_.GetBackColor());
+  QColor back_color(draw_config_spacer_.GetBackColor().ToQColor());
+  settings_.setValue("back_color", back_color);
 
   settings_.endGroup();
 }
@@ -101,8 +102,9 @@ void MainWindow::LoadSettings() {
   QColor back_color;
   if (settings_.contains("back_color"))
     back_color = settings_.value("back_color").value<QColor>();
-  else
-    back_color = draw_config_spacer_.GetBackColor();
+  else {
+    back_color = draw_config_spacer_.GetBackColor().ToQColor();
+  }
   settings_.endGroup();
   ui->FileImporter->ImportPaths(paths);
   draw_config_spacer_.SetBackColor(back_color);
@@ -135,8 +137,8 @@ void MainWindow::ImportFile(QString path) {
 }
 
 void MainWindow::ChooseBackColor() {
-  auto color = QColorDialog::getColor(draw_config_spacer_.GetBackColor(), this,
-                                      "Background color");
+  auto color = QColorDialog::getColor(
+      draw_config_spacer_.GetBackColor().ToQColor(), this, "Background color");
   draw_config_spacer_.SetBackColor(color);
   UpdateGL();
 }

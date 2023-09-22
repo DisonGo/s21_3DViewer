@@ -1,10 +1,8 @@
 #ifndef OBJECT3D_H
 #define OBJECT3D_H
 
-#define GL_SILENCE_DEPRECATION
 #include <godison/Point.h>
 
-#include <QColor>
 #include <memory>
 
 #include "E/Camera.h"
@@ -33,10 +31,10 @@ class Object3D : public EObject {
   void UploadMesh(const OBJ& obj, OBJImportStrategy* importer);
   void SetProgram(Program& program);
   void SetTransform(const Transform& transform);
-  void SetBaseColor(QColor new_color);
-  void SetEdgesColor(QColor new_color);
+  void SetBaseColor(godison::vectors::Vector3D new_color);
+  void SetEdgesColor(godison::vectors::Vector3D new_color);
   void SetEdgesThickness(double new_thickness);
-  void SetVerticesColor(QColor new_color);
+  void SetVerticesColor(godison::vectors::Vector3D new_color);
   void SetVerticesSize(double new_size);
   void SetDisplayMethod(PointDisplayType new_type);
   void SetLineDisplayType(LineDisplayType new_type);
@@ -50,10 +48,10 @@ class Object3D : public EObject {
   PointDisplayType GetPointDisplayMethod() { return point_display_method_; };
   LineDisplayType GetLineDisplayType() { return line_display_type_; };
   ObjectDisplayType GetObjectDisplayType() { return object_display_type_; };
-  QColor GetBaseColor() { return base_color_; };
-  QColor GetEdgesColor() { return edges_color_; };
+  godison::vectors::Vector3D GetBaseColor() { return base_color_; };
+  godison::vectors::Vector3D GetEdgesColor() { return edges_color_; };
   double GetEdgesThickness() { return edges_thickness_; };
-  QColor GetVerticesColor() { return vertices_color_; };
+  godison::vectors::Vector3D GetVerticesColor() { return vertices_color_; };
   double GetVerticesSize() { return vertices_size_; };
   Program* GetProgram() { return program_; };
   std::string GetFileName() { return file_name_; };
@@ -70,10 +68,10 @@ class Object3D : public EObject {
   Logger logger_{"Object3D"};
   Program* program_{};
   Transform transform_;
-  QColor base_color_{40, 40, 40};
-  QColor edges_color_{255, 255, 255};
+  godison::vectors::Vector3D base_color_{40, 40, 40};
+  godison::vectors::Vector3D edges_color_{255, 255, 255};
+  godison::vectors::Vector3D vertices_color_{255, 125, 125};
   double edges_thickness_{1};
-  QColor vertices_color_{255, 125, 125};
   double vertices_size_{1};
   bool texture_on_ = true;
   bool lighting_on_ = true;

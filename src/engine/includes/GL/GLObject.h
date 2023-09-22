@@ -1,6 +1,6 @@
 #ifndef GLOBJECT_H
 #define GLOBJECT_H
-#define GL_SILENCE_DEPRECATION
+
 #include <Logger.h>
 
 #include <QOpenGLExtraFunctions>

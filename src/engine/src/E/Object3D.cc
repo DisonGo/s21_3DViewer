@@ -53,28 +53,28 @@ void Object3D::Draw(GLenum type, Camera* camera) {
     if (point_display_method_ == PointDisplayType::kNone) return;
     program_->Uniform1i("u_circlePoint", is_circle);
 
-    red = vertices_color_.redF();
-    green = vertices_color_.greenF();
-    blue = vertices_color_.blueF();
+    red = vertices_color_.X();
+    green = vertices_color_.Y();
+    blue = vertices_color_.Z();
   }
   if (type == GL_LINES) {
     program_->Uniform1i("u_dashed", is_dashed);
-    red = edges_color_.redF();
-    green = edges_color_.greenF();
-    blue = edges_color_.blueF();
+    red = edges_color_.X();
+    green = edges_color_.Y();
+    blue = edges_color_.Z();
   }
   if (type == GL_TRIANGLES) {
     program_->Uniform1i("u_flat_shade", object_display_type_ == kFlatShading);
     program_->Uniform1i("u_do_lighting", lighting_on_);
-    red = base_color_.redF();
-    green = base_color_.greenF();
-    blue = base_color_.blueF();
+    red = base_color_.X();
+    green = base_color_.Y();
+    blue = base_color_.Z();
   }
 
   program_->Uniform1f("u_pointSize", vertices_size_);
   program_->Uniform1i("u_dashSize", 3);
   program_->Uniform1i("u_gapSize", 3);
-  program_->Uniform3f("u_prototype_color", red, green, blue);
+  program_->Uniform3f("u_prototype_color", red / 255, green / 255, blue / 255);
   program_->LineWidth(edges_thickness_);
 
   for (const auto& mesh : meshes_) mesh->Draw(type);
@@ -104,15 +104,19 @@ void Object3D::SetTransform(const Transform& transform) {
   transform_.UpdateModel();
 }
 
-void Object3D::SetBaseColor(QColor new_color) { base_color_ = new_color; }
+void Object3D::SetBaseColor(godison::vectors::Vector3D new_color) {
+  base_color_ = new_color;
+}
 
-void Object3D::SetEdgesColor(QColor new_color) { edges_color_ = new_color; }
+void Object3D::SetEdgesColor(godison::vectors::Vector3D new_color) {
+  edges_color_ = new_color;
+}
 
 void Object3D::SetEdgesThickness(double new_thickness) {
   edges_thickness_ = new_thickness;
 }
 
-void Object3D::SetVerticesColor(QColor new_color) {
+void Object3D::SetVerticesColor(godison::vectors::Vector3D new_color) {
   vertices_color_ = new_color;
 }
 
