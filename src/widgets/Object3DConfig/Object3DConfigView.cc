@@ -29,6 +29,7 @@ void Object3DConfigView::Setup() {
   ui->LineColorTriplet->SetStep(1);
   ui->PointColorTriplet->SetStep(1);
   ui->BaseColorTriplet->SetStep(1);
+
   SetupConnects();
 }
 

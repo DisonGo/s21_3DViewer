@@ -22,6 +22,7 @@ Object3D& Object3D::operator=(Object3D&& other) {
 
 void Object3D::Draw(GLenum type, Camera* camera) {
   if (!camera) return;
+  if (type == GL_POINTS && material_.point_display_method == kNoPoint) return;
   material_.Activate();
   material_.LoadMaterial();
   material_.LoadPrototypeSettings(type);
@@ -52,14 +53,11 @@ void Object3D::SetTransform(const Transform& transform) {
 }
 
 void Object3D::SetObjectDisplayType(ObjectDisplayType new_type) {
-  
   material_.object_display_type = new_type;
   bool is_wireframe = new_type == kWireframe;
   auto buffer_to_except = is_wireframe ? kWireframeImport : kTriangleImport;
-  static bool texture_was = true;
   material_.lighting_on = !is_wireframe;
-  if (!is_wireframe) texture_was = material_.texture_on;
-  if (texture_was) material_.texture_on = !is_wireframe;
+  material_.texture_on = !is_wireframe;
 
   for (const auto& mesh : meshes_)
     mesh->SetBufferExceptToggle(buffer_to_except, true);
