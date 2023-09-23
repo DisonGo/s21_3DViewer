@@ -26,6 +26,7 @@ class TripletWidget : public QWidget {
   void SetRangeMin(double min);
   void SetRangeMax(double max);
   void SetRange(double min, double max);
+  void SetDecimals(size_t count);
   void SetTexts(const char* first, const char* second, const char* third);
   void SetFirstText(const char* text);
   void SetSecondText(const char* text);
