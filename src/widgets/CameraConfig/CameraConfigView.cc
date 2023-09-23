@@ -7,6 +7,7 @@ CameraConfigView::CameraConfigView(s21::CameraSpacer *cameraSpacer,
     : ConfigWidget(parent), ui(new Ui::CameraConfigView) {
   ui->setupUi(this);
   ui->PositionTriplet->SetRange(-10000, 10000);
+  ui->PositionTriplet->SetDecimals(4);
   ui->FocusPointTriplet->SetRange(-10000, 10000);
   ui->OrientationTriplet->SetRange(-10000, 10000);
   ui->zRangeYV->setSingleStep(100);

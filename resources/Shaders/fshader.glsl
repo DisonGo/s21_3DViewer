@@ -132,6 +132,7 @@ vec4 SoftLightBlend(vec4 color1, vec4 color2) {
   return mix(c1, c2, step(0.1, color1));
 }
 void main() {
+  vec4 main_color = u_texture_on ? texture(u_tex_1, f_UV) : p_color;
   if (u_do_lighting) {
     vec3 final_light = vec3(0);
     vec4 total_ambient = vec4(0);
@@ -145,13 +146,10 @@ void main() {
       final_light +=
           CalcPointLight(p_light, vPos, viewDir, u_ligths[i].strength);
     }
-    if (u_texture_on)
-      FragColor = texture(u_tex_1, f_UV) * vec4(final_light, 1);
-    else
-      FragColor = p_color * vec4(final_light, 1);
+    FragColor = main_color * vec4(final_light, 1);
 
   } else {
-    FragColor = u_texture_on ? texture(u_tex_1, f_UV) : p_color;
+    FragColor = main_color;
   }
   DecideLineDraw();
   DecidePointDraw();

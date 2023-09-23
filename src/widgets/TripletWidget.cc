@@ -71,6 +71,13 @@ void TripletWidget::SetRange(double min, double max) {
   SetRangeMax(max);
 }
 
+void TripletWidget::SetDecimals(size_t count)
+{
+  ui->firstV->setDecimals(count);
+  ui->secondV->setDecimals(count);
+  ui->thirdV->setDecimals(count);
+}
+
 void TripletWidget::SetTexts(const char *first, const char *second,
                              const char *third) {
   SetFirstText(first);
