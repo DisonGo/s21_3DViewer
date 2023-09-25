@@ -102,7 +102,7 @@ void Engine::DefaultObject3DImport(Object3D* object, bool add_to_delete_queue) {
   if (!object) return;
   objects_3d_.push_back(object);
   if (add_to_delete_queue) engine_objects_.push_back(object);
-  object->GetMaterial().texture_on = (global_texture_ != nullptr);
+  object->GetMaterial().texture = global_texture_;
   logger_.Log("Default imported Object3D: " + object->GetFileName());
 }
 void Engine::AddToWhitelist(EObject* object) {
@@ -144,12 +144,13 @@ void Engine::UnloadTexture() {
   {
     if (global_texture_) {
       global_texture_->Unbind();
-      delete global_texture_;
+      global_texture_.reset();
     }
-    global_texture_ = nullptr;
     for (auto object : objects_3d_)
-      if (object && !IsWhitelisted(object))
+      if (object && !IsWhitelisted(object)) {
         object->GetMaterial().texture_on = false;
+        object->GetMaterial().texture.reset();
+      }
   }
 }
 void Engine::ImportOBJFile(std::string file_path) {
@@ -164,12 +165,12 @@ void Engine::ImportOBJFile(std::string file_path) {
 }
 void Engine::ImportTextureFile(std::string file_path) {
   UnloadTexture();
-  global_texture_ =
-      new Texture(file_path, GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE);
+  global_texture_ = std::make_shared<Texture>(file_path, GL_TEXTURE_2D, 0,
+                                              GL_RGBA, GL_UNSIGNED_BYTE);
   for (auto object : objects_3d_)
     if (object && !IsWhitelisted(object)) {
-      auto mat = object->GetMaterial();
-      mat.texture_on = (mat.object_display_type != kWireframe);
+      auto& mat = object->GetMaterial();
+      mat.texture = global_texture_;
     }
 }
 void Engine::Cycle() {
@@ -177,22 +178,15 @@ void Engine::Cycle() {
   glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   for (auto object : objects_3d_) {
-    auto mat = object->GetMaterial();
-    auto program = mat.GetProgram();
+    auto& mat = object->GetMaterial();
     for (size_t i = 0; i < lights_.size(); ++i)
       lights_[i]->LoadInGLSLArray(mat, "u_ligths", i);
     mat.SetIntUniform(lights_.size(), "u_light_count");
-    if (!IsWhitelisted(object) && global_texture_) {
-      mat.SetBoolUniform(true, "u_texture_on");
-      mat.LoadTexture(*global_texture_, "u_tex_1");
-    }
   }
-  if (global_texture_) global_texture_->Bind();
   if (draw_config_.points) DrawGeometry(GL_POINTS);
   if (draw_config_.lines) DrawGeometry(GL_LINES);
   if (draw_config_.triangles) DrawGeometry(GL_TRIANGLES);
   if (draw_config_.triangles_strip) DrawGeometry(GL_TRIANGLE_STRIP);
-  if (global_texture_) global_texture_->Unbind();
 }
 
 Camera* Engine::GetCurrentCamera() { return current_camera_; }
