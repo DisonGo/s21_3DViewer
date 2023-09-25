@@ -177,12 +177,6 @@ void Engine::Cycle() {
   if (!initialized_) return;
   glClearColor(GET_VEC_COLOR(draw_config_.back_color), 1);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  for (auto object : objects_3d_) {
-    auto& mat = object->GetMaterial();
-    for (size_t i = 0; i < lights_.size(); ++i)
-      lights_[i]->LoadInGLSLArray(mat, "u_ligths", i);
-    mat.SetIntUniform(lights_.size(), "u_light_count");
-  }
   if (draw_config_.points) DrawGeometry(GL_POINTS);
   if (draw_config_.lines) DrawGeometry(GL_LINES);
   if (draw_config_.triangles) DrawGeometry(GL_TRIANGLES);
@@ -297,6 +291,12 @@ void Engine::DrawGeometry(GLenum type) {
   if (!current_camera_) return;
   focus_point_->GetTrasform().SetTranslate(current_camera_->GetFocusPoint());
   for (auto object : objects_3d_)
-    if (object) object->Draw(type, current_camera_);
+    if (object) {
+      auto& mat = object->GetMaterial();
+      for (size_t i = 0; i < lights_.size(); ++i)
+        lights_[i]->LoadInGLSLArray(mat, "u_ligths", i);
+      mat.SetIntUniform(lights_.size(), "u_light_count");
+      object->Draw(type, current_camera_);
+    }
 }
 }  // namespace s21

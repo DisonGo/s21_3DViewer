@@ -37,7 +37,8 @@ class Object3D : public EObject {
 
   void SetObjectDisplayType(ObjectDisplayType new_type);
   void SetFileName(std::string file_name);
-protected:
+
+ protected:
   std::string file_name_ = "";
   EObjectType type_ = kObject3D;
   std::vector<std::shared_ptr<Mesh>> meshes_;
