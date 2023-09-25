@@ -6,11 +6,6 @@
 namespace s21 {
 class OBJParser : public BaseParser {
  public:
-  OBJParserTypes type = kOBJParser;
-  virtual OBJParserTypes GetType() const { return type; };
-  vector<OBJ> Parse(string filePath);
-
- private:
   struct Object {
     std::string name = "Mesh";
     size_t i_start = 0;
@@ -21,8 +16,18 @@ class OBJParser : public BaseParser {
     }
     bool IsEmpty() const { return i_end == i_start; }
   };
+  struct RawData {
+    OBJ obj;
+    std::vector<Object> objects;
+  };
+  OBJParserTypes type = kOBJParser;
+  virtual OBJParserTypes GetType() const { return type; };
+  vector<OBJ> Parse(string file_path);
+  RawData ParseRaw(string file_path);
+
+ private:
   void ParseFace(const string values, Face *faces, size_t &index,
-                 TagCounters& counter);
+                 TagCounters &counter);
   void CenterVertices(vector<Vertex> &vertices, Vertex center);
   void ElevateVerticesToGround(vector<Vertex> &vertices);
   void FetchVertexDataByFaces(const OBJ &source, OBJ &output,
@@ -30,8 +35,10 @@ class OBJParser : public BaseParser {
   void NormalizeVertices(vector<Vertex> &vertices, float normalizeSize);
   vector<OBJ> CalculateObjects(OBJ &all_data, vector<Object> objects);
   void GenerateNormals(OBJ &obj);
-  TagCounters CountTags(const string filePath);
+  TagCounters CountTags(const string file_path);
   Logger logger_{"OBJParser"};
 };
+
+
 }  // namespace s21
 #endif  // OBJPARSER_H

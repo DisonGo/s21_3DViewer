@@ -8,6 +8,7 @@
 #include "TextureCoord.h"
 #include "TriangleFace.h"
 #include "Vertex.h"
+#include "set"
 using std::vector;
 
 namespace s21 {
@@ -24,6 +25,13 @@ struct OBJ {
     bool balanced_v_t = vertices.size() == texture_coords.size();
     return HasUvs() ? balanced_v_n && balanced_v_t : balanced_v_n;
   }
+  size_t UniqueVerticesInFacesCount() const {
+    std::set<int> verts;
+    for (auto& face : faces)
+      for (auto& indices : face.indices) verts.insert(indices.v_index);
+    return verts.size();
+  }
+  bool Valid() const { return vertices.size() >= UniqueVerticesInFacesCount(); }
   void Print() {
     for (auto& vertex : vertices) std::cout << vertex << "\n";
     for (auto& t_coords : texture_coords) std::cout << t_coords << "\n";
