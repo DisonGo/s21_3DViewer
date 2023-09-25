@@ -24,7 +24,7 @@ class Material {
   }
   Material operator=(const Material& other) {
     if (this == &other) return *this;
-
+    Copy(other);
     return *this;
   }
   Material operator=(Material&& other) {
@@ -44,15 +44,19 @@ class Material {
   LineDisplayType line_display_type = kSolid;
   ObjectDisplayType object_display_type = kSmoothShading;
 
+  std::shared_ptr<Texture> texture;
+
   std::shared_ptr<Program> GetProgram() { return program_; };
 
   void LoadMaterial();
   void LoadCamera(Camera& camera);
   void LoadModelMatrix(Transform& transform);
   void LoadPrototypeSettings(GLenum type);
-  void LoadTexture(Texture& texture, const std::string& uniform);
+  void LoadTexture(const std::string& uniform);
+  void LoadTexture(Texture& new_texture, const std::string& uniform);
   void ResetBools();
   void Activate();
+  void Deactivate();
 
   void SetBoolUniform(bool value, const std::string& uniform);
   void SetIntUniform(int value, const std::string& uniform);

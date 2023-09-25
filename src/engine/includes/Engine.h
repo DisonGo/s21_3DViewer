@@ -65,7 +65,7 @@ class Engine : protected QOpenGLFunctions {
   Logger logger_{"Engine"};
   Point* focus_point_ = nullptr;
   Camera* current_camera_ = nullptr;
-  Texture* global_texture_ = nullptr;
+  std::shared_ptr<Texture> global_texture_;
   DrawConfig& draw_config_;
   EObjectItemModel e_object_model_;  // TODO copy/move
   Object3DFactory object3d_factory_;
