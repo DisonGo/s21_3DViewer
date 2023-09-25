@@ -35,7 +35,7 @@ FetchContent_Declare(
   GIT_TAG        main
 )
 FetchContent_MakeAvailable(godison)
-enable_testing()
+# enable_testing()
 include_directories(${GTEST_INCLUDE_DIR})
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets OpenGL OpenGLWidgets)

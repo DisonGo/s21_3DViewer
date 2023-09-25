@@ -14,5 +14,5 @@ target_link_libraries(TESTING
     Qt${QT_VERSION_MAJOR}::Gui
 )
 include(GoogleTest)
-gtest_discover_tests(TESTING)
+# gtest_discover_tests(TESTING)
 add_test(NAME TestMyCode COMMAND TestMyCode)

@@ -7,8 +7,8 @@
 using godison::vectors::Vector3D;
 #include "fstream"
 namespace s21 {
-TagCounters OBJParser::CountTags(const string filePath) {
-  std::ifstream file(filePath, std::ios_base::in);
+TagCounters OBJParser::CountTags(const string file_path) {
+  std::ifstream file(file_path, std::ios_base::in);
   string line;
   string tag;
   string values;
@@ -204,18 +204,28 @@ void OBJParser::GenerateNormals(OBJ& obj) {
       obj.normals[index_bundle.v_index] = {vNor.X(), vNor.Y(), vNor.Z()};
   }
 }
-std::vector<OBJ> OBJParser::Parse(string filePath) {
-  std::ifstream file(filePath, std::ios_base::in);
+std::vector<OBJ> OBJParser::Parse(string file_path) {
+  RawData data = ParseRaw(file_path);
+  if (!data.obj.Valid()) return {};
+  CenterVertices(data.obj.vertices, {0, 0, 0});
+  NormalizeVertices(data.obj.vertices, 2);
+  GenerateNormals(data.obj);
+  // Cleaning
+
+  return CalculateObjects(data.obj, data.objects);
+}
+OBJParser::RawData OBJParser::ParseRaw(string file_path) {
+  std::ifstream file(file_path, std::ios_base::in);
   if (file.bad()) {
     logger_.Log("Bad file. Empty array will be returned",
                 Logger::LogLevel::kError);
-    return std::vector<OBJ>();
+    return {};
   }
   OBJ obj;
 
   // Count total amount of tags in file for memory allocation
 
-  TagCounters tags = CountTags(filePath);
+  TagCounters tags = CountTags(file_path);
 
   // std::vector memory allocation
   if (!tags.vC) logger_.Log("No vertices", Logger::LogLevel::kWarning);
@@ -275,10 +285,6 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   obj.texture_coords.insert(obj.texture_coords.end(), textureCoords,
                             textureCoords + tags.vtC);
   obj.faces.insert(obj.faces.end(), faces, faces + tags.fC);
-  CenterVertices(obj.vertices, {0, 0, 0});
-  NormalizeVertices(obj.vertices, 2);
-  GenerateNormals(obj);
-  // Cleaning
   std::string log = counter.vtC > counter.vC    ? "vt > v"
                     : counter.vtC == counter.vC ? "vt == v"
                                                 : "vt < v";
@@ -289,6 +295,6 @@ std::vector<OBJ> OBJParser::Parse(string filePath) {
   delete[] textureCoords;
   delete[] faces;
   file.close();
-  return CalculateObjects(obj, objects);
+  return (RawData){obj, objects};
 }
 }  // namespace s21

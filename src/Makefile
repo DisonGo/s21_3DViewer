@@ -1,16 +1,16 @@
 PROJECT_NAME 		= 3D_Viewer
 BUILD_PATH 			= ../build
 EXE_DIR 			= /exe
-PROJECT_EXE_PATH 	= ${PROJECT_NAME}.app/Contents/MacOS
-EXE_PATH 			= ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH}/${PROJECT_NAME}
-EXE_PATH_DEBUG 			= ${BUILD_PATH}_debug${EXE_DIR}/${PROJECT_EXE_PATH}/${PROJECT_NAME}
+PROJECT_EXE_PATH 	= ${PROJECT_NAME}
+EXE_PATH 			= ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH}
+EXE_PATH_DEBUG 			= ${BUILD_PATH}_debug${EXE_DIR}/${PROJECT_EXE_PATH}
 UNAME_S				:= $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
 	OPEN_CMD = xdg-open
-endif
-
-ifeq ($(UNAME_S),Darwin)
+else ifeq ($(UNAME_S),Darwin)
 	OPEN_CMD = open
+else
+	OPEN_CMD = 
 endif
 all: install tests open
 build:
@@ -22,9 +22,11 @@ build_3D_Viewer:
 build_3D_Viewer_debug:
 	@cmake --build ${BUILD_PATH}_debug --target 3D_Viewer --parallel 8
 open:
-	@./${EXE_PATH}
+	@$(OPEN_CMD) ${EXE_PATH}
 open_d:
-	@./${EXE_PATH}
+	@$(OPEN_CMD) ${EXE_PATH_DEBUG}
+open_t:
+	@$(OPEN_CMD) ${BUILD_PATH}/exe/TESTING
 
 install: build build_3D_Viewer
 
@@ -33,11 +35,11 @@ uninstall:
 
 clean:
 	@cmake --build ${BUILD_PATH} --target clean
-tests: build
-	@cmake --build ${BUILD_PATH} --target TESTING --parallel 8
-	@./${BUILD_PATH}/exe/TESTING
+b_t:
+	@cmake --build ${BUILD_PATH}_debug --target TESTING --parallel 8
+tests: build_d b_t open_t
 run: build
-	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && ./${PROJECT_NAME}
+	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && @$(OPEN_CMD) ${PROJECT_NAME}
 b: build_3D_Viewer
 b_d: build_3D_Viewer_debug
 
