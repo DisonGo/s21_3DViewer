@@ -11,69 +11,78 @@ std::string path_inside_src = "/testing/tests/test_resource/";
 std::string test_resources_path = TOSTRING(MYPATH) + path_inside_src;
 
 TEST(viewer_3d, parser_first_test) {
-  std::vector<s21::OBJ> result =
-      parser.Parse(test_resources_path + "empty.jenya");
-  EXPECT_EQ(result.back().faces.size(), 1000);
+  auto result = parser.ParseRaw(test_resources_path + "empty.jenya");
+  EXPECT_EQ(result.obj.vertices.size(), 0);
 }
 
 TEST(viewer_3d, parser_second_test) {
-  std::vector<s21::OBJ> result =
-      parser.Parse(test_resources_path + "cube.jenya");
-  EXPECT_EQ(result.back().vertices.size(), 24);
-  EXPECT_EQ(result.back().faces.size(), 12);
-  EXPECT_STREQ(result.back().name.c_str(), "Box");
+  auto result = parser.ParseRaw(test_resources_path + "cube.jenya");
+  EXPECT_TRUE(result.objects.size() == 1);
+  EXPECT_EQ(result.obj.vertices.size(), 24);
+  EXPECT_EQ(result.obj.faces.size(), 12);
+  EXPECT_STREQ(result.objects.back().name.c_str(), "Box");
 }
 
 TEST(viewer_3d, parser_vertices_test) {
-  std::vector<s21::OBJ> result =
-      parser.Parse(test_resources_path + "cube.jenya");
+  auto result = parser.ParseRaw(test_resources_path + "cube.jenya");
 
-  static const std::vector<std::vector<float>> points = {
-      {2, 2, 2},   {2, 2, -2},   {2, -2, 2},  {2, -2, -2}, {-2, 2, -2},
-      {-2, 2, 2},  {-2, -2, -2}, {-2, -2, 2}, {-2, 2, -2}, {2, 2, -2},
-      {-2, 2, 2},  {2, 2, 2},    {-2, -2, 2}, {2, -2, 2},  {-2, -2, -2},
-      {2, -2, -2}, {-2, 2, 2},   {2, 2, 2},   {-2, -2, 2}, {2, -2, 2},
-      {2, 2, -2},  {-2, 2, -2},  {2, -2, -2}, {-2, -2, -2}};
-
-  for (size_t i = 0; i < result.back().vertices.size(); i++) {
-    EXPECT_FLOAT_EQ(result.back().vertices[i].x, points[i][0]);
-    EXPECT_FLOAT_EQ(result.back().vertices[i].y, points[i][1]);
-    EXPECT_FLOAT_EQ(result.back().vertices[i].z, points[i][2]);
+  static const std::vector<s21::Vertex> vertices = {
+      {0.5, 0.5, 0.5},    {0.5, 0.5, -0.5},  {0.5, -0.5, 0.5},
+      {0.5, -0.5, -0.5},  {-0.5, 0.5, -0.5}, {-0.5, 0.5, 0.5},
+      {-0.5, -0.5, -0.5}, {-0.5, -0.5, 0.5}, {-0.5, 0.5, -0.5},
+      {0.5, 0.5, -0.5},   {-0.5, 0.5, 0.5},  {0.5, 0.5, 0.5},
+      {-0.5, -0.5, 0.5},  {0.5, -0.5, 0.5},  {-0.5, -0.5, -0.5},
+      {0.5, -0.5, -0.5},  {-0.5, 0.5, 0.5},  {0.5, 0.5, 0.5},
+      {-0.5, -0.5, 0.5},  {0.5, -0.5, 0.5},  {0.5, 0.5, -0.5},
+      {-0.5, 0.5, -0.5},  {0.5, -0.5, -0.5}, {-0.5, -0.5, -0.5}};
+  EXPECT_TRUE(result.obj.vertices.size() > 0);
+  auto& obj = result.obj;
+  for (size_t i = 0; i < obj.vertices.size(); i++) {
+    EXPECT_TRUE(obj.vertices[i] == vertices[i]);
   }
 }
 
 TEST(viewer_3d, parser_indices_test) {
-  std::vector<s21::OBJ> result =
-      parser.Parse(test_resources_path + "cube.jenya");
+  auto result = parser.ParseRaw(test_resources_path + "cube.jenya");
 
-  static const std::vector<std::vector<int>> indices = {
-      {1, 3, 2},    {3, 4, 2},    {5, 7, 6},    {7, 8, 6},
-      {9, 11, 10},  {11, 12, 10}, {13, 15, 14}, {15, 16, 14},
-      {17, 19, 18}, {19, 20, 18}, {21, 23, 22}, {23, 24, 22}};
-  size_t counter = 0;
-  for (size_t i = 0; i < result.back().faces.size(); i++) {
-    for (size_t j = 0; j < result.back().faces[i].indices.size(); j++) {
-      EXPECT_EQ(result.back().faces[i].indices[j].v_index,
-                (indices[i][counter++] - 1));
+  static const std::vector<s21::Face> indices = {
+      {{{1, 0, 0}, {3, 0, 0}, {2, 0, 0}}},
+      {{{3, 0, 0}, {4, 0, 0}, {2, 0, 0}}},
+      {{{5, 0, 0}, {7, 0, 0}, {6, 0, 0}}},
+      {{{7, 0, 0}, {8, 0, 0}, {6, 0, 0}}},
+      {{{9, 0, 0}, {11, 0, 0}, {10, 0, 0}}},
+      {{{11, 0, 0}, {12, 0, 0}, {10, 0, 0}}},
+      {{{13, 0, 0}, {15, 0, 0}, {14, 0, 0}}},
+      {{{15, 0, 0}, {16, 0, 0}, {14, 0, 0}}},
+      {{{17, 0, 0}, {19, 0, 0}, {18, 0, 0}}},
+      {{{19, 0, 0}, {20, 0, 0}, {18, 0, 0}}},
+      {{{21, 0, 0}, {23, 0, 0}, {22, 0, 0}}},
+      {{{23, 0, 0}, {24, 0, 0}, {22, 0, 0}}}};
+  auto& obj = result.obj;
+  EXPECT_EQ(obj.faces.size(), indices.size());
+  for (size_t i = 0; i < obj.faces.size(); ++i) {
+    for (size_t j = 0; j < obj.faces.at(i).indices.size(); ++j) {
+      auto& source_FV = indices.at(i).indices.at(j);
+      auto& parsed_FV = obj.faces.at(i).indices.at(j);
+      EXPECT_EQ(source_FV.v_index - 1, parsed_FV.v_index);
     }
-    counter = 0;
   }
 }
 
-// TEST(viewer_3d, some_group_names) {
-//   std::vector<s21::OBJ> result =
-//       parser.Parse(test_resources_path + "third.jenya");
+TEST(viewer_3d, some_group_names) {
+  std::vector<s21::OBJ> result =
+      parser.Parse(test_resources_path + "third.jenya");
 
-//   EXPECT_EQ(result.size(), 2);
-//   EXPECT_STREQ(result[0].name.c_str(), "Box");
-//   EXPECT_STREQ(result[1].name.c_str(), "Group");
+  EXPECT_EQ(result.size(), 2);
+  EXPECT_STREQ(result[0].name.c_str(), "Box");
+  EXPECT_STREQ(result[1].name.c_str(), "Group");
 
-//   EXPECT_EQ(result[0].vertices.size(), 4);
-//   EXPECT_EQ(result[0].faces.size(), 2);
+  EXPECT_EQ(result[0].vertices.size(), 4);
+  EXPECT_EQ(result[0].faces.size(), 2);
 
-//   EXPECT_EQ(result[1].vertices.size(), 3);
-//   EXPECT_EQ(result[1].faces.size(), 1);
-// }
+  EXPECT_EQ(result[1].vertices.size(), 3);
+  EXPECT_EQ(result[1].faces.size(), 1);
+}
 
 TEST(viewer_3d, no_files) {
   std::vector<s21::OBJ> result = parser.Parse(test_resources_path + "NOFILE");

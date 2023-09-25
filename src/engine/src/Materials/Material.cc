@@ -3,10 +3,10 @@ namespace s21 {
 void Material::LoadMaterial() {
   auto is_circle = point_display_method == PointDisplayType::kCircle;
   auto is_dashed = line_display_type == LineDisplayType::kDashed;
+  auto is_flat = object_display_type == kFlatShading;
   bool_uniforms_[GL_TRIANGLES]["u_texture_on"] = texture_on;
-  bool_uniforms_[GL_TRIANGLES]["u_flat_shade"] =
-      bool_uniforms_[GL_TRIANGLES]["u_do_lighting"] = lighting_on;
-  object_display_type == kFlatShading;
+  bool_uniforms_[GL_TRIANGLES]["u_flat_shade"] = is_flat;
+  bool_uniforms_[GL_TRIANGLES]["u_do_lighting"] = lighting_on;
 
   bool_uniforms_[GL_POINTS]["u_circlePoint"] = is_circle;
   bool_uniforms_[GL_POINTS]["u_texture_on"] = texture_on;
