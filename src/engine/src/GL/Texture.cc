@@ -8,13 +8,12 @@ namespace s21 {
 Texture::Texture(const std::string& image, GLenum tex_type, GLuint slot,
                  GLenum format, GLenum pixel_type)
     : type_(tex_type), unit_(slot) {
-  int width_img, height_img, num_of_color_chanels;
-  unsigned char* bytes = SOIL_load_image(image.c_str(), &width_img, &height_img,
-                                         &num_of_color_chanels, SOIL_LOAD_AUTO);
+  unsigned char* bytes = SOIL_load_image(image.c_str(), &img_w_, &img_h_,
+                                         &img_col_ch_, SOIL_LOAD_AUTO);
 
   // if (CheckImageErrors(width_img, height_img)) return;
   ID_ = SOIL_create_OGL_texture(
-      bytes, width_img, height_img, num_of_color_chanels, ID_,
+      bytes, img_w_, img_h_, img_col_ch_, ID_,
       SOIL_FLAG_MIPMAPS | SOIL_FLAG_TEXTURE_REPEATS | SOIL_FLAG_INVERT_Y);
   // glGenTextures(1, &ID_);
   // Bind();
@@ -56,5 +55,13 @@ bool Texture::CheckImageErrors(int width_img, int height_img) {
   if (orientation_error)
     logger_.Log("Texture image isn't square", Logger::LogLevel::kError);
   return size_error || orientation_error;
+}
+void Texture::Copy(const Texture& other) {
+  Bind();
+  glBindBuffer(other.ID_, GL_READ_BUFFER);
+  glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, other.img_w_, other.img_h_,
+                   0);
+  glBindBuffer(0, GL_READ_BUFFER);
+  Unbind();
 }
 }  // namespace s21

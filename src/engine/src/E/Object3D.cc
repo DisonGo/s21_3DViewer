@@ -28,8 +28,10 @@ void Object3D::Draw(GLenum type, Camera* camera) {
   material_.LoadPrototypeSettings(type);
   material_.LoadCamera(*camera);
   material_.LoadModelMatrix(transform_);
+  material_.LoadTexture("u_tex_1");
   for (const auto& mesh : meshes_) mesh->Draw(type);
   material_.ResetBools();
+  material_.Deactivate();
 }
 
 void Object3D::UploadMesh(const OBJ& obj, OBJImportStrategy* importer) {
