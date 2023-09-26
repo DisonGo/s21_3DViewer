@@ -61,18 +61,18 @@ void MainWindow::SetupView() {
   object_tree_ = new QTreeView(splitter_);
   object_tree_->setMinimumWidth(200);
   object_tree_->setMaximumWidth(300);
-  object_tree_->resize(300, 720);
+  object_tree_->resize(300, 864);
   object_tree_->header()->setFixedHeight(30);
 
   splitter_->addWidget(object_tree_);
   splitter_->addWidget(open_gl_widget_);
-  splitter_->resize(1280, 720);
+  splitter_->resize(1536, 864);
 
   splitter_->setFocusPolicy(Qt::NoFocus);
   open_gl_widget_->setFocusPolicy(Qt::StrongFocus);
   ui->mainBackLayout->addWidget(splitter_);
   splitter_->show();
-  ui->object_stats_l_wid->move(object_tree_->width() + 7,
+  ui->object_stats_l_wid->move(object_tree_->width() ,
                                ui->object_stats_l_wid->y());
   connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this,
           SLOT(ImportFile(QString)));
