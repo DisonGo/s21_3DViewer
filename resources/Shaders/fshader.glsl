@@ -38,6 +38,7 @@ uniform vec2 u_resolution;
 uniform vec3 u_prototype_color;
 
 uniform vec3 u_CameraPos;
+uniform vec3 u_CameraDir;
 
 uniform sampler2D u_tex_1;
 uniform bool u_texture_on;
@@ -50,6 +51,14 @@ void DecidePointDraw() {
   if (u_circlePoint && dot(circCoord, circCoord) > 1.0) {
     discard;
   }
+}
+float CalcAngleDegrees(vec3 first, vec3 second) {
+  return degrees(abs(acos(dot(first, second))));
+}
+void DrawOutline() {
+  vec3 viewDir = normalize(u_CameraPos - f_vertPos.xyz);
+  float angle = CalcAngleDegrees(normalize(f_normal), viewDir);
+  if (angle > 80 && angle < 90) FragColor = vec4(1, 0, 0, 1);
 }
 void DecideLineDraw() {
   vec2 dir = (f_vertPos.xy - f_startPos.xy) * u_resolution / 2.0;
@@ -105,7 +114,7 @@ vec3 CalcPointLight(PointLight light, vec3 fragPos, vec3 viewDir,
   float min_angle = 90;
   float max_angle = 105;
   float angle_range_diff = max_angle - min_angle;
-  float angle = degrees(abs(acos(dot(norm, lightDir))));
+  float angle = CalcAngleDegrees(norm, lightDir);
   float fade =
       (angle_range_diff - (clamp(angle, min_angle, max_angle) - min_angle)) /
       angle_range_diff;
@@ -153,4 +162,5 @@ void main() {
   }
   DecideLineDraw();
   DecidePointDraw();
+  // DrawOutline();
 }

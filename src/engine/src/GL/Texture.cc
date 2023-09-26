@@ -5,8 +5,7 @@ extern "C" {
 #include "SOIL/SOIL.h"
 }
 namespace s21 {
-Texture::Texture(const std::string& image, GLenum tex_type, GLuint slot,
-                 GLenum format, GLenum pixel_type)
+Texture::Texture(const std::string& image, GLenum tex_type, GLuint slot)
     : type_(tex_type), unit_(slot) {
   unsigned char* bytes = SOIL_load_image(image.c_str(), &img_w_, &img_h_,
                                          &img_col_ch_, SOIL_LOAD_AUTO);
