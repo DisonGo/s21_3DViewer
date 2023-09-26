@@ -27,6 +27,8 @@ void Camera::Matrix(Program &program) {
                            (projection).RawConstData());
 
   program.Uniform3f("u_CameraPos", position_.X(), position_.Y(), position_.Z());
+  program.Uniform3f("u_CameraDir", orientation_.X(), orientation_.Y(),
+                    orientation_.Z());
   program.Uniform2f("u_resolution", vw_, vh_);
   program.Uniform1f("u_dashSize", 1);
   program.Uniform1f("u_gapSize", 1);
@@ -76,7 +78,6 @@ void Camera::ProcessFocusMode(godison::GPoint ePos) {
 
 void Camera::ProcessKeyPress(Qt::Key key) {
   if (mode_ == Camera::kFree) {
-    Vector3D Buf = position_;
     Vector3D distance;
     Vector3D Rigth = Vector3D::Normal(orientation_, up_);
     if (key == Qt::Key_W) distance = orientation_;

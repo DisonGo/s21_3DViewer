@@ -45,7 +45,8 @@ std::vector<Face> OBJImportNormalsStrategy::GetNormalsIndexArray(
     const OBJ& obj) {
   std::vector<Face> indices;
   int i = 0;
-  for (const auto& vert : obj.vertices) {
+  size_t vert_size = obj.vertices.size();
+  for (size_t j = 0; j < vert_size; ++j) {
     indices.push_back({{{i, 0, 0}, {i + 1, 0, 0}, {i + 1, 0, 0}, {i, 0, 0}}});
     i += 2;
   }
