@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1280</width>
-    <height>720</height>
+    <width>1536</width>
+    <height>864</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,14 +18,14 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>1280</width>
-    <height>720</height>
+    <width>1536</width>
+    <height>864</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1280</width>
-    <height>720</height>
+    <width>1536</width>
+    <height>864</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -55,8 +55,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>1281</width>
-      <height>721</height>
+      <width>1536</width>
+      <height>864</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="mainBackLayout">
@@ -80,8 +80,8 @@
    <widget class="s21::FileImportWidget" name="FileImporter" native="true">
     <property name="geometry">
      <rect>
-      <x>972</x>
-      <y>633</y>
+      <x>1228</x>
+      <y>777</y>
       <width>321</width>
       <height>101</height>
      </rect>
@@ -98,7 +98,7 @@
    <widget class="QWidget" name="ObjectWidgetHolderWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>960</x>
+      <x>1214</x>
       <y>-1</y>
       <width>321</width>
       <height>0</height>
@@ -128,8 +128,8 @@
    <widget class="QPushButton" name="background_color_b">
     <property name="geometry">
      <rect>
-      <x>984</x>
-      <y>608</y>
+      <x>1240</x>
+      <y>752</y>
       <width>297</width>
       <height>38</height>
      </rect>
@@ -147,8 +147,8 @@
    <widget class="QPushButton" name="record_b">
     <property name="geometry">
      <rect>
-      <x>984</x>
-      <y>570</y>
+      <x>1240</x>
+      <y>714</y>
       <width>297</width>
       <height>38</height>
      </rect>
@@ -166,8 +166,8 @@
    <widget class="QPushButton" name="screenshot_b">
     <property name="geometry">
      <rect>
-      <x>984</x>
-      <y>532</y>
+      <x>1240</x>
+      <y>676</y>
       <width>297</width>
       <height>38</height>
      </rect>
@@ -185,9 +185,9 @@
    <widget class="QWidget" name="object_stats_l_wid" native="true">
     <property name="geometry">
      <rect>
-      <x>307</x>
-      <y>687</y>
-      <width>677</width>
+      <x>299</x>
+      <y>831</y>
+      <width>941</width>
       <height>33</height>
      </rect>
     </property>
@@ -260,8 +260,8 @@
    <widget class="QPushButton" name="select_texture_b">
     <property name="geometry">
      <rect>
-      <x>984</x>
-      <y>494</y>
+      <x>1240</x>
+      <y>638</y>
       <width>297</width>
       <height>38</height>
      </rect>
@@ -279,8 +279,8 @@
    <widget class="QPushButton" name="unload_texture_b">
     <property name="geometry">
      <rect>
-      <x>984</x>
-      <y>456</y>
+      <x>1240</x>
+      <y>600</y>
       <width>297</width>
       <height>38</height>
      </rect>
