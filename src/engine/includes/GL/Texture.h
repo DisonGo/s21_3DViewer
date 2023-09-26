@@ -9,9 +9,12 @@ class Texture : public GLObject {
  public:
   Texture() = delete;
   Texture(const Texture& other) { Copy(other); }
-  Texture(const std::string& image, GLenum tex_type, GLuint slot, GLenum format,
-          GLenum pixel_type);
-  Texture& operator=(const Texture& other) { Copy(other); }
+  Texture(const std::string& image, GLenum tex_type, GLuint slot);
+  Texture& operator=(const Texture& other) {
+    if (this == &other) return *this;
+    Copy(other);
+    return *this;
+  }
   Texture& operator=(Texture&& other) {
     if (this == &other) return *this;
     Delete();

@@ -165,8 +165,7 @@ void Engine::ImportOBJFile(std::string file_path) {
 }
 void Engine::ImportTextureFile(std::string file_path) {
   UnloadTexture();
-  global_texture_ = std::make_shared<Texture>(file_path, GL_TEXTURE_2D, 0,
-                                              GL_RGBA, GL_UNSIGNED_BYTE);
+  global_texture_ = std::make_shared<Texture>(file_path, GL_TEXTURE_2D, 0);
   for (auto object : objects_3d_)
     if (object && !IsWhitelisted(object)) {
       auto& mat = object->GetMaterial();

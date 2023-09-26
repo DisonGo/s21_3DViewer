@@ -23,7 +23,8 @@ class Engine : protected QOpenGLFunctions {
  public:
   Engine() = delete;
   Engine(DrawConfig& config);
-  Engine(const Engine& other) : draw_config_(other.draw_config_) {
+  Engine(const Engine& other)
+      : QOpenGLFunctions(other), draw_config_(other.draw_config_) {
     *this = other;
   }
 
