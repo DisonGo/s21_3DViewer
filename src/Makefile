@@ -9,6 +9,8 @@ ifeq ($(UNAME_S),Linux)
 	OPEN_CMD = xdg-open
 else ifeq ($(UNAME_S),Darwin)
 	OPEN_CMD = open
+	EXE_PATH = ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH}.app
+	EXE_PATH_DEBUG 			= ${BUILD_PATH}_debug${EXE_DIR}/${PROJECT_EXE_PATH}.app
 else
 	OPEN_CMD = 
 endif
