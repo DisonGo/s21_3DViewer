@@ -9,7 +9,6 @@ Texture::Texture(const std::string& image, GLenum tex_type, GLuint slot)
     : type_(tex_type), unit_(slot) {
   unsigned char* bytes = SOIL_load_image(image.c_str(), &img_w_, &img_h_,
                                          &img_col_ch_, SOIL_LOAD_AUTO);
-
   // if (CheckImageErrors(width_img, height_img)) return;
   ID_ = SOIL_create_OGL_texture(
       bytes, img_w_, img_h_, img_col_ch_, ID_,
@@ -20,9 +19,10 @@ Texture::Texture(const std::string& image, GLenum tex_type, GLuint slot)
   // // Configures the type of algorithm that is used to make the image smaller
   // or
   // // bigger
+  Bind();
   glTexParameteri(tex_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
   glTexParameteri(tex_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
+  Unbind();
   // // Configures the way the texture repeats (if it does at all)
   // glTexParameteri(tex_type, GL_TEXTURE_WRAP_S, GL_REPEAT);
   // glTexParameteri(tex_type, GL_TEXTURE_WRAP_T, GL_REPEAT);

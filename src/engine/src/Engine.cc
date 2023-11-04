@@ -141,17 +141,16 @@ Object3D* Engine::GenerateObject(std::string file_path) {
   return new Object3D(object3d_factory_.GetObject(file_path.c_str()));
 }
 void Engine::UnloadTexture() {
-  {
-    if (global_texture_) {
-      global_texture_->Unbind();
-      global_texture_.reset();
-    }
-    for (auto object : objects_3d_)
-      if (object && !IsWhitelisted(object)) {
-        object->GetMaterial().texture_on = false;
-        object->GetMaterial().texture.reset();
-      }
+  if (global_texture_) {
+    global_texture_->Unbind();
+    global_texture_.reset();
   }
+  for (auto object : objects_3d_)
+    if (object && !IsWhitelisted(object)) {
+      object->GetMaterial().texture_on = false;
+      object->GetMaterial().texture.reset();
+      object->GetMaterial().texture = nullptr;
+    }
 }
 void Engine::ImportOBJFile(std::string file_path) {
   if (!initialized_) return;
@@ -170,6 +169,7 @@ void Engine::ImportTextureFile(std::string file_path) {
     if (object && !IsWhitelisted(object)) {
       auto& mat = object->GetMaterial();
       mat.texture = global_texture_;
+      object->SetObjectDisplayType(mat.object_display_type);
     }
 }
 void Engine::Cycle() {

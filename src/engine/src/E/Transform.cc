@@ -9,7 +9,6 @@ void Transform::UpdateScale() {
   model_scale_.Scale(scale_);
   awaiting_load_in_program_ = true;
 }
-
 void Transform::UpdateRotation() {
   godison::matrices::Matrix4x4 rot_x, rot_y, rot_z;
   rot_x.SetToIdentity();
