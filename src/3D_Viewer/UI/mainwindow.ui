@@ -295,6 +295,25 @@
      <string>Unload Texture</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="record_animation_b">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>562</y>
+      <width>297</width>
+      <height>38</height>
+     </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="text">
+     <string>Record 5 second of animation</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>

@@ -29,6 +29,7 @@ class Texture : public GLObject {
   ~Texture() {
     Unbind();
     Delete();
+    ID_ = 0;
   }
 
  protected:

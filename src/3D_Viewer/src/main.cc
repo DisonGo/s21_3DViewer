@@ -13,7 +13,10 @@
 int main(int argc, char *argv[]) {
   QCoreApplication::setOrganizationName("godison_co");
   QCoreApplication::setApplicationName("3D Viewer 2.0");
-
+  std::string log(argv[0]);
+  std::filesystem::path executablePath = std::filesystem::absolute(argv[0]);
+  std::filesystem::path executableDirectory = executablePath.parent_path();
+  std::filesystem::current_path(executableDirectory);
   s21::Logger::DeactivateLogLevel(s21::Logger::LogLevel::kBasic);
 
   QSurfaceFormat format;

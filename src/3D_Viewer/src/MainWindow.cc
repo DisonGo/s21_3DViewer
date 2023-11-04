@@ -111,27 +111,27 @@ void MainWindow::LoadSettings() {
   ui->FileImporter->ImportPaths(paths);
   draw_config_spacer_.SetBackColor(back_color);
 }
-void clearLayout(QLayout* layout, bool deleteWidgets = true) {
+void ClearLayout(QLayout* layout, bool deleteWidgets = true) {
   while (QLayoutItem* item = layout->takeAt(0)) {
     if (deleteWidgets) {
       if (QWidget* widget = item->widget()) widget->close();
     }
     if (QLayout* childLayout = item->layout())
-      clearLayout(childLayout, deleteWidgets);
+      ClearLayout(childLayout, deleteWidgets);
     delete item;
   }
 }
 void MainWindow::ImportFile(QString path) {
-  //  if (!QFileInfo::exists(path)) {
-  //    QErrorMessage* errorMessage = new QErrorMessage();
-  //    errorMessage->setWindowTitle("Import error");
-  //    errorMessage->showMessage("Choosen file doesn't exist");
-  //    errorMessage->exec();
-  //    return;
-  //  }
+  if (!QFileInfo::exists(path)) {
+    QErrorMessage* errorMessage = new QErrorMessage();
+    errorMessage->setWindowTitle("Import error");
+    errorMessage->showMessage("Choosen file doesn't exist");
+    errorMessage->exec();
+    return;
+  }
   open_gl_widget_->makeCurrent();
   engine_spacer_.ImportOBJFile(path.toStdString());
-  clearLayout(ui->ObjectWidgetHolder);
+  ClearLayout(ui->ObjectWidgetHolder);
   ui->ObjectWidgetHolderWidget->resize(
       ui->ObjectWidgetHolderWidget->size().width(), 0);
   open_gl_widget_->SetCameraSpacer(nullptr);
@@ -147,7 +147,7 @@ void MainWindow::ChooseBackColor() {
 
 void MainWindow::ShowObjectWidget(EObject* object) {
   static ConfigWidgetFactory widget_factory;
-  clearLayout(ui->ObjectWidgetHolder);
+  ClearLayout(ui->ObjectWidgetHolder);
   auto log = std::string("Creating widget of type ") +
              std::to_string(object->GetType());
   logger_.Log(log);

@@ -164,14 +164,19 @@ void Engine::ImportOBJFile(std::string file_path) {
                           fileInfo.baseName().toStdString());
 }
 void Engine::ImportTextureFile(std::string file_path) {
-  UnloadTexture();
-  global_texture_ = std::make_shared<Texture>(file_path, GL_TEXTURE_2D, 0);
-  for (auto object : objects_3d_)
-    if (object && !IsWhitelisted(object)) {
-      auto& mat = object->GetMaterial();
-      mat.texture = global_texture_;
-      object->SetObjectDisplayType(mat.object_display_type);
-    }
+  try {
+    auto new_texture = std::make_shared<Texture>(file_path, GL_TEXTURE_2D, 0);
+    UnloadTexture();
+    global_texture_ = new_texture;
+    for (auto object : objects_3d_)
+      if (object && !IsWhitelisted(object)) {
+        auto& mat = object->GetMaterial();
+        mat.texture = global_texture_;
+        object->SetObjectDisplayType(mat.object_display_type);
+      }
+  } catch (...) {
+    logger_.Log("Failed to load texture", s21::Logger::LogLevel::kError);
+  }
 }
 void Engine::Cycle() {
   if (!initialized_) return;

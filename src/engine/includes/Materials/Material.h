@@ -14,8 +14,7 @@ enum LineDisplayType { kSolid = 0, kDashed };
 enum ObjectDisplayType { kWireframe = 0, kFlatShading, kSmoothShading };
 class Material {
  public:
-  Material()
-      : program_(std::make_shared<Program>(std::move(*Program::Default()))) {}
+  Material() : program_(Program::Default()) {}
   Material(std::shared_ptr<Program> program) : program_(program) {}
   Material(const Material& other) { Copy(other); }
   Material(Material&& other) {

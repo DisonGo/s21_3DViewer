@@ -49,8 +49,8 @@ b_d: build_3D_Viewer_debug
 
 dist: install
 	@cd ${BUILD_PATH}${EXE_DIR}/ && tar czf ../../src/${PROJECT_NAME}.tgz ./*
-leaks: build_debug build_3D_Viewer
-	leaks -atExit -- ./${EXE_PATH}
+leaks: build_d b_d
+	leaks -atExit -- ./${EXE_PATH_DEBUG}/Contents/MacOS/${PROJECT_NAME}
 dvi:
 	@$(OPEN_CMD) dvi/index.md
 
