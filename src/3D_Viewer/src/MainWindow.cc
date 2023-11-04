@@ -72,7 +72,7 @@ void MainWindow::SetupView() {
   open_gl_widget_->setFocusPolicy(Qt::StrongFocus);
   ui->mainBackLayout->addWidget(splitter_);
   splitter_->show();
-  ui->object_stats_l_wid->move(object_tree_->width() ,
+  ui->object_stats_l_wid->move(object_tree_->width(),
                                ui->object_stats_l_wid->y());
   connect(ui->FileImporter, SIGNAL(FileImporting(QString)), this,
           SLOT(ImportFile(QString)));
@@ -86,6 +86,8 @@ void MainWindow::SetupView() {
           &MainWindow::PrintImported);
   connect(ui->unload_texture_b, &QPushButton::pressed, &engine_spacer_,
           &EngineSpacer::UnloadTexture);
+  connect(ui->unload_texture_b, &QPushButton::pressed, this,
+          &MainWindow::UpdateGL);
   connect(ui->select_texture_b, &QPushButton::pressed, this,
           &MainWindow::SelectTexture);
 }

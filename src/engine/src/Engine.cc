@@ -147,9 +147,10 @@ void Engine::UnloadTexture() {
   }
   for (auto object : objects_3d_)
     if (object && !IsWhitelisted(object)) {
-      object->GetMaterial().texture_on = false;
-      object->GetMaterial().texture.reset();
-      object->GetMaterial().texture = nullptr;
+      auto& mat = object->GetMaterial();
+      mat.texture_on = false;
+      mat.texture.reset();
+      mat.texture = nullptr;
     }
 }
 void Engine::ImportOBJFile(std::string file_path) {
