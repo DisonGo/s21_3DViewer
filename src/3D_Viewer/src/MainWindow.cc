@@ -90,6 +90,8 @@ void MainWindow::SetupView() {
           &MainWindow::UpdateGL);
   connect(ui->select_texture_b, &QPushButton::pressed, this,
           &MainWindow::SelectTexture);
+  connect(ui->record_animation_b, &QPushButton::pressed, this,
+          &MainWindow::StartRecordWithAnimation);
 }
 
 void MainWindow::LoadSettings() {
@@ -170,6 +172,10 @@ void MainWindow::ShowObjectWidget(EObject* object) {
 
 void MainWindow::StartRecord() {
   open_gl_widget_->StartScreenCapture(gif_fps_, gif_length_);
+  QTimer::singleShot(gif_length_ * 1000, this, &MainWindow::StopRecord);
+}
+void MainWindow::StartRecordWithAnimation() {
+  open_gl_widget_->StartScreenCapture(gif_fps_, gif_length_, true);
   QTimer::singleShot(gif_length_ * 1000, this, &MainWindow::StopRecord);
 }
 

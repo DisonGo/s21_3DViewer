@@ -1,8 +1,8 @@
 #include "OGLWidget.h"
 
+#include <QApplication>
 #include <QFileInfo>
 #include <QMouseEvent>
-#include <QOpenGLFramebufferObjectFormat>
 #include <QThread>
 #include <QTimer>
 namespace s21 {
@@ -69,8 +69,17 @@ void OGLWidget::CalcSizes(int w, int h) {
   if (camera_spacer_) camera_spacer_->SetVw(vw_);
 }
 void OGLWidget::CaptureBuffer() {
+  QCoreApplication::processEvents();
   makeCurrent();
   if (fps_count_ < gif_fps_ * gif_length_) {
+    if (gif_animation_) {
+      auto obj = engine_spacer_.GetLastObject3D();
+      if (obj) {
+        auto &transform = obj->GetTrasform();
+        auto rot = transform.GetRotation();
+        transform.SetRotation(rot + 360.0 / gif_length_ / gif_fps_);
+      }
+    }
     this->context()->functions()->glFinish();
     capture_buffer_.push_back(grabFramebuffer().scaled(gif_resolution_));
     fps_count_++;
@@ -81,11 +90,13 @@ void OGLWidget::CaptureBuffer() {
   doneCurrent();
 }
 
-void OGLWidget::StartScreenCapture(unsigned FPS, unsigned length) {
+void OGLWidget::StartScreenCapture(unsigned FPS, unsigned length,
+                                   bool animated) {
   capture_buffer_.clear();
   fps_count_ = 0;
   gif_fps_ = FPS;
   gif_length_ = length;
+  gif_animation_ = animated;
   capture_timer_.start(1000 / gif_fps_);
 }
 
@@ -96,6 +107,7 @@ QImage OGLWidget::GetScreenShot() {
 }
 std::vector<QImage> OGLWidget::StopScreenCapture() {
   capture_timer_.stop();
+  gif_animation_ = false;
   return capture_buffer_;
 }
 

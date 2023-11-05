@@ -50,6 +50,7 @@ class MainWindow : public QMainWindow {
  private slots:
   void ShowObjectWidget(s21::EObject* object);
   void StartRecord();
+  void StartRecordWithAnimation();
   void StopRecord();
   void SaveScreenshot();
   void SetupEObjectTreeView();

@@ -15,8 +15,9 @@ class EngineSpacer : public QObject {
   void UnloadTexture();
   EObjectItemModel& GetEObjectItemModel();
   Camera* GetCurrentCamera();
+  Object3D* GetLastObject3D();
   void SetCurrentCamera(Camera* camera);
-signals:
+ signals:
   void ConfigUpdated();
   void ObjectImported(unsigned long vertices_n, unsigned long indices_n,
                       std::string file_name);

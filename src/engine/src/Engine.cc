@@ -9,6 +9,8 @@
 #include <QRandomGenerator>
 #include <functional>
 
+#include "Engine.h"
+
 using godison::shapes::Polygon;
 using godison::vectors::Vector3D;
 #define GET_VEC_COLOR(x) x.X() / 255, x.Y() / 255, x.Z() / 255
@@ -303,5 +305,9 @@ void Engine::DrawGeometry(GLenum type) {
       mat.SetIntUniform(lights_.size(), "u_light_count");
       object->Draw(type, current_camera_);
     }
+}
+Object3D* Engine::GetLastObject3D() {
+  if (objects_3d_.empty()) return nullptr;
+  return objects_3d_.back();
 }
 }  // namespace s21

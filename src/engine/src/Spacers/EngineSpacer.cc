@@ -26,4 +26,5 @@ Camera *EngineSpacer::GetCurrentCamera() { return engine_.GetCurrentCamera(); }
 void EngineSpacer::SetCurrentCamera(Camera *camera) {
   engine_.SetCurrentCamera(camera);
 }
+Object3D *EngineSpacer::GetLastObject3D() { return engine_.GetLastObject3D(); }
 }  // namespace s21

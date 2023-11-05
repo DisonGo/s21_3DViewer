@@ -14,7 +14,7 @@ class OGLWidget : public QOpenGLWidget, protected QOpenGLExtraFunctions {
       : QOpenGLWidget(parent), engine_spacer_(engine_spacer){};
   ~OGLWidget();
 
-  void StartScreenCapture(unsigned FPS, unsigned length);
+  void StartScreenCapture(unsigned FPS, unsigned length, bool animated = false);
   QImage GetScreenShot();
   std::vector<QImage> StopScreenCapture();
   void SetCameraSpacer(CameraSpacer *spacer);
@@ -41,6 +41,7 @@ class OGLWidget : public QOpenGLWidget, protected QOpenGLExtraFunctions {
   int fps_count_ = 0;
   int gif_length_ = 5;
   int gif_fps_ = 0;
+  bool gif_animation_ = false;
   std::vector<QImage> capture_buffer_;
   QSize gif_resolution_ = QSize(640, 480);
   QTimer capture_timer_;

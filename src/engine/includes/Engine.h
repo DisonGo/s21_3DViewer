@@ -42,6 +42,7 @@ class Engine : protected QOpenGLFunctions {
   EObjectItemModel& GetEObjectItemModel() { return e_object_model_; };
   Camera* GetCurrentCamera();
   std::string GetObject3DFileName(size_t index);
+  Object3D* GetLastObject3D();
   std::pair<unsigned long, unsigned long> GetObject3DStats(size_t index);
   void SetCurrentCamera(Camera* camera);
 
@@ -68,7 +69,7 @@ class Engine : protected QOpenGLFunctions {
   Camera* current_camera_ = nullptr;
   std::shared_ptr<Texture> global_texture_;
   DrawConfig& draw_config_;
-  EObjectItemModel e_object_model_;  // TODO copy/move
+  EObjectItemModel e_object_model_;
   Object3DFactory object3d_factory_;
   std::vector<LightObject*> lights_;
   std::vector<EObject*> engine_objects_;
