@@ -55,4 +55,4 @@ Implementation of software for viewing wireframe 3D objects.
 
 
 ## Program lifecycle diagram
-   [Diagram view site (Figma)](https://www.figma.com/file/nGy4tPASGJtjk9WPn4Hvln/Untitled?type=whiteboard&node-id=0%3A1&t=a1sLc8c37jnA8Nz1-1)
+   [Diagram view site (Figma)](https://www.figma.com/file/CAc22HrlBMQGsTtFFkmBTz/3DViewer_2_1_-diagram?type=whiteboard&node-id=0%3A1&t=kyqBJLhxZAfjsrx4-1)
