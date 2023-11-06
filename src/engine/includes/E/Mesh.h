@@ -20,7 +20,7 @@ class Mesh : public EObject, protected QOpenGLFunctions {
   Mesh();
   Mesh(const Mesh& other) : QOpenGLFunctions(other) { *this = other; }
 
-  Mesh(Mesh&& other)  { *this = other; }
+  Mesh(Mesh&& other) { *this = other; }
 
   Mesh& operator=(const Mesh& other);
   Mesh& operator=(Mesh&& other);

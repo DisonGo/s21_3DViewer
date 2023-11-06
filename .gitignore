@@ -16,7 +16,6 @@ src/build*
 # Object files
 *.o
 *.ko
-*.obj
 *.elf
 
 # Linker output
@@ -72,7 +71,6 @@ dkms.conf
 *.core
 *.moc
 *.o
-*.obj
 *.orig
 *.rej
 *.so

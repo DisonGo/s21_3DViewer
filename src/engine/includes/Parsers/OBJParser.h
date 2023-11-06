@@ -39,6 +39,5 @@ class OBJParser : public BaseParser {
   Logger logger_{"OBJParser"};
 };
 
-
 }  // namespace s21
 #endif  // OBJPARSER_H

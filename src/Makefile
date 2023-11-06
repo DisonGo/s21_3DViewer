@@ -33,13 +33,13 @@ open_t:
 install: build build_3D_Viewer
 
 uninstall:
-	rm -rf ${BUILD_PATH}
+	@rm -rf ${BUILD_PATH} ${BUILD_PATH}_debug
 
 clean:
 	@cmake --build ${BUILD_PATH} --target clean
 b_t:
-	@cmake --build ${BUILD_PATH}_debug --target TESTING --parallel 8
-tests: build_d b_t open_t
+	@cmake --build ${BUILD_PATH} --target TESTING --parallel 8
+tests: build b_t open_t
 run: build
 	cd ${BUILD_PATH}${EXE_DIR}/${PROJECT_EXE_PATH} && @$(OPEN_CMD) ${PROJECT_NAME}
 b: build_3D_Viewer
@@ -52,7 +52,7 @@ dist: install
 leaks: build_d b_d
 	leaks -atExit -- ./${EXE_PATH_DEBUG}/Contents/MacOS/${PROJECT_NAME}
 dvi:
-	@$(OPEN_CMD) dvi/index.md
+	@$(OPEN_CMD) dvi.md
 
 clang:
 	clang-format --style=Google -n $(shell find . -name '*.cc') $(shell find . -name '*.h')
